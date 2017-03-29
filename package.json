@@ -1,0 +1,20 @@
+{
+  "name": "configurator",
+  "version": "0.1.0",
+  "description": "Configuration utility for Input Club keyboards",
+  "keywords": [],
+  "devDependencies": {
+    "electron": "1.4.14",
+    "electron-rebuild": "^1.5.6"
+  },
+  "author": "Jeremy Bondeson",
+  "license": "GPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jbondeson/configurator-cljs"
+  },
+  "scripts": {
+    "res-install": "npm install resources --prefix resources && electron-rebuild -f -m resources/",
+    "dev-watch": "boot watch dev-build"
+  }
+}
