@@ -6,7 +6,7 @@
 
 
 (defonce *registered-events*
-         (atom {}))
+  (atom {}))
 
 (defn- register-event
   [type event translate]

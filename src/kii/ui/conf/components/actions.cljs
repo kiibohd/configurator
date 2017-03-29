@@ -6,32 +6,32 @@
             [kii.ui.conf.palette :as palette]))
 
 (defstyle style
-          [".action-bar"
-           {:float "right"
-            ;;:height "48px"
-            :margin-right "-10px"
-            :margin-bottom "10px"}]
-          [".btn"
-           {:margin-right "10px"
-            :background-color "transparent"
-            :padding "0px"
-            :border "none"
-            :cursor "pointer"
-            :color (:darkgray palette/palette)}
-           ["&:active:enabled"
-            {:outline "0"
-             :opacity "0.75"}]
-           ["&:focus"
-            {:outline "0"}]
-           ])
+  [".action-bar"
+   {:float         "right"
+    ;;:height "48px"
+    :margin-right  "-10px"
+    :margin-bottom "10px"}]
+  [".btn"
+   {:margin-right     "10px"
+    :background-color "transparent"
+    :padding          "0px"
+    :border           "none"
+    :cursor           "pointer"
+    :color            (:darkgray palette/palette)}
+   ["&:active:enabled"
+    {:outline "0"
+     :opacity "0.75"}]
+   ["&:focus"
+    {:outline "0"}]
+   ])
 
 ;;==== Actions ====;;
 
 (defn button-comp
   [icon title disabled? action]
   [:button
-   {:class (:btn style)
-    :title title
+   {:class    (:btn style)
+    :title    title
     :on-click action
     :disabled disabled?}
    [:i

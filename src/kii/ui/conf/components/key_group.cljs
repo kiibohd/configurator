@@ -11,23 +11,23 @@
             ))
 
 (defstyle styles
-          [".title"
-           {:color "red"
-            :font-size "18px"
-            :display "inline-block"}]
-          [".key-group"
-           {:padding-top "10px"
-            :clear "both"
-            :margin-bottom "10px"}]
-          [".container"
-           {:display "flex"
-            :flex-wrap "wrap"}]
-          [".show-hide"
-           {:color "black"
-            :cursor "pointer"}]
-          [".hidden"
-           {:display "none"}]
-          )
+  [".title"
+   {:color     "red"
+    :font-size "18px"
+    :display   "inline-block"}]
+  [".key-group"
+   {:padding-top   "10px"
+    :clear         "both"
+    :margin-bottom "10px"}]
+  [".container"
+   {:display   "flex"
+    :flex-wrap "wrap"}]
+  [".show-hide"
+   {:color  "black"
+    :cursor "pointer"}]
+  [".hidden"
+   {:display "none"}]
+  )
 
 ;;==== Key ====;;
 (defn label-comp
@@ -51,15 +51,15 @@
         csf (:cap-size-factor comp-kbd/layout-settings)
         ksize (* sf 4)]
     [:div
-     {:key name
+     {:key   name
       :class (:key comp-kbd/conf-styles)
-      :style {:width ksize
-              :height ksize
+      :style {:width    ksize
+              :height   ksize
               :position "relative"}}
      [:div
-      {:class (:base comp-kbd/conf-styles)
-       :style {:width  (- ksize 6)
-               :height  (- ksize 6)}
+      {:class    (:base comp-kbd/conf-styles)
+       :style    {:width  (- ksize 6)
+                  :height (- ksize 6)}
        :on-click #(do
                     (.stopPropagation %)
                     (print "Clickey click!"))
@@ -68,7 +68,7 @@
         [:div
          {:class (:cap comp-kbd/conf-styles)
           :style {:width  (- ksize 10)
-                  :height  (- ksize 12)}}
+                  :height (- ksize 12)}}
          (label-comp {:label1 (:label2 mapped)})
          (label-comp {:label1 (or (:label1 mapped) label)})
          (label-comp {})
@@ -81,17 +81,17 @@
   (let [ks (sort-by :order
                     (filter #(= name (:group %))
                             (vals keys/predefined)))]
-    [:div {:key (str name)
+    [:div {:key   (str name)
            :class (:key-group styles)}
      [:div {:class (:title styles)}
       [:div {:style {:display "flex" :align-items "center"}}
        [:span label]
-       [:span {:class (:show-hide styles)
+       [:span {:class    (:show-hide styles)
                :on-click #(rf/dispatch [:toggle-key-group-state name])}
         [:i {:class "material-icons"}
          (if (= state :visible) "arrow_drop_down" "arrow_drop_up")]]
        ]]
-     [:div {:class (uiu/->c+s styles :container (if (= state :hidden) :hidden)) }
+     [:div {:class (uiu/->c+s styles :container (if (= state :hidden) :hidden))}
       (map key-comp ks)]]
     )
   )

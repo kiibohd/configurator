@@ -23,11 +23,6 @@
     (:active-panel db)))
 
 (rf/reg-sub
-  :devices
-  (fn [db _]
-    (:devices db)))
-
-(rf/reg-sub
   :alerts
   (fn [db _]
     (:alerts db)))

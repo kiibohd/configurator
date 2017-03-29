@@ -18,7 +18,7 @@
   (fn []
     (do
       (watch-usb)
-      (rf/dispatch [:success-watch-devices]))))
+      (rf/dispatch [:device/successful-watch]))))
 
 (rf/reg-fx
   :usb/poll
@@ -29,4 +29,4 @@
                  (do
                    (rf/dispatch [:add-device dev])
                    (recur))
-                 (rf/dispatch [:success-update-devices]))))))
+                 (rf/dispatch [:device/successful-update]))))))

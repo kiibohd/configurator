@@ -11,60 +11,60 @@
 
 (def layout-settings
   {:backdrop-padding 20
-   :size-factor 16
-   :cap-size-factor 13})
+   :size-factor      16
+   :cap-size-factor  13})
 
 (defstyle conf-styles
-          [".backdrop"
-           {:background-color (:silver palette/palette)
-            ;;:width "1000px"
-            ;;:height "360px"
-            :border-left "1px solid transparent"
-            :border-right "1px solid transparent"
-            :border-bottom "1px solid transparent"
-            :padding  (str (:backdrop-padding layout-settings) "px")}]
-          [".keyboard"
-           {;;:width "960px"
-            ;;:height "320px"
-            ;;:font-family "texgyreheroscnregular"
-            :font-family "Jura"
-            :font-weight "500"
-            :position "relative"}]
-          [".key"
-           {:position "absolute"
-            :overflow "hidden"
-            }]
-          [".base"
-           {:background-color (:gray palette/palette)
-            :border (str "2px solid transparent" ;;(:black palette)
-                         )
-            :border-radius "4px"
-            :margin "2px"}]
-          [".selected"
-           {:border (str "2px solid " (:red palette/palette) " !important")}
-           ]
-          [".cap"
-           {:background-color (:lightgray palette/palette)
-            :margin "2px"
-            :margin-bottom "4px"
-            :display "flex"
-            :flex-direction "column"
-            :align-items "center"
-            :justify-content "center"
-            }]
-          [".label"
-           {:font-size "13px"
-            :margin-top "0.15em"
-            :min-height "1.1em"
-            ;;:align-items "center"
-            :flex-direction "row"
-            :display "flex"
-            :alight-items "center"
-            :justify-content "center"
-            }
-           [:span
-            {:padding "0 0.25em"}]]
-          )
+  [".backdrop"
+   {:background-color (:silver palette/palette)
+    ;;:width "1000px"
+    ;;:height "360px"
+    :border-left      "1px solid transparent"
+    :border-right     "1px solid transparent"
+    :border-bottom    "1px solid transparent"
+    :padding          (str (:backdrop-padding layout-settings) "px")}]
+  [".keyboard"
+   {;;:width "960px"
+    ;;:height "320px"
+    ;;:font-family "texgyreheroscnregular"
+    :font-family "Jura"
+    :font-weight "500"
+    :position    "relative"}]
+  [".key"
+   {:position "absolute"
+    :overflow "hidden"
+    }]
+  [".base"
+   {:background-color (:gray palette/palette)
+    :border           (str "2px solid transparent"          ;;(:black palette)
+                           )
+    :border-radius    "4px"
+    :margin           "2px"}]
+  [".selected"
+   {:border (str "2px solid " (:red palette/palette) " !important")}
+   ]
+  [".cap"
+   {:background-color (:lightgray palette/palette)
+    :margin           "2px"
+    :margin-bottom    "4px"
+    :display          "flex"
+    :flex-direction   "column"
+    :align-items      "center"
+    :justify-content  "center"
+    }]
+  [".label"
+   {:font-size       "13px"
+    :margin-top      "0.15em"
+    :min-height      "1.1em"
+    ;;:align-items "center"
+    :flex-direction  "row"
+    :display         "flex"
+    :alight-items    "center"
+    :justify-content "center"
+    }
+   [:span
+    {:padding "0 0.25em"}]]
+  )
 
 ;;==== Key ====;;
 (defn label-comp
@@ -90,20 +90,20 @@
         csf (:cap-size-factor layout-settings)
         selected? (= key selected-key)]
     [:div
-     {:key (str board "-" code)
+     {:key        (str board "-" code)
       :class-name (:key conf-styles)
-      :style {:left (* sf (:x key))
-              :top (* sf (:y key))
-              :width (* sf (:w key))
-              :height (* sf (:h key)) }}
+      :style      {:left   (* sf (:x key))
+                   :top    (* sf (:y key))
+                   :width  (* sf (:w key))
+                   :height (* sf (:h key))}}
      [:div
       {:class-name (str (:base conf-styles) " "
                         (if selected? (:selected conf-styles)))
-       :style {:width  (- (* sf (:w key)) 6)
-               :height  (- (* sf (:h key)) 6)}
-       :on-click #(do
-                    (.stopPropagation %)
-                    (rf/dispatch [:set-selected-key (if selected? nil key)]))
+       :style      {:width  (- (* sf (:w key)) 6)
+                    :height (- (* sf (:h key)) 6)}
+       :on-click   #(do
+                      (.stopPropagation %)
+                      (rf/dispatch [:set-selected-key (if selected? nil key)]))
        }
       (let [layers (:layers key)
             topn (+ 1 active-layer)
@@ -112,8 +112,8 @@
             layer #(get layers (keyword (str %)))]
         [:div
          {:class-name (:cap conf-styles)
-          :style {:width  (- (* sf (:w key)) 10)
-                  :height  (- (* sf (:h key)) 12)}}
+          :style      {:width  (- (* sf (:w key)) 10)
+                       :height (- (* sf (:h key)) 12)}}
          (label-comp topn (layer topn))
          (label-comp midn (layer midn))
          (label-comp botn (layer botn))
@@ -127,7 +127,7 @@
         bottom-most (apply max-key #(+ (:y %) (:h %)) matrix)
         sf (:size-factor layout-settings)]
     {:height (* sf (+ (:y bottom-most) (:h bottom-most)))
-     :width (* sf (+ (:x right-most) (:w right-most)))}
+     :width  (* sf (+ (:x right-most) (:w right-most)))}
     ))
 
 ;;==== Keyboard ====;;
@@ -136,16 +136,16 @@
   (let [{:keys [width height]} (get-size matrix)]
     [:div
      {:class-name (:backdrop conf-styles)
-      :style {:border-color (palette/get-layer-fg active-layer)
-              :width width;;(+ width (* 2 (:backdrop-padding layout-settings)))
-              :height height;;(+ height (* 2 (:backdrop-padding layout-settings)))
-              }
-      :on-click #(if-not (nil? selected-key)
-                   (rf/dispatch [:set-selected-key nil]))}
+      :style      {:border-color (palette/get-layer-fg active-layer)
+                   :width        width                      ;;(+ width (* 2 (:backdrop-padding layout-settings)))
+                   :height       height                     ;;(+ height (* 2 (:backdrop-padding layout-settings)))
+                   }
+      :on-click   #(if-not (nil? selected-key)
+                     (rf/dispatch [:set-selected-key nil]))}
      [:div
       {:class-name (:keyboard conf-styles)
-       :style {:width  width
-               :height height}}
+       :style      {:width  width
+                    :height height}}
       (map #(key-comp % active-layer selected-key) matrix)]
      ]))
 

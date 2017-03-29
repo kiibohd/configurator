@@ -144,7 +144,7 @@
 
 (defn keyboard-select
   []
-  (let [devices (rf/subscribe [:devices])]
+  (let [devices (rf/subscribe [:device/all])]
     (fn [] (keyboard-select-comp @devices))))
 
 ;;==== Layout Select ====;;
