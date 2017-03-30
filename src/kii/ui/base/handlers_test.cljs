@@ -1,7 +1,6 @@
 (ns kii.ui.base.handlers-test
   (:require  [cljs.test :refer-macros [deftest is testing]]
-             [kii.ui.base.handlers :as handlers]
-             [kii.device.keyboard :as keyboard]))
+             [kii.ui.base.handlers :as handlers]))
 
 (deftest set-active-panel
   (testing "single entry"
@@ -14,21 +13,6 @@
     (let [db {:foo :bar}]
       (is (= (handlers/set-active-panel db [:panel/set-active :some-panel])
              {:foo :bar :active-panel :some-panel})))))
-
-(let [dev1 (merge (first keyboard/devices) {:path "1"})
-      dev2 (merge (second keyboard/devices) {:path "2"})
-      non-ic {:path "3"}]
-  (deftest add-device
-    (let [f #(handlers/add-device % [:device/add dev1])]
-      (is (= (f {})                {:devices [dev1]}))
-      (is (= (f {:devices [dev2]}) {:devices [dev2 dev1]}))
-      (is (= (f {:devices [dev1]}) {:devices [dev1]})))
-    (is (= (handlers/add-device {:devices []} [:device/add non-ic]) {:devices []})))
-  (deftest remove-device
-    (let [f #(handlers/remove-device % [:device/remove dev1])]
-      (is (= (f {})                {:devices []}))
-      (is (= (f {:devices [dev1]}) {:devices []}))
-      (is (= (f {:devices [dev2]}) {:devices [dev2]})))))
 
 
 (let [err {:type :error :msg "HELLLP"}

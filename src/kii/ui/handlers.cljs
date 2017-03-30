@@ -1,10 +1,10 @@
 (ns kii.ui.handlers
   (:require [re-frame.core :as rf]
             [kii.ui.db :as db]
+            [kii.ui.device.handlers]
             [kii.ui.usb.handlers]
             [kii.ui.base.handlers]
-            [kii.ui.conf.handlers]
-            [kii.ui.device.handlers]))
+            [kii.ui.conf.handlers]))
 
 (defn initialize [_ _]
   db/default-db)

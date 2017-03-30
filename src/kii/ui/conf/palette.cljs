@@ -1,5 +1,6 @@
 (ns kii.ui.conf.palette)
 
+;; TODO: Move up to kii.ui.color
 (def palette
   {:navy    "#001f3f"
    :blue    "#0074D9"

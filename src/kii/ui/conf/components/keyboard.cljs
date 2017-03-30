@@ -31,8 +31,7 @@
     }]
   [".base"
    {:background-color (:gray palette/palette)
-    :border           (str "2px solid transparent"          ;;(:black palette)
-                           )
+    :border           "2px solid transparent"
     :border-radius    "4px"
     :margin           "2px"}]
   [".selected"

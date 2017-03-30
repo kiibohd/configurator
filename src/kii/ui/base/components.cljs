@@ -202,7 +202,7 @@
    ])
 
 (defn base-layout []
-  (let [panel (rf/subscribe [:active-panel])]
+  (let [panel (rf/subscribe [:panel/active])]
     (fn []
       (base-layout-comp @panel))))
 

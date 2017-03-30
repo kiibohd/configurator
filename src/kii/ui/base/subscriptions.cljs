@@ -13,12 +13,12 @@
     (:active-keyboard db)))
 
 (rf/reg-sub
-  :active-layout
+  :layout/active
   (fn [db _]
     (:active-layout db)))
 
 (rf/reg-sub
-  :active-panel
+  :panel/active
   (fn [db _]
     (:active-panel db)))
 
