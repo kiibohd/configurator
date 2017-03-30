@@ -4,10 +4,16 @@
             [kii.ui.util :as u]
             [kii.device.keyboard :as keyboard]))
 
-(rf/reg-event-db :device/successful-watch (fn [db _] db))
+(declare seed-devices)
+
+(rf/reg-event-db
+  :device/successful-watch
+  (fn [db _]
+    db))
 
 (defn success-update-devices
   [db _]
+  (seed-devices)
   (assoc db :usb/polled? true))
 
 (rf/reg-event-db :device/successful-update success-update-devices)
@@ -37,3 +43,33 @@
   (assoc db :active-keyboard device))
 
 (rf/reg-event-db :device/set-active set-active-device)
+
+(defn seed-devices []
+  (when env/dev?
+    (u/dispatch-all
+      [:device/add {:product-id   0xb04d
+                    :vendor-id    0x1c11
+                    :bus-no       9
+                    :path         "9-9.9.1"
+                    :serial-no    ""
+                    :manufacturer "Input:Club"
+                    :product      "Keyboard - MDErgo1 PartialMap pjrcUSB full"
+                    :raw          nil}]
+      [:device/add {:product-id   0xb04d
+                    :vendor-id    0x1c11
+                    :bus-no       9
+                    :path         "9-9.9.3"
+                    :serial-no    ""
+                    :manufacturer "Input:Club"
+                    :product      "Keyboard - MD1.1 PartialMap pjrcUSB full"
+                    :raw          nil}]
+      [:device/add {:product-id   0xb007
+                    :vendor-id    0x1c11
+                    :bus-no       9
+                    :path         "9-9.9.2"
+                    :serial-no    ""
+                    :manufacturer "Input:Club"
+                    :product      "Keyboard - WhiteFox PartialMap pjrcUSB full"
+                    :raw          nil}
+       ])
+    ))

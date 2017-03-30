@@ -1,6 +1,7 @@
 (ns kii.ui.handlers
   (:require [re-frame.core :as rf]
             [kii.ui.db :as db]
+            [kii.ui.alert.handlers]
             [kii.ui.device.handlers]
             [kii.ui.usb.handlers]
             [kii.ui.base.handlers]

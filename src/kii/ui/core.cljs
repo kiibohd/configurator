@@ -12,8 +12,6 @@
 
 (enable-console-print!)
 
-(declare seed-devices)
-
 (defn mount-root []
   (r/render
     [kii.ui.base.components/base-layout]
@@ -21,10 +19,9 @@
   )
 
 (defn ^:export full-init []
-  (rf/dispatch-sync [:boot])
-  (kii.ui.browser/register-keypress-events)
+  (rf/dispatch [:boot])
   (mount-root)
-  (seed-devices))
+  (kii.ui.browser/register-keypress-events))
 
 (defn init []
   (print "Refreshed.")
@@ -33,33 +30,3 @@
 
 (defonce root
   (full-init))
-
-(defn seed-devices []
-  (when env/dev?
-    (u/dispatch-all
-      [:device/add {:product-id   0xb04d
-                    :vendor-id    0x1c11
-                    :bus-no       9
-                    :path         "9-9.9.1"
-                    :serial-no    ""
-                    :manufacturer "Input:Club"
-                    :product      "Keyboard - MDErgo1 PartialMap pjrcUSB full"
-                    :raw          nil}]
-      [:device/add {:product-id   0xb04d
-                    :vendor-id    0x1c11
-                    :bus-no       9
-                    :path         "9-9.9.3"
-                    :serial-no    ""
-                    :manufacturer "Input:Club"
-                    :product      "Keyboard - MD1.1 PartialMap pjrcUSB full"
-                    :raw          nil}]
-      [:device/add {:product-id   0xb007
-                    :vendor-id    0x1c11
-                    :bus-no       9
-                    :path         "9-9.9.2"
-                    :serial-no    ""
-                    :manufacturer "Input:Club"
-                    :product      "Keyboard - WhiteFox PartialMap pjrcUSB full"
-                    :raw          nil}
-       ])
-    ))

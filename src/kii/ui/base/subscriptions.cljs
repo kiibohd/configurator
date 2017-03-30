@@ -5,7 +5,9 @@
   :initialized?
   (fn  [db _]
     (and (not (empty? db))
-         (vector? (:devices db)))))
+         ;;(vector? (:devices db))
+         (:usb/polled? db)
+         )))
 
 (rf/reg-sub
   :device/active
