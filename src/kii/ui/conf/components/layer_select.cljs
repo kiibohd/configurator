@@ -11,7 +11,6 @@
 (defstyle style
   [".nav-tabs"
    {:display               "block"
-    ;;:width "962px"
     :height                (str (+ 1 (:tab-height layout-settings)) "px")
     :list-style-type       "none"
     :margin-bottom         "0px"
@@ -23,7 +22,6 @@
      :display             "block"
      :float               "left"
      :background-color    (:silver palette/palette)
-     ;;:position "relative"
      :height              (str (:tab-height layout-settings) "px")
      :line-height         (str (:tab-height layout-settings) "px")
      :padding             "0 10px"
@@ -40,7 +38,6 @@
   [".inactive-tab"
    {:border-color               "transparent !important"
     :background-color           "transparent !important"
-    ;;:border-bottom-color "transparent !important"
     :border-bottom-left-radius  "1px"
     :border-bottom-right-radius "1px"}]
 
@@ -71,5 +68,5 @@
                (str "Layer " i))]])])
 
 (defn layer-tabs []
-  (let [active-layer (rf/subscribe [:cfg-active-layer])]
+  (let [active-layer (rf/subscribe [:conf/active-layer])]
     (layer-tabs-comp @active-layer)))

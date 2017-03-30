@@ -37,7 +37,7 @@
 (defn seed-devices []
   (when env/dev?
     (u/dispatch-all
-      [:add-device {:product-id   0xb04d
+      [:device/add {:product-id   0xb04d
                     :vendor-id    0x1c11
                     :bus-no       9
                     :path         "9-9.9.1"
@@ -45,7 +45,7 @@
                     :manufacturer "Input:Club"
                     :product      "Keyboard - MDErgo1 PartialMap pjrcUSB full"
                     :raw          nil}]
-      [:add-device {:product-id   0xb04d
+      [:device/add {:product-id   0xb04d
                     :vendor-id    0x1c11
                     :bus-no       9
                     :path         "9-9.9.3"
@@ -53,7 +53,7 @@
                     :manufacturer "Input:Club"
                     :product      "Keyboard - MD1.1 PartialMap pjrcUSB full"
                     :raw          nil}]
-      [:add-device {:product-id   0xb007
+      [:device/add {:product-id   0xb007
                     :vendor-id    0x1c11
                     :bus-no       9
                     :path         "9-9.9.2"

@@ -6,13 +6,13 @@
 (defn set-active-panel [db [_ value]]
   (assoc db :active-panel value))
 
-(rf/reg-event-db :set-active-panel set-active-panel)
+(rf/reg-event-db :panel/set-active set-active-panel)
 
 (defn set-active-layout
   [db [_ layout]]
   (assoc db :active-layout layout))
 
-(rf/reg-event-db :set-active-layout set-active-layout)
+(rf/reg-event-db :layout/set-active set-active-layout)
 
 
 ;; TODO: Move to device
@@ -27,20 +27,20 @@
       (assoc db :devices (conj without device))
       db)))
 
-(rf/reg-event-db :add-device add-device)
+(rf/reg-event-db :device/add add-device)
 
 (defn remove-device [db [_ device]]
   (let [devices (seq (:devices db))
         without (filter-device devices (:path device))]
     (assoc db :devices without)))
 
-(rf/reg-event-db :remove-device remove-device)
+(rf/reg-event-db :device/remove remove-device)
 
 (defn set-active-device
   [db [_ device]]
   (assoc db :active-keyboard device))
 
-(rf/reg-event-db :set-active-device set-active-device)
+(rf/reg-event-db :device/set-active set-active-device)
 
 
 ;; TODO: Move to alerts
@@ -51,11 +51,11 @@
       db
       (assoc db :alerts (conj alerts alert)))))
 
-(rf/reg-event-db :add-alert add-alert)
+(rf/reg-event-db :alert/add add-alert)
 
 (defn remove-alert
   [db [_ alert]]
   (let [alerts (vec (:alerts db))]
     (assoc db :alerts (filterv (complement #{alert}) alerts))))
 
-(rf/reg-event-db :remove-alert remove-alert)
+(rf/reg-event-db :alert/remove remove-alert)

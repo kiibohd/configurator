@@ -32,7 +32,7 @@
                   :names
                   first)
           layout (:active-layout db)]
-      {:db (assoc db :cfg {:loaded? false})
+      {:db (assoc db :conf {:loaded? false})
        :http {:method :get
               :uri (str env/base-uri "layouts/" kbd "-" layout ".json")
               :on-success [:load-config]
@@ -84,12 +84,12 @@
   :load-config
   (fn [cofx [_ response]]
     (let [db (:db cofx)
-          cfg (or (:cfg db) {})
+          cfg (or (:conf db) {})
           config (normalize-config response)]
       (do
         ;;(clojure.pprint/pprint response)
         ;;(clojure.pprint/pprint config)
-        {:db (assoc db :cfg
+        {:db (assoc db :conf
                        (merge cfg
                               {:loaded? true
                                :active-layer 0
@@ -98,13 +98,13 @@
 
 (defn set-active-layer
   [db [_ value]]
-  (assoc-in db [:cfg :active-layer] value))
+  (assoc-in db [:conf :active-layer] value))
 
 (rf/reg-event-db :set-active-layer set-active-layer)
 
 (defn set-selected-key
   [db [_ value]]
-  (assoc-in db [:cfg :selected-key] value))
+  (assoc-in db [:conf :selected-key] value))
 
 (rf/reg-event-db :set-selected-key set-selected-key)
 
@@ -161,21 +161,21 @@
       ;;       1. Set Key
       ;;       2. Set Selected Key
       (-> db
-          (assoc-in [:cfg :kll :matrix] new-matrix)
-          (assoc-in [:cfg :selected-key] new-key)))
+          (assoc-in [:conf :kll :matrix] new-matrix)
+          (assoc-in [:conf :selected-key] new-key)))
     db))
 
-(rf/reg-event-db :window-keyup handle-keyup)
-(rf/reg-event-db :window-keydown handle-keydown)
-(rf/reg-event-db :window-keypress handle-keypress)
+(rf/reg-event-db :window/keyup handle-keyup)
+(rf/reg-event-db :window/keydown handle-keydown)
+(rf/reg-event-db :window/keypress handle-keypress)
 
 (defn update-selected-key
   [db [_ new-key]]
   db
   #_(let []
       (-> db
-          (assoc-in [:cfg :kll :matrix] new-matrix)
-          (assoc-in [:cfg :selected-key] new-key)))
+          (assoc-in [:conf :kll :matrix] new-matrix)
+          (assoc-in [:conf :selected-key] new-key)))
   )
 
 (rf/reg-event-db :update-selected-key update-selected-key)
@@ -219,14 +219,14 @@
       ;;(clojure.pprint/pprint cofx)
       (let [db (:db cofx)
             actions (conf-sub/get-current-actions db nil)
-            kll (-> db :cfg :kll)
+            kll (-> db :conf :kll)
             mangled-kll (mangle-config kll)
             ]
 
         (do
           ;;(clojure.pprint/pprint kll)
           ;;(clojure.pprint/pprint mangled-kll)
-          {:db (assoc-in db [:cfg :current-actions] (conj actions :firmware-dl))
+          {:db (assoc-in db [:conf :current-actions] (conj actions :firmware-dl))
            :http {:method :post
                   :uri (str env/base-uri "download.php")
                   :on-success [:start-firmware-dl]
@@ -265,13 +265,13 @@
       (print (str "path: " path))
       (print (str "error: " error))
       (case status
-        "success" {:dispatch [:add-alert {:type :success :msg (str "Completed download: " path)}]}
-        "error" {:dispatch [:add-alert {:type :error :msg "Failed to download"}]}))
+        "success" {:dispatch [:alert/add {:type :success :msg (str "Completed download: " path)}]}
+        "error" {:dispatch [:alert/add {:type :error :msg "Failed to download"}]}))
     ))
 
 (rf/reg-event-db
   :toggle-key-group-state
   (fn [db [_ group]]
     (update-in db
-               [:cfg :key-group-states group]
+               [:conf :key-group-states group]
                (fnil #(if (= :visible %) :hidden :visible) :visible))))

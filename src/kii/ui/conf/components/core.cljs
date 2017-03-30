@@ -10,7 +10,7 @@
 
 ;;==== Main Configurator Layout ====;;
 (defn main-comp []
-  [:div ;;{:style {:display "inline-block"}}
+  [:div
    [kii.ui.conf.components.actions/actions]
    [:div
     [kii.ui.conf.components.layer-select/layer-tabs]
@@ -19,7 +19,7 @@
 
 (defn main
   []
-  (let [loaded? (rf/subscribe [:cfg-loaded?])]
+  (let [loaded? (rf/subscribe [:conf/loaded?])]
     (fn []
       (if @loaded?
         (main-comp)

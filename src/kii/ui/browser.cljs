@@ -21,6 +21,6 @@
 
 (defn register-keypress-events []
   (do
-    (register-event EventType.KEYDOWN :window-keydown event->clj)
-    (register-event EventType.KEYUP :window-keyup event->clj)
-    (register-event EventType.KEYPRESS :window-keypress event->clj)))
+    (register-event EventType.KEYDOWN :window/keydown event->clj)
+    (register-event EventType.KEYUP :window/keyup event->clj)
+    (register-event EventType.KEYPRESS :window/keypress event->clj)))

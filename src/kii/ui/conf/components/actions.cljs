@@ -8,7 +8,6 @@
 (defstyle style
   [".action-bar"
    {:float         "right"
-    ;;:height "48px"
     :margin-right  "-10px"
     :margin-bottom "10px"}]
   [".btn"
@@ -44,12 +43,12 @@
   [changes?]
   [:div
    {:class (:action-bar style)}
-   (button-comp "help_outline" "Help" false #(rf/dispatch [:add-alert {:type :warning :msg "Help not implemented yet :("}]))
+   (button-comp "help_outline" "Help" false #(rf/dispatch [:alert/add {:type :warning :msg "Help not implemented yet :("}]))
    (button-comp "undo" "Revert to original" true #(print "Revert clicked!"))
-   (button-comp "file_upload" "Import keymap" false #(rf/dispatch [:add-alert {:type :info :msg "Import keymap not implemented yet :("}]))
+   (button-comp "file_upload" "Import keymap" false #(rf/dispatch [:alert/add {:type :info :msg "Import keymap not implemented yet :("}]))
    (button-comp "file_download" "Download firmware" false #(rf/dispatch [:start-firmware-compile]))
    ])
 
 (defn actions []
-  (let [changes? (rf/subscribe [:cfg-changes?])]
+  (let [changes? (rf/subscribe [:conf/changes?])]
     (actions-comp changes?)))

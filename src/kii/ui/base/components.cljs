@@ -92,7 +92,7 @@
        msg
        [:div
         [:button {:class    (:close alert-styles)
-                  :on-click #(rf/dispatch [:remove-alert alert])}
+                  :on-click #(rf/dispatch [:alert/remove alert])}
          [:i {:class "material-icons"}
           "close"]]
         [:span {:class (str (type alert-styles) " " (:status-icon alert-styles))}
@@ -101,7 +101,7 @@
        ]])])
 
 (defn alert-popover []
-  (let [alerts (rf/subscribe [:alerts])]
+  (let [alerts (rf/subscribe [:alert/all])]
     ;;(print (str "Alerts:" @alerts))
     (alert-popover-comp @alerts)))
 
@@ -119,7 +119,7 @@
                    (:display kbd)))]])))
 
 (defn selected-keyboard []
-  (let [kbd (rf/subscribe [:active-keyboard])]
+  (let [kbd (rf/subscribe [:device/active])]
     (fn []
       (selected-keyboard-comp @kbd))))
 
@@ -130,8 +130,8 @@
    {:key        (:path d)
     :class-name (:kbd-item sheet)
     :on-click   #(util/dispatch-all
-                   [:set-active-device d]
-                   [:set-active-panel :choose-layout])}
+                   [:device/set-active d]
+                   [:panel/set-active :choose-layout])}
    [:div (str (:manufacturer d))]
    [:div (str (:product d))]])
 
@@ -154,8 +154,8 @@
    {:key        (str name)
     :class-name (:layout-item sheet)
     :on-click   #(util/dispatch-all
-                   [:set-active-layout name]
-                   [:set-active-panel :choose-activity])}
+                   [:layout/set-active name]
+                   [:panel/set-active :choose-activity])}
    [:span (str name)]
    ])
 
@@ -167,7 +167,7 @@
 
 (defn layout-select
   []
-  (let [kbd (rf/subscribe [:active-keyboard])]
+  (let [kbd (rf/subscribe [:device/active])]
     (fn []
       (layout-select-comp @kbd))))
 
@@ -181,7 +181,7 @@
      [:li
       {:on-click #(util/dispatch-all
                     [:start-configurator]
-                    [:set-active-panel :configurator])}
+                    [:panel/set-active :configurator])}
       "Configure"]
      [:li "Flash"]]]])
 

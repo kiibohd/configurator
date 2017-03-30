@@ -98,11 +98,11 @@
 
 (defn key-group
   [{:keys [name] :as group}]
-  (let [state (rf/subscribe [:cfg-key-group-state name])]
+  (let [state (rf/subscribe [:conf/key-group-state name])]
     (key-group-comp group @state)))
 
 (defn key-groups []
-  (let [matrix (rf/subscribe [:cfg-matrix])
+  (let [matrix (rf/subscribe [:conf/matrix])
         width (:width (comp-kbd/get-size @matrix))]
     [:div {:style {:width width}}
      (doall (map key-group keys/categories))]))

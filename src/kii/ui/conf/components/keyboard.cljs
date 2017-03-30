@@ -17,17 +17,12 @@
 (defstyle conf-styles
   [".backdrop"
    {:background-color (:silver palette/palette)
-    ;;:width "1000px"
-    ;;:height "360px"
     :border-left      "1px solid transparent"
     :border-right     "1px solid transparent"
     :border-bottom    "1px solid transparent"
     :padding          (str (:backdrop-padding layout-settings) "px")}]
   [".keyboard"
-   {;;:width "960px"
-    ;;:height "320px"
-    ;;:font-family "texgyreheroscnregular"
-    :font-family "Jura"
+   {:font-family "Jura"
     :font-weight "500"
     :position    "relative"}]
   [".key"
@@ -56,7 +51,6 @@
    {:font-size       "13px"
     :margin-top      "0.15em"
     :min-height      "1.1em"
-    ;;:align-items "center"
     :flex-direction  "row"
     :display         "flex"
     :alight-items    "center"
@@ -150,8 +144,8 @@
      ]))
 
 (defn keyboard []
-  (let [active-layer (rf/subscribe [:cfg-active-layer])
-        matrix (rf/subscribe [:cfg-matrix])
-        selected-key (rf/subscribe [:cfg-selected-key])]
+  (let [active-layer (rf/subscribe [:conf/active-layer])
+        matrix (rf/subscribe [:conf/matrix])
+        selected-key (rf/subscribe [:conf/selected-key])]
     (keyboard-comp @active-layer @matrix @selected-key)))
 

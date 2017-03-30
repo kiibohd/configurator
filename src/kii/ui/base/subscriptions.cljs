@@ -8,7 +8,7 @@
          (vector? (:devices db)))))
 
 (rf/reg-sub
-  :active-keyboard
+  :device/active
   (fn [db _]
     (:active-keyboard db)))
 
@@ -23,6 +23,6 @@
     (:active-panel db)))
 
 (rf/reg-sub
-  :alerts
+  :alert/all
   (fn [db _]
     (:alerts db)))

@@ -6,5 +6,5 @@
    :active-filter   :ic-only
    :selected-device nil
    :active-panel    :home
-   :cfg             {}})
+   :conf            {}})
 

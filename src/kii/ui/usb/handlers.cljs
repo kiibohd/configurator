@@ -9,8 +9,8 @@
     (go-loop []
              (let [[type device] (<! usb-chan)]
                (cond
-                 (= :attach type) (rf/dispatch [:add-device device])
-                 (= :detach type) (rf/dispatch [:remove-device device]))
+                 (= :attach type) (rf/dispatch [:device/add device])
+                 (= :detach type) (rf/dispatch [:device/remove device]))
                ))))
 
 (rf/reg-fx
@@ -27,6 +27,6 @@
       (go-loop []
                (if-let [dev (<! data-chan)]
                  (do
-                   (rf/dispatch [:add-device dev])
+                   (rf/dispatch [:device/add dev])
                    (recur))
                  (rf/dispatch [:device/successful-update]))))))
