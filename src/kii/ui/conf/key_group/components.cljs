@@ -2,12 +2,12 @@
   (:require [reagent.core :as r]
             [re-frame.core :as rf]
             [cljs-css-modules.macro :refer-macros [defstyle]]
-            [kii.device.keys :as keys]
+            [kii.keys.firmware.map :as fw]
             [kii.ui.conf.palette :as palette]
-            [kii.ui.conf.components.keyboard :as comp-kbd]
+            [kii.ui.conf.keyboard.components :as comp-kbd]
             [kii.util :as u]
             [kii.ui.util :as uiu]
-            [kii.device.keymap :as keymap]
+            [kii.keys.core :as keys]
             ))
 
 (defstyle styles
@@ -64,7 +64,7 @@
                     (.stopPropagation %)
                     (print "Clickey click!"))
        }
-      (let [mapped (name keymap/en-us->iec9995)]
+      (let [mapped (name (keys/key->iec))]
         [:div
          {:class (:cap comp-kbd/conf-styles)
           :style {:width  (- ksize 10)
@@ -80,7 +80,7 @@
   [{:keys [name label]} state]
   (let [ks (sort-by :order
                     (filter #(= name (:group %))
-                            (vals keys/predefined)))]
+                            (vals fw/keys)))]
     [:div {:key   (str name)
            :class (:key-group styles)}
      [:div {:class (:title styles)}
@@ -105,4 +105,4 @@
   (let [matrix (rf/subscribe [:conf/matrix])
         width (:width (comp-kbd/get-size @matrix))]
     [:div {:style {:width width}}
-     (doall (map key-group keys/categories))]))
+     (doall (map key-group fw/categories))]))

@@ -1,7 +1,6 @@
 (ns kii.ui.conf.keyboard.handlers
   (:require [re-frame.core :as rf]
-            [kii.device.keymap :as keymap]
-            [kii.device.keys :as ickeys]
+            [kii.keys.firmware.map :as fw]
             [kii.keys.core :as keys]
             [kii.ui.conf.keyboard.subscriptions :as sub]
             [kii.ui.conf.subscriptions :as conf-sub]
@@ -46,8 +45,8 @@
         loc (:location e)
         key-code (:key-code key-event)
         adj-key-code (+ (* 1000 loc) key-code)
-        key (get keymap/en-us-keycode->iec9995 key-code)
-        adj-key (get keymap/en-us-keycode->iec9995 adj-key-code)]
+        key (get (keys/code->iec) key-code)
+        adj-key (get (keys/code->iec) adj-key-code)]
     ;;(print "Key Down - " key-code)
     ;;(print "Adjusted Key Code - " adj-key-code)
     ;;(print "Key " key)
@@ -58,8 +57,8 @@
   [db [_ value]]
   (if-let [selected-key (sub/get-selected-key db nil)]
     (let [iec9995-loc (get-iec9995 value)
-          mapped (get keymap/iec9995->en-us iec9995-loc)
-          predef (get ickeys/predefined (:key mapped))
+          mapped (get (keys/iec->key) iec9995-loc)
+          predef (get fw/keys (:key mapped))
           active-layer (ls-sub/get-active-layer db nil)
           matrix (conf-sub/get-matrix db nil)
           new-key (assoc-in

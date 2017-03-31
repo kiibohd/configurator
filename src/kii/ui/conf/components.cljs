@@ -11,11 +11,11 @@
 ;;==== Main Configurator Layout ====;;
 (defn main-comp []
   [:div
-   [kii.ui.conf.components.actions/actions]
+   [kii.ui.conf.actions.components/actions]
    [:div
-    [kii.ui.conf.components.layer-select/layer-tabs]
-    [kii.ui.conf.components.keyboard/keyboard]
-    [kii.ui.conf.components.key-group/key-groups]]])
+    [kii.ui.conf.layer-select.components/layer-tabs]
+    [kii.ui.conf.keyboard.components/keyboard]
+    [kii.ui.conf.key-group.components/key-groups]]])
 
 (defn main
   []

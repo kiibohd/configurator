@@ -1,9 +1,9 @@
 (ns kii.ui.conf.actions.handlers
-  (:require [kii.device.keys :as ickeys]
-            [re-frame.core :as rf]
+  (:require [re-frame.core :as rf]
             [ajax.core :as ajax]
             [kii.env :as env]
             [kii.util :as u]
+            [kii.keys.firmware.map :as fw]
             [kii.ui.conf.actions.subscriptions :as sub]
             [kii.bindings.electron-renderer :as electron]
             [clojure.pprint]))
@@ -18,7 +18,7 @@
   (do
     ;;(clojure.pprint/pprint n)
     ;;(clojure.pprint/pprint layer)
-    (let [k (get ickeys/predefined (:key layer))]
+    (let [k (get fw/keys (:key layer))]
       {"key" (-> k :aliases first)
        "label" (:label k)})))
 

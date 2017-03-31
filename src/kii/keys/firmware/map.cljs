@@ -1,5 +1,6 @@
-(ns kii.device.keys
-  (:require [kii.device.keys-config :as keys-config]))
+(ns kii.keys.firmware.map
+  (:refer-clojure :exclude [keys])
+  (:require [kii.keys.firmware.predefined :as predefined]))
 
 (defn ->category
   [name label]
@@ -26,13 +27,13 @@
    :group group
    :order order})
 
-(defonce predefined
-         (into
-           {}
-           (map-indexed
-             #(vector (first %2) (apply ->key % %2))
-             keys-config/defaults
-             )))
+(defonce keys
+  (into
+    {}
+    (map-indexed
+      #(vector (first %2) (apply ->key % %2))
+      predefined/all
+      )))
 
 (defn alias->key
   [alias]
@@ -40,4 +41,4 @@
           (let [aliases (:aliases k)]
             (and (some #{alias} aliases)
                  k)))
-        predefined))
+        keys))

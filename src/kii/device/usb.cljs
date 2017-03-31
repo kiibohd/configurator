@@ -24,7 +24,7 @@
 (defn get-str-desc [device idx]
   (let [c (chan)]
     (if (> idx 0)
-      (.getStringDescriptor device idx (fn [err val] (put! c val)))
+      (.getStringDescriptor device idx (fn [err val] (put! c (or val ""))))
       (put! c ""))
     c))
 

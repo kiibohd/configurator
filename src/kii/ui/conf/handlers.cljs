@@ -2,8 +2,7 @@
   (:require [re-frame.core :as rf]
             [kii.env :as env]
             [kii.device.keyboard :as keyboard]
-            [kii.device.keymap :as keymap]
-            [kii.device.keys :as ickeys]
+            [kii.keys.firmware.map :as fw]
             [kii.keys.core :as keys]
             [ajax.core :as ajax]
             [clojure.pprint]
@@ -52,8 +51,8 @@
     (map (fn [[layer data]]
            (let [okey (:key data)
                  ;;olabel (:label data)
-                 mapped (ickeys/alias->key okey)
-                 iec (get keymap/en-us->iec9995 (:name mapped))]
+                 mapped (fw/alias->key okey)
+                 iec (get (keys/key->iec) (:name mapped))]
              ;;(print okey "(" olabel ") =>" mapped)
              ;;(clojure.pprint/pprint iec)
              [layer
