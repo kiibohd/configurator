@@ -3,7 +3,7 @@
             [re-frame.core :as rf]
             [cljs-css-modules.macro :refer-macros [defstyle]]
             [kii.device.keyboard :as keyboard]
-            [kii.ui.conf.components.core :as conf]
+            [kii.ui.conf.components :as conf]
             [kii.ui.alert.components :as alert]
             [kii.ui.util :as util]))
 

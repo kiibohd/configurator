@@ -1,4 +1,4 @@
-(ns kii.ui.conf.components.actions
+(ns kii.ui.conf.actions.components
   (:require [reagent.core :as r]
             [re-frame.core :as rf]
             [cljs-css-modules.macro :refer-macros [defstyle]]

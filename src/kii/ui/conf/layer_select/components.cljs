@@ -1,4 +1,4 @@
-(ns kii.ui.conf.components.layer-select
+(ns kii.ui.conf.layer-select.components
   (:require [reagent.core :as r]
             [re-frame.core :as rf]
             [cljs-css-modules.macro :refer-macros [defstyle]]

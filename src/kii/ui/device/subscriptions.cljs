@@ -5,3 +5,8 @@
   :device/all
   (fn [db _]
     (:devices db)))
+
+(rf/reg-sub
+  :device/active
+  (fn [db _]
+    (:active-keyboard db)))

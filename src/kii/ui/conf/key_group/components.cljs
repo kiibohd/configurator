@@ -1,4 +1,4 @@
-(ns kii.ui.conf.components.key-group
+(ns kii.ui.conf.key-group.components
   (:require [reagent.core :as r]
             [re-frame.core :as rf]
             [cljs-css-modules.macro :refer-macros [defstyle]]

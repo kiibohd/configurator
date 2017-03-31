@@ -1,11 +1,10 @@
-(ns kii.ui.conf.components.keyboard
+(ns kii.ui.conf.keyboard.components
   (:require [reagent.core :as r]
             [re-frame.core :as rf]
             [cljs-css-modules.macro :refer-macros [defstyle]]
             [kii.ui.conf.palette :as palette]
             [kii.device.keyboard :as keyboard]
-            [kii.util :as u]
-            [kii.ui.conf.subscriptions]))
+            [kii.util :as u]))
 
 ;;==== Configurator ====;;
 

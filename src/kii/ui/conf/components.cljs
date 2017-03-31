@@ -1,10 +1,10 @@
-(ns kii.ui.conf.components.core
+(ns kii.ui.conf.components
   (:require [reagent.core :as r]
             [re-frame.core :as rf]
-            [kii.ui.conf.components.actions]
-            [kii.ui.conf.components.keyboard]
-            [kii.ui.conf.components.layer-select]
-            [kii.ui.conf.components.key-group]
+            [kii.ui.conf.actions.components]
+            [kii.ui.conf.keyboard.components]
+            [kii.ui.conf.layer-select.components]
+            [kii.ui.conf.key-group.components]
             [kii.ui.conf.subscriptions]))
 
 

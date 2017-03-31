@@ -10,11 +10,6 @@
          )))
 
 (rf/reg-sub
-  :device/active
-  (fn [db _]
-    (:active-keyboard db)))
-
-(rf/reg-sub
   :layout/active
   (fn [db _]
     (:active-layout db)))
@@ -24,7 +19,3 @@
   (fn [db _]
     (:active-panel db)))
 
-(rf/reg-sub
-  :alert/all
-  (fn [db _]
-    (:alerts db)))
