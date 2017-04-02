@@ -6,6 +6,14 @@
             [kii.ui.conf.subscriptions :as conf-sub]
             [kii.ui.conf.layer-select.subscriptions :as ls-sub]))
 
+(defn update-matrix
+  [new-key matrix selected-key]
+  (->> matrix
+       (map
+         #(if (= %1 selected-key)
+            new-key
+            %1))
+       vec))
 
 (defn set-selected-key
   [db [_ value]]
@@ -15,12 +23,21 @@
 
 ;; TODO: Move keypress logic to emit this event
 (defn update-selected-key
-  [db [_ new-key]]
-  db
-  #_(let []
+  [db [_ keyname]]
+  #_db
+  (if-let [selected-key (sub/get-selected-key db nil)]
+    (let [predef (get fw/keys keyname)
+          mapped (get (keys/key->iec) keyname)
+          matrix (conf-sub/get-matrix db nil)
+          active-layer (ls-sub/get-active-layer db nil)
+          new-key (assoc-in
+                    selected-key
+                    [:layers (keyword (str active-layer))]
+                    (keys/merge predef mapped))
+          new-matrix (update-matrix new-key matrix selected-key)]
       (-> db
           (assoc-in [:conf :kll :matrix] new-matrix)
-          (assoc-in [:conf :selected-key] new-key)))
+          (assoc-in [:conf :selected-key] new-key))))
   )
 
 (rf/reg-event-db :update-selected-key update-selected-key)
@@ -65,13 +82,7 @@
                     selected-key
                     [:layers (keyword (str active-layer))]
                     (keys/merge predef mapped))
-          new-matrix (->> matrix
-                          (map
-                            (fn [key]
-                              (if (= key selected-key)
-                                new-key
-                                key)))
-                          vec)]
+          new-matrix (update-matrix new-key matrix selected-key)]
       ;;(print "mapped -> " mapped)
       ;;(print "predef -> " predef)
       ;; TODO: Replace with emitting two events:

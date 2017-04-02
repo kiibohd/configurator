@@ -10,7 +10,7 @@
             [kii.ui.handlers])
   )
 
-(enable-console-print!)
+
 
 (defn mount-root []
   (r/render
@@ -24,6 +24,7 @@
   (kii.ui.browser/register-keypress-events))
 
 (defn init []
+  (enable-console-print!)
   (print "Refreshed.")
   (kii.test.runner/run)
   (full-init))
