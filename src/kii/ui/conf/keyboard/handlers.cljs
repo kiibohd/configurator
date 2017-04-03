@@ -35,6 +35,7 @@
                     [:layers (keyword (str active-layer))]
                     (keys/merge predef mapped))
           new-matrix (update-matrix new-key matrix selected-key)]
+      ;; TODO: Replace with emitting two events:
       (-> db
           (assoc-in [:conf :kll :matrix] new-matrix)
           (assoc-in [:conf :selected-key] new-key))))
@@ -72,26 +73,9 @@
 
 (defn handle-keydown
   [db [_ value]]
-  (if-let [selected-key (sub/get-selected-key db nil)]
-    (let [iec9995-loc (get-iec9995 value)
-          mapped (get (keys/iec->key) iec9995-loc)
-          predef (get fw/keys (:key mapped))
-          active-layer (ls-sub/get-active-layer db nil)
-          matrix (conf-sub/get-matrix db nil)
-          new-key (assoc-in
-                    selected-key
-                    [:layers (keyword (str active-layer))]
-                    (keys/merge predef mapped))
-          new-matrix (update-matrix new-key matrix selected-key)]
-      ;;(print "mapped -> " mapped)
-      ;;(print "predef -> " predef)
-      ;; TODO: Replace with emitting two events:
-      ;;       1. Set Key
-      ;;       2. Set Selected Key
-      (-> db
-          (assoc-in [:conf :kll :matrix] new-matrix)
-          (assoc-in [:conf :selected-key] new-key)))
-    db))
+  (let [iec-loc (get-iec9995 value)
+        mapped (get (keys/iec->key) iec-loc)]
+    (update-selected-key db [nil (:key mapped)])))
 
 (rf/reg-event-db :window/keyup handle-keyup)
 (rf/reg-event-db :window/keydown handle-keydown)
