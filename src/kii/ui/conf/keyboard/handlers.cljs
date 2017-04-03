@@ -38,7 +38,9 @@
       ;; TODO: Replace with emitting two events:
       (-> db
           (assoc-in [:conf :kll :matrix] new-matrix)
-          (assoc-in [:conf :selected-key] new-key))))
+          (assoc-in [:conf :selected-key] new-key)))
+
+    db)
   )
 
 (rf/reg-event-db :update-selected-key update-selected-key)
