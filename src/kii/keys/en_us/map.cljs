@@ -13,7 +13,7 @@
 (def code->iec9995
   {8    :e13                                                ;; Backspace
    9    :d00                                                ;; Tab
-   13   :c13                                                ;; Enter
+   13   :c12                                                ;; Enter
    16   :b99                                                ;; Shift
    17   :a99                                                ;; Control
    18   :a02                                                ;; Alt
