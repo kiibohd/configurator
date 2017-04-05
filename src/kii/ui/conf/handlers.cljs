@@ -9,7 +9,8 @@
             [kii.ui.conf.key-group.handlers]
             [kii.ui.conf.actions.handlers]
             [kii.ui.conf.keyboard.handlers]
-            [kii.ui.conf.layer-select.handlers]))
+            [kii.ui.conf.layer-select.handlers]
+            [kii.ui.conf.config-tabs.handlers]))
 
 (def ajax-methods {:post ajax/POST
                    :get  ajax/GET})

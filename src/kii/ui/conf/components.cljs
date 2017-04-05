@@ -5,22 +5,33 @@
             [kii.ui.conf.keyboard.components]
             [kii.ui.conf.layer-select.components]
             [kii.ui.conf.key-group.components]
-            [kii.ui.conf.subscriptions]))
+            [kii.ui.conf.subscriptions]
+            [kii.ui.conf.config-tabs.components]))
 
 
 ;;==== Main Configurator Layout ====;;
-(defn main-comp []
+(defn main-comp [active-tab]
   [:div
    [kii.ui.conf.actions.components/actions]
    [:div
     [kii.ui.conf.layer-select.components/layer-tabs]
     [kii.ui.conf.keyboard.components/keyboard]
-    [kii.ui.conf.key-group.components/key-groups]]])
+    ;; TODO: Move this all out to config-tabs...
+    [:div
+     [kii.ui.conf.config-tabs.components/config-tabs]
+     #_(case active-tab
+       :keys [kii.ui.conf.key-group.components/key-groups]
+       :settings [:h2 "Settings"]
+       :macros [:h2 "Macros"]
+       )
+
+     ]]])
 
 (defn main
   []
-  (let [loaded? (rf/subscribe [:conf/loaded?])]
+  (let [loaded? (rf/subscribe [:conf/loaded?])
+        active-tab (rf/subscribe [:conf/active-config-tab])]
     (fn []
       (if @loaded?
-        (main-comp)
+        (main-comp @active-tab)
         [:h2 "LOADING... Enhance your calm." ]))))

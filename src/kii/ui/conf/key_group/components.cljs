@@ -17,7 +17,7 @@
     :display   "inline-block"}]
   [".key-group"
    {:padding-top   "10px"
-    :clear         "both"
+    ;;:clear         "both"
     :margin-bottom "10px"}]
   [".container"
    {:display   "flex"
@@ -105,5 +105,12 @@
 (defn key-groups []
   (let [matrix (rf/subscribe [:conf/matrix])
         width (:width (comp-kbd/get-size @matrix))]
-    [:div {:style {:width width}}
+    #_[:div {:style {:width      width
+                   :margin-top "15px"}}
+     [:div {:style {:border       "1px solid black"
+                    ;;:border-radius "4px"
+                    :margin-left  "55px"
+                    :padding-left "20px"}}]]
+    [:div
+
      (doall (map key-group fw/categories))]))

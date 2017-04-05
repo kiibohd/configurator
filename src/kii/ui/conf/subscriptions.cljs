@@ -3,7 +3,8 @@
             [kii.ui.conf.key-group.subscriptions]
             [kii.ui.conf.actions.subscriptions]
             [kii.ui.conf.keyboard.subscriptions]
-            [kii.ui.conf.layer-select.subscriptions]))
+            [kii.ui.conf.layer-select.subscriptions]
+            [kii.ui.conf.config-tabs.subscriptions]))
 
 (defn get-cfg
   [db _]
