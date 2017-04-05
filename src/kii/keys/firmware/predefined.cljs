@@ -52,7 +52,7 @@
    [:esc "ESC" ["ESC" "ESCAPE"] :std]
    [:space "[ ]" ["SPACE" "SPACEBAR"] :std]
    [:pgup "PGUP" ["PAGEUP" "PAGE UP"] :std]
-   [:pgup "PGDN" ["PAGEDOWN" "PAGE DOWN"] :std]
+   [:pgdn "PGDN" ["PAGEDOWN" "PAGE DOWN"] :std]
    [:end "END" nil :std]
    [:home "HOME" nil :std]
    [:left "←" ["LEFT"] :std]
