@@ -5,7 +5,9 @@
             [kii.ui.util :as u]
             [kii.ui.conf.key-group.components]
             [kii.ui.conf.keyboard.components :as comp-kbd]
-            [kii.ui.conf.palette :as palette]))
+            [kii.ui.conf.palette :as palette]
+            [kii.ui.conf.settings.components]
+            [kii.ui.conf.macros.components]))
 
 
 (defstyle styles
@@ -66,8 +68,8 @@
                      :min-height "250px"}}
        (case @active-tab
          :keys [kii.ui.conf.key-group.components/key-groups]
-         :settings [:h2 "Settings"]
-         :macros [:h2 "Macros"]
+         :settings [kii.ui.conf.settings.components/settings]
+         :macros [kii.ui.conf.macros.components/macros]
          )
        ]]]
     ))

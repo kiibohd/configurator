@@ -20,9 +20,15 @@
 
 (defn get-defines
   [db _]
-  (-> db :conf :kll :header))
+  (-> db :conf :kll :defines))
 
 (rf/reg-sub :conf/defines get-defines)
+
+(defn get-headers
+  [db _]
+  (-> db :conf :kll :header))
+
+(rf/reg-sub :conf/headers get-headers)
 
 (defn get-matrix
   [db _]
