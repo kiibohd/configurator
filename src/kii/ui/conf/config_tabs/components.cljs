@@ -71,6 +71,8 @@
          :settings [kii.ui.conf.settings.components/settings]
          :macros [kii.ui.conf.macros.components/macros]
          )
+       [:div {:style {:clear "both"
+                      :height "14px"}}]
        ]]]
     ))
 
