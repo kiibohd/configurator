@@ -27,8 +27,9 @@
     [binaryage/dirac "1.2.3" :scope "test"]
     [powerlaces/boot-cljs-devtools "0.2.0" :scope "test"]
     ;; Project Dependencies
-    [reagent "0.6.0"]
+    [reagent "0.6.0" :exclusions [org.clojure/tools.reader cljsjs/react]]
     [re-frame "0.9.1"]
+    [cljs-react-material-ui "0.2.41"]
     [cljs-css-modules "0.2.1"]
     [cljs-ajax "0.5.8"]
     [camel-snake-kebab "0.4.0"]
