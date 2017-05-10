@@ -70,6 +70,13 @@
                     :serial-no    ""
                     :manufacturer "Input:Club"
                     :product      "Keyboard - WhiteFox PartialMap pjrcUSB full"
-                    :raw          nil}
-       ])
+                    :raw          nil}]
+      [:device/add {:product-id   0xb04d
+                    :vendor-id    0x1c11
+                    :bus-no       9
+                    :path         "9-9.9.4"
+                    :serial-no    ""
+                    :manufacturer "Input:Club"
+                    :product      "Keyboard - KType PartialMap pjrcUSB full"
+                    :raw          nil}])
     ))
