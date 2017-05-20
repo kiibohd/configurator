@@ -16,6 +16,7 @@
      [:mmed "multimedia"]
      [:num "numpad"]
      [:i11l "international"]
+     [:mouse "mouse"]
      [:mac "macros"]
      ]))
 
