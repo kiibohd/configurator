@@ -13,7 +13,7 @@
     [[:spec "special"]
      [:std "standard"]
      [:core "core"]
-     [:mmed "multimedia"]
+     [:mult "multimedia"]
      [:num "numpad"]
      [:i11l "international"]
      [:mouse "mouse"]
