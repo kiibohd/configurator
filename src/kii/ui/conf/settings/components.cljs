@@ -23,33 +23,61 @@
     {:border-color "blue"}]
    [:input
     {:border "none"
-     :min-width "450px"
+     :min-width "350px"
      :font-weight "300"
      :font-size "16px"}
     ["&:focus"
      {:outline "none"}]]])
 
-(defn on-value-change
+(defn on-setting-change
   [setting value]
   (print "Changing" setting "to" (-> value .-target .-value))
+  )
+
+(defn on-define-change
+  [define value]
+  (print "Changing" define "to" (-> value .-target .-value))
+  )
+
+(defn defines-comp
+  [defines]
+  [:div
+   [:h2 "Defines"]
+   [:div
+    (map (fn [[key value]]
+           [:div {:key   (str key)
+                  :class (:row css)}
+            [:label {:class (:label css)} (name key)]
+            [:div {:class (:value css)}
+             [:input {:default-value value
+                      :on-change #(on-define-change key %)}]
+             ]
+
+            ]))
+    ]]
   )
 
 (defn settings-comp
   [headers]
   [:div
-   [:h3 "Settings"]
-   [:div {:class (:container css)}
+   [:h2 "Settings"]
+   [:div
     (map (fn [[key value]]
-           [:div {:key (str key)
+           [:div {:key   (str key)
                   :class (:row css)}
             [:label {:class (:label css)} (name key)]
             [:div {:class (:value css)}
              [:input {:default-value value
-                      :on-change #(on-value-change key %)
-                      :disabled     (not (contains? #{"Version" "Author" "Date"} (name key)))}]]])
+                      :on-change     #(on-setting-change key %)
+                      :disabled      (not (contains? #{"Version" "Author" "Date"} (name key)))}]]])
          headers)]])
 
 (defn settings []
-  (let [headers (rf/subscribe [:conf/headers])]
-    (settings-comp @headers)))
+  (let [headers (rf/subscribe [:conf/headers])
+        defines (rf/subscribe [:conf/defines])]
+    [:div {:class (:container css)}
+     (settings-comp @headers)
+     ;;[:br]
+     (defines-comp @defines)]
+    ))
 
