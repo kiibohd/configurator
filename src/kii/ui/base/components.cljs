@@ -121,10 +121,11 @@
   [:html
    {:height "100%"}]
   [:body
-   {:background-color "white"
-    :padding          "0 20px"
-    :font-family      "Jura, 'M+ Type-1 (general-j) Light', san-serif"
-    :font-weight      "500"}]
+   {:background-color       "white"
+    :padding                "0 20px"
+    :font-family            "'Exo 2', NotoSansKR-Light, NotoSansJP-Light, san-serif"
+    :font-weight            "500"
+    :-webkit-font-smoothing "antialiased"}]
   [".main-container"
    {:display      "inline-block"
     :min-width    "100%"

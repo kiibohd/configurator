@@ -11,7 +11,8 @@
     {:key (:name firmware)
      :label1 (or (:label1 locale) (:label firmware))
      :label2 (:label2 locale)
-     :label3 (:label3 locale)}
+     :label3 (:label3 locale)
+     :style (:style firmware)}
     ))
 
 

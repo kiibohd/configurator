@@ -21,12 +21,13 @@
      ]))
 
 (defn ->key
-  [order name label aliases group]
+  [order name label aliases group style]
   {:name name
    :aliases (or aliases [label])
    :label label
    :group group
-   :order order})
+   :order order
+   :style (or style {})})
 
 (defonce keys
   (into

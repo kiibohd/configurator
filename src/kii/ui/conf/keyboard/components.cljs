@@ -21,9 +21,7 @@
     :border-bottom    "1px solid transparent"
     :padding          (str (:backdrop-padding layout-settings) "px")}]
   [".keyboard"
-   {:font-family "Jura"
-    :font-weight "500"
-    :position    "relative"}]
+   {:position    "relative"}]
   [".key"
    {:position "absolute"
     :overflow "hidden"
@@ -47,11 +45,12 @@
     }]
   [".label"
    {:font-size       "13px"
+    :font-weight     "300"
     :margin-top      "0.15em"
-    :min-height      "1.1em"
+    :height          "14px"
     :flex-direction  "row"
     :display         "flex"
-    :alight-items    "center"
+    :align-items    "center"
     :justify-content "center"
     }
    [:span
@@ -64,8 +63,9 @@
   (let [label1 (:label1 data)
         label2 (:label2 data)]
     [:div
-     {:class-name (:label conf-styles)}
-     [:spanb
+     {:class-name (:label conf-styles)
+      :style (:style data)}
+     [:span
       {:class-name (str "fg-layer-" layer)}
       (u/unescape (or label1 " "))]
      (if label2

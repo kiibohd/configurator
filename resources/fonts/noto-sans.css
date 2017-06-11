@@ -1,0 +1,15 @@
+@font-face
+{
+    font-family: 'NotoSansKR-Light';
+    font-style: normal;
+    font-weight: 300;
+    src: url('NotoSansKR-Light.woff2') format('woff2')
+}
+
+@font-face
+{
+    font-family: 'NotoSansJP-Light';
+    font-style: normal;
+    font-weight: 300;
+    src: url('NotoSansJP-Light.woff2') format('woff2')
+}

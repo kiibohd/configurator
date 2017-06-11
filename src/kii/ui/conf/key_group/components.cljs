@@ -35,8 +35,9 @@
   (let [label1 (:label1 data)
         label2 (:label2 data)]
     [:div
-     {:class (:label comp-kbd/conf-styles)}
-     [:spanb
+     {:class (:label comp-kbd/conf-styles)
+      :style (:style data)}
+     [:span
       {:class "fg-layer-0"}
       (u/unescape (or label1 " "))]
      (if label2
@@ -70,8 +71,8 @@
          {:class (:cap comp-kbd/conf-styles)
           :style {:width  (- ksize 10)
                   :height (- ksize 12)}}
-         (label-comp {:label1 (:label2 mapped)})
-         (label-comp {:label1 (or (:label1 mapped) label)})
+         (label-comp {:label1 (:label2 mapped) :style (:style key)})
+         (label-comp {:label1 (or (:label1 mapped) label) :style (:style key)})
          (label-comp {})
          ])]
      ])
