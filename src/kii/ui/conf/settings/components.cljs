@@ -27,7 +27,18 @@
      :font-weight "300"
      :font-size "16px"}
     ["&:focus"
-     {:outline "none"}]]])
+     {:outline "none"}]]]
+  [".settings"
+   {:max-width "30em"}]
+  [".define-rows"
+   {:display         "flex"
+    :flex-wrap       "nowrap"
+    :justify-content "space-between"
+    :align-items     "center"
+    }]
+  [".header"
+   {:font-weight "600"
+    :font-size "20px"}])
 
 (defn on-setting-change
   [setting value]
@@ -44,6 +55,10 @@
   [:div
    [:h2 "Defines"]
    [:div
+    [:div {:class (:define-rows css)}
+     [:div [:span {:class (:header css)} "Name"]]
+     [:div [:span {:class (:header css)} "Value"]]
+     ]
     (map (fn [[key value]]
            [:div {:key   (str key)
                   :class (:row css)}
@@ -59,7 +74,7 @@
 
 (defn settings-comp
   [headers]
-  [:div
+  [:div {:class (:settings css)}
    [:h2 "Settings"]
    [:div
     (map (fn [[key value]]
