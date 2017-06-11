@@ -123,7 +123,7 @@
   [:body
    {:background-color "white"
     :padding          "0 20px"
-    :font-family      "Jura, san-serif"
+    :font-family      "Jura, 'M+ Type-1 (general-j) Light', san-serif"
     :font-weight      "500"}]
   [".main-container"
    {:display      "inline-block"
