@@ -29,6 +29,7 @@
     ;; Project Dependencies
     [reagent "0.6.2" :exclusions [org.clojure/tools.reader cljsjs/react]]
     [re-frame "0.9.4"]
+    [day8.re-frame/undo "0.3.2"]
     [cljsjs/react-with-addons "15.6.1-0"]
     [cljs-react-material-ui "0.2.45"]
     [cljs-css-modules "0.2.1"]
