@@ -4,7 +4,7 @@
 (def default-db
   {:devices         nil
    :active-filter   :ic-only
-   :selected-device nil
+   :active-keyboard nil
    :active-panel    :home
    :conf            {}})
 

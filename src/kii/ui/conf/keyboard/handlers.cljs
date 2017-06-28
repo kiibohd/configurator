@@ -45,7 +45,7 @@
 
 (rf/reg-event-db :update-selected-key update-selected-key)
 
-;; TODO: Keypress pipline
+;; TODO: Keypress pipeline
 ;;  Most easily accomplished by simply adding items to a "pressed"
 ;;  array and then waiting to fire an action until after the last
 ;;  key is released or a timeout occurs.

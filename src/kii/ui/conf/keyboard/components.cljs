@@ -50,7 +50,7 @@
     :height          "14px"
     :flex-direction  "row"
     :display         "flex"
-    :align-items    "center"
+    :align-items     "center"
     :justify-content "center"
     }
    [:span

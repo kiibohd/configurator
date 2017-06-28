@@ -5,6 +5,7 @@
             [kii.device.keyboard :as keyboard]
             [kii.ui.conf.components :as conf]
             [kii.ui.alert.components :as alert]
+            [kii.ui.conf.palette :as palette]
             [kii.ui.util :as util]))
 
 (declare sheet)
@@ -18,14 +19,48 @@
     (let [kbd (keyboard/product->keyboard (:product device))]
       [:div
        [:h2 (str (:manufacturer device) " - "
+                 (:display kbd)
                  (if (keyboard/flashable? device)
-                   "Ready to Flash"
-                   (:display kbd)))]])))
+                   " (Ready to Flash)"))]])))
 
 (defn selected-keyboard []
   (let [kbd (rf/subscribe [:device/active])]
     (fn []
       (selected-keyboard-comp @kbd))))
+
+;;=== Navigation Header ===;;
+(defstyle nav-style
+  [".btn"
+   {:margin-right     "10px"
+    :background-color "transparent"
+    :padding          "0px"
+    :border           "none"
+    :cursor           "pointer"
+    :color            (:darkgray palette/palette)}
+   ["&:active:enabled"
+    {:outline "0"
+     :opacity "0.75"}]
+   ["&:focus"
+    {:outline "0"}]
+   ])
+(defn navigation-comp
+  [home-disabled?]
+  [:div {:style {:display "inline-flex"}}
+   [:button
+    {:class    (:btn nav-style)
+     :title    "Home"
+     :on-click #(rf/dispatch [:nav/home])                   ;; TODO: Warn before navigation.
+     :disabled home-disabled?}
+    [:i
+     {:class (str "material-icons md-36" (if home-disabled? " md-inactive"))}
+     "home"]
+    ]
+   ])
+
+(defn navigation []
+  (let [panel (rf/subscribe [:panel/active])]
+    (fn []
+      (navigation-comp (= @panel :home)))))
 
 ;;==== Keyboard Select =====;;
 (defn keyboard-display-comp
@@ -94,7 +129,9 @@
   [initialized? panel]
   (if initialized?
     [:div {:class (:main-container sheet)}
-     [selected-keyboard]
+     [:div {:style {:display "flex" :justify-content "space-between"}}
+      [selected-keyboard]
+      [navigation]]
      [:hr]
      [:div {:style {:display "inline-block"}}
       [alert/alert-popover]
@@ -138,7 +175,7 @@
        [".material-icons.md-inactive"
         {:opacity "0.3"}]])
   [".kbd-item"
-   {:font-variant     "small-caps"
+   {                                                        ; :font-variant     "small-caps"
     :width            "600px"
     :background-color "palevioletred"
     :list-style       "none"
@@ -146,7 +183,7 @@
     :padding          "0.25em"
     :text-align       "center"}]
   [".layout-item"
-   {:font-variant     "small-caps"
+   {                                                        ; :font-variant     "small-caps"
     :width            "600px"
     :background-color "palevioletred"
     :list-style       "none"

@@ -12,6 +12,15 @@
             [kii.ui.conf.layer-select.handlers]
             [kii.ui.conf.config-tabs.handlers]))
 
+(defn nav-home
+  [db [_ value]]
+  (assoc db
+    :active-keyboard nil
+    :active-panel    :home
+    :conf            {}))
+
+(rf/reg-event-db :nav/home nav-home)
+
 (def ajax-methods {:post ajax/POST
                    :get  ajax/GET})
 (rf/reg-fx
