@@ -24,21 +24,21 @@
 
 (defn mangle-config
   [config]
-  {"header" (de-key (:header config) nil)
-   "defines" {}
-   "matrix" (map (fn [key]
-                   (do
-                     ;;(clojure.pprint/pprint key)
-                     (de-key
-                       key
-                       (fn [k v]
-                         (if (= k :layers)
-                           (let [layers (into {} (filter #(-> % second :key some?) v))]
-                             ;;(clojure.pprint/pprint v)
-                             ;;(clojure.pprint/pprint layers)
-                             (de-key layers mangle-layer))
-                           v)))))
-                 (:matrix config))})
+  {"header"  (de-key (:header config) nil)
+   "defines" (mapv #(de-key (:data %) nil) (:defines config))
+   "matrix"  (map (fn [key]
+                    (do
+                      ;;(clojure.pprint/pprint key)
+                      (de-key
+                        key
+                        (fn [k v]
+                          (if (= k :layers)
+                            (let [layers (into {} (filter #(-> % second :key some?) v))]
+                              ;;(clojure.pprint/pprint v)
+                              ;;(clojure.pprint/pprint layers)
+                              (de-key layers mangle-layer))
+                            v)))))
+                  (:matrix config))})
 
 (rf/reg-event-fx
   :start-firmware-compile

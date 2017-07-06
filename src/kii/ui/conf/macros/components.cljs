@@ -5,7 +5,11 @@
 
 (defn macros-comp
   []
-  [:h3 "Macros"])
+  [:div
+   [:h3 "Macros"]
+   [:p {:style {:font-style "italic"}}
+    [:span {:style {:font-variant "small-caps"}} "coming soon"]
+    " ಠ_ಠ"]])
 
 (defn macros []
   (let []
