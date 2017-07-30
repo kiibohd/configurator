@@ -88,13 +88,12 @@
       [:button
        {:class    (:btn icon-style)
         :title    "Add Define"
-        :on-click #(rf/dispatch [:defines/add])
-        }
+        :on-click #(rf/dispatch [:defines/add])}
        [:i
         {:class (str "material-icons md-24")}
         "add_circle_outline"]
-       ]    ]
-     ]
+       ]]]
+
     (map (fn [{id :id {:keys [name value]} :data}]
            [:div {:key   id
                   :class (:row css)}

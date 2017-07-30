@@ -7,8 +7,8 @@
             [kii.ui.conf.keyboard.components :as comp-kbd]
             [kii.ui.conf.palette :as palette]
             [kii.ui.conf.settings.components]
-            [kii.ui.conf.macros.components]))
-
+            [kii.ui.conf.macros.components]
+            [kii.ui.conf.custom-kll.components]))
 
 (defstyle styles
   [".tab-container"
@@ -26,30 +26,34 @@
     :color (:darkgray palette/palette)}]
   )
 
-
 (defn config-tab-strip-conf
   [active-tab]
   [:div {:class (:tab-container styles)}
    ;;TODO Reduce repetition, make a fn
-    [:div
-     {:class (u/->c+s styles :tab (when (= active-tab :keys) :active))
-      :on-click #(rf/dispatch [:conf/set-active-config-tab :keys])}
-     [:i
-      {:class (str "material-icons md-48")}
-      "keyboard"]]
    [:div
-    {:class (u/->c+s styles :tab (when (= active-tab :settings) :active))
+    {:class    (u/->c+s styles :tab (when (= active-tab :keys) :active))
+     :on-click #(rf/dispatch [:conf/set-active-config-tab :keys])}
+    [:i
+     {:class (str "material-icons md-48")}
+     "keyboard"]]
+   [:div
+    {:class    (u/->c+s styles :tab (when (= active-tab :settings) :active))
      :on-click #(rf/dispatch [:conf/set-active-config-tab :settings])}
     [:i
      {:class (str "material-icons md-48")}
      "settings"]]
    [:div
-    {:class (u/->c+s styles :tab (when (= active-tab :macros) :active))
+    {:class    (u/->c+s styles :tab (when (= active-tab :macros) :active))
      :on-click #(rf/dispatch [:conf/set-active-config-tab :macros])}
     [:i
      {:class (str "material-icons md-48")}
      "videocam"]]
-   ])
+   [:div
+    {:class    (u/->c+s styles :tab (when (= active-tab :custom-kll) :active))
+     :on-click #(rf/dispatch [:conf/set-active-config-tab :custom-kll])}
+    [:i
+     {:class (str "material-icons md-48")}
+     "code"]]])
 
 (defn config-tabs
   []
@@ -70,6 +74,7 @@
          :keys [kii.ui.conf.key-group.components/key-groups]
          :settings [kii.ui.conf.settings.components/settings]
          :macros [kii.ui.conf.macros.components/macros]
+         :custom-kll [kii.ui.conf.custom-kll.components/custom-kll]
          )
        [:div {:style {:clear "both"
                       :height "14px"}}]
