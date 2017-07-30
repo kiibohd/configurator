@@ -4,6 +4,7 @@
             [kii.device.keyboard :as keyboard]
             [kii.keys.firmware.map :as fw]
             [kii.keys.core :as keys]
+            [kii.config.core :as config]
             [ajax.core :as ajax]
             [clojure.pprint]
             [clojure.string]
@@ -91,45 +92,12 @@
               }}
       )))
 
-(defn normalize-layers
-  [layers]
-  (into
-    {}
-    (map (fn [[layer data]]
-           (let [okey (:key data)
-                 ;;olabel (:label data)
-                 mapped (fw/alias->key okey)
-                 iec (get (keys/key->iec) (:name mapped))]
-             ;;(print okey "(" olabel ") =>" mapped)
-             ;;(clojure.pprint/pprint iec)
-             [layer
-              (keys/merge mapped iec)
-              #_{:key (:name mapped)
-                 :label1 (or (:label1 iec) olabel)
-                 :label2 (:label2 iec)
-                 :label3 (:label3 iec)}]))
-         layers)))
-
-(defn normalize-config
-  [config]
-  (let [matrix (:matrix config)
-        min-left (apply min (map :x matrix))
-        min-top (apply min (map :y matrix))
-        defines (or (:defines config) [])]
-    (assoc config
-      :matrix  (vec (map #(merge % {:x (- (:x %) min-left)
-                                    :y (- (:y %) min-top)
-                                    :layers (normalize-layers (:layers %))})
-                         matrix))
-      :defines (mapv #({:id (random-uuid) :data %})
-                     defines))))
-
 (rf/reg-event-fx
   :load-config
   (fn [cofx [_ response]]
     (let [db (:db cofx)
           cfg (or (:conf db) {})
-          config (normalize-config response)]
+          config (config/normalize response)]
       (do
         ;;(clojure.pprint/pprint response)
         ;;(clojure.pprint/pprint config)

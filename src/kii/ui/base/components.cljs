@@ -162,7 +162,15 @@
     :padding                "0 20px"
     :font-family            "'Exo 2', NotoSansKR-Light, NotoSansJP-Light, san-serif"
     :font-weight            "500"
-    :-webkit-font-smoothing "antialiased"}]
+    :-webkit-font-smoothing "antialiased"}
+   [:textarea
+    {:font-family "'Exo 2', NotoSansKR-Light, NotoSansJP-Light, san-serif"
+     :font-weight            "500"
+     :-webkit-font-smoothing "antialiased"}]
+   [:button
+    {:font-family "'Exo 2', NotoSansKR-Light, NotoSansJP-Light, san-serif"
+     :font-weight            "500"
+     :-webkit-font-smoothing "antialiased"}]]
   [".main-container"
    {:display      "inline-block"
     :min-width    "100%"
@@ -175,16 +183,14 @@
        [".material-icons.md-inactive"
         {:opacity "0.3"}]])
   [".kbd-item"
-   {                                                        ; :font-variant     "small-caps"
-    :width            "600px"
+   {:width            "600px"
     :background-color "palevioletred"
     :list-style       "none"
     :margin           "20px"
     :padding          "0.25em"
     :text-align       "center"}]
   [".layout-item"
-   {                                                        ; :font-variant     "small-caps"
-    :width            "600px"
+   {:width            "600px"
     :background-color "palevioletred"
     :list-style       "none"
     :padding          "0.25em"

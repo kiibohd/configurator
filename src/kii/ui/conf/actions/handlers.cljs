@@ -4,41 +4,10 @@
             [kii.env :as env]
             [kii.util :as u]
             [kii.keys.firmware.map :as fw]
+            [kii.config.core :as config]
             [kii.ui.conf.actions.subscriptions :as sub]
             [kii.bindings.electron-renderer :as electron]
             [clojure.pprint]))
-
-(defn de-key [m f]
-  (into
-    {}
-    (map (fn [[k v]] [(name k) (if f (f k v) v)]) m)))
-
-(defn mangle-layer
-  [n layer]
-  (do
-    ;;(clojure.pprint/pprint n)
-    ;;(clojure.pprint/pprint layer)
-    (let [k (get fw/keys (:key layer))]
-      {"key" (-> k :aliases first)
-       "label" (:label k)})))
-
-(defn mangle-config
-  [config]
-  {"header"  (de-key (:header config) nil)
-   "defines" (mapv #(de-key (:data %) nil) (:defines config))
-   "matrix"  (map (fn [key]
-                    (do
-                      ;;(clojure.pprint/pprint key)
-                      (de-key
-                        key
-                        (fn [k v]
-                          (if (= k :layers)
-                            (let [layers (into {} (filter #(-> % second :key some?) v))]
-                              ;;(clojure.pprint/pprint v)
-                              ;;(clojure.pprint/pprint layers)
-                              (de-key layers mangle-layer))
-                            v)))))
-                  (:matrix config))})
 
 (rf/reg-event-fx
   :start-firmware-compile
@@ -48,7 +17,7 @@
       (let [db (:db cofx)
             actions (sub/get-current-actions db nil)
             kll (-> db :conf :kll)
-            mangled-kll (mangle-config kll)
+            mangled-kll (config/mangle kll)
             ]
 
         (do

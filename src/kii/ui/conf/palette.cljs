@@ -19,7 +19,8 @@
    :gray    "#AAAAAA"
    :silver  "#DDDDDD"
    :darkgray "#444444"
-   :lightgray "#fcfcfc"})
+   :lightgray "#fcfcfc"
+   :lightpurple "#a18fff"})
 
 (def layer-bg
   [:silver :blue :green :orange

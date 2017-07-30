@@ -18,6 +18,12 @@
 
 (rf/reg-sub :conf/loaded? loaded?)
 
+(defn get-kll
+  [db _]
+  (-> db :conf :kll))
+
+(rf/reg-sub :conf/kll get-kll)
+
 (defn get-defines
   [db _]
   (-> db :conf :kll :defines))
