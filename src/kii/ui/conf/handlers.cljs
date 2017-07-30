@@ -6,6 +6,7 @@
             [kii.keys.core :as keys]
             [ajax.core :as ajax]
             [clojure.pprint]
+            [clojure.string]
             [kii.ui.conf.key-group.handlers]
             [kii.ui.conf.actions.handlers]
             [kii.ui.conf.keyboard.handlers]
@@ -78,7 +79,7 @@
                   keyboard/product->keyboard
                   :names
                   first)
-          layout (:active-layout db)]
+          layout (clojure.string/replace (:active-layout db) " " "")]
       {:db (assoc db :conf {:loaded? false})
        :http {:method :get
               :uri (str env/base-uri "layouts/" kbd "-" layout ".json")

@@ -21,7 +21,7 @@
     :names ["WhiteFox"]
     :layouts ["The True Fox" "Aria" "Iso" "Vanilla" "Jack of All Trades" "Winkeyless"]}
    {:display "K-Type"
-    :names ["KType"]
+    :names ["KType" "K-Type"]
     :layouts ["Standard"]}])
 
 (defn get-ic-device
