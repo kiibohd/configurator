@@ -59,6 +59,17 @@
 
 (rf/reg-event-db :defines/remove remove-define)
 
+
+(defn reset-kll
+  [db [_ setting value]]
+  (let [conf (:conf db)
+        orig-kll (:orig-kll conf)
+        db' (assoc db :conf (merge conf {:kll orig-kll
+                                         :active-layer 0}))]
+    db'))
+
+(rf/reg-event-db :conf/reset reset-kll)
+
 (def ajax-methods {:post ajax/POST
                    :get  ajax/GET})
 (rf/reg-fx

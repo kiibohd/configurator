@@ -178,7 +178,9 @@
        (code-popup code-visible? kll)
        (import-popup import-visible?)
        (button-comp "help_outline" "Help" false #(rf/dispatch [:alert/add {:type :warning :msg "Help not implemented yet :("}]))
-       (button-comp "undo" "Revert to original" changes? #(print "Revert clicked!"))
+       (button-comp "undo" "Revert to original" (not changes?) #(do
+                                                            (rf/dispatch-sync [:conf/reset])
+                                                            (rf/dispatch [:alert/add {:type :success :msg "Successfully reverted to original!"}])))
        (button-comp "code" "View layout JSON" false #(reset! code-visible? true))
        (button-comp "file_upload" "Import keymap" false #(reset! import-visible? true))
        (button-comp "file_download" "Download firmware" false #(rf/dispatch [:start-firmware-compile]))
