@@ -176,9 +176,15 @@
    [:lat15 "LATCH-15" ["#:layerLatch( 15 )" "LAT15" "LATCH15"]]
    [:lat16 "LATCH-16" ["#:layerLatch( 16 )" "LAT16" "LATCH16"]]
 
-   [:led+ "LED+" ["#:ledControl( 4, 15, 0 )"] :spec]
-   [:led- "LED-" ["#:ledControl( 3, 15, 0 )"] :spec]
-   [:led0 "LED OFF" ["#:ledControl( 5, 0, 0 )"] :spec {:font-size "12px"}]
+   [:led/dec "LED-" ["#:ledControl( 0, 15 )"] :spec]
+   [:led/inc "LED+" ["#:ledControl( 1, 15 )"] :spec]
+   [:led/off "LED OFF" ["#:ledControl( 3, 0 )"] :spec {:font-size "12px"}]
+   [:led/on "LED ON" ["#:ledControl( 4, 255 )"] :spec {:font-size "12px"}]
+   [:led/tog "LED TOG" ["#:ledControl( 5, 255 )"] :spec {:font-size "12px"}]
+   [:led/s25 "LED 25%" ["#:ledControl( 2, 63 )"] :spec {:font-size "12px"}]
+   [:led/s50 "LED 50%" ["#:ledControl( 2, 127 )"] :spec {:font-size "12px"}]
+   [:led/s75 "LED 75%" ["#:ledControl( 2, 190 )"] :spec {:font-size "12px"}]
+   [:led/s100 "LED 100%" ["#:ledControl( 2, 255 )"] :spec {:font-size "10px"}]
    [:flash "FLASH" ["#:flashMode()"] :spec]
    [:kro "6/N-KRO" ["#:toggleKbdProtocol()"] :spec {:font-size "11px"}]
 
