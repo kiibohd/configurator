@@ -11,24 +11,24 @@
 
 (set-env!
   :dependencies
-  '[[org.clojure/clojure "1.9.0-alpha17" :scope "provided"]
-    [org.clojure/clojurescript "1.9.562" :scope "compile"]
+  '[[org.clojure/clojure "1.9.0-alpha19" :scope "provided"]
+    [org.clojure/clojurescript "1.9.908" :scope "compile"]
     ;; Boot Deps
     [boot/core "2.7.1" :scope "provided"]
     [onetom/boot-lein-generate "0.1.3" :scope "test"]
     [org.clojure/tools.nrepl "0.2.12" :scope "test"]
     [com.cemerick/piggieback "0.2.1" :scope "test"]
     [weasel "0.7.0" :scope "test"]
-    [adzerk/boot-cljs "2.0.0" :scope "test"]
-    [adzerk/boot-cljs-repl "0.3.3" :scope "test"]
-    [adzerk/boot-reload "0.5.1" :scope "test"]
+    [adzerk/boot-cljs "2.1.3" :scope "test"]
+    [adzerk/boot-cljs-repl "0.4.0-SNAPSHOT" :scope "test"]
+    [adzerk/boot-reload "0.5.2" :scope "test"]
     ;; Dev tools enhancements
     [binaryage/devtools "0.9.4" :scope "test"]
     [binaryage/dirac "1.2.10" :scope "test"]
     [powerlaces/boot-cljs-devtools "0.2.0" :scope "test"]
     ;; Project Dependencies
-    [reagent "0.6.2" :exclusions [org.clojure/tools.reader cljsjs/react]]
-    [re-frame "0.9.4"]
+    [reagent "0.7.0" :exclusions [org.clojure/tools.reader cljsjs/react]]
+    [re-frame "0.10.1"]
     [day8.re-frame/undo "0.3.2"]
     [cljsjs/react-with-addons "15.6.1-0"]
     [cljs-react-material-ui "0.2.45"]
