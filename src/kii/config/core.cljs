@@ -33,7 +33,8 @@
                               ;;(clojure.pprint/pprint layers)
                               (de-key layers mangle-layer))
                             v)))))
-                  (:matrix config))})
+                  (:matrix config))
+   "custom"  (de-key (:custom config) nil)})
 
 (defn normalize-layers
   [layers]
@@ -59,11 +60,14 @@
   (let [matrix (:matrix config)
         min-left (apply min (map :x matrix))
         min-top (apply min (map :y matrix))
-        defines (or (:defines config) [])]
+        defines (or (:defines config) [])
+        custom (or (:custom config []))]
     (assoc config
       :matrix  (vec (map #(merge % {:x (- (:x %) min-left)
                                     :y (- (:y %) min-top)
                                     :layers (normalize-layers (:layers %))})
                          matrix))
       :defines (mapv #({:id (random-uuid) :data %})
-                     defines))))
+                     defines)
+      :custom  custom
+      )))
