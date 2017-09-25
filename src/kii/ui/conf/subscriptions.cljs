@@ -4,7 +4,8 @@
             [kii.ui.conf.actions.subscriptions]
             [kii.ui.conf.keyboard.subscriptions]
             [kii.ui.conf.layer-select.subscriptions]
-            [kii.ui.conf.config-tabs.subscriptions]))
+            [kii.ui.conf.config-tabs.subscriptions]
+            [kii.ui.conf.custom-kll.subscriptions]))
 
 (defn get-cfg
   [db _]

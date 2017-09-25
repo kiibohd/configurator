@@ -66,7 +66,7 @@
    [:= "=" ["=" "EQUALS" "EQUAL"] :core]
    [:lgui "LGUI" ["LGUI" "LEFT GUI" "GUI" "SUPER" "LEFT SUPER" "WINDOWS" "LEFT WINDOWS" "WIN" "LEFT WIN"] :std]
    [:rgui "RGUI" ["RGUI" "RIGHT GUI" "RIGHT SUPER" "RIGHT WINDOWS" "RIGHT WIN"] :std]
-   [:menu "MENU" nil :std]
+   [:menu "MENU" ["MENU"] :std]
    [:p0 "P0" ["P0" "KEYPAD 0"] :num]
    [:p1 "P1" ["P1" "KEYPAD 1"] :num]
    [:p2 "P2" ["P2" "KEYPAD 2"] :num]

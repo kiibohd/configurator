@@ -61,7 +61,7 @@
         min-left (apply min (map :x matrix))
         min-top (apply min (map :y matrix))
         defines (or (:defines config) [])
-        custom (or (:custom config []))]
+        custom (or (:custom config) {})]
     (assoc config
       :matrix  (vec (map #(merge % {:x (- (:x %) min-left)
                                     :y (- (:y %) min-top)

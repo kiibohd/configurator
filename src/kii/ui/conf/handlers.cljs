@@ -12,7 +12,8 @@
             [kii.ui.conf.actions.handlers]
             [kii.ui.conf.keyboard.handlers]
             [kii.ui.conf.layer-select.handlers]
-            [kii.ui.conf.config-tabs.handlers]))
+            [kii.ui.conf.config-tabs.handlers]
+            [kii.ui.conf.custom-kll.handlers]))
 
 (defn nav-home
   [db [_ value]]
