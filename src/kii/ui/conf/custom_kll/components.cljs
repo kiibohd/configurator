@@ -10,6 +10,7 @@
     :width "calc(100% - 2em)"
     :display "block"
     :overflow "auto"
+    :font-family "'Share Tech Mono'"
     }])
 
 (defn count-newlines [a]

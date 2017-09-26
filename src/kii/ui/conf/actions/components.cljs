@@ -92,7 +92,8 @@
     :resize "none"
     :font-size "14px"
     :background "#ECECEC"
-    :border (str "1px solid " (:darkgray palette/palette))}
+    :border (str "1px solid " (:darkgray palette/palette))
+    :font-family "'Share Tech Mono'"}
    [:&:focus
     {:outline "0"
      }]]
