@@ -11,6 +11,7 @@
     :display "block"
     :overflow "auto"
     :font-family "'Share Tech Mono'"
+    :font-size "14px"
     }])
 
 (defn count-newlines [a]
