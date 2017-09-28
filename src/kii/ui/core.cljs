@@ -10,8 +10,6 @@
             [kii.ui.handlers])
   )
 
-
-
 (defn mount-root []
   (r/render
     [kii.ui.base.components/base-layout]

@@ -54,10 +54,11 @@
   (let [desc (.-deviceDescriptor raw)
         ports (.-portNumbers raw)]
     {:product-id (.-idProduct desc)
-     :vendor-id (.-idVendor desc)
-     :bus-no (.-busNumber raw)
-     :path (str (.-busNumber raw) (when (seq ports) (str "-" (join "." ports))))
-     :raw raw}))
+     :vendor-id  (.-idVendor desc)
+     :bus-no     (.-busNumber raw)
+     :path       (str (.-busNumber raw) (when (seq ports) (str "-" (join "." ports))))
+     :raw        raw
+     :connected  true}))
 
 (defn get-devices-min []
   (let [devices (get-devices-raw)]

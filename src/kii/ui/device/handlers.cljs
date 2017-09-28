@@ -54,7 +54,8 @@
                     :serial-no    ""
                     :manufacturer "Input:Club"
                     :product      "Keyboard - MDErgo1 PartialMap pjrcUSB full"
-                    :raw          nil}]
+                    :raw          nil
+                    :connected    false}]
       [:device/add {:product-id   0xb04d
                     :vendor-id    0x1c11
                     :bus-no       9
@@ -62,7 +63,8 @@
                     :serial-no    ""
                     :manufacturer "Input:Club"
                     :product      "Keyboard - MD1.1 PartialMap pjrcUSB full"
-                    :raw          nil}]
+                    :raw          nil
+                    :connected    false}]
       [:device/add {:product-id   0xb007
                     :vendor-id    0x1c11
                     :bus-no       9
@@ -70,7 +72,8 @@
                     :serial-no    ""
                     :manufacturer "Input:Club"
                     :product      "Keyboard - WhiteFox PartialMap pjrcUSB full"
-                    :raw          nil}]
+                    :raw          nil
+                    :connected    false}]
       [:device/add {:product-id   0xb04d
                     :vendor-id    0x1c11
                     :bus-no       9
@@ -78,5 +81,6 @@
                     :serial-no    ""
                     :manufacturer "Input:Club"
                     :product      "Keyboard - KType PartialMap pjrcUSB full"
-                    :raw          nil}])
+                    :raw          nil
+                    :connected    false}])
     ))

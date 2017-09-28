@@ -10,19 +10,24 @@
 (def keyboards
   [{:display "Infinity Ergodox"
     :names ["MDErgo1" "Infinity_Ergodox"]
-    :layouts ["Default"]}
+    :layouts ["Default"]
+    :image "ergodox.png"}
    {:display "Infinity 60% LED"
     :names ["MD1.1" "Infinity_60%_LED"]
-    :layouts ["Standard" "Hacker" "Alphabet"]}
+    :layouts ["Standard" "Hacker" "Alphabet"]
+    :image "infinity-led.png"}
    {:display "Infinity 60%"
     :names ["MD1" "Infinity_60%"]
-    :layouts ["Standard" "Hacker"]}
+    :layouts ["Standard" "Hacker"]
+    :image "infinity.png"}
    {:display "WhiteFox"
     :names ["WhiteFox"]
-    :layouts ["The True Fox" "Aria" "Iso" "Vanilla" "Jack of All Trades" "Winkeyless"]}
+    :layouts ["The True Fox" "Aria" "Iso" "Vanilla" "Jack of All Trades" "Winkeyless"]
+    :image "whitefox.png"}
    {:display "K-Type"
     :names ["KType" "K-Type"]
-    :layouts ["Standard"]}])
+    :layouts ["Standard"]
+    :image "k-type.png"}])
 
 (defn get-ic-device
   [device]

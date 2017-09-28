@@ -65,21 +65,42 @@
 ;;==== Keyboard Select =====;;
 (defn keyboard-display-comp
   [d]
-  [:li
-   {:key        (:path d)
-    :class-name (:kbd-item sheet)
-    :on-click   #(util/dispatch-all
-                   [:device/set-active d]
-                   [:panel/set-active :choose-layout])}
-   [:div (str (:manufacturer d))]
-   [:div (str (:product d))]])
+  (let [kbd (keyboard/product->keyboard (:product d))]
+    [:a
+     {:key      (:path d)
+      :class    (:kbd-item sheet)
+      :on-click #(util/dispatch-all
+                  [:device/set-active d]
+                  [:panel/set-active :choose-layout])}
+     ;[:div (str (:manufacturer d))]
+     ;[:div (str (:product d))]
+     [:img {:src (str "img/" (:image kbd))
+            :alt (:display kbd)
+            :height "200px"
+            :width "200px"}]
+     ]))
 
 (defn keyboard-select-comp
   [devices]
-  [:div
-   [:h3 "Select a device"]
-   [:ul
-    (map keyboard-display-comp devices)]])
+  (let [[connected disconnected] ((juxt filter remove) #(true? (:connected %)) devices)]
+    [:div
+     [:h3 "Connected Devices"]
+     [:div
+      (if (empty? connected)
+        [:span {:style {:margin-left "4em" :font-style "italic" :font-size "1.25em"}} "None"]
+        (map keyboard-display-comp connected)
+        )
+      ;;(map keyboard-display-comp (filter #(true? (:connected %)) devices))
+      ]
+     [:br]
+     [:h3 "Disconnected Devices"]
+     [:div
+      ;;(map keyboard-display-comp (filter #(false? (:connected %)) devices))
+      (map keyboard-display-comp disconnected)
+      ]
+     ])
+
+  )
 
 (defn keyboard-select
   []
@@ -183,9 +204,11 @@
        [".material-icons.md-inactive"
         {:opacity "0.3"}]])
   [".kbd-item"
-   {:width            "600px"
-    :background-color "palevioletred"
-    :list-style       "none"
+   {:width            "125px"
+    :height           "125px"
+    ;;:background-color "palevioletred"
+    ;;:list-style       "none"
+    :cursor           "pointer"
     :margin           "20px"
     :padding          "0.25em"
     :text-align       "center"}]
