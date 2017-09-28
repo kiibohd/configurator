@@ -15,7 +15,7 @@
   [device]
   (if (nil? device)
     [:div
-     [:h2 "Input:Club"]]
+     [:h2 "Input:Club Configurator"]]
     (let [kbd (keyboard/product->keyboard (:product device))]
       [:div
        [:h2 (str (:manufacturer device) " - "
@@ -65,15 +65,21 @@
 ;;==== Keyboard Select =====;;
 (defn keyboard-display-comp
   [d]
-  (let [kbd (keyboard/product->keyboard (:product d))]
+  (let [kbd (keyboard/product->keyboard (:product d))
+        layouts (:layouts kbd)
+        action (if (= 1 (count layouts))
+                 #(util/dispatch-all
+                   [:device/set-active d]
+                   [:layout/set-active (first layouts)]
+                   [:start-configurator]
+                   [:panel/set-active :configurator])
+                 #(util/dispatch-all
+                  [:device/set-active d]
+                  [:panel/set-active :choose-layout]))]
     [:a
      {:key      (:path d)
       :class    (:kbd-item sheet)
-      :on-click #(util/dispatch-all
-                  [:device/set-active d]
-                  [:panel/set-active :choose-layout])}
-     ;[:div (str (:manufacturer d))]
-     ;[:div (str (:product d))]
+      :on-click action}
      [:img {:src (str "img/" (:image kbd))
             :alt (:display kbd)
             :title (:display kbd)
@@ -89,19 +95,13 @@
      [:div
       (if (empty? connected)
         [:span {:style {:margin-left "4em" :font-style "italic" :font-size "1.25em"}} "None"]
-        (map keyboard-display-comp connected)
-        )
-      ;;(map keyboard-display-comp (filter #(true? (:connected %)) devices))
-      ]
-     [:br]
-     [:h3 "Disconnected Devices"]
-     [:div
-      ;;(map keyboard-display-comp (filter #(false? (:connected %)) devices))
-      (map keyboard-display-comp disconnected)
-      ]
-     ])
-
-  )
+        (map keyboard-display-comp connected))]
+     (when-not (empty? disconnected)
+       [:div
+        [:br]
+        [:h3 "Disconnected Devices"]
+        [:div
+         (map keyboard-display-comp disconnected)]])]))
 
 (defn keyboard-select
   []
@@ -116,7 +116,8 @@
     :class-name (:layout-item sheet)
     :on-click   #(util/dispatch-all
                    [:layout/set-active name]
-                   [:panel/set-active :choose-activity])}
+                   [:start-configurator]
+                   [:panel/set-active :configurator])}
    [:span (str name)]
    ])
 
@@ -133,7 +134,7 @@
       (layout-select-comp @kbd))))
 
 ;;==== Activity Select ====;;
-
+;;XXXX DISABLED XXXX;;
 (defn activity-select
   []
   [:div {:style {:width "80vw" :margin "20px"}}
@@ -205,14 +206,9 @@
        [".material-icons.md-inactive"
         {:opacity "0.3"}]])
   [".kbd-item"
-   {:width            "125px"
-    :height           "125px"
-    ;;:background-color "palevioletred"
-    ;;:list-style       "none"
-    :cursor           "pointer"
+   {:cursor           "pointer"
     :margin           "20px"
-    :padding          "0.25em"
-    :text-align       "center"}]
+    :padding          "0.25em"}]
   [".layout-item"
    {:width            "600px"
     :background-color "palevioletred"
