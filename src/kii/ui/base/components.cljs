@@ -76,6 +76,7 @@
      ;[:div (str (:product d))]
      [:img {:src (str "img/" (:image kbd))
             :alt (:display kbd)
+            :title (:display kbd)
             :height "200px"
             :width "200px"}]
      ]))
