@@ -43,7 +43,12 @@
 
 (defn product->keyboard
   [product]
-  (first (filter (fn [k] (some #(s/includes? product %) (:names k))) keyboards)))
+  (or
+   (first (filter (fn [k] (some #(s/includes? product %) (:names k))) keyboards))
+   {:display "Unknown"
+    :names []
+    :layouts []
+    :image "unknown.png"}))
 
 (defn flashable?
   [device]
