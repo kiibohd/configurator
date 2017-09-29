@@ -19,7 +19,21 @@
    {:display "Infinity 60%"
     :names ["MD1" "Infinity_60%"]
     :layouts ["Standard" "Hacker"]
-    :image "infinity.png"}
+    :image "infinity.png"
+    :layout-detail {"Standard"
+                    [[:1 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1 ]
+                     [:1.5 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1.5]
+                     [:1.75 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1 :2.25 ]
+                     [:2.25 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1.75 :1 ]
+                     [:1.25d :1.25d :1.25d :6.25d :1.25d :1.25d :1.25d :1.25d]
+                     ]
+                    "Hacker"
+                    [[:1 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1 ]
+                     [:1.5 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1.5]
+                     [:1.75 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1 :2.25 ]
+                     [:2.25 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1.75 :1 ]
+                     [:1.5d :1d :1.5d :6d :1.5d :1d :1d :1.5d      ] ]
+                    }}
    {:display "WhiteFox"
     :names ["WhiteFox"]
     :layouts ["The True Fox" "Aria" "Iso" "Vanilla" "Jack of All Trades" "Winkeyless"]

@@ -6,7 +6,8 @@
             [kii.ui.conf.components :as conf]
             [kii.ui.alert.components :as alert]
             [kii.ui.conf.palette :as palette]
-            [kii.ui.util :as util]))
+            [kii.ui.util :as util]
+            [clojure.pprint]))
 
 (declare sheet)
 
@@ -109,6 +110,81 @@
     (fn [] (keyboard-select-comp @devices))))
 
 ;;==== Layout Select ====;;
+(defstyle ldv-css
+  [".layout"
+   {:cursor "pointer"
+    :border "1px solid gray"
+    :border-radius "4px"
+    :padding "1em"
+    :margin "2em 0 0 1em"}
+   [:h3 {:margin "0 0 0.5em 0"}]]
+  [".container"
+   {:position "relative"
+    }]
+  [".key"
+   {:position "absolute"}
+   ]
+  [".cap"
+   {:margin        "1px"
+    :border        "1px solid black"
+    :border-radius "2px"} ]
+  [".dcap"
+   {:margin "1px"
+    :border        "1px solid red"
+    :border-radius "2px"}])
+
+(let [scale 32]
+  (defn keyword->float
+    [k]
+    (js/parseFloat (name k)))
+
+  (defn key-type [k]
+    (case (last (name k))
+      "d" :diff
+      "s" :space
+      :key))
+
+  (defn ldv-process-row
+    [row-idx row]
+    (loop [[k & ks] row
+           left 0
+           result [:div {:key (str row-idx)}]]
+      (if (nil? k)
+        result
+        (let [size (keyword->float k)
+              key-type (key-type k)
+              width (* scale size)
+              height scale
+              elem [:div {:key   (str row-idx "-" left)
+                          :class (:key ldv-css)
+                          :style {:width  (str width "px")
+                                  :height (str height "px")
+                                  :top    (str (* height row-idx) "px")
+                                  :left   (str left "px")}}
+                    (when (not= :space key-type)
+                      [:div {:class (if (= :diff key-type) (:dcap ldv-css) (:cap ldv-css))
+                             :style {:width  (str (- width 4))
+                                     :height (str (- height 4))}}])]]
+          (recur ks (+ left width) (conj result elem))))
+      )
+    )
+
+  (defn layout-display-visual-comp
+    [name detail]
+    [:div {:key      (str name)
+           :class    (:layout ldv-css)
+           :on-click #(util/dispatch-all
+                       [:layout/set-active name]
+                       [:start-configurator]
+                       [:panel/set-active :configurator])}
+     [:h3 name]
+     [:div {:class (:container ldv-css)
+            :style {:height (str (* (count detail) scale) "px")
+                    :width  (str (reduce (fn [sum k] (+ sum (* scale (keyword->float k)))) 0 (first detail)) "px")}}
+      (map-indexed ldv-process-row detail)
+      ]]
+    ))
+
 (defn layout-display-comp
   [name]
   [:li
@@ -123,9 +199,18 @@
 
 (defn layout-select-comp
   [device]
-  (let [kbd (keyboard/product->keyboard (:product device))]
-    [:h3 "Select a layout."
-     [:ul (map layout-display-comp (:layouts kbd))]]))
+  (let [kbd (keyboard/product->keyboard (:product device))
+        detail (:layout-detail kbd)]
+    (if (nil? detail)
+      [:h3 "Select a layout."
+       [:ul (map layout-display-comp (:layouts kbd))]]
+
+      [:h3 "Select a Layout"
+       [:div
+        (map #(layout-display-visual-comp % (get detail %)) (:layouts kbd))
+        ]
+       ]
+      )))
 
 (defn layout-select
   []
