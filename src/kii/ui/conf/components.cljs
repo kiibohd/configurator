@@ -4,34 +4,36 @@
             [kii.ui.conf.actions.components]
             [kii.ui.conf.keyboard.components]
             [kii.ui.conf.layer-select.components]
+            [kii.ui.conf.mode-select.components]
             [kii.ui.conf.key-group.components]
             [kii.ui.conf.subscriptions]
             [kii.ui.conf.config-tabs.components]))
 
 
 ;;==== Main Configurator Layout ====;;
-(defn main-comp [active-tab]
+(defn main-comp [active-tab mode]
   [:div
+   [kii.ui.conf.mode-select.components/mode-select]
    [kii.ui.conf.actions.components/actions]
-   [:div
-    [kii.ui.conf.layer-select.components/layer-tabs]
-    [kii.ui.conf.keyboard.components/keyboard]
-    ;; TODO: Move this all out to config-tabs...
-    [:div
-     [kii.ui.conf.config-tabs.components/config-tabs]
-     #_(case active-tab
-       :keys [kii.ui.conf.key-group.components/key-groups]
-       :settings [:h2 "Settings"]
-       :macros [:h2 "Macros"]
-       )
-
-     ]]])
+   (if (= mode :keymap)
+     [:div
+      [kii.ui.conf.layer-select.components/layer-tabs]
+      [kii.ui.conf.keyboard.components/keyboard]
+      [:div
+       [kii.ui.conf.config-tabs.components/config-tabs]
+       ]]
+     [:div {:style {:clear "both"}}
+      [:span "VISUALS"]]
+     )
+   ]
+  )
 
 (defn main
   []
   (let [loaded? (rf/subscribe [:conf/loaded?])
-        active-tab (rf/subscribe [:conf/active-config-tab])]
+        active-tab (rf/subscribe [:conf/active-config-tab])
+        mode (rf/subscribe [:conf/mode])]
     (fn []
       (if @loaded?
-        (main-comp @active-tab)
+        [main-comp @active-tab @mode]
         [:h2 "LOADING... Enhance your calm." ]))))

@@ -50,4 +50,8 @@
 
 (rf/reg-sub :conf/changes? changes?)
 
+(defn get-mode
+  [db _]
+  (-> db :conf :mode))
 
+(rf/reg-sub :conf/mode get-mode)

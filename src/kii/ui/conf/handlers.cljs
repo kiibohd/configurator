@@ -24,6 +24,12 @@
 
 (rf/reg-event-db :nav/home nav-home)
 
+(defn update-mode
+  [db [_ value]]
+  (assoc-in db [:conf :mode] value))
+
+(rf/reg-event-db :conf/mode-update update-mode)
+
 (defn add-define
   [db [_ value]]
   (let [db' (update-in db [:conf :kll :defines]
@@ -116,6 +122,7 @@
         {:db (assoc db :conf
                        (merge cfg
                               {:loaded? true
+                               :mode :keymap
                                :active-layer 0
                                :kll config
                                :orig-kll config}))}))))
