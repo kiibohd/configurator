@@ -11,10 +11,10 @@
 
 (set-env!
   :dependencies
-  '[[org.clojure/clojure "1.9.0-alpha19" :scope "provided"]
-    [org.clojure/clojurescript "1.9.908" :scope "compile"]
+  '[[org.clojure/clojure "1.9.0-beta1" :scope "provided"]
+    [org.clojure/clojurescript "1.9.946" :scope "compile"]
     ;; Boot Deps
-    [boot/core "2.7.1" :scope "provided"]
+    [boot/core "2.7.2" :scope "provided"]
     [onetom/boot-lein-generate "0.1.3" :scope "test"]
     [org.clojure/tools.nrepl "0.2.12" :scope "test"]
     [com.cemerick/piggieback "0.2.1" :scope "test"]
