@@ -15,6 +15,13 @@
             [kii.ui.conf.config-tabs.handlers]
             [kii.ui.conf.custom-kll.handlers]))
 
+(def default-conf
+  {:mode         :keymap
+   :active-layer 0
+   :ui-settings  {:backdrop-padding 20
+                  :size-factor      16
+                  :cap-size-factor  13}})
+
 (defn nav-home
   [db [_ value]]
   (assoc db
@@ -121,9 +128,8 @@
         ;;(clojure.pprint/pprint config)
         {:db (assoc db :conf
                        (merge cfg
+                              default-conf
                               {:loaded? true
-                               :mode :keymap
-                               :active-layer 0
                                :kll config
                                :orig-kll config}))}))))
 

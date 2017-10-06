@@ -10,7 +10,7 @@
             [kii.keys.core :as keys]
             ))
 
-(defstyle styles
+(defstyle kg-styles
   [".title"
    {:color     "red"
     :font-size "18px"
@@ -47,9 +47,9 @@
     ))
 
 (defn key-comp
-  [{:keys [name label] :as key}]
-  (let [sf (:size-factor comp-kbd/layout-settings)
-        csf (:cap-size-factor comp-kbd/layout-settings)
+  [{:keys [name label] :as key} ui-settings]
+  (let [sf (:size-factor ui-settings)
+        csf (:cap-size-factor ui-settings)
         ksize (* sf 4)]
     [:div
      {:key   name
@@ -79,33 +79,34 @@
   )
 
 (defn key-group-comp
-  [{:keys [name label]} state]
+  [{:keys [name label]} state ui-settings]
   (let [ks (sort-by :order
                     (filter #(= name (:group %))
                             (vals fw/keys)))]
     [:div {:key   (str name)
-           :class (:key-group styles)}
-     [:div {:class (:title styles)}
+           :class (:key-group kg-styles)}
+     [:div {:class (:title kg-styles)}
       [:div {:style {:display "flex" :align-items "center"}}
        [:span label]
-       [:span {:class    (:show-hide styles)
+       [:span {:class    (:show-hide kg-styles)
                :on-click #(rf/dispatch [:toggle-key-group-state name])}
         [:i {:class "material-icons"}
          (if (= state :visible) "arrow_drop_down" "arrow_drop_up")]]
        ]]
-     [:div {:class (uiu/->c+s styles :container (if (= state :hidden) :hidden))}
-      (map key-comp ks)]]
+     [:div {:class (uiu/->c+s kg-styles :container (if (= state :hidden) :hidden))}
+      (map #(key-comp % ui-settings) ks )]]
     )
   )
 
 (defn key-group
-  [{:keys [name] :as group}]
+  [{:keys [name] :as group} ui-settings]
   (let [state (rf/subscribe [:conf/key-group-state name])]
-    (key-group-comp group @state)))
+    (key-group-comp group @state ui-settings)))
 
 (defn key-groups []
   (let [matrix (rf/subscribe [:conf/matrix])
-        width (:width (comp-kbd/get-size @matrix))]
+        ui-settings (rf/subscribe [:conf/ui-settings])
+        width (:width (comp-kbd/get-size @matrix @ui-settings))]
     #_[:div {:style {:width      width
                    :margin-top "15px"}}
      [:div {:style {:border       "1px solid black"
@@ -114,4 +115,4 @@
                     :padding-left "20px"}}]]
     [:div
 
-     (doall (map key-group fw/categories))]))
+     (doall (map #(key-group % @ui-settings) fw/categories))]))

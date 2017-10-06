@@ -55,3 +55,9 @@
   (-> db :conf :mode))
 
 (rf/reg-sub :conf/mode get-mode)
+
+(defn get-ui-settings
+  [db _]
+  (-> db :conf :ui-settings))
+
+(rf/reg-sub :conf/ui-settings get-ui-settings)

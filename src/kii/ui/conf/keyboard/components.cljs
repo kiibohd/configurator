@@ -8,10 +8,7 @@
 
 ;;==== Configurator ====;;
 
-(def layout-settings
-  {:backdrop-padding 20
-   :size-factor      16
-   :cap-size-factor  13})
+;(def backdrop-padding 20)
 
 (defstyle conf-styles
   [".backdrop"
@@ -19,7 +16,8 @@
     :border-left      "1px solid transparent"
     :border-right     "1px solid transparent"
     :border-bottom    "1px solid transparent"
-    :padding          (str (:backdrop-padding layout-settings) "px")}]
+    ;:padding          (str backdrop-padding "px")
+    }]
   [".keyboard"
    {:position    "relative"}]
   [".key"
@@ -75,11 +73,11 @@
     ))
 
 (defn key-comp
-  [key active-layer selected-key]
+  [key active-layer selected-key ui-settings]
   (let [board (or (:board key) 0)
         code (:code key)
-        sf (:size-factor layout-settings)
-        csf (:cap-size-factor layout-settings)
+        sf (:size-factor ui-settings)
+        csf (:cap-size-factor ui-settings)
         selected? (= key selected-key)]
     [:div
      {:key        (str board "-" code)
@@ -114,23 +112,24 @@
   )
 
 (defn get-size
-  [matrix]
+  [matrix ui-settings]
   (let [right-most (apply max-key #(+ (:x %) (:w %)) matrix)
         bottom-most (apply max-key #(+ (:y %) (:h %)) matrix)
-        sf (:size-factor layout-settings)]
+        sf (:size-factor ui-settings)]
     {:height (* sf (+ (:y bottom-most) (:h bottom-most)))
      :width  (* sf (+ (:x right-most) (:w right-most)))}
     ))
 
 ;;==== Keyboard ====;;
 (defn keyboard-comp
-  [active-layer matrix selected-key]
-  (let [{:keys [width height]} (get-size matrix)]
+  [active-layer matrix selected-key ui-settings]
+  (let [{:keys [width height]} (get-size matrix ui-settings)]
     [:div
      {:class-name (:backdrop conf-styles)
       :style      {:border-color (palette/get-layer-fg active-layer)
                    :width        width                      ;;(+ width (* 2 (:backdrop-padding layout-settings)))
                    :height       height                     ;;(+ height (* 2 (:backdrop-padding layout-settings)))
+                   :padding      (str (:backdrop-padding ui-settings) "px")
                    }
       :on-click   #(if-not (nil? selected-key)
                      (rf/dispatch [:set-selected-key nil]))}
@@ -138,12 +137,13 @@
       {:class-name (:keyboard conf-styles)
        :style      {:width  width
                     :height height}}
-      (map #(key-comp % active-layer selected-key) matrix)]
+      (map #(key-comp % active-layer selected-key ui-settings) matrix)]
      ]))
 
 (defn keyboard []
   (let [active-layer (rf/subscribe [:conf/active-layer])
         matrix (rf/subscribe [:conf/matrix])
-        selected-key (rf/subscribe [:conf/selected-key])]
-    (keyboard-comp @active-layer @matrix @selected-key)))
+        selected-key (rf/subscribe [:conf/selected-key])
+        ui-settings (rf/subscribe [:conf/ui-settings])]
+    (keyboard-comp @active-layer @matrix @selected-key @ui-settings)))
 

@@ -59,11 +59,12 @@
   []
   (let [active-tab (rf/subscribe [:conf/active-config-tab])
         matrix (rf/subscribe [:conf/matrix])
-        width (:width (comp-kbd/get-size @matrix))]
+        ui-settings (rf/subscribe [:conf/ui-settings])
+        width (:width (comp-kbd/get-size @matrix @ui-settings))]
     [:div
      [config-tab-strip-conf @active-tab]
 
-     [:div {:style {:width      (+ width 2 (* 2 (:backdrop-padding comp-kbd/layout-settings)))
+     [:div {:style {:width      (+ width 2 (* 2 (:backdrop-padding @ui-settings)))
                     :margin-top "15px"}}
       [:div {:style {:border       "1px solid black"
                      ;;:border-radius "4px"
