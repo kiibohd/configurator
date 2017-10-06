@@ -145,7 +145,7 @@
       :key))
 
   (defn ldv-process-row
-    [row-idx row]
+    [row-idx row rows]
     (loop [[k & ks] row
            left 0
            result [:div {:key (str row-idx)}]]
@@ -159,7 +159,7 @@
                           :class (:key ldv-css)
                           :style {:width  (str width "px")
                                   :height (str height "px")
-                                  :top    (str (* height row-idx) "px")
+                                  :top    (str (* height (nth rows row-idx)) "px")
                                   :left   (str left "px")}}
                     (when (not= :space key-type)
                       [:div {:class (if (= :diff key-type) (:dcap ldv-css) (:cap ldv-css))
@@ -170,7 +170,7 @@
     )
 
   (defn layout-display-visual-comp
-    [name detail]
+    [name {:keys [rows keys]}]
     [:div {:key      (str name)
            :class    (:layout ldv-css)
            :on-click #(util/dispatch-all
@@ -179,9 +179,9 @@
                        [:panel/set-active :configurator])}
      [:h3 name]
      [:div {:class (:container ldv-css)
-            :style {:height (str (* (count detail) scale) "px")
-                    :width  (str (reduce (fn [sum k] (+ sum (* scale (keyword->float k)))) 0 (first detail)) "px")}}
-      (map-indexed ldv-process-row detail)
+            :style {:height (str (* (+ (last rows) 1) scale) "px")
+                    :width  (str (reduce (fn [sum k] (+ sum (* scale (keyword->float k)))) 0 (first keys)) "px")}}
+      (map-indexed (fn [i r] (ldv-process-row i r rows)) keys)
       ]]
     ))
 
