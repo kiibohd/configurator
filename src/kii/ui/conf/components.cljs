@@ -7,7 +7,8 @@
             [kii.ui.conf.mode-select.components]
             [kii.ui.conf.key-group.components]
             [kii.ui.conf.subscriptions]
-            [kii.ui.conf.config-tabs.components]))
+            [kii.ui.conf.config-tabs.components]
+            [kii.ui.conf.animation-visualize.components]))
 
 
 ;;==== Main Configurator Layout ====;;
@@ -22,8 +23,9 @@
       [:div
        [kii.ui.conf.config-tabs.components/config-tabs]
        ]]
-     [:div {:style {:clear "both"}}
-      [:span "VISUALS"]]
+     [:div {:style {:clear "both" }}
+      [:div {:style {:height "36px"}}]
+      [kii.ui.conf.animation-visualize.components/keyboard]]
      )
    ]
   )
