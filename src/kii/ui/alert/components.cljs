@@ -78,22 +78,23 @@
 
 (defn- alert-popover-comp
   [alerts]
-  [:div {:class (:container alert-styles)}
-   (for [{:keys [msg type] :as alert} alerts]
-     [:div {:key msg}
-      [:span {:class (str (:alert alert-styles) " ")}
-       msg
-       [:div
-        [:button {:class    (:close alert-styles)
-                  :on-click #(rf/dispatch [:alert/remove alert])}
-         [:i {:class "material-icons"}
-          "close"]]
-        [:span {:class (str (type alert-styles) " " (:status-icon alert-styles))}
-         [:i {:class "material-icons"}
-          (type alert-icons)]]]
-       ]])])
+  (when-not (empty? alerts)
+    [:div {:class (:container alert-styles)}
+     (for [{:keys [msg type] :as alert} alerts]
+       [:div {:key msg}
+        [:span {:class (str (:alert alert-styles) " ")}
+         msg
+         [:div
+          [:button {:class    (:close alert-styles)
+                    :on-click #(rf/dispatch [:alert/remove alert])}
+           [:i {:class "material-icons"}
+            "close"]]
+          [:span {:class (str (type alert-styles) " " (:status-icon alert-styles))}
+           [:i {:class "material-icons"}
+            (type alert-icons)]]]
+         ]])]))
 
 (defn alert-popover []
   (let [alerts (rf/subscribe [:alert/all])]
     ;;(print (str "Alerts:" @alerts))
-    (alert-popover-comp @alerts)))
+    [alert-popover-comp @alerts]))

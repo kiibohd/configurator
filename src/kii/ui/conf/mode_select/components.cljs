@@ -8,7 +8,7 @@
 
 (css/defstyle mode-select-style
   [".mode-select"
-   {
+   {:clear         "both"
     :float         "left"
     :margin-right  "-10px"
     :margin-bottom "10px"}]
@@ -33,10 +33,14 @@
   [:div {:class (:mode-select mode-select-style)}
    [:button
     {:class    (str (:btn mode-select-style) (if (= mode :keymap) " active"))
-     :on-click #(if-not (= mode :keymap) (rf/dispatch [:conf/mode-update :keymap]))}
+     :on-click #(when-not (= mode :keymap)
+                  (rf/dispatch [:conf/set-active-config-tab :keys])
+                  (rf/dispatch [:conf/mode-update :keymap]))}
     "keymap"]
    [:button {:class (str (:btn mode-select-style) (if (= mode :visuals) " active"))
-             :on-click #(if-not (= mode :visuals) (rf/dispatch [:conf/mode-update :visuals]))}
+             :on-click #(when-not (= mode :visuals)
+                          (rf/dispatch [:conf/set-active-config-tab :custom-animation])
+                          (rf/dispatch [:conf/mode-update :visuals]))}
     "visuals"]])
 
 (defn mode-select []
