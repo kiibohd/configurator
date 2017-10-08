@@ -28,8 +28,8 @@
                   :uri        (str env/base-uri "download.php")
                   :on-success [:start-firmware-dl]
                   :on-failure [:firmware-compile-failure]
-                  :options    {:params          {"map" (.stringify js/JSON (clj->js mangled-kll))}
-                               :format          (ajax/url-request-format)
+                  :options    {:params          mangled-kll
+                               :format          (ajax/json-request-format)
                                :response-format (ajax/json-response-format
                                                   {:keywords? true})}}
            })
