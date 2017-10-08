@@ -3,13 +3,14 @@
             [kii.device.keyboard :as kbd]))
 
 (deftest product->keyboard
-  (testing "actual keyboard"
-    (is (some? (kbd/product->keyboard "Infinity_60%")))
-    (is (nil? (kbd/product->keyboard "WallaWalla")))
-    )
-  (testing "loooong name"
-    (is (some? (kbd/product->keyboard "Keyboard - WhiteFox Partial map")))
-    (is (nil? (kbd/product->keyboard "This is a crazy keyboard")))))
+  (let [unknown? #(= "Unknown" (:display %))]
+    (testing "actual keyboard"
+      (is (some? (kbd/product->keyboard "Infinity_60%")))
+      (is (unknown? (kbd/product->keyboard "WallaWalla")))
+      )
+    (testing "loooong name"
+      (is (some? (kbd/product->keyboard "Keyboard - WhiteFox Partial map")))
+      (is (unknown? (kbd/product->keyboard "This is a crazy keyboard"))))))
 
 (deftest get-ic-device
   (testing "boards"
