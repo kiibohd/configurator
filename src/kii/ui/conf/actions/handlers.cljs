@@ -55,6 +55,13 @@
       )))
 
 (rf/reg-event-fx
+  :firmware-compile-failure
+  (fn [{:keys [db]} [_ response]]
+    (clojure.pprint/pprint response)
+    {:dispatch [:alert/add {:type :error :msg (str "Compilation Failed: " (-> response :response :error))}]}
+    ))
+
+(rf/reg-event-fx
   :download-complete
   (fn [{:keys [db]} [_ {:keys [status path error]}]]
     (do
