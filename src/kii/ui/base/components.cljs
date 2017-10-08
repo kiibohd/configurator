@@ -243,12 +243,13 @@
      [:hr]
      [:div {:style {:display "inline-block"}}
       [alert/alert-popover]
-      (cond
-        (= panel :home) [keyboard-select]
-        (= panel :choose-layout) [layout-select]
-        (= panel :choose-activity) [activity-select]
-        (= panel :configurator) [conf/main]
-        :else [:h3 "Unknown Panel!"])]]
+      [:div {:style {:clear "both"}}
+       (cond
+         (= panel :home) [keyboard-select]
+         (= panel :choose-layout) [layout-select]
+         (= panel :choose-activity) [activity-select]
+         (= panel :configurator) [conf/main]
+         :else [:h3 "Unknown Panel!"])]]]
     [:div
      [:h3 "Initializing..."]]
     ))
