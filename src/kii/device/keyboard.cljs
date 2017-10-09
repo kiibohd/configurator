@@ -12,12 +12,14 @@
     :names   ["MDErgo1" "Infinity_Ergodox"]
     :layouts ["Default"]
     :image   "ergodox.png"
+    :visuals-enabled? false
     ;; TODO: layout-detail
     }
    {:display       "Infinity 60% LED"
     :names         ["MD1.1" "Infinity_60%_LED"]
     :layouts       ["Standard" "Hacker" "Alphabet"]
     :image         "infinity-led.png"
+    :visuals-enabled? false
     :layout-detail {"Standard"
                     {:rows [0 1 2 3 4]
                      :keys [[:1 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1 :2d]
@@ -46,6 +48,7 @@
     :names         ["MD1" "Infinity_60%"]
     :layouts       ["Standard" "Hacker"]
     :image         "infinity.png"
+    :visuals-enabled? false
     :layout-detail {"Standard"
                     {:rows [0 1 2 3 4]
                      :keys [[:1 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1]
@@ -66,6 +69,7 @@
     :names         ["WhiteFox"]
     :layouts       ["The True Fox" "Aria" "Iso" "Vanilla" "Jack of All Trades" "Winkeyless"]
     :image         "whitefox.png"
+    :visuals-enabled? false
     :layout-detail {
                     "The True Fox"
                     {:rows [0 1 2 3 4]

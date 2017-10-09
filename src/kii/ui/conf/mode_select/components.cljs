@@ -3,6 +3,7 @@
             [re-frame.core :as rf]
             [cljs-css-modules.macro :as css]
             [kii.ui.conf.palette :as palette]
+            [kii.device.keyboard :as keyboard]
             [clojure.pprint]
             ))
 
@@ -20,8 +21,15 @@
     :border-bottom (str "solid 8px " (:silver palette/palette))
     :padding       "2px 40px"}
    ["&:hover"
-    {:border-bottom "solid 8px #4CACFF"
-     :cursor        "pointer"}]
+    ["&:enabled"
+     {:border-bottom "solid 8px #4CACFF"
+      :cursor        "pointer"}
+     ["&.active"
+      {:border-bottom (str "solid 8px " (:blue palette/palette))
+       :cursor        "default"}]
+     ]
+    ["&:disabled"
+     {:cursor  "not-allowed"}]]
    ["&.active"
     {:border-bottom (str "solid 8px " (:blue palette/palette))
      :color         (:blue palette/palette)}]
@@ -29,7 +37,7 @@
     {:outline "none"}]])
 
 (defn mode-select-comp
-  [mode]
+  [mode active-keyboard]
   [:div {:class (:mode-select mode-select-style)}
    [:button
     {:class    (str (:btn mode-select-style) (if (= mode :keymap) " active"))
@@ -38,11 +46,14 @@
                   (rf/dispatch [:conf/mode-update :keymap]))}
     "keymap"]
    [:button {:class (str (:btn mode-select-style) (if (= mode :visuals) " active"))
+             :disabled (false? (:visuals-enabled? active-keyboard))
              :on-click #(when-not (= mode :visuals)
                           (rf/dispatch [:conf/set-active-config-tab :custom-animation])
                           (rf/dispatch [:conf/mode-update :visuals]))}
     "visuals"]])
 
 (defn mode-select []
-  (let [mode (rf/subscribe [:conf/mode])]
-    [mode-select-comp @mode]))
+  (let [mode (rf/subscribe [:conf/mode])
+        active-device (rf/subscribe [:device/active])
+        active-keyboard (keyboard/product->keyboard (:product @active-device))]
+    [mode-select-comp @mode active-keyboard]))
