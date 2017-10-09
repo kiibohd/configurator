@@ -11,12 +11,7 @@
 (defstyle conf-styles
   [".backdrop"
    {:background-color (:silver palette/palette)
-    :border "1px solid black"
-    ;:border-left      "1px solid transparent"
-    ;:border-right     "1px solid transparent"
-    ;:border-bottom    "1px solid transparent"
-    ;:padding          (str backdrop-padding "px")
-    }]
+    :border "1px solid black" }]
   [".keyboard"
    {:position    "relative"}]
   [".key"

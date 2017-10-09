@@ -8,7 +8,8 @@
             [kii.ui.conf.palette :as palette]
             [kii.ui.conf.settings.components]
             [kii.ui.conf.macros.components]
-            [kii.ui.conf.custom-kll.components]))
+            [kii.ui.conf.custom-kll.components]
+            [clojure.pprint]))
 
 (defstyle styles
   [".tab-container"
@@ -26,57 +27,38 @@
     :color (:darkgray palette/palette)}]
   )
 
-(defn config-tab-strip-conf
-  [active-tab]
+(defn tab-item
+  [{:keys [id icon]} active-tab]
+  [:div {:key (str id)
+         :class    (u/->c+s styles :tab (when (= active-tab id) :active))
+         :on-click #(rf/dispatch [:conf/set-active-config-tab id])}
+   [:i {:class (str "material-icons md-48")}
+    icon]])
+
+(defn tab-strip-conf
+  [items active-tab]
   [:div {:class (:tab-container styles)}
-   ;;TODO Reduce repetition, make a fn
-   [:div
-    {:class    (u/->c+s styles :tab (when (= active-tab :keys) :active))
-     :on-click #(rf/dispatch [:conf/set-active-config-tab :keys])}
-    [:i
-     {:class (str "material-icons md-48")}
-     "keyboard"]]
-   [:div
-    {:class    (u/->c+s styles :tab (when (= active-tab :settings) :active))
-     :on-click #(rf/dispatch [:conf/set-active-config-tab :settings])}
-    [:i
-     {:class (str "material-icons md-48")}
-     "settings"]]
-   [:div
-    {:class    (u/->c+s styles :tab (when (= active-tab :macros) :active))
-     :on-click #(rf/dispatch [:conf/set-active-config-tab :macros])}
-    [:i
-     {:class (str "material-icons md-48")}
-     "videocam"]]
-   [:div
-    {:class    (u/->c+s styles :tab (when (= active-tab :custom-kll) :active))
-     :on-click #(rf/dispatch [:conf/set-active-config-tab :custom-kll])}
-    [:i
-     {:class (str "material-icons md-48")}
-     "code"]]])
+   (map #(tab-item % active-tab) items)
+   ]
+  )
 
 (defn config-tabs
-  []
+  [items]
   (let [active-tab (rf/subscribe [:conf/active-config-tab])
         matrix (rf/subscribe [:conf/matrix])
         ui-settings (rf/subscribe [:conf/ui-settings])
         width (:width (comp-kbd/get-size @matrix @ui-settings))]
     [:div
-     [config-tab-strip-conf @active-tab]
+     [tab-strip-conf items @active-tab]
 
      [:div {:style {:width      (+ width 2 (* 2 (:backdrop-padding @ui-settings)))
                     :margin-top "15px"}}
       [:div {:style {:border       "1px solid black"
-                     ;;:border-radius "4px"
                      :margin-left  "55px"
                      :padding-left "20px"
                      :min-height "250px"}}
-       (case @active-tab
-         :keys [kii.ui.conf.key-group.components/key-groups]
-         :settings [kii.ui.conf.settings.components/settings]
-         :macros [kii.ui.conf.macros.components/macros]
-         :custom-kll [kii.ui.conf.custom-kll.components/custom-kll]
-         )
+       (when-let [x (first (filter #(= @active-tab (:id %)) items))]
+         [(:tab x)])
        [:div {:style {:clear "both"
                       :height "14px"}}]
        ]]]

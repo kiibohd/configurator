@@ -2,12 +2,17 @@
   (:require [reagent.core :as r]
             [re-frame.core :as rf]
             [cljs-css-modules.macro :refer-macros [defstyle]]
+            [cljsjs.material-ui]
+            [cljs-react-material-ui.core :as mui-core]
+            [cljs-react-material-ui.reagent :as mui]
             [kii.device.keyboard :as keyboard]
             [kii.ui.conf.components :as conf]
             [kii.ui.alert.components :as alert]
             [kii.ui.conf.palette :as palette]
             [kii.ui.util :as util]
             [clojure.pprint]))
+
+(def font-stack "'Exo 2', NotoSansKR-Light, NotoSansJP-Light, san-serif")
 
 (declare sheet)
 
@@ -235,30 +240,35 @@
 ;;==== Base Layout =====;;
 (defn base-layout-comp
   [initialized? panel]
-  (if initialized?
-    [:div {:class (:main-container sheet)}
-     [:div {:style {:display "flex" :justify-content "space-between"}}
-      [selected-keyboard]
-      [navigation]]
-     [:hr]
-     [:div {:style {:display "inline-block"}}
-      [alert/alert-popover]
-      [:div {:style {:clear "both"}}
-       (cond
-         (= panel :home) [keyboard-select]
-         (= panel :choose-layout) [layout-select]
-         (= panel :choose-activity) [activity-select]
-         (= panel :configurator) [conf/main]
-         :else [:h3 "Unknown Panel!"])]]]
-    [:div
-     [:h3 "Initializing..."]]
-    ))
+  [mui/mui-theme-provider
+   {:mui-theme (mui-core/get-mui-theme
+                 {:font-family font-stack
+                  :palette {:primary1-color (mui-core/color :deep-purple400)
+                            :primary2-color (mui-core/color :deep-purple600)}})}
+   (if initialized?
+     [:div {:class (:main-container sheet)}
+      [:div {:style {:display "flex" :justify-content "space-between"}}
+       [selected-keyboard]
+       [navigation]]
+      [:hr]
+      [:div {:style {:display "inline-block"}}
+       [alert/alert-popover]
+       [:div {:style {:clear "both"}}
+        (cond
+          (= panel :home) [keyboard-select]
+          (= panel :choose-layout) [layout-select]
+          (= panel :choose-activity) [activity-select]
+          (= panel :configurator) [conf/main]
+          :else [:h3 "Unknown Panel!"])]]]
+     [:div
+      [:h3 "Initializing..."]]
+     )])
 
 (defn base-layout []
   (let [panel (rf/subscribe [:panel/active])
         initialized? (rf/subscribe [:initialized?])]
     (fn []
-      (base-layout-comp @initialized? @panel))))
+      [base-layout-comp @initialized? @panel])))
 
 ;;==== Base Stylesheet ====;;
 
@@ -269,15 +279,15 @@
   [:body
    {:background-color       "white"
     :padding                "0 20px"
-    :font-family            "'Exo 2', NotoSansKR-Light, NotoSansJP-Light, san-serif"
+    :font-family            font-stack
     :font-weight            "500"
     :-webkit-font-smoothing "antialiased"}
    [:textarea
-    {:font-family "'Exo 2', NotoSansKR-Light, NotoSansJP-Light, san-serif"
+    {:font-family            font-stack
      :font-weight            "500"
      :-webkit-font-smoothing "antialiased"}]
    [:button
-    {:font-family "'Exo 2', NotoSansKR-Light, NotoSansJP-Light, san-serif"
+    {:font-family            font-stack
      :font-weight            "500"
      :-webkit-font-smoothing "antialiased"}]]
   [".main-container"

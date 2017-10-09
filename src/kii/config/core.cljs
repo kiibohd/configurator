@@ -34,7 +34,8 @@
                               (de-key layers mangle-layer))
                             v)))))
                   (:matrix config))
-   "custom"  (de-key (:custom config) nil)})
+   "custom"  (de-key (:custom config) nil)
+   "animations" (de-key (:animations config) nil)})
 
 (defn normalize-layers
   [layers]
@@ -42,17 +43,12 @@
     {}
     (map (fn [[layer data]]
            (let [okey (:key data)
-                 ;;olabel (:label data)
                  mapped (fw/alias->key okey)
                  iec (get (keys/key->iec) (:name mapped))]
-             ;;(print okey "(" olabel ") =>" mapped)
              ;;(clojure.pprint/pprint iec)
              [layer
               (keys/merge mapped iec)
-              #_{:key (:name mapped)
-                 :label1 (or (:label1 iec) olabel)
-                 :label2 (:label2 iec)
-                 :label3 (:label3 iec)}]))
+              ]))
          layers)))
 
 (defn normalize
@@ -61,7 +57,8 @@
         min-left (apply min (map :x matrix))
         min-top (apply min (map :y matrix))
         defines (or (:defines config) [])
-        custom (or (:custom config) {})]
+        custom (or (:custom config) {})
+        animations (or (:animations config) {})]
     (assoc config
       :matrix  (vec (map #(merge % {:x (- (:x %) min-left)
                                     :y (- (:y %) min-top)
@@ -70,4 +67,5 @@
       :defines (mapv #({:id (random-uuid) :data %})
                      defines)
       :custom  custom
+      :animations animations
       )))

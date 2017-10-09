@@ -8,25 +8,43 @@
             [kii.ui.conf.key-group.components]
             [kii.ui.conf.subscriptions]
             [kii.ui.conf.config-tabs.components]
-            [kii.ui.conf.animation-visualize.components]))
-
+            [kii.ui.conf.animation-visualize.components]
+            [kii.ui.conf.custom-animation.components]))
 
 ;;==== Main Configurator Layout ====;;
 (defn main-comp [active-tab mode]
   [:div
    [kii.ui.conf.mode-select.components/mode-select]
    [kii.ui.conf.actions.components/actions]
-   (if (= mode :keymap)
-     [:div
-      [kii.ui.conf.layer-select.components/layer-tabs]
-      [kii.ui.conf.keyboard.components/keyboard]
-      [:div
-       [kii.ui.conf.config-tabs.components/config-tabs]
-       ]]
-     [:div {:style {:clear "both" }}
-      [:div {:style {:height "36px"}}]
-      [kii.ui.conf.animation-visualize.components/keyboard]]
-     )
+   (cond
+     (= mode :keymap) [:div
+                       [kii.ui.conf.layer-select.components/layer-tabs]
+                       [kii.ui.conf.keyboard.components/keyboard]
+                       [:div
+                        [kii.ui.conf.config-tabs.components/config-tabs
+                         [{:id   :keys
+                           :icon "keyboard"
+                           :tab  kii.ui.conf.key-group.components/key-groups}
+                          {:id   :settings
+                           :icon "settings"
+                           :tab  kii.ui.conf.settings.components/settings}
+                          {:id   :macros
+                           :icon "videocam"
+                           :tab  kii.ui.conf.macros.components/macros}
+                          {:id   :custom-kll
+                           :icon "code"
+                           :tab  kii.ui.conf.custom-kll.components/custom-kll}]]]]
+     (= mode :visuals) [:div {:style {:clear "both"}}
+                        [:div {:style {:height "36px"}}]
+                        [kii.ui.conf.animation-visualize.components/keyboard]
+                        [:div
+                         [kii.ui.conf.config-tabs.components/config-tabs
+                          [{:id   :custom-animation
+                            :icon "code"
+                            :tab  kii.ui.conf.custom-animation.components/custom-animation}
+                           ]]]]
+     :else [:div])
+
    ]
   )
 

@@ -61,3 +61,15 @@
   (-> db :conf :ui-settings))
 
 (rf/reg-sub :conf/ui-settings get-ui-settings)
+
+
+;; === Animation === ;;
+(defn get-animations
+  [db _]
+  (-> db :conf :kll :animations))
+(rf/reg-sub :conf/animations get-animations)
+
+(defn get-selected-animation
+  [db _]
+  (-> db :conf :selected-animation))
+(rf/reg-sub :conf/selected-animation get-selected-animation)
