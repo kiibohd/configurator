@@ -168,8 +168,8 @@
                                   :left   (str left "px")}}
                     (when (not= :space key-type)
                       [:div {:class (if (= :diff key-type) (:dcap ldv-css) (:cap ldv-css))
-                             :style {:width  (str (- width 4))
-                                     :height (str (- height 4))}}])]]
+                             :style {:width  (str (- width 4) "px")
+                                     :height (str (- height 4) "px")}}])]]
           (recur ks (+ left width) (conj result elem))))
       )
     )
