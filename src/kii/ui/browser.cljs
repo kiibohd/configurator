@@ -4,7 +4,6 @@
             [kii.util :as u])
   (:import [goog.events EventType]))
 
-
 (defonce *registered-events*
   (atom {}))
 

@@ -1,31 +1,20 @@
 (ns kii.ui.core
-  (:require [reagent.core :as r]
+  (:require [cljsjs.material-ui]
+            [reagent.core :as r]
             [re-frame.core :as rf]
             [kii.env :as env]
-            [kii.test.runner]
-            [kii.ui.util :as u]
-            [kii.ui.browser]
             [kii.ui.subscriptions]
+            [kii.ui.handlers]
             [kii.ui.base.components]
-            [kii.ui.handlers])
-  )
+            [kii.ui.startup]
+            ))
 
-(defn mount-root []
-  (r/render
-    [kii.ui.base.components/base-layout]
-    (js/document.getElementById "container"))
-  )
+(if env/dev?
+  ;; Re-exposed here for debugging purposes
+  (def init-dev kii.ui.startup/init-dev))
 
-(defn ^:export full-init []
-  (rf/dispatch [:boot])
-  (mount-root)
-  (kii.ui.browser/register-keypress-events))
+(def init kii.ui.startup/init)
 
-(defn init []
-  (enable-console-print!)
-  (print "Refreshed.")
-  (kii.test.runner/run)
-  (full-init))
-
+;; Used to initialize the application
 (defonce root
-  (full-init))
+  (kii.ui.startup/init true))

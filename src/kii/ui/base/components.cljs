@@ -2,11 +2,11 @@
   (:require [reagent.core :as r]
             [re-frame.core :as rf]
             [cljs-css-modules.macro :refer-macros [defstyle]]
-            [cljsjs.material-ui]
             [cljs-react-material-ui.core :as mui-core]
             [cljs-react-material-ui.reagent :as mui]
-            [kii.device.keyboard :as keyboard]
             [kii.ui.conf.components :as conf]
+            [kii.ui.conf.core]
+            [kii.device.keyboard :as keyboard]
             [kii.ui.alert.components :as alert]
             [kii.ui.conf.palette :as palette]
             [kii.ui.util :as util]
@@ -267,8 +267,7 @@
 (defn base-layout []
   (let [panel (rf/subscribe [:panel/active])
         initialized? (rf/subscribe [:initialized?])]
-    (fn []
-      [base-layout-comp @initialized? @panel])))
+    [base-layout-comp @initialized? @panel]))
 
 ;;==== Base Stylesheet ====;;
 

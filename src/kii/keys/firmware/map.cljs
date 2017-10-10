@@ -13,6 +13,7 @@
     [[:spec "special"]
      [:std "standard"]
      [:core "core"]
+     [:vis "visuals"]
      [:mult "multimedia"]
      [:num "numpad"]
      [:i11l "international"]

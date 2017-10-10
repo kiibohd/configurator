@@ -72,7 +72,7 @@
            (cljs-repl :ids #{"renderer"})
            (reload :ids #{"renderer"}
                    :ws-host "localhost"
-                   :on-jsload 'kii.ui.core/init
+                   :on-jsload 'kii.ui.core/init-dev
                    :target-path "target")
            ;; Dev Tools =============
            ;;(dirac)

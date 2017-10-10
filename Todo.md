@@ -13,6 +13,7 @@
     * macOS
     * Windows
     * Linux
+* Save user preferences
 * Auto-update
 * Warn on navigation home
 * Clear alerts on navigation

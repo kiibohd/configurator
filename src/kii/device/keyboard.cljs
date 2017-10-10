@@ -10,7 +10,7 @@
 (def keyboards
   [{:display "Infinity Ergodox"
     :names   ["MDErgo1" "Infinity_Ergodox"]
-    :layouts ["Default"]
+    :layouts ["Blank"]
     :image   "ergodox.png"
     :visuals-enabled? false
     ;; TODO: layout-detail

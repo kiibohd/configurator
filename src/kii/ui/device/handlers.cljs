@@ -45,6 +45,7 @@
 (rf/reg-event-db :device/set-active set-active-device)
 
 (defn seed-devices []
+  ;; TODO: Should probably always do this...
   (when env/dev?
     (u/dispatch-all
       [:device/add {:product-id   0xb04d

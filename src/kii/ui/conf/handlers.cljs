@@ -13,7 +13,10 @@
             [kii.ui.conf.keyboard.handlers]
             [kii.ui.conf.layer-select.handlers]
             [kii.ui.conf.config-tabs.handlers]
-            [kii.ui.conf.custom-kll.handlers]))
+            [kii.ui.conf.custom-kll.handlers]
+            [kii.ui.conf.subscriptions :as conf-sub]
+            [kii.ui.conf.layer-select.subscriptions :as ls-sub]
+            [kii.ui.conf.keyboard.subscriptions :as sub]))
 
 (def default-conf
   {:mode         :keymap
@@ -90,6 +93,41 @@
   (let [selected (-> db :conf :selected-animation)]
     (-> db (update-in [:conf :kll :animations selected] merge data))))
 (rf/reg-event-db :conf/partial-update-animation partial-update-animation)
+
+;; === Triggers === ;;
+
+
+(defn modify-selected-key
+  [f db]
+  (if-let [selected-key (sub/get-selected-key db nil)]
+    (let [matrix (conf-sub/get-matrix db nil)
+          active-layer (keyword (str (ls-sub/get-active-layer db nil)))
+          new-key (f selected-key)
+          new-matrix (kii.ui.conf.keyboard.handlers/update-matrix new-key matrix selected-key)]
+      ;; TODO: Replace with emitting two events:
+      (-> db
+          (assoc-in [:conf :kll :matrix] new-matrix)
+          (assoc-in [:conf :selected-key] new-key)))
+    db)
+  )
+
+(rf/reg-event-db :conf/add-trigger
+  (fn [db [_ trigger]]
+    (let [active-layer (keyword (str (ls-sub/get-active-layer db nil)))]
+      (modify-selected-key
+        (fn [key] (update-in key [:triggers active-layer] #(conj % trigger)))
+        db))
+    )
+  )
+
+(rf/reg-event-db :conf/remove-trigger
+  (fn [db [_ trigger]]
+    (let [active-layer (keyword (str (ls-sub/get-active-layer db nil)))
+          without (fn [coll] (filterv #(not= % trigger) coll))]
+      (modify-selected-key
+        (fn [key] (update-in key [:triggers active-layer] without))
+        db))
+    ))
 
 ;; === Reset KLL === ;;
 (defn reset-kll

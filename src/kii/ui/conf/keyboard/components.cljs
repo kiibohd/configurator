@@ -56,6 +56,10 @@
   )
 
 ;;==== Key ====;;
+
+;; TODO - When no label, but trigger put in ✲ (open asterisk)
+;;        When a label is present make it italic
+
 (defn label-comp
   [layer data]
   (let [label1 (:label1 data)

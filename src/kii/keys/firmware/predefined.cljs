@@ -175,18 +175,26 @@
    [:lat14 "LATCH-14" ["#:layerLatch( 14 )" "LAT14" "LATCH14"]]
    [:lat15 "LATCH-15" ["#:layerLatch( 15 )" "LAT15" "LATCH15"]]
    [:lat16 "LATCH-16" ["#:layerLatch( 16 )" "LAT16" "LATCH16"]]
-
-   [:led/dec "LED-" ["#:ledControl( 0, 15 )"] :spec]
-   [:led/inc "LED+" ["#:ledControl( 1, 15 )"] :spec]
-   [:led/off "LED OFF" ["#:ledControl( 3, 0 )"] :spec {:font-size "12px"}]
-   [:led/on "LED ON" ["#:ledControl( 4, 255 )"] :spec {:font-size "12px"}]
-   [:led/tog "LED TOG" ["#:ledControl( 5, 255 )"] :spec {:font-size "12px"}]
-   [:led/s25 "LED 25%" ["#:ledControl( 2, 63 )"] :spec {:font-size "12px"}]
-   [:led/s50 "LED 50%" ["#:ledControl( 2, 127 )"] :spec {:font-size "12px"}]
-   [:led/s75 "LED 75%" ["#:ledControl( 2, 190 )"] :spec {:font-size "12px"}]
-   [:led/s100 "LED 100%" ["#:ledControl( 2, 255 )"] :spec {:font-size "10px"}]
    [:flash "FLASH" ["#:flashMode()"] :spec]
    [:kro "6/N-KRO" ["#:toggleKbdProtocol()"] :spec {:font-size "11px"}]
+
+   ;; visualization
+   [:led/dec "LED-" ["#:ledControl( 0, 15 )"] :vis]
+   [:led/inc "LED+" ["#:ledControl( 1, 15 )"] :vis]
+   [:led/off "LED OFF" ["#:ledControl( 3, 0 )"] :vis {:font-size "12px"}]
+   [:led/on "LED ON" ["#:ledControl( 4, 255 )"] :vis {:font-size "12px"}]
+   [:led/tog "LED TOG" ["#:ledControl( 5, 255 )"] :vis {:font-size "12px"}]
+   [:led/s25 "LED 25%" ["#:ledControl( 2, 63 )"] :vis {:font-size "12px"}]
+   [:led/s50 "LED 50%" ["#:ledControl( 2, 127 )"] :vis {:font-size "12px"}]
+   [:led/s75 "LED 75%" ["#:ledControl( 2, 190 )"] :vis {:font-size "12px"}]
+   [:led/s100 "LED 100%" ["#:ledControl( 2, 255 )"] :vis {:font-size "10px"}]
+   [:vis/plps "V:PL/PS" ["#:animation_control( 0 )"] :vis]
+   [:vis/ffx1 "V:FFx1" ["#:animation_control( 1 )"] :vis]
+   [:vis/play "V:PLAY" ["#:animation_control( 2 )"] :vis]
+   [:vis/stop "V:STOP" ["#:animation_control( 3 )"] :vis]
+   [:vis/reset "V:RESET" ["#:animation_control( 4 )"] :vis]
+   [:vis/wipe "V:WIPE" ["#:animation_control( 5 )"] :vis]
+   [:vis/pause "V:PAUSE" ["#:animation_control( 6 )"] :vis]
 
    ;; i11n
    [:i11n/iso# "ISO#" ["HASH" "NUMBER" "#"] :i11l]
@@ -263,7 +271,7 @@
    [:mult/mute "MUTE" ["CONS:MUTE"] :mult]
    [:mult/volup "VOL+" ["CONS:VOLUMEUP" "CONS:VOLUME UP"] :mult]
    [:mult/voldn "VOL-" ["CONS:VOLUMEDOWN" "CONS:VOLUME DOWN"] :mult]
-   [:mult/plpa "PL/PS" ["CONS:PAUSEPLAY"] :mult]
+   [:mult/plps "PL/PS" ["CONS:PAUSEPLAY"] :mult]
    [:mult/play "PLAY" ["CONS:PLAY"] :mult]
    [:mult/pause "PAUSE" ["CONS:PAUSE"] :mult]
    [:mult/ff "FF" ["CONS:FASTFORWARD"] :mult]
@@ -280,6 +288,5 @@
    [:mult/power "POWER" ["SYS:POWERDOWN"] :mult]
    [:mult/sleep "SLEEP" ["SYS:SLEEP"] :mult]
    [:mult/wake "WAKEUP" ["SYS:WAKEUP"] :mult]
-
    ;; other stuff...
    ])
