@@ -1,0 +1,47 @@
+# appveyor integration for kiibohd/configurator
+
+image: Visual Studio 2017
+
+
+environment:
+  nodejs_version: "7"
+
+
+platform:
+  - x64
+
+
+configuration:
+  - Release
+
+
+# Commands run before cloning git repo
+init:
+  - git config --global core.autocrlf true
+
+install:
+  # Directory tree to validate configurator.git
+  - Tree /F
+
+  # Get version of node.js
+  - ps: Install-Product node $env:nodejs_version
+  - npm --version
+
+  # Get boot-cljs and show version
+  - choco install boot-clj
+  - boot -V
+
+  # Install electron and dependencies
+  - npm install electron electron-rebuild --save-dev --save-exact
+  - npm run res-install
+
+
+# Build Commands
+build_script:
+  - boot prod-build
+
+
+# Post Build Commands
+on_finish:
+  - Tree /F
+

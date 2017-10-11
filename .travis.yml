@@ -1,0 +1,69 @@
+# travis-ci integration for kiibohd/configurator
+
+sudo:
+  - false
+
+
+os:
+  - linux
+  - osx
+
+
+language:
+  - clojure
+  - node_js
+
+
+addons:
+  apt:
+    packages:
+      - tree
+
+
+# Versions of JDK to test
+jdk:
+  - oraclejdk8
+
+
+# Versions of node.js to test
+node_js:
+  - "7"
+
+
+# Package Setup
+before_install:
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install tree clojure; fi
+
+
+# System setup
+install:
+  # Info about OS
+  - uname -a
+
+  # Directory tree to validate configurator.git
+  - tree
+
+  # Get version of node.js
+  - npm --version
+
+  # Get boot-cljs and show version
+  - wget -O boot https://github.com/boot-clj/boot-bin/releases/download/latest/boot.sh
+  - chmod 755 boot
+  - ./boot -V
+
+  # Install electron and dependencies
+  - npm install electron electron-rebuild --save-dev --save-exact
+  - npm run res-install
+
+
+# Build permutations
+script:
+  # Build clojure target
+  - ./boot prod-build
+
+
+# Post test script commands
+after_script:
+  - tree
+
