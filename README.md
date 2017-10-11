@@ -33,7 +33,10 @@ TODO - Description
 * [boot 2.7.2](https://github.com/boot-clj/boot)
 
 
-### Linux - Build Steps
+### Linux
+
+* libudev-dev
+* build-essential
 
 ```bash
 npm install electron electron-rebuild --save-dev --save-exact
@@ -42,16 +45,31 @@ boot prod-build
 ```
 
 
-### macOS - Build Steps
+### macOS
+
+* libusb
+
+```bash
+npm install electron electron-rebuild --save-dev --save-exact
+npm run res-install
+CXX=clang++ boot prod-build
+```
+
+
+### Windows
+
+* [chocolatey](https://chocolatey.org/)
+
+__Setup__
+```bash
+# In Administrator shell
+choco feature enable -n allowGlobalConfirmation
+choco install python python2 nodejs boot-clj
+```
 
 ```bash
 npm install electron electron-rebuild --save-dev --save-exact
 npm run res-install
 boot prod-build
 ```
-
-
-### Windows - Build Steps
-
-TODO
 

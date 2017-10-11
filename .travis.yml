@@ -10,7 +10,6 @@ os:
 
 
 language:
-  - clojure
   - node_js
 
 
@@ -18,11 +17,8 @@ addons:
   apt:
     packages:
       - tree
-
-
-# Versions of JDK to test
-jdk:
-  - oraclejdk8
+      - build-essential
+      - libudev-dev
 
 
 # Versions of node.js to test
@@ -33,7 +29,7 @@ node_js:
 # Package Setup
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install tree clojure; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install tree libusb; fi
 
 
 # System setup

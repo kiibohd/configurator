@@ -1,14 +1,18 @@
 # appveyor integration for kiibohd/configurator
 
-image: Visual Studio 2017
+image: Visual Studio 2015
 
 
 environment:
-  nodejs_version: "7"
+  matrix:
+    - nodejs_version: "7"
+      GYP_MSVS_VERSION: 2015
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
 
 
 platform:
   - x64
+  - x86
 
 
 configuration:
@@ -28,11 +32,13 @@ install:
   - npm --version
 
   # Get boot-cljs and show version
+  # No need to install python and nodejs as they are already handled
   - choco install boot-clj
   - boot -V
 
   # Install electron and dependencies
   - npm install electron electron-rebuild --save-dev --save-exact
+  - npm install -g node-pre-gyp
   - npm run res-install
 
 
@@ -43,5 +49,6 @@ build_script:
 
 # Post Build Commands
 on_finish:
+  - cd target
   - Tree /F
 

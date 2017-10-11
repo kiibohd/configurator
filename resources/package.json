@@ -1,9 +1,9 @@
 {
-  "name"    : "configurator",
-  "version" : "0.1.0",
-  "main"    : "main.js",
+  "name": "configurator",
+  "version": "0.1.0",
+  "main": "main.js",
   "dependencies": {
     "electron-dl": "^1.7.0",
-    "usb": "^1.1.2"
+    "@kiibohd/usb": "^1.2.2b"
   }
 }

@@ -5,7 +5,7 @@
   "keywords": [],
   "devDependencies": {
     "electron": "1.4.14",
-    "electron-rebuild": "^1.5.6"
+    "electron-rebuild": "1.6.0"
   },
   "author": "Jeremy Bondeson",
   "license": "GPL-3.0",
