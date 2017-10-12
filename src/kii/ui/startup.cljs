@@ -1,5 +1,6 @@
 (ns kii.ui.startup
-  (:require [reagent.core :as r]
+  (:require [cljsjs.material-ui]  ;; Needs to load before react/reagent
+            [reagent.core :as r]
             [re-frame.core :as rf]
             [kii.ui.core]
             [kii.ui.browser]
@@ -7,23 +8,28 @@
             [kii.env :as env]
             [kii.ui.components :as comp]))
 
-(defn mount-root []
+(defn mount-root
+  "Called once at the beginning of the application to attach reagent/react
+  to the root `container` element on the DOM."
+  []
   (r/render
     [comp/base-layout]
     (js/document.getElementById "container"))
   )
 
 (when env/dev?
-  (defn dev-reload []
-    ;(enable-console-print!)
+  (defn dev-reload
+    "Called everytime the UI is live-reloaded during development"
+    []
     (print "Refreshed.")
     (kii.test.runner/run)))
 
-(defn init
+(defn ^:export init
+  "UI Entry Point"
   []
   (enable-console-print!)
   (when env/dev? (dev-reload))
   (rf/dispatch [:boot])
   (mount-root)
-  (kii.ui.browser/register-keypress-events)
-  )
+  ;; TODO - This should probably be moved out of the startup logic.
+  (kii.ui.browser/register-keypress-events))
