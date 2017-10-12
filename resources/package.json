@@ -1,5 +1,5 @@
 {
-  "name": "configurator",
+  "name": "I:C Configurator",
   "version": "0.1.0",
   "main": "main.js",
   "dependencies": {

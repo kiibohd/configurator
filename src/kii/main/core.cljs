@@ -1,11 +1,8 @@
 (ns kii.main.core
-  (:require [kii.env :as env]))
+  (:require [kii.env :as env]
+            [kii.bindings.electron-main :as electron]
+            [kii.main.menu :as menu]))
 
-(def electron       (js/require "electron"))
-(def app            (.-app electron))
-(def browser-window (.-BrowserWindow electron))
-(def crash-reporter (.-crashReporter electron))
-(def ipc            (.-ipcMain electron))
 (def electron-dl    (js/require "electron-dl"))
 
 (enable-console-print!)
@@ -13,13 +10,15 @@
 (def main-window (atom nil))
 
 (defn load-page [window]
-  (.loadURL window (str "file://" (.getAppPath app) "/index.html")))
+  (.loadURL window (str "file://" (.getAppPath electron/app) "/index.html")))
 
 (defn init-browser []
-  (reset! main-window (browser-window.
-                        #js {:width 1280
-                             :height 920}))
+  (reset! main-window (electron/BrowserWindow.
+                        (clj->js
+                          {:width  1280
+                           :height 920})))
   (load-page @main-window)
+  (menu/build-menu @main-window)
   (if env/dev? (.openDevTools @main-window))
   (.on @main-window "closed" #(reset! main-window nil)))
 
@@ -32,8 +31,8 @@
              :autoSubmit false}))
 
 (defn init []
-  (.on app "window-all-closed" #(when-not (= js/process.platform "darwin") (.quit app)))
-  (.on app "ready" init-browser)
+  (.on electron/app "window-all-closed" #(when-not (= js/process.platform "darwin") (.quit electron/app)))
+  (.on electron/app "ready" init-browser)
   (set! *main-cli-fn* (fn [] nil)))
 
 ;; TODO: Move to kii.bindings.electron-renderer and use core.async
@@ -44,10 +43,10 @@
 
 (defn dl-file
   [e url]
-  (let [focused (.getFocusedWindow browser-window)
+  (let [focused (.getFocusedWindow electron/BrowserWindow)
         promise (.download electron-dl focused url)
         notify #(send-to-renderer e "download-complete" %)]
     (.then promise #(notify #js {:status "success" :path (.getSavePath %)}))
     (.catch promise #(notify #js {:status "error" :error %}))))
 
-(.on ipc "download-file" dl-file)
+(.on electron/ipc "download-file" dl-file)

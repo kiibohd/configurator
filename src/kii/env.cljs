@@ -1,5 +1,7 @@
 (ns kii.env)
 
+(declare dev?)
+
 (goog-define dev? false)
 
 (def base-uri
