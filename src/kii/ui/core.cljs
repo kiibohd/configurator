@@ -5,16 +5,13 @@
             [kii.env :as env]
             [kii.ui.subscriptions]
             [kii.ui.handlers]
-            [kii.ui.base.components]
-            [kii.ui.startup]
+            [kii.ui.conf.components]
+            ;[kii.ui.startup]
             ))
 
-(if env/dev?
-  ;; Re-exposed here for debugging purposes
-  (def init-dev kii.ui.startup/init-dev))
+;(if env/dev?
+;  ;; Re-exposed here for debugging purposes
+;  (def init-dev kii.ui.startup/init-dev))
+;
+;(def ^:export init #'kii.ui.startup/init)
 
-(def init kii.ui.startup/init)
-
-;; Used to initialize the application
-(defonce root
-  (kii.ui.startup/init true))

@@ -1,6 +1,7 @@
 (ns kii.ui.startup
   (:require [reagent.core :as r]
             [re-frame.core :as rf]
+            [kii.ui.core]
             [kii.ui.browser]
             [kii.test.runner]
             [kii.env :as env]
@@ -13,17 +14,16 @@
   )
 
 (when env/dev?
-  (defn init-dev []
+  (defn dev-reload []
     ;(enable-console-print!)
     (print "Refreshed.")
     (kii.test.runner/run)))
 
 (defn init
-  ([startup?]
-   (enable-console-print!)
-   (when env/dev? (init-dev))
-   (when startup?
-     (rf/dispatch [:boot])
-     (mount-root)
-     (kii.ui.browser/register-keypress-events)))
-  ([] (init false)))
+  []
+  (enable-console-print!)
+  (when env/dev? (dev-reload))
+  (rf/dispatch [:boot])
+  (mount-root)
+  (kii.ui.browser/register-keypress-events)
+  )

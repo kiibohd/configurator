@@ -74,7 +74,7 @@
            (cljs-repl :ids #{"renderer"})
            (reload :ids #{"renderer"}
                    :ws-host "localhost"
-                   :on-jsload 'kii.ui.core/init-dev
+                   :on-jsload 'kii.ui.startup/dev-reload
                    :target-path "target")
            ;; Dev Tools =============
            ;;(dirac)
@@ -82,7 +82,12 @@
            ;; Compile renderer =========================================
            (cljs :ids #{"renderer"}
                  :compiler-options {:closure-defines {'kii.env/dev? true}
-                                    :parallel-build  true
+                                    ; There's a little funny business going on with exporting other ns vars
+                                    ;  to reduce the proliferation of imports for small components so the
+                                    ;  order of ns import is very important for dev builds and parallel builds
+                                    ;  break this.
+                                    ;:parallel-build  true
+                                    ;:verbose true
                                     :external-config {:devtools/config devtools-config}})
            ;; Compile JS for main process ==============================
            ;; path.resolve(".") which is used in CLJS's node shim
@@ -92,5 +97,6 @@
            ;; See http://dev.clojure.org/jira/browse/CLJS-1444 for details.
            (cljs :ids #{"main"}
                  :compiler-options {:asset-path      "target/main.out"
-                                    :closure-defines {'kii.env/dev? true}})
+                                    :closure-defines {'kii.env/dev? true}
+                                    })
            (target)))
