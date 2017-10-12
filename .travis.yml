@@ -61,5 +61,5 @@ script:
 
 # Post test script commands
 after_script:
-  - tree
+  - tree target
 
