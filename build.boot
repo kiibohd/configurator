@@ -56,8 +56,10 @@
          (comp (cljs :ids #{"main"}
                      :optimizations :simple)
                (cljs :ids #{"renderer"}
-                     :optimizations :advanced
-                     :compiler-options {:load-tests false})))
+                     ;; TODO -Some odd munging happening in advanced mode.
+                     :optimizations :simple ;:advanced
+                     :compiler-options {:load-tests false})
+               (target :dir #{"target"})))
 
 (def devtools-config
   {:features-to-install [:formatters :hints :async]

@@ -1,13 +1,13 @@
 (ns kii.ui.conf.mode-select.components
   (:require [reagent.core :as r]
             [re-frame.core :as rf]
-            [cljs-css-modules.macro :as css]
+            [cljs-css-modules.macro :refer-macros [defstyle]]
             [kii.ui.conf.palette :as palette]
             [kii.device.keyboard :as keyboard]
             [clojure.pprint]
             ))
 
-(css/defstyle mode-select-style
+(defstyle mode-select-style
   [".mode-select"
    {:clear         "both"
     :float         "left"

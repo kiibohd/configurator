@@ -5,4 +5,4 @@
 (def base-uri
   (if dev?
     "http://localhost:8080/"
-    "https://configurator.input.club/alpha/"))
+    "https://configurator.input.club/enki/"))

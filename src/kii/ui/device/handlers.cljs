@@ -45,52 +45,52 @@
 (rf/reg-event-db :device/set-active set-active-device)
 
 (defn seed-devices []
-  ;; TODO: Should probably always do this...
-  (when env/dev?
-    (u/dispatch-all
-      [:device/add {:product-id   0xb04d
-                    :vendor-id    0x1c11
-                    :bus-no       9
-                    :path         "9-9.9.1"
-                    :serial-no    ""
-                    :manufacturer "Input:Club"
-                    :product      "Keyboard - MDErgo1 PartialMap pjrcUSB full"
-                    :raw          nil
-                    :connected    false}]
-      [:device/add {:product-id   0xb04d
-                    :vendor-id    0x1c11
-                    :bus-no       9
-                    :path         "9-9.9.5"
-                    :serial-no    ""
-                    :manufacturer "Input:Club"
-                    :product      "Keyboard - MD1 PartialMap pjrcUSB full"
-                    :raw          nil
-                    :connected    false}]
-      [:device/add {:product-id   0xb04d
-                    :vendor-id    0x1c11
-                    :bus-no       9
-                    :path         "9-9.9.3"
-                    :serial-no    ""
-                    :manufacturer "Input:Club"
-                    :product      "Keyboard - MD1.1 PartialMap pjrcUSB full"
-                    :raw          nil
-                    :connected    false}]
-      [:device/add {:product-id   0xb007
-                    :vendor-id    0x1c11
-                    :bus-no       9
-                    :path         "9-9.9.2"
-                    :serial-no    ""
-                    :manufacturer "Input:Club"
-                    :product      "Keyboard - WhiteFox PartialMap pjrcUSB full"
-                    :raw          nil
-                    :connected    false}]
-      [:device/add {:product-id   0xb04d
-                    :vendor-id    0x1c11
-                    :bus-no       9
-                    :path         "9-9.9.4"
-                    :serial-no    ""
-                    :manufacturer "Input:Club"
-                    :product      "Keyboard - KType PartialMap pjrcUSB full"
-                    :raw          nil
-                    :connected    false}])
-    ))
+  ;; TODO: Evaluate if we should always do this...
+  ;;(when env/dev?)
+  (u/dispatch-all
+    [:device/add {:product-id   0xb04d
+                  :vendor-id    0x1c11
+                  :bus-no       9
+                  :path         "9-9.9.1"
+                  :serial-no    ""
+                  :manufacturer "Input:Club"
+                  :product      "Keyboard - MDErgo1 PartialMap pjrcUSB full"
+                  :raw          nil
+                  :connected    false}]
+    [:device/add {:product-id   0xb04d
+                  :vendor-id    0x1c11
+                  :bus-no       9
+                  :path         "9-9.9.5"
+                  :serial-no    ""
+                  :manufacturer "Input:Club"
+                  :product      "Keyboard - MD1 PartialMap pjrcUSB full"
+                  :raw          nil
+                  :connected    false}]
+    [:device/add {:product-id   0xb04d
+                  :vendor-id    0x1c11
+                  :bus-no       9
+                  :path         "9-9.9.3"
+                  :serial-no    ""
+                  :manufacturer "Input:Club"
+                  :product      "Keyboard - MD1.1 PartialMap pjrcUSB full"
+                  :raw          nil
+                  :connected    false}]
+    [:device/add {:product-id   0xb007
+                  :vendor-id    0x1c11
+                  :bus-no       9
+                  :path         "9-9.9.2"
+                  :serial-no    ""
+                  :manufacturer "Input:Club"
+                  :product      "Keyboard - WhiteFox PartialMap pjrcUSB full"
+                  :raw          nil
+                  :connected    false}]
+    [:device/add {:product-id   0xb04d
+                  :vendor-id    0x1c11
+                  :bus-no       9
+                  :path         "9-9.9.4"
+                  :serial-no    ""
+                  :manufacturer "Input:Club"
+                  :product      "Keyboard - KType PartialMap pjrcUSB full"
+                  :raw          nil
+                  :connected    false}])
+  )

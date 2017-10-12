@@ -14,12 +14,13 @@
 
 (when env/dev?
   (defn init-dev []
-    (enable-console-print!)
+    ;(enable-console-print!)
     (print "Refreshed.")
     (kii.test.runner/run)))
 
 (defn init
   ([startup?]
+   (enable-console-print!)
    (when env/dev? (init-dev))
    (when startup?
      (rf/dispatch [:boot])

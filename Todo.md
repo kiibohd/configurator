@@ -1,7 +1,7 @@
 #Ongoing Todo
 
 ###K-Type
-* Assign Animations to Keys
+* ~~Assign Animations to Keys~~
 * Show underlighting
 * Configure static LED maps
 * Customize Canned Animations
