@@ -1,7 +1,15 @@
 {
-  "name": "I:C Configurator",
+  "name": "configurator",
+  "productName": "I:C Configurator",
   "version": "0.1.0",
   "main": "main.js",
+  "description": "Configuration utility for Input Club keyboards",
+  "author": "Jeremy Bondeson",
+  "license": "GPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kiibohd/configurator"
+  },
   "dependencies": {
     "electron-dl": "^1.7.0",
     "@kiibohd/usb": "^1.2.2b"

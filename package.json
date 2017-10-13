@@ -1,5 +1,6 @@
 {
   "name": "configurator",
+  "productName": "I:C Configurator",
   "version": "0.1.0",
   "description": "Configuration utility for Input Club keyboards",
   "keywords": [],
@@ -11,7 +12,7 @@
   "license": "GPL-3.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jbondeson/configurator-cljs"
+    "url": "https://github.com/kiibohd/configurator"
   },
   "scripts": {
     "res-install": "npm install resources --prefix resources && electron-rebuild -f -m resources/",
