@@ -10,9 +10,8 @@
             [kii.ui.alert.components :as alert]
             [kii.ui.conf.palette :as palette]
             [kii.ui.util :as util]
+            [kii.ui.styling :as styling]
             [clojure.pprint]))
-
-(def font-stack "'Exo 2', NotoSansKR-Light, NotoSansJP-Light, san-serif")
 
 (declare sheet)
 
@@ -242,7 +241,7 @@
   [initialized? panel]
   [mui/mui-theme-provider
    {:mui-theme (mui-core/get-mui-theme
-                 {:font-family font-stack
+                 {:font-family styling/font-stack
                   :palette {:primary1-color (mui-core/color :deep-purple400)
                             :primary2-color (mui-core/color :deep-purple600)}})}
    (if initialized?
@@ -278,15 +277,15 @@
   [:body
    {:background-color       "white"
     :padding                "0 20px"
-    :font-family            font-stack
+    :font-family            styling/font-stack
     :font-weight            "500"
     :-webkit-font-smoothing "antialiased"}
    [:textarea
-    {:font-family            font-stack
+    {:font-family            styling/font-stack
      :font-weight            "500"
      :-webkit-font-smoothing "antialiased"}]
    [:button
-    {:font-family            font-stack
+    {:font-family            styling/font-stack
      :font-weight            "500"
      :-webkit-font-smoothing "antialiased"}]]
   [".main-container"

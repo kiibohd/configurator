@@ -2,11 +2,11 @@
   (:require [reagent.core :as r]
             [re-frame.core :as rf]
             [cljs-react-material-ui.reagent :as mui]
+            [kii.ui.styling :as styling]
             [clojure.pprint]
             [clojure.string :as cstr]))
 
 (def max-width "calc(100% - 2em)")
-(def monospace-font-stack "'Share Tech Mono'")
 
 (defn animation-editor [animation]
   (r/with-let [a (r/atom (cstr/join "\n" (:frames animation)))]
@@ -20,7 +20,7 @@
       :rows                 5
       :style                {:display     "block"
                              :width       max-width
-                             :font-family monospace-font-stack}
+                             :font-family styling/monospace-font-stack}
       :textarea-style       {:white-space    "pre"
                              :padding-bottom "1.2em"
                              :overflow-y     "hidden"

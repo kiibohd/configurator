@@ -4,6 +4,7 @@
             [cljs-css-modules.macro :as css]
             [kii.ui.conf.subscriptions]
             [kii.config.core :as config]
+            [kii.ui.styling :as styling]
             [kii.ui.conf.palette :as palette]
             [clojure.pprint]
             [goog.json :as goog-json]
@@ -93,7 +94,7 @@
     :font-size "14px"
     :background "#ECECEC"
     :border (str "1px solid " (:darkgray palette/palette))
-    :font-family "'Share Tech Mono'"}
+    :font-family styling/monospace-font-stack}
    [:&:focus
     {:outline "0"
      }]]

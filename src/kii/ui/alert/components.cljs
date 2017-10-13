@@ -1,6 +1,7 @@
 (ns kii.ui.alert.components
   (:require [re-frame.core :as rf]
-            [cljs-css-modules.macro :refer-macros [defstyle]]))
+            [cljs-css-modules.macro :refer-macros [defstyle]]
+            [kii.ui.styling :as styling]))
 
 (def alert-palette
   {:error   ["#cc0000" "#8b0000"]
@@ -26,7 +27,7 @@
     :margin-right  "10px"
     :margin-bottom "10px"
     :border        "1px solid #bbb"
-    :font-family   "Jura"
+    :font-family   styling/font-stack
     :font-weight   "500"
     :font-size     "15px"
     :position      "relative"
