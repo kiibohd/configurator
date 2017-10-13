@@ -4,7 +4,7 @@
             [cljs-css-modules.macro :refer-macros [defstyle]]
             [kii.ui.conf.palette :as palette]
             [kii.device.keyboard :as keyboard]
-            [kii.ui.conf.keyboard.components :as conf-kbd]
+            [kii.ui.conf.core :as conf]
             [kii.util :as u]))
 
 ;; TODO Merge with other keyboard visualization styles
@@ -69,7 +69,7 @@
 
 (defn keyboard-comp
   [matrix selected-key ui-settings]
-  (let [{:keys [width height]} (conf-kbd/get-size matrix ui-settings)]
+  (let [{:keys [width height]} (conf/get-size matrix ui-settings)]
     [:div
      {:class-name (:backdrop conf-styles)
       :style      {:width        width

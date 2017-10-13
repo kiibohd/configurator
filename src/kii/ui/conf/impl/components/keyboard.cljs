@@ -1,59 +1,55 @@
-(ns kii.ui.conf.keyboard.components
+(ns kii.ui.conf.impl.components.keyboard
   (:require [reagent.core :as r]
             [re-frame.core :as rf]
             [cljs-css-modules.macro :refer-macros [defstyle]]
+            [kii.ui.conf.core :as conf]
             [kii.ui.conf.palette :as palette]
             [kii.device.keyboard :as keyboard]
             [kii.util :as u]))
 
-;;==== Configurator ====;;
-
-;(def backdrop-padding 20)
-
 (defstyle conf-styles
-  [".backdrop"
-   {:background-color (:silver palette/palette)
-    :border-left      "1px solid transparent"
-    :border-right     "1px solid transparent"
-    :border-bottom    "1px solid transparent"
-    ;:padding          (str backdrop-padding "px")
-    }]
-  [".keyboard"
-   {:position    "relative"}]
-  [".key"
-   {:position "absolute"
-    :overflow "hidden"
-    }]
-  [".base"
-   {:background-color (:gray palette/palette)
-    :border           "2px solid transparent"
-    :border-radius    "4px"
-    :margin           "2px"}]
-  [".selected"
-   {:border (str "2px solid " (:red palette/palette) " !important")}
-   ]
-  [".cap"
-   {:background-color (:lightgray palette/palette)
-    :margin           "2px"
-    :margin-bottom    "4px"
-    :display          "flex"
-    :flex-direction   "column"
-    :align-items      "center"
-    :justify-content  "center"
-    }]
-  [".label"
-   {:font-size       "13px"
-    :font-weight     "300"
-    :margin-top      "0.15em"
-    :height          "14px"
-    :flex-direction  "row"
-    :display         "flex"
-    :align-items     "center"
-    :justify-content "center"
-    }
-   [:span
-    {:padding "0 0.25em"}]]
-  )
+          [".backdrop"
+           {:background-color (:silver palette/palette)
+            :border-left      "1px solid transparent"
+            :border-right     "1px solid transparent"
+            :border-bottom    "1px solid transparent"
+            }]
+          [".keyboard"
+           {:position    "relative"}]
+          [".key"
+           {:position "absolute"
+            :overflow "hidden"
+            }]
+          [".base"
+           {:background-color (:gray palette/palette)
+            :border           "2px solid transparent"
+            :border-radius    "4px"
+            :margin           "2px"}]
+          [".selected"
+           {:border (str "2px solid " (:red palette/palette) " !important")}
+           ]
+          [".cap"
+           {:background-color (:lightgray palette/palette)
+            :margin           "2px"
+            :margin-bottom    "4px"
+            :display          "flex"
+            :flex-direction   "column"
+            :align-items      "center"
+            :justify-content  "center"
+            }]
+          [".label"
+           {:font-size       "13px"
+            :font-weight     "300"
+            :margin-top      "0.15em"
+            :height          "14px"
+            :flex-direction  "row"
+            :display         "flex"
+            :align-items     "center"
+            :justify-content "center"
+            }
+           [:span
+            {:padding "0 0.25em"}]]
+          )
 
 ;;==== Key ====;;
 
@@ -115,19 +111,11 @@
      ])
   )
 
-(defn get-size
-  [matrix ui-settings]
-  (let [right-most (apply max-key #(+ (:x %) (:w %)) matrix)
-        bottom-most (apply max-key #(+ (:y %) (:h %)) matrix)
-        sf (:size-factor ui-settings)]
-    {:height (* sf (+ (:y bottom-most) (:h bottom-most)))
-     :width  (* sf (+ (:x right-most) (:w right-most)))}
-    ))
 
 ;;==== Keyboard ====;;
 (defn keyboard-comp
   [active-layer matrix selected-key ui-settings]
-  (let [{:keys [width height]} (get-size matrix ui-settings)]
+  (let [{:keys [width height]} (conf/get-size matrix ui-settings)]
     [:div
      {:class-name (:backdrop conf-styles)
       :style      {:border-color (palette/get-layer-fg active-layer)
@@ -150,4 +138,3 @@
         selected-key (rf/subscribe [:conf/selected-key])
         ui-settings (rf/subscribe [:conf/ui-settings])]
     (keyboard-comp @active-layer @matrix @selected-key @ui-settings)))
-

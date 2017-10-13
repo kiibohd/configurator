@@ -2,7 +2,6 @@
   (:require [reagent.core :as r]
             [re-frame.core :as rf]
             [kii.ui.conf.actions.components]
-            [kii.ui.conf.keyboard.components]
             [kii.ui.conf.layer-select.components]
             [kii.ui.conf.mode-select.components]
             [kii.ui.conf.key-group.components]
@@ -10,6 +9,7 @@
             [kii.ui.conf.config-tabs.components]
             [kii.ui.conf.animation-visualize.components]
             [kii.ui.conf.custom-animation.components]
+            [kii.ui.conf.impl.components.keyboard :refer [keyboard]]
             [kii.ui.conf.impl.components.config-visuals :refer [config-visuals]]))
 
 (defn main-comp [active-tab mode]
@@ -19,7 +19,7 @@
    (cond
      (= mode :keymap) [:div
                        [kii.ui.conf.layer-select.components/layer-tabs]
-                       [kii.ui.conf.keyboard.components/keyboard]
+                       [keyboard]
                        [:div
                         [kii.ui.conf.config-tabs.components/config-tabs
                          [{:id   :keys

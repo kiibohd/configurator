@@ -2,10 +2,9 @@
   (:require [re-frame.core :as rf]
             [kii.ui.conf.key-group.subscriptions]
             [kii.ui.conf.actions.subscriptions]
-            [kii.ui.conf.keyboard.subscriptions]
             [kii.ui.conf.layer-select.subscriptions]
-            [kii.ui.conf.config-tabs.subscriptions]
-            [kii.ui.conf.custom-kll.subscriptions]))
+            [kii.ui.conf.custom-kll.subscriptions]
+            [kii.ui.conf.core :as conf]))
 
 (defn get-cfg
   [db _]
@@ -62,6 +61,10 @@
 
 (rf/reg-sub :conf/ui-settings get-ui-settings)
 
+
+(rf/reg-sub :conf/active-config-tab conf/get-active-config-tab)
+
+(rf/reg-sub :conf/selected-key conf/get-selected-key)
 
 ;; === Animation === ;;
 (defn get-animations

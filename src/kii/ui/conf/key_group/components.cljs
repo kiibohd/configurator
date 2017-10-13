@@ -3,8 +3,9 @@
             [re-frame.core :as rf]
             [cljs-css-modules.macro :refer-macros [defstyle]]
             [kii.keys.firmware.map :as fw]
+            [kii.ui.conf.core :as conf]
             [kii.ui.conf.palette :as palette]
-            [kii.ui.conf.keyboard.components :as comp-kbd]
+            [kii.ui.conf.impl.components.keyboard :as keeb]
             [kii.util :as u]
             [kii.ui.util :as uiu]
             [kii.keys.core :as keys]
@@ -35,7 +36,7 @@
   (let [label1 (:label1 data)
         label2 (:label2 data)]
     [:div
-     {:class (:label comp-kbd/conf-styles)
+     {:class (:label keeb/conf-styles)
       :style (:style data)}
      [:span
       {:class "fg-layer-0"}
@@ -53,12 +54,12 @@
         ksize (* sf 4)]
     [:div
      {:key   name
-      :class (:key comp-kbd/conf-styles)
+      :class (:key keeb/conf-styles)
       :style {:width    ksize
               :height   ksize
               :position "relative"}}
      [:div
-      {:class    (:base comp-kbd/conf-styles)
+      {:class    (:base keeb/conf-styles)
        :style    {:width  (- ksize 6)
                   :height (- ksize 6)}
        :on-click #(do
@@ -68,7 +69,7 @@
        }
       (let [mapped (name (keys/key->iec))]
         [:div
-         {:class (:cap comp-kbd/conf-styles)
+         {:class (:cap keeb/conf-styles)
           :style {:width  (- ksize 10)
                   :height (- ksize 12)}}
          (label-comp {:label1 (:label2 mapped) :style (:style key)})
@@ -106,7 +107,7 @@
 (defn key-groups []
   (let [matrix (rf/subscribe [:conf/matrix])
         ui-settings (rf/subscribe [:conf/ui-settings])
-        width (:width (comp-kbd/get-size @matrix @ui-settings))]
+        width (:width (conf/get-size @matrix @ui-settings))]
     #_[:div {:style {:width      width
                    :margin-top "15px"}}
      [:div {:style {:border       "1px solid black"

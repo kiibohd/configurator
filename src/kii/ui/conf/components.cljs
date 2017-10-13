@@ -1,10 +1,9 @@
 (ns kii.ui.conf.components
   (:require [kii.ui.conf.impl.components.main]
             [kii.ui.conf.impl.components.assign-visuals]
-
-    ;; TODO -- Move these to impl.components
+            [kii.ui.conf.impl.components.keyboard]
+            ;; TODO -- Move these to impl.components
             [kii.ui.conf.actions.components]
-            [kii.ui.conf.keyboard.components]
             [kii.ui.conf.layer-select.components]
             [kii.ui.conf.mode-select.components]
             [kii.ui.conf.key-group.components]
@@ -15,3 +14,5 @@
             ))
 
 (def main #'kii.ui.conf.impl.components.main/main)
+
+(def keyboard #'kii.ui.conf.impl.components.keyboard/keyboard)

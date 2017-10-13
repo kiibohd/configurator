@@ -8,6 +8,7 @@
             [ajax.core :as ajax]
             [clojure.pprint]
             [clojure.string]
+            [kii.ui.conf.core :as conf]
             [kii.ui.conf.key-group.handlers]
             [kii.ui.conf.actions.handlers]
             [kii.ui.conf.keyboard.handlers]
@@ -16,7 +17,7 @@
             [kii.ui.conf.custom-kll.handlers]
             [kii.ui.conf.subscriptions :as conf-sub]
             [kii.ui.conf.layer-select.subscriptions :as ls-sub]
-            [kii.ui.conf.keyboard.subscriptions :as sub]))
+            ))
 
 (def default-conf
   {:mode         :keymap
@@ -99,7 +100,7 @@
 
 (defn modify-selected-key
   [f db]
-  (if-let [selected-key (sub/get-selected-key db nil)]
+  (if-let [selected-key (conf/get-selected-key db)]
     (let [matrix (conf-sub/get-matrix db nil)
           active-layer (keyword (str (ls-sub/get-active-layer db nil)))
           new-key (f selected-key)
