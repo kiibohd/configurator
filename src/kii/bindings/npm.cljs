@@ -1,3 +1,3 @@
 (ns kii.bindings.npm)
 
-(defonce usb (js/require "usb"))
+(defonce usb (js/require "@kiibohd/usb"))
