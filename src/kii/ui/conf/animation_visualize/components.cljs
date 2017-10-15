@@ -1,93 +1,113 @@
 (ns kii.ui.conf.animation-visualize.components
   (:require [reagent.core :as r]
-            [re-frame.core :as rf]
+            [kii.ui.re-frame :refer [<<= <== =>> >=>]]
             [cljs-css-modules.macro :refer-macros [defstyle]]
             [kii.ui.conf.palette :as palette]
             [kii.device.keyboard :as keyboard]
             [kii.ui.conf.core :as conf]
-            [kii.util :as u]))
-
-;; TODO Merge with other keyboard visualization styles
-(defstyle conf-styles
+            [kii.util :as u]
+            [clojure.pprint]
+            [cuerdas.core :as str])
+  )
+(defstyle css
   [".backdrop"
-   {:background-color (:silver palette/palette)
-    :border "1px solid black" }]
+   {:background-color (:lightgray palette/palette)
+    :border           "1px solid black"}]
   [".keyboard"
-   {:position    "relative"}]
+   {:position "relative"}]
   [".key"
    {:position "absolute"
     :overflow "hidden"
     }]
-  [".base"
-   {:background-color (:gray palette/palette)
-    :border           "2px solid transparent"
-    :border-radius    "4px"
-    :margin           "2px"}]
   [".selected"
-   {:border (str "2px solid " (:red palette/palette) " !important")}
-   ]
-  [".cap"
-   {:background-color (:lightgray palette/palette)
-    :margin           "2px"
-    :margin-bottom    "4px"
-    :display          "flex"
-    :flex-direction   "column"
-    :align-items      "center"
-    :justify-content  "center"
-    }]
+   {:border-color (str/fmt "$red !important" palette/palette)}]
+  [".led"
+   {:position         "absolute"
+    :overflow         "hidden"
+    :background-color (:lightgray palette/palette)
+    :border           (str/fmt "2px solid $darkgray" palette/palette)
+    :border-radius    "2px"}]
+  [".base"
+   {;:background-color (:lightgray palette/palette)
+    :border        (str/fmt "1px solid $gray" palette/palette)
+    :border-radius "2px"
+    :margin        "2px"}]
   )
 
-(defn key-comp
-  [key selected-key ui-settings]
-  (let [board (or (:board key) 0)
-        code (:code key)
-        sf (:size-factor ui-settings)
-        csf (:cap-size-factor ui-settings)
-        selected? (= key selected-key)]
+
+(defn keycap
+  [key ui-settings]
+  (let [sf (:size-factor ui-settings)]
     [:div
-     {:key        (str board "-" code)
-      :class-name (:key conf-styles)
-      :style      {:left   (* sf (:x key))
-                   :top    (* sf (:y key))
-                   :width  (* sf (:w key))
-                   :height (* sf (:h key))}}
+     {:class (:key css)
+      :style {:left   (* sf (:x key))
+              :top    (* sf (:y key))
+              :width  (* sf (:w key))
+              :height (* sf (:h key))}}
      [:div
-      {:class-name (str (:base conf-styles) " "
-                        (if selected? (:selected conf-styles)))
-       :style      {:width  (- (* sf (:w key)) 6)
-                    :height (- (* sf (:h key)) 6)}
-       :on-click   #(do
-                      (.stopPropagation %)
-                      (rf/dispatch [:set-selected-key (if selected? nil key)]))}
-      [:div
-       {:class-name (:cap conf-styles)
-        :style      {:width  (- (* sf (:w key)) 10)
-                     :height (- (* sf (:h key)) 12)}}
-       ]]
+      {:class (:base css)
+       :style {:width  (- (* sf (:w key)) 6)
+               :height (- (* sf (:h key)) 6)}
+       }
+      ]
      ])
   )
 
-(defn keyboard-comp
-  [matrix selected-key ui-settings]
-  (let [{:keys [width height]} (conf/get-size matrix ui-settings)]
+(defn- led-style
+  [status]
+  (if (nil? status)
+    {:border-style "dashed"}
+    {:border-style     "solid"
+     :background-color (str/fmt "rgb($r, $g, $b)" (:color status))}))
+
+(defn led
+  [item status selected? on-click]
+  (let [cnv 0.20997375328084 ;; map 19.05mm => 4x4
+        csf (<<= [:conf/ui-setting :size-factor])
+        sf (<<= [:conf/ui-setting :led-factor])
+        scale #(+ (* 2 csf) (* csf (* % cnv)))]
     [:div
-     {:class-name (:backdrop conf-styles)
-      :style      {:width        width
-                   :height       height
-                   :padding      (str (:backdrop-padding ui-settings) "px")}
-      :on-click   #(if-not (nil? selected-key)
-                     (rf/dispatch [:set-selected-key nil]))}
-     [:div
-      {:class-name (:keyboard conf-styles)
-       :style      {:width  width
-                    :height height}}
-      (map #(key-comp % selected-key ui-settings) matrix)]
-     ])
+     {:class    (str/fmt "%s %s" (:led css) (if selected? (:selected css) ""))
+      :style    (merge {:z-index " 2"
+                        :left    (- (scale (:x item)) (/ sf 2))
+                        :top     (- (scale (:y item)) (/ sf 2))
+                        :width   sf
+                        :height  sf}
+                       (led-style status))
+      :on-click #(do (.stopPropagation %) (on-click item %))
+      }]
+    )
   )
 
-(defn keyboard
+(defn visualizer
   []
-  (let [matrix (rf/subscribe [:conf/matrix])
-        selected-key (rf/subscribe [:conf/selected-key])
-        ui-settings (rf/subscribe [:conf/ui-settings])]
-    [keyboard-comp @matrix @selected-key @ui-settings]))
+  (let [matrix (<<= [:conf/matrix])
+        leds (<<= [:conf/leds])
+        ui-settings (<<= [:conf/ui-settings])
+        selected-leds (<<= [:conf/selected-leds])
+        led-statuses (<<= [:conf/led-all-statuses])
+        on-click (fn [l e]
+                   (=>> [:conf/set-selected-leds l (if (.-shiftKey e) :append :overwrite)])
+                   )]
+    (let [{:keys [width height]} (conf/get-size matrix ui-settings)]
+      [:div
+       {:class    (:backdrop css)
+        :style    {:width   width
+                   :height  height
+                   :padding (str/fmt "%(backdrop-padding)spx" ui-settings)}
+        :on-click #(when (not (.-shiftKey %1))
+                     (=>> [:conf/set-selected-leds [] :overwrite]))}
+       [:div
+        {:class (:keyboard css)
+         :style {:width  width
+                 :height height}}
+        (for [key matrix]
+          ^{:key (str/fmt "$board - $code" key)}
+          [keycap key ui-settings])
+        (for [{id :id :as x} leds]
+          ^{:key id}
+          [led x (get led-statuses id) (contains? selected-leds id) on-click])
+        ]
+       ])
+    )
+  )

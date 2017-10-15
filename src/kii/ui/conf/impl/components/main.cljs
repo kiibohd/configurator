@@ -10,7 +10,8 @@
             [kii.ui.conf.animation-visualize.components]
             [kii.ui.conf.custom-animation.components]
             [kii.ui.conf.impl.components.keyboard :refer [keyboard]]
-            [kii.ui.conf.impl.components.config-visuals :refer [config-visuals]]))
+            [kii.ui.conf.impl.components.config-visuals :refer [config-visuals]]
+            [kii.ui.conf.impl.components.static-colors :refer [static-colors]]))
 
 (defn main-comp [active-tab mode]
   [:div
@@ -39,12 +40,15 @@
                            :tab  kii.ui.conf.custom-kll.components/custom-kll}]]]]
      (= mode :visuals) [:div {:style {:clear "both"}}
                         [:div {:style {:height "36px"}}]
-                        [kii.ui.conf.animation-visualize.components/keyboard]
+                        [kii.ui.conf.animation-visualize.components/visualizer]
                         [:div
                          [kii.ui.conf.config-tabs.components/config-tabs
                           [{:id   :custom-animation
                             :icon "code"
                             :tab  kii.ui.conf.custom-animation.components/custom-animation}
+                           {:id   :static-leds
+                            :icon "color_lens"
+                            :tab static-colors}
                            ]]]]
      :else [:div])
    ]

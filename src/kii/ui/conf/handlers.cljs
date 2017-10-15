@@ -24,7 +24,8 @@
    :active-layer 0
    :ui-settings  {:backdrop-padding 20
                   :size-factor      16
-                  :cap-size-factor  13}})
+                  :cap-size-factor  13
+                  :led-factor       17}})
 
 ;; === Navigation === ;;
 (defn nav-home
@@ -74,6 +75,24 @@
                        (fn [v] (filterv #(not= (:id %) id) v)))]
     db'))
 (rf/reg-event-db :defines/remove remove-define)
+
+;; === LEDs === ;;
+
+(rf/reg-event-db :conf/set-led-status
+  (fn [db [_ values action]]
+    (case action
+      :append    (update-in db conf/led-status #(merge % values))
+      :overwrite (assoc-in db conf/led-status values)
+      db)))
+
+(rf/reg-event-db :conf/set-selected-leds
+  (fn [db [_ values action]]
+    (let [leds (into {} (for [v (if (vector? values) values [values])]
+                          [(:id v) v]))]
+      (case action
+        :append (update-in db conf/selected-leds-path #(merge % leds))
+        :overwrite (assoc-in db conf/selected-leds-path leds)
+        db))))
 
 ;; === Animations === ;;
 

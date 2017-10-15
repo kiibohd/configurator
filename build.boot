@@ -37,6 +37,9 @@
     [cljs-css-modules "0.2.1"]
     [cljs-ajax "0.5.8"]
     [camel-snake-kebab "0.4.0"]
+    [cljsjs/tinycolor "1.3.0-0"]
+    [cljsjs/react-color "2.13.1-0"]
+    [funcool/cuerdas "2.0.4"]
     ]
   :source-paths #{"src"}
   ;;:asset-paths #{"assets"}
@@ -82,6 +85,11 @@
            ;; Compile renderer =========================================
            (cljs :ids #{"renderer"}
                  :compiler-options {:closure-defines {'kii.env/dev? true}
+                                    ;:npm-deps {:react "15.6.1"
+                                    ;           :tinycolor2 "1.3.0"
+                                    ;           :react-color "2.13.8"}
+                                    ;:install-deps true
+                                    :output-wrapper true
                                     ; There's a little funny business going on with exporting other ns vars
                                     ;  to reduce the proliferation of imports for small components so the
                                     ;  order of ns import is very important for dev builds and parallel builds

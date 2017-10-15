@@ -1,5 +1,6 @@
 (ns kii.ui.startup
   (:require [cljsjs.material-ui]  ;; Needs to load before react/reagent
+            [cljsjs.react]
             [reagent.core :as r]
             [re-frame.core :as rf]
             [kii.ui.core]

@@ -34,3 +34,8 @@
     (gstring/unescapeEntities s)
     s))
 
+(defn str->int
+  "Parse a string into an integer"
+  [s]
+  (js/parseInt s))
+

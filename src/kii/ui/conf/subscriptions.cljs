@@ -61,10 +61,29 @@
 
 (rf/reg-sub :conf/ui-settings get-ui-settings)
 
+(rf/reg-sub :conf/ui-setting
+  :<- [:conf/ui-settings]
+  (fn [settings [_ setting]]
+    (get settings setting)))
+
 
 (rf/reg-sub :conf/active-config-tab conf/get-active-config-tab)
 
 (rf/reg-sub :conf/selected-key conf/get-selected-key)
+
+(rf/reg-sub :conf/leds #(get-in % conf/leds-path))
+
+(rf/reg-sub :conf/led-all-statuses
+  :<- [:conf]
+  (fn [conf [_ id]]
+    (or (:led-status conf) {})))
+
+(rf/reg-sub :conf/led-status
+  :<- [:conf/led-all-statuses]
+  (fn [statuses [_ id]]
+    (get statuses :led-status)))
+
+(rf/reg-sub :conf/selected-leds #(or (get-in % conf/selected-leds-path) {}))
 
 ;; === Animation === ;;
 (defn get-animations

@@ -10,6 +10,12 @@
      :width  (* sf (+ (:x right-most) (:w right-most)))}
     ))
 
+(def leds-path [:conf :kll :leds])
+
+(def led-status [:conf :led-status])
+
+(def selected-leds-path [:conf :selected-leds])
+
 (defn get-selected-key
   [db]
   (-> db :conf :selected-key))
