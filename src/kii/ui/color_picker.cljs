@@ -1,13 +1,12 @@
 (ns kii.ui.color-picker
   (:require [reagent.core :as r]
             [reagent.impl.template]
-            [reagent.interop :refer-macros [$ $!]])
-  )
+            [reagent.interop :refer-macros [$ $!]]))
 
 ;; This is an ugly nasty hack and should be removed when i have time
 ;;  to debug why the cljsjs.react-color package fails to load properly
 ;; Currently cljsjsj.color-picker fails to be able to require `tinycolor`
-;;  The work around is to include `color-picker` in the `resources/packages.json`
+;;  The work around is to include `color-picker` in the `npm-deps` section
 (def react-color (js/require "react-color"))
 
 (def alpha (r/adapt-react-class (aget react-color "AlphaPicker")))

@@ -198,11 +198,13 @@
   (fn [cofx [_ response]]
     (let [db (:db cofx)
           cfg (or (:conf db) {})
-          config (config/normalize response)]
-      (do
-        {:db (assoc db :conf
-                       (merge cfg
-                              default-conf
-                              {:loaded? true
-                               :kll config
-                               :orig-kll config}))}))))
+          config (config/normalize response)
+          cfg (merge {:canned (:canned response)} cfg)]
+      (clojure.pprint/pprint cfg)
+      {:db (assoc db :conf
+                     (merge cfg
+                            default-conf
+                            {:loaded?  true
+                             :kll      config
+                             :orig-kll config
+                             }))})))

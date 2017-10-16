@@ -85,6 +85,11 @@
 
 (rf/reg-sub :conf/selected-leds #(or (get-in % conf/selected-leds-path) {}))
 
+(rf/reg-sub :conf/canned
+  :<- [:conf]
+  (fn [conf _]
+    (or (:canned conf) {})))
+
 ;; === Animation === ;;
 (defn get-animations
   [db _]

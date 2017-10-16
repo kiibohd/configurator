@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "electron-dl": "^1.7.0",
-    "@kiibohd/usb": "^1.2.2b",
-    "react-color": "^2.13.8"
+    "@kiibohd/usb": "^1.2.2b"
   }
 }

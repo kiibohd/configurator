@@ -36,7 +36,7 @@
      {:floating-label-text "settings"
       :default-value       @a
       :disabled            (nil? animation)
-      :on-change           (fn [_ val] (do) (reset! a val))
+      :on-change           (fn [_ val] (reset! a val))
       :on-blur             #(rf/dispatch-sync [:conf/partial-update-animation {:settings @a}])
       :style               {:display "block"
                             :width max-width}
