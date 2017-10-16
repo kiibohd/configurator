@@ -3,16 +3,16 @@
 image: Visual Studio 2015
 
 
+# Environment Variables
 environment:
+  PACKAGE_NAME: kiibohd-configurator
   matrix:
-    - nodejs_version: "7"
-      GYP_MSVS_VERSION: 2015
-      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-
-
-platform:
-  - x64
-  - x86
+    - platform: x86
+      PACKAGE_OS: win32
+      nodejs_version: "7"
+    - platform: x64
+      PACKAGE_OS: win64
+      nodejs_version: "7"
 
 
 configuration:
@@ -46,9 +46,36 @@ install:
 build_script:
   - boot prod-build
 
+  # Example deployment file
+  - mkdir -p output
+  - touch output/%PACKAGE_NAME%-%APPVEYOR_REPO_TAG_NAME%-%PACKAGE_OS%.tmp
+
+
+# Deployment Artifacts
+artifacts:
+  - path: output\%PACKAGE_NAME%-%APPVEYOR_REPO_TAG_NAME%-%PACKAGE_OS%.tmp
+    name: tmp_artifact
+
+
+# Deployment (tagged releases only)
+deploy:
+  # GitHub Releases
+  - provider: GitHub
+    auth_token:
+      secure: vsCcKfR71BF5WWBmtzNzowpU96iPjuF3cD7yBdEySG0ku2svWAJRgdSj9je/He35
+    draft: true
+    prerelease: true
+    description: 'Electron-based UI for configuring programmable keyboards designed by Input Club'
+    artifact: tmp_artifact
+    # Conditions for uploading release
+    on:
+      appveyor_repo_tag: true
+
 
 # Post Build Commands
 on_finish:
-  - cd target
+  - cd output
+  - Tree /F
+  - cd ../target
   - Tree /F
 

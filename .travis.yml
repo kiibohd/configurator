@@ -4,11 +4,6 @@ sudo:
   - false
 
 
-os:
-  - linux
-  - osx
-
-
 language:
   - node_js
 
@@ -24,6 +19,23 @@ addons:
 # Versions of node.js to test
 node_js:
   - "7"
+
+
+# Specific Environment Variables
+matrix:
+  include:
+  - os: linux
+    env:
+      - PACKAGE_OS=linux64
+      - PACKAGE_NAME=kiibohd-configurator
+      - PACKAGE_VERSION=$TRAVIS_TAG
+      - PACKAGE_FULLNAME=$PACKAGE_NAME-$PACKAGE_VERSION
+  - os: osx
+    env:
+      - PACKAGE_OS=macOS
+      - PACKAGE_NAME=kiibohd-configurator
+      - PACKAGE_VERSION=$TRAVIS_TAG
+      - PACKAGE_FULLNAME=$PACKAGE_NAME-$PACKAGE_VERSION
 
 
 # Package Setup
@@ -53,13 +65,32 @@ install:
   - npm run res-install
 
 
-# Build permutations
+# Build and packaging
 script:
   # Build clojure target
   - ./boot prod-build
 
+  # Example deployment file
+  - mkdir -p output
+  - touch output/$PACKAGE_FULLNAME-$PACKAGE_OS.tmp
+
+
+# Deploy release
+deploy:
+  provider: releases
+  api_key: $GITHUB_OAUTH_TOKEN
+  skip_cleanup: true
+  draft: true # XXX Must "publish" on github
+  prerelease: true # XXX Set this to false to enable a stable release
+  file_glob: true
+  file: output/*
+  on:
+    tags: true
+    repo: kiibohd/configurator
+
 
 # Post test script commands
 after_script:
+  - tree output
   - tree target
 
