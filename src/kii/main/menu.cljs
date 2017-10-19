@@ -80,7 +80,7 @@
 
 (defn build-menu
   [window]
-  (let [view-key (if env/dev? :view/dev :view/rel)
+  (let [view-key :view/dev #_(if env/dev? :view/dev :view/rel)
         menu-keys (if (= "darwin" js/process.platform)
                    [:about :edit/dar view-key :win/dar :help]
                    [:file :edit view-key :win :help])

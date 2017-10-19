@@ -6,6 +6,7 @@
   "keywords": [],
   "devDependencies": {
     "electron": "1.4.14",
+    "electron-packager": "^9.1.0",
     "electron-rebuild": "1.6.0"
   },
   "author": "Jeremy Bondeson",

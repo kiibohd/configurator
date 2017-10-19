@@ -60,8 +60,13 @@
               :optimizations :simple)
         (cljs :ids #{"renderer"}
               ;; TODO -Some odd munging happening in advanced mode.
-              :optimizations :simple                        ;:advanced
-              :compiler-options {:load-tests false})
+              :optimizations :none                        ;:advanced
+              :compiler-options {:load-tests false
+                                 :npm-deps        {:react       "15.6.1"
+                                                   ;           :tinycolor2 "1.3.0"
+                                                   :react-color "2.13.8"}
+                                 :install-deps    true
+                                 })
         (target :dir #{"target"})))
 
 (def devtools-config
