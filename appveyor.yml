@@ -10,9 +10,11 @@ environment:
     - platform: x86
       PACKAGE_OS: win32
       nodejs_version: "7"
+      ARCH: ia32
     - platform: x64
-      PACKAGE_OS: win64
+      PACKAGE_OS: win32
       nodejs_version: "7"
+      ARCH: x64
 
 
 configuration:
@@ -37,7 +39,7 @@ install:
   - boot -V
 
   # Install electron and dependencies
-  - npm install electron electron-rebuild --save-dev --save-exact
+  - npm install
   - npm install -g node-pre-gyp
   - npm run res-install
 
@@ -49,6 +51,9 @@ build_script:
   # Example deployment file
   - mkdir -p output
   - touch output/%PACKAGE_NAME%-%APPVEYOR_REPO_TAG_NAME%-%PACKAGE_OS%.tmp
+
+  # Build electron binary
+  - ./node_modules/.bin/electron-packager target --platform=%PACKAGE_OS% --arch=%ARCH%
 
 
 # Deployment Artifacts
@@ -75,7 +80,5 @@ deploy:
 # Post Build Commands
 on_finish:
   - cd output
-  - Tree /F
-  - cd ../target
   - Tree /F
 

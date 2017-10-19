@@ -30,12 +30,16 @@ matrix:
       - PACKAGE_NAME=kiibohd-configurator
       - PACKAGE_VERSION=$TRAVIS_TAG
       - PACKAGE_FULLNAME=$PACKAGE_NAME-$PACKAGE_VERSION
+      - PLATFORM=linux
+      - ARCH=x64
   - os: osx
     env:
       - PACKAGE_OS=macOS
       - PACKAGE_NAME=kiibohd-configurator
       - PACKAGE_VERSION=$TRAVIS_TAG
       - PACKAGE_FULLNAME=$PACKAGE_NAME-$PACKAGE_VERSION
+      - PLATFORM=darwin
+      - ARCH=x64
 
 
 # Package Setup
@@ -61,7 +65,7 @@ install:
   - ./boot -V
 
   # Install electron and dependencies
-  - npm install electron electron-rebuild --save-dev --save-exact
+  - npm install
   - npm run res-install
 
 
@@ -73,6 +77,9 @@ script:
   # Example deployment file
   - mkdir -p output
   - touch output/$PACKAGE_FULLNAME-$PACKAGE_OS.tmp
+
+  # Build electron binary
+  - ./node_modules/.bin/electron-packager target --platform=$PLATFORM --arch=$ARCH
 
 
 # Deploy release
@@ -92,5 +99,4 @@ deploy:
 # Post test script commands
 after_script:
   - tree output
-  - tree target
 
