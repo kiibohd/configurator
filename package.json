@@ -5,7 +5,7 @@
   "description": "Configuration utility for Input Club keyboards",
   "keywords": [],
   "devDependencies": {
-    "electron": "1.4.14",
+    "electron": "1.7.9",
     "electron-packager": "^9.1.0",
     "electron-rebuild": "1.6.0"
   },

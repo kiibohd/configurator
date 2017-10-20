@@ -11,7 +11,7 @@
     "url": "https://github.com/kiibohd/configurator"
   },
   "dependencies": {
-    "electron-dl": "^1.7.0",
+    "electron-dl": "^1.10.0",
     "@kiibohd/usb": "^1.2.2b",
     "react": "15.6.1",
     "react-color": "2.13.8"
