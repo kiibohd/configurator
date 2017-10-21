@@ -53,7 +53,7 @@ build_script:
   - touch output/%PACKAGE_NAME%-%APPVEYOR_REPO_TAG_NAME%-%PACKAGE_OS%.tmp
 
   # Build electron binary
-  - ./node_modules/.bin/electron-packager target --platform=%PACKAGE_OS% --arch=%ARCH%
+  - ./node_modules/.bin/electron-packager target --out=ouput/%PACKAGE_NAME%-%APPVEYOR_REPO_TAG_NAME%-%PACKAGE_OS%.tmp --platform=%PACKAGE_OS% --arch=%ARCH%
 
 
 # Deployment Artifacts
