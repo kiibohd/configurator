@@ -27,6 +27,7 @@ matrix:
   - os: linux
     env:
       - PACKAGE_OS=linux64
+      - OUTPUT_BASE=Configurator
       - PACKAGE_NAME=kiibohd-configurator
       - PACKAGE_VERSION=$TRAVIS_TAG
       - PACKAGE_FULLNAME=$PACKAGE_NAME-$PACKAGE_VERSION
@@ -35,12 +36,17 @@ matrix:
   - os: osx
     env:
       - PACKAGE_OS=macOS
+      - OUTPUT_BASE=Configurator
       - PACKAGE_NAME=kiibohd-configurator
       - PACKAGE_VERSION=$TRAVIS_TAG
       - PACKAGE_FULLNAME=$PACKAGE_NAME-$PACKAGE_VERSION
       - PLATFORM=darwin
       - ARCH=x64
 
+cache:
+  directories:
+  - node_modules
+  - $HOME/.m2
 
 # Package Setup
 before_install:
@@ -53,8 +59,8 @@ install:
   # Info about OS
   - uname -a
 
-  # Directory tree to validate configurator.git
-  - tree
+#  # Directory tree to validate configurator.git
+#  - tree
 
   # Get version of node.js
   - npm --version
@@ -76,10 +82,9 @@ script:
 
   # Example deployment file
   - mkdir -p output
-  - touch output/$PACKAGE_FULLNAME-$PACKAGE_OS.tmp
 
   # Build electron binary
-  - ./node_modules/.bin/electron-packager target --out=output/%PACKAGE_NAME%-%APPVEYOR_REPO_TAG_NAME%-%PACKAGE_OS%.tmp --platform=$PLATFORM --arch=$ARCH
+  - ./node_modules/.bin/electron-packager target --out=output --platform=$PLATFORM --arch=$ARCH
 
 
 # Deploy release
@@ -90,13 +95,13 @@ deploy:
   draft: true # XXX Must "publish" on github
   prerelease: true # XXX Set this to false to enable a stable release
   file_glob: true
-  file: output/*
+  file: output/$OUTPUT_BASE-$PLATFORM-$ARCH/*
   on:
     tags: true
     repo: kiibohd/configurator
 
 
-# Post test script commands
-after_script:
-  - tree output
+## Post test script commands
+#after_script:
+#  - tree output
 
