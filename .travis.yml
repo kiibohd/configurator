@@ -79,7 +79,7 @@ script:
   - touch output/$PACKAGE_FULLNAME-$PACKAGE_OS.tmp
 
   # Build electron binary
-  - ./node_modules/.bin/electron-packager target --output/%PACKAGE_NAME%-%APPVEYOR_REPO_TAG_NAME%-%PACKAGE_OS%.tmp --platform=$PLATFORM --arch=$ARCH
+  - ./node_modules/.bin/electron-packager target --out=output/%PACKAGE_NAME%-%APPVEYOR_REPO_TAG_NAME%-%PACKAGE_OS%.tmp --platform=$PLATFORM --arch=$ARCH
 
 
 # Deploy release
