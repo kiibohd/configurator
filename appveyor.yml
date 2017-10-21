@@ -57,11 +57,12 @@ build_script:
 
   # Build electron binary
   - ./node_modules/.bin/electron-packager target --out=output --platform=%PACKAGE_OS% --arch=%ARCH%
+  - 7z a output/%OUTPUT_BASE%-%PACKAGE_OS%-%ARCH%.zip ./output/%OUTPUT_BASE%-%PACKAGE_OS%-%ARCH%/*
 
 # Deployment Artifacts
 artifacts:
-  - path: output\%OUTPUT_BASE%-%PACKAGE_OS%-%ARCH%
-    name: %PACKAGE_NAME%-%PACKAGE_OS%-%ARCH%
+  - path: output\%OUTPUT_BASE%-%PACKAGE_OS%-%ARCH%.zip
+    name: build_artifact
 
 
 # Deployment (tagged releases only)
@@ -73,7 +74,7 @@ deploy:
     draft: true
     prerelease: true
     description: 'Electron-based UI for configuring programmable keyboards designed by Input Club'
-    artifact: %PACKAGE_NAME%-%PACKAGE_OS%-%ARCH%
+    artifact: build_artifact
     # Conditions for uploading release
     on:
       appveyor_repo_tag: true
