@@ -16,7 +16,8 @@
   (reset! main-window (electron/BrowserWindow.
                         (clj->js
                           {:width  1280
-                           :height 920})))
+                           :height 920
+                           :icon (str (.getAppPath electron/app) "/img/ic-logo-64x64.png")})))
   (load-page @main-window)
   (menu/build-menu @main-window)
   (if env/dev? (.openDevTools @main-window))

@@ -3,6 +3,7 @@
             [kii.ui.re-frame :refer [<<= <== =>> >=>]]
             [cljs-react-material-ui.reagent :as mui]
             [cuerdas.core :as str]
+            [cljs.pprint]
             [kii.ui.color-picker :as color-picker]))
 
 ;;TODO - Don't allow overwrite of same animation.

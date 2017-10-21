@@ -1,22 +1,66 @@
 {
-  "name": "configurator",
-  "productName": "I:C Configurator",
+  "name": "kiibohd-configurator",
+  "productName": "Kiibohd Configurator",
   "version": "0.1.0",
   "description": "Configuration utility for Input Club keyboards",
   "keywords": [],
   "devDependencies": {
     "electron": "1.7.9",
-    "electron-packager": "^9.1.0",
-    "electron-rebuild": "1.6.0"
+    "electron-builder": "^19.37.2"
   },
-  "author": "Jeremy Bondeson",
+  "author": "Jeremy Bondeson <jbondeson@gmail.com> (https://input.club)",
   "license": "GPL-3.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/kiibohd/configurator"
   },
   "scripts": {
-    "res-install": "npm install resources --prefix resources && electron-rebuild -f -m resources/",
-    "dev-watch": "boot watch dev-build"
+    "preinstall": "boot target",
+    "postinstall": "electron-builder install-app-deps",
+    "dev-watch": "boot watch dev-build",
+    "package": "build"
+  },
+  "build": {
+    "artifactName": "${name}-${version}-${os}-${arch}.${ext}",
+    "buildDependenciesFromSource": true,
+    "productName": "Kiibohd Configurator",
+    "appId": "club.input.KiibohdConfigurator",
+    "asar": true,
+    "nodeGypRebuild": false,
+    "npmRebuild": true,
+    "mac": {
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "identity": null,
+      "icon": "icons/icon.icns"
+    },
+    "win": {
+      "icon": "build/icons/icon.ico",
+      "target": [
+        "nsis",
+        "zip"
+      ]
+    },
+    "linux": {
+      "target": [
+        "deb",
+        "tar.gz"
+      ],
+      "executableName": "kiibohd-configurator",
+      "vendor": "Input Club",
+      "category": "Utility"
+    },
+    "directories": {
+      "buildResources": "build",
+      "app": "target",
+      "output": "output"
+    }
+  },
+  "dependencies": {
+    "@cljs-oss/module-deps": "^1.1.1",
+    "react": "^15.6.1",
+    "react-color": "^2.13.8"
   }
 }
