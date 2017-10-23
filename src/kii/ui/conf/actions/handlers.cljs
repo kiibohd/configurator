@@ -58,8 +58,9 @@
 (rf/reg-event-fx
   :download-complete
   (fn [{:keys [db]} [_ {:keys [status path error]}]]
-    (do
-      (case status
-        "success" {:dispatch [:alert/add {:type :success :msg (str "Completed download: " path)}]}
-        "error" {:dispatch [:alert/add {:type :error :msg "Failed to download"}]}))
+    (case status
+      "success" {:dispatch [:alert/add {:type :success :msg (str "Completed download: " path)}]}
+      "error" (do
+                (logf :error "Failed to download file %s" error)
+                {:dispatch [:alert/add {:type :error :msg "Failed to download"}]}))
     ))

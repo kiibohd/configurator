@@ -41,6 +41,7 @@
    [cljsjs/react-color "2.13.1-0"]
    [funcool/cuerdas "2.0.4"]
    [com.taoensso/timbre "4.10.0"]
+   [cljsjs/chroma "1.1.1-0"]
    ]
  :source-paths #{"src"}
  ;;:asset-paths #{"assets"}

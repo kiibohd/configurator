@@ -1,7 +1,7 @@
 {
   "name": "kiibohd-configurator",
   "productName": "Kiibohd Configurator",
-  "version": "0.1.0-alpha5",
+  "version": "0.1.0-alpha6",
   "main": "main.js",
   "description": "Configuration utility for Input Club keyboards",
   "author": "Jeremy Bondeson <jbondeson@gmail.com> (https://input.club)",

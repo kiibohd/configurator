@@ -1,8 +1,5 @@
 (ns kii.ui.color-picker
-  (:require                                                 ;[cljsjs/react]
-    ;[tinycolor2]
-    ; [react-color]
-            [reagent.core :as r]
+  (:require [reagent.core :as r]
             [reagent.impl.template]
             [reagent.interop :refer-macros [$ $!]]))
 

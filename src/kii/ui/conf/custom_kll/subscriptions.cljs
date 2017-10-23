@@ -3,9 +3,9 @@
             [re-frame.core :as rf]))
 
 (defn get-custom-kll
-  [db _]
+  [db [_ layer]]
   (let [conf (:conf db)
-        layer (keyword (str (or (:active-layer conf) 0)))
+        layer (keyword (str (or layer (:active-layer conf) 0)))
         custom (-> conf :kll :custom )
         kll (or (layer custom) "")]
     kll))

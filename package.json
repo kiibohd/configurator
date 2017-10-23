@@ -1,7 +1,7 @@
 {
   "name": "kiibohd-configurator",
   "productName": "Kiibohd Configurator",
-  "version": "0.1.0-alpha5",
+  "version": "0.1.0-alpha6",
   "description": "Configuration utility for Input Club keyboards",
   "keywords": [],
   "dependencies": {
@@ -26,10 +26,10 @@
     "preinstall": "boot target",
     "postinstall": "electron-builder install-app-deps",
     "start": "electron target/",
-    "watch:dev": "cross-env TIMBRE_LEVEL=':debug' boot watch dev-build",
-    "build:dev": "cross-env TIMBRE_LEVEL=':debug' boot dev-build",
-    "build:test": "cross-env TIMBRE_LEVEL=':debug' boot prod-build",
-    "build:prod": "cross-env TIMBRE_LEVEL=':warn' boot prod-build",
+    "watch:dev": "cross-env TIMBRE_LEVEL=:debug boot watch dev-build",
+    "build:dev": "cross-env TIMBRE_LEVEL=:debug boot dev-build",
+    "build:test": "cross-env TIMBRE_LEVEL=:debug boot prod-build",
+    "build:prod": "cross-env TIMBRE_LEVEL=:warn boot prod-build",
     "pack": "build --dir",
     "dist": "build"
   },
@@ -69,6 +69,9 @@
       "buildResources": "build",
       "app": "target",
       "output": "output"
+    },
+    "publish": {
+      "provider": "github"
     }
   }
 }

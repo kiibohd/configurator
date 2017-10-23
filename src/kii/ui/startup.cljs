@@ -7,7 +7,8 @@
             [kii.ui.browser]
             [kii.test.runner]
             [kii.env :as env]
-            [kii.ui.components :as comp]))
+            [kii.ui.components :as comp]
+            [taoensso.timbre :as timbre :refer-macros [log logf]]))
 
 (defn mount-root
   "Called once at the beginning of the application to attach reagent/react
@@ -22,7 +23,7 @@
   (defn dev-reload
     "Called everytime the UI is live-reloaded during development"
     []
-    (print "Refreshed.")
+    (log :info "Refreshed.")
     (kii.test.runner/run)))
 
 (defn ^:export init

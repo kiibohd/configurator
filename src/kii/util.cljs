@@ -38,3 +38,8 @@
   [s]
   (js/parseInt s))
 
+(defn str->float
+  "Parse a string into a float"
+  [s]
+  (js/parseFloat s))
+
