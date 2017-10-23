@@ -5,7 +5,6 @@
             [kii.util :refer [str->int]]
             [kii.ui.conf.impl.components.animation-selector :refer [animation-selector]]
             [kii.ui.color-picker :as color-picker]
-            [clojure.pprint :refer [pprint]]
             [cuerdas.core :as str]
             [clojure.string :as cstr])
   )
@@ -16,7 +15,6 @@
 (defn- parse-animation
   [{frames :frames}]
   (let [pix (seq (str/split (second frames) #",\n"))]
-    ;(pprint pix)
     (if (seq pix)
       (into {} (map #(let [[_ id r g b] (re-matches #"P\[(\d+)]\(\s*(\d+)s*,\s*(\d+)s*,\s*(\d+)s*\)" %1)]
                        [(str->int id) {:color {:r (str->int r)
@@ -47,7 +45,6 @@
   (let [leds (<<= [:conf/selected-leds])
         statuses (<<= [:conf/led-all-statuses])
         color (or (reduce #(if (= %1 %2) %1 nil) (map #(:color (get statuses (first %1))) leds)) {})]
-    ;(pprint color)
     [:div
      [color-picker/chrome
       {:disable-alpha true
@@ -78,7 +75,6 @@
             animations (select-keys all-animations (for [[k v] all-animations :when (-> v :frames first (= header))]
                                                      k))
             animation (and selected-animation (selected-animation animations))]
-        ;;(pprint animations)
         [:div
          [:h3 "Static LED Maps"]
          [animation-selector animations selected-animation

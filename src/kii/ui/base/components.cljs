@@ -10,8 +10,7 @@
             [kii.ui.alert.components :as alert]
             [kii.ui.conf.palette :as palette]
             [kii.ui.util :as util]
-            [kii.ui.styling :as styling]
-            [clojure.pprint]))
+            [kii.ui.styling :as styling]))
 
 (declare sheet)
 

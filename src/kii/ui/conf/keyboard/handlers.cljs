@@ -67,10 +67,6 @@
         adj-key-code (+ (* 1000 loc) key-code)
         key (get (keys/code->iec) key-code)
         adj-key (get (keys/code->iec) adj-key-code)]
-    ;;(print "Key Down - " key-code)
-    ;;(print "Adjusted Key Code - " adj-key-code)
-    ;;(print "Key " key)
-    ;;(print "Adj Key" adj-key)
     (or adj-key key)))
 
 (defn handle-keydown

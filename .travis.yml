@@ -83,13 +83,10 @@ install:
 # Build and packaging
 script:
   # Build clojure target
-  - boot prod-build
-
-  # Example deployment file
-  - mkdir -p output
+  - npm run build:prod
 
   # Build electron binary
-  - ./node_modules/.bin/build --publish onTagOrDraft
+  - npm run dist -- --publish onTagOrDraft
 
 ## Deploy release
 #deploy:
@@ -105,7 +102,7 @@ script:
 #    repo: kiibohd/configurator
 
 
-# Post test script commands
-after_script:
-  - tree output
+## Post test script commands
+#after_script:
+#  - tree output
 

@@ -1,24 +1,32 @@
 (ns kii.device.usb
   (:require-macros [cljs.core.async.macros :refer [go go-loop]])
   (:require [kii.bindings.npm :as npm]
-            [clojure.string :refer [join]]
+            [cuerdas.core :as str]
+            [taoensso.timbre :as timbre :refer-macros [log logf]]
             [cljs.core.async :refer [chan <! >! put! close!]]))
 
 (defn get-devices-raw []
   (.getDeviceList npm/usb))
 
+(defn- device-path [device]
+  (let [ports (.-portNumbers device)
+        bus (.-busNumber device)]
+    (if (seq ports)
+      (str/fmt "%s-%s" bus (str/join "." ports))
+      (cljs.core/str bus))))
+
 (defn safe-open-raw [device]
   (try
     (or (.open device) true)
     (catch :default e
-      (js/console.log e)
+      (logf :warn e "Cannot open usb device - %s" (device-path device))
       false)))
 
 (defn safe-close-raw [device]
   (try
     (.close device)
     (catch :default e
-      (js/console.log e)
+      (logf :warn e "Cannot close usb device - %s" (device-path device))
       nil)))
 
 (defn get-str-desc [device idx]
@@ -56,7 +64,7 @@
     {:product-id (.-idProduct desc)
      :vendor-id  (.-idVendor desc)
      :bus-no     (.-busNumber raw)
-     :path       (str (.-busNumber raw) (when (seq ports) (str "-" (join "." ports))))
+     :path       (device-path raw)
      :raw        raw
      :connected  true}))
 
@@ -72,7 +80,6 @@
         (when-let [device (first devices)]
           (let [c (-get-data device)
                 d (<! c)]
-            ;(print d)
             (>! ch d)
             (recur (rest devices))))
         )
@@ -87,12 +94,3 @@
                                (put! ch [:attach dev]))))
     (.on npm/usb "detach" #(put! ch [:detach (-get-device-min %)]))
     ch))
-
-;;==== Diagnostics ====;;
-(defn pr-connected []
-  (let [data-chan (get-devices)]
-    (go-loop []
-             (when-let [dev (<! data-chan)]
-               (print (pr-str dev))
-               ;(print (js->clj (pr-str (:raw dev))))
-               (recur)))))

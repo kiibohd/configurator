@@ -1,6 +1,5 @@
 (ns kii.config.core
-  (:require [clojure.pprint]
-            [kii.keys.firmware.map :as fw]
+  (:require [kii.keys.firmware.map :as fw]
             [kii.keys.core :as keys]))
 
 (defn de-key [m f]
@@ -11,8 +10,6 @@
 (defn mangle-layer
   [n layer]
   (do
-    ;;(clojure.pprint/pprint n)
-    ;;(clojure.pprint/pprint layer)
     (let [k (get fw/keys (:key layer))]
       {"key" (-> k :aliases first)
        "label" (:label k)})))
@@ -22,17 +19,13 @@
   {"header"     (de-key (:header config) nil)
    "defines"    (mapv #(de-key (:data %) nil) (:defines config))
    "matrix"     (map (fn [key]
-                       (do
-                         ;;(clojure.pprint/pprint key)
-                         (de-key
-                           key
-                           (fn [k v]
-                             (if (= k :layers)
-                               (let [layers (into {} (filter #(-> % second :key some?) v))]
-                                 ;;(clojure.pprint/pprint v)
-                                 ;;(clojure.pprint/pprint layers)
-                                 (de-key layers mangle-layer))
-                               v)))))
+                       (de-key
+                         key
+                         (fn [k v]
+                           (if (= k :layers)
+                             (let [layers (into {} (filter #(-> % second :key some?) v))]
+                               (de-key layers mangle-layer))
+                             v))))
                      (:matrix config))
    "leds"       (mapv #(de-key % nil) (:leds config))
    "custom"     (de-key (:custom config) nil)
@@ -46,7 +39,6 @@
            (let [okey (:key data)
                  mapped (fw/alias->key okey)
                  iec (get (keys/key->iec) (:name mapped))]
-             ;;(clojure.pprint/pprint iec)
              [layer
               (keys/merge mapped iec)
               ]))

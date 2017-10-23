@@ -1,6 +1,5 @@
 (ns kii.ui.conf.impl.components.config-visuals
   (:require [re-frame.core :as rf]
-            [clojure.pprint]
             [cljs-css-modules.macro :refer-macros [defstyle]]
             [kii.ui.conf.impl.components.assign-visuals :refer [assign-visuals]]))
 

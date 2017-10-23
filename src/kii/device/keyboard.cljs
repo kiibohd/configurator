@@ -151,8 +151,9 @@
 (defn product->keyboard
   [product]
   (or
-   (first (filter (fn [k] (some #(s/includes? product %) (:names k))) keyboards))
-   {:display "Unknown"
+    (and (some? product)
+         (first (filter (fn [k] (some #(s/includes? product %) (:names k))) keyboards)))
+    {:display "Unknown"
     :names []
     :layouts []
     :image "unknown.png"}))

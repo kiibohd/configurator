@@ -1,7 +1,6 @@
 (ns kii.ui.conf.custom-kll.subscriptions
   (:require [reagent.core :as r]
-            [re-frame.core :as rf]
-            [clojure.pprint]))
+            [re-frame.core :as rf]))
 
 (defn get-custom-kll
   [db _]

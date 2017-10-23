@@ -57,7 +57,6 @@
 
 (defn on-setting-change
   [setting value]
-  (print "Changing" setting "to" (-> value .-target .-value))
   (rf/dispatch-sync [:settings/update setting (-> value .-target .-value)])
   )
 

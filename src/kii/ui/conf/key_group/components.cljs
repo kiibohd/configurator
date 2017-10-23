@@ -64,7 +64,6 @@
                   :height (- ksize 6)}
        :on-click #(do
                     (.stopPropagation %)
-                    ;;(print (str "Clicked: " key))
                     (rf/dispatch [:update-selected-key name]))
        }
       (let [mapped (name (keys/key->iec))]

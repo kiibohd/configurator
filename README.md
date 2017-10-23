@@ -28,7 +28,7 @@ TODO - Description
 
 ### Requirements
 
-* node 7.2
+* node 8.7 
 * jdk 1.8
 * [boot 2.7.2](https://github.com/boot-clj/boot)
 
@@ -39,9 +39,9 @@ TODO - Description
 * build-essential
 
 ```bash
-npm install electron electron-rebuild --save-dev --save-exact
-npm run res-install
-boot prod-build
+npm install
+npm run build:prod
+npm start
 ```
 
 
@@ -50,9 +50,9 @@ boot prod-build
 * libusb
 
 ```bash
-npm install electron electron-rebuild --save-dev --save-exact
-npm run res-install
-CXX=clang++ boot prod-build
+npm install
+CXX=clang++ npm run build:prod
+npm start
 ```
 
 
@@ -68,8 +68,8 @@ choco install python python2 nodejs boot-clj
 ```
 
 ```bash
-npm install electron electron-rebuild --save-dev --save-exact
-npm run res-install
-boot prod-build
+npm install
+npm run build:prod
+npm start
 ```
 

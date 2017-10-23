@@ -1,7 +1,7 @@
 {
   "name": "kiibohd-configurator",
   "productName": "Kiibohd Configurator",
-  "version": "0.1.0",
+  "version": "0.1.0-alpha5",
   "main": "main.js",
   "description": "Configuration utility for Input Club keyboards",
   "author": "Jeremy Bondeson <jbondeson@gmail.com> (https://input.club)",
@@ -13,7 +13,9 @@
   "dependencies": {
     "electron-dl": "^1.10.0",
     "usb": "https://github.com/tessel/node-usb.git#1.3.0",
-    "react": "15.6.1",
+    "react": "^15.6.2",
+    "react-dom": "^15.6.2",
+    "create-react-class":"^15.6.2",
     "react-color": "2.13.8"
   }
 }

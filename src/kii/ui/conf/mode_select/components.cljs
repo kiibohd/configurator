@@ -3,9 +3,7 @@
             [re-frame.core :as rf]
             [cljs-css-modules.macro :refer-macros [defstyle]]
             [kii.ui.conf.palette :as palette]
-            [kii.device.keyboard :as keyboard]
-            [clojure.pprint]
-            ))
+            [kii.device.keyboard :as keyboard] ))
 
 (defstyle mode-select-style
   [".mode-select"

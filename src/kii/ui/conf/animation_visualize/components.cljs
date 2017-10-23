@@ -6,7 +6,6 @@
             [kii.device.keyboard :as keyboard]
             [kii.ui.conf.core :as conf]
             [kii.util :as u]
-            [clojure.pprint]
             [cuerdas.core :as str])
   )
 (defstyle css

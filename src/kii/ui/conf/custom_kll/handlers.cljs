@@ -1,7 +1,6 @@
 (ns kii.ui.conf.custom-kll.handlers
   (:require [reagent.core :as r]
-            [re-frame.core :as rf]
-            [clojure.pprint]))
+            [re-frame.core :as rf] ))
 
 (defn set-custom-kll
   [db [_ value]]

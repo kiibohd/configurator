@@ -97,5 +97,4 @@
 
 (defn alert-popover []
   (let [alerts (rf/subscribe [:alert/all])]
-    ;;(print (str "Alerts:" @alerts))
     [alert-popover-comp @alerts]))

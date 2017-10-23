@@ -2,8 +2,7 @@
   (:require [reagent.core :as r]
             [re-frame.core :as rf]
             [cljs-css-modules.macro :refer-macros [defstyle]]
-            [kii.ui.styling :as styling]
-            [clojure.pprint]))
+            [kii.ui.styling :as styling] ))
 
 (defstyle css
   [".editor"

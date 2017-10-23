@@ -2,7 +2,7 @@
          '[boot.task.built-in :refer :all])
 
 (task-options!
- pom {:project     'configurator
+ pom {:project     'kiibohd-configurator
       :version     "0.1"
       :description "Input:Club Configuration Utility"
       :license     {"GPLv3" "https://www.gnu.org/licenses/gpl-3.0.en.html"}})
@@ -11,35 +11,36 @@
 
 (set-env!
  :dependencies
- '[[org.clojure/clojure "1.9.0-beta1" :scope "provided"]
+ '[[org.clojure/clojure "1.9.0-beta2" :scope "provided"]
    [org.clojure/clojurescript "1.9.946" :scope "compile"]
    ;; Boot Deps
    [boot/core "2.7.2" :scope "provided"]
    [onetom/boot-lein-generate "0.1.3" :scope "test"]
-   [org.clojure/tools.nrepl "0.2.12" :scope "test"]
-   [com.cemerick/piggieback "0.2.1" :scope "test"]
+   [org.clojure/tools.nrepl "0.2.13" :scope "test"]
+   [com.cemerick/piggieback "0.2.2" :scope "test"]
    [weasel "0.7.0" :scope "test"]
-   [adzerk/boot-cljs "2.1.3" :scope "test"]
+   [adzerk/boot-cljs "2.1.4" :scope "test"]
    [adzerk/boot-cljs-repl "0.3.3" :scope "test"]
    [adzerk/boot-reload "0.5.2" :scope "test"]
    ;; Dev tools enhancements
-   [binaryage/devtools "0.9.4" :scope "test"]
-   [binaryage/dirac "1.2.10" :scope "test"]
+   [binaryage/devtools "0.9.7" :scope "test"]
+   [binaryage/dirac "1.2.17" :scope "test"]
    [powerlaces/boot-cljs-devtools "0.2.0" :scope "test"]
    ;; Project Dependencies
    [reagent "0.7.0" :exclusions [org.clojure/tools.reader cljsjs/react]]
-   [re-frame "0.10.1"]
+   [re-frame "0.10.2"]
    [day8.re-frame/undo "0.3.2"]
-   [cljsjs/react "15.6.1-2"]
-   [cljsjs/react-dom "15.6.1-2"]
+   [cljsjs/react "15.6.2-0"]
+   [cljsjs/react-dom "15.6.2-0"]
    [cljsjs/react-transition-group "2.2.0-0"]
    [cljs-react-material-ui "0.2.50"]
    [cljs-css-modules "0.2.1"]
-   [cljs-ajax "0.5.8"]
+   [cljs-ajax "0.7.2"]
    [camel-snake-kebab "0.4.0"]
    [cljsjs/tinycolor "1.3.0-0"]
    [cljsjs/react-color "2.13.1-0"]
    [funcool/cuerdas "2.0.4"]
+   [com.taoensso/timbre "4.10.0"]
    ]
  :source-paths #{"src"}
  ;;:asset-paths #{"assets"}
@@ -61,13 +62,10 @@
         (cljs :ids #{"renderer"}
               ;; TODO -Some odd munging happening in advanced mode.
               :optimizations :none                        ;:advanced
-              :compiler-options {:load-tests false
-                                 :npm-deps        {:react       "15.6.1"
-                                                   ;           :tinycolor2 "1.3.0"
-                                                   :react-color "2.13.8"}
-                                 :install-deps    true
-                                 })
-        (target :dir #{"target"})))
+              :compiler-options {:load-tests false})
+        ;; Right now an npm-install will call a naked `target` call clearing everything
+        ;; until a good method for npm dependencies is found this will have to do for now.
+        (target :no-clean true)))
 
 (def devtools-config
   {:features-to-install           [:formatters :hints :async]
@@ -91,10 +89,6 @@
    ;; Compile renderer =========================================
    (cljs :ids #{"renderer"}
          :compiler-options {:closure-defines {'kii.env/dev? true}
-                            :npm-deps        {:react       "15.6.1"
-                                              ;           :tinycolor2 "1.3.0"
-                                              :react-color "2.13.8"}
-                            :install-deps    true
                             :output-wrapper  true
                             ; There's a little funny business going on with exporting other ns vars
                             ;  to reduce the proliferation of imports for small components so the
@@ -113,4 +107,6 @@
          :compiler-options {:asset-path      "target/main.out"
                             :closure-defines {'kii.env/dev? true}
                             })
-   (target)))
+   ;; Right now an npm-install will call a naked `target` call clearing everything
+   ;; until a good method for npm dependencies is found this will have to do for now.
+   (target :no-clean true)))

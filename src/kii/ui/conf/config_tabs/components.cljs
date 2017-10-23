@@ -8,8 +8,7 @@
             [kii.ui.conf.palette :as palette]
             [kii.ui.conf.settings.components]
             [kii.ui.conf.macros.components]
-            [kii.ui.conf.custom-kll.components]
-            [clojure.pprint]))
+            [kii.ui.conf.custom-kll.components]))
 
 (defstyle styles
   [".tab-container"

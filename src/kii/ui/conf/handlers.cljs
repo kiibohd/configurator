@@ -6,7 +6,6 @@
             [kii.keys.core :as keys]
             [kii.config.core :as config]
             [ajax.core :as ajax]
-            [clojure.pprint]
             [clojure.string]
             [kii.ui.conf.core :as conf]
             [kii.ui.conf.key-group.handlers]
@@ -200,7 +199,6 @@
           cfg (or (:conf db) {})
           config (config/normalize response)
           cfg (merge {:canned (:canned response)} cfg)]
-      (clojure.pprint/pprint cfg)
       {:db (assoc db :conf
                      (merge cfg
                             default-conf

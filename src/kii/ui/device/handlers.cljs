@@ -92,5 +92,14 @@
                   :manufacturer "Input:Club"
                   :product      "Keyboard - KType PartialMap pjrcUSB full"
                   :raw          nil
-                  :connected    false}])
+                  :connected    false}]
+    #_[:device/add {:product-id   0xb04d
+                  :vendor-id    0x1c11
+                  :bus-no       9
+                  :path         "9-9.9.4"
+                  :serial-no    nil
+                  :manufacturer nil
+                  :product      nil
+                  :raw          nil
+                  :connected    true}])
   )

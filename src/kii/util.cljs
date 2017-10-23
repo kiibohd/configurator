@@ -22,7 +22,6 @@
         (let [prop k
               keywd (csk/->kebab-case-keyword (str prop))
               val (aget object prop)]
-          #_(print "Prop: " prop " Keyword: " keywd)
           [keywd
            (if (some #{keywd} members)
              (jsx->clj val)

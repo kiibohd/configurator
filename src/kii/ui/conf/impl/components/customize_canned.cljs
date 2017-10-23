@@ -1,9 +1,10 @@
 (ns kii.ui.conf.impl.components.customize-canned
   (:require [reagent.core :as r]
+            [taoensso.timbre :as timbre :refer-macros [log logf]]
             [kii.ui.re-frame :refer [<<= <== =>> >=>]]
             [cljs-react-material-ui.reagent :as mui]
             [cuerdas.core :as str]
-            [cljs.pprint]
+            [taoensso.timbre :as timbre :refer-macros [log logf]]
             [kii.ui.color-picker :as color-picker]))
 
 ;;TODO - Don't allow overwrite of same animation.
@@ -23,7 +24,7 @@
               {:floating-label-text name
                :value               (get @vals! name)
                :on-change           (fn [o k v]
-                                      (js/console.log v)
+                                      (logf :debug "select change: %s" v)
                                       (swap! vals! assoc name v))
                }
               (for [{:keys [name value]} values]
@@ -45,7 +46,6 @@
   [selected! animation]
   (r/with-let [name (r/atom @selected!)
                values (r/atom (into {} (map (fn [x] [(:name x) (:default x)]) (:configurable animation))))]
-    (cljs.pprint/pprint (:configurable animation))
     [:div
      [mui/card
       {:style {:min-width "35em"
@@ -97,7 +97,7 @@
          {:floating-label-text "animation"
           :value               @selected
           :on-change           (fn [o k v]
-                                 (js/console.log v)
+                                 (logf "canned animation change - %" v)
                                  (reset! selected v))}
          (for [name (keys canned)]
            [mui/menu-item {:key          name

@@ -50,13 +50,10 @@ install:
 
 # Build Commands
 build_script:
-  - boot prod-build
-
-  # Example deployment file
-  - mkdir -p output
+  - npm run build:prod
 
   # Build electron binary
-  - ./node_modules/.bin/build --%ARCH% --publish onTagOrDraft
+  - npm run dist -- --%ARCH% --publish onTagOrDraft
 
 ## Deployment Artifacts
 #artifacts:
