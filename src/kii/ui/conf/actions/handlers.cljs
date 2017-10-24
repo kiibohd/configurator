@@ -59,7 +59,11 @@
   :download-complete
   (fn [{:keys [db]} [_ {:keys [status path error]}]]
     (case status
-      "success" {:dispatch [:alert/add {:type :success :msg (str "Completed download: " path)}]}
+      "success" {:dispatch [:alert/add {:type :success :msg [:span "Completed download: "
+                                                             [:span {:style    {:cursor          "pointer"
+                                                                                :text-decoration "underline"}
+                                                                     :on-click #(.showItemInFolder electron/shell path)}
+                                                              path]]}]}
       "error" (do
                 (logf :error "Failed to download file %s" error)
                 {:dispatch [:alert/add {:type :error :msg "Failed to download"}]}))
