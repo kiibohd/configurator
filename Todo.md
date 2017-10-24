@@ -2,10 +2,10 @@
 
 ###K-Type
 * ~~Assign Animations to Keys~~
-* Show underlighting
-* Configure static LED maps
-* Customize Canned Animations
-* Send Pixel Locations in JSON
+* ~~Show underlighting~~
+* ~~Configure static LED maps~~
+* ~~Customize Canned Animations~~
+* ~~Send Pixel Locations in JSON~~
     * Split JSON files into Keyboard & Layout?
 
 ###Everything Else
