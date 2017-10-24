@@ -24,7 +24,8 @@
                 :uri        (str env/base-uri "download.php")
                 :on-success [:start-firmware-dl]
                 :on-failure [:firmware-compile-failure]
-                :options    {:params          mangled-kll
+                :options    {:params          {:config mangled-kll
+                                               :env "latest"}
                              :format          (ajax/json-request-format)
                              :response-format (ajax/json-response-format
                                                 {:keywords? true})}}
