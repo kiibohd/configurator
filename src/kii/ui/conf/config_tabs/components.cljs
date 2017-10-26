@@ -3,7 +3,7 @@
             [re-frame.core :as rf]
             [cljs-css-modules.macro :refer-macros [defstyle]]
             [kii.ui.util :as u]
-            [kii.ui.conf.core :as conf]
+            [kii.ui.conf.util :as conf-util]
             [kii.ui.conf.key-group.components]
             [kii.ui.conf.palette :as palette]
             [kii.ui.conf.settings.components]
@@ -46,7 +46,7 @@
   (let [active-tab (rf/subscribe [:conf/active-config-tab])
         matrix (rf/subscribe [:conf/matrix])
         ui-settings (rf/subscribe [:conf/ui-settings])
-        width (:width (conf/get-size @matrix @ui-settings))]
+        width (:width (conf-util/get-size @matrix @ui-settings))]
     [:div
      [tab-strip-conf items @active-tab]
 

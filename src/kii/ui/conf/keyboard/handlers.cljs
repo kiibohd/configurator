@@ -2,7 +2,7 @@
   (:require [re-frame.core :as rf]
             [kii.keys.firmware.map :as fw]
             [kii.keys.core :as keys]
-            [kii.ui.conf.core :as conf]
+            [kii.ui.conf.util :as conf-util]
             [kii.ui.conf.subscriptions :as conf-sub]
             [kii.ui.conf.layer-select.subscriptions :as ls-sub]))
 
@@ -25,7 +25,7 @@
 (defn update-selected-key
   [db [_ keyname]]
   #_db
-  (if-let [selected-key (conf/get-selected-key db)]
+  (if-let [selected-key (conf-util/get-selected-key db)]
     (let [predef (get fw/keys keyname)
           mapped (get (keys/key->iec) keyname)
           matrix (conf-sub/get-matrix db nil)
@@ -71,7 +71,7 @@
 
 (defn handle-keydown
   [db [_ value]]
-  (if (= :keys (conf/get-active-config-tab db))
+  (if (= :keys (conf-util/get-active-config-tab db))
     (let [iec-loc (get-iec9995 value)
           mapped (get (keys/iec->key) iec-loc)]
       (update-selected-key db [nil (:key mapped)]))

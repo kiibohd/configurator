@@ -4,7 +4,7 @@
             [cljs-css-modules.macro :refer-macros [defstyle]]
             [kii.ui.conf.palette :as palette]
             [kii.device.keyboard :as keyboard]
-            [kii.ui.conf.core :as conf]
+            [kii.ui.conf.util :as conf-util]
             [kii.util :as u]
             [cuerdas.core :as str])
   )
@@ -88,7 +88,7 @@
         on-click (fn [l e]
                    (=>> [:conf/set-selected-leds l (if (.-shiftKey e) :append :overwrite)])
                    )]
-    (let [{:keys [width height]} (conf/get-size matrix ui-settings)]
+    (let [{:keys [width height]} (conf-util/get-size matrix ui-settings)]
       [:div
        {:class    (:backdrop css)
         :style    {:width   width

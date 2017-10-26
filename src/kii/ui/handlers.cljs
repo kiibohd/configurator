@@ -4,7 +4,6 @@
             [kii.ui.alert.handlers]
             [kii.ui.device.handlers]
             [kii.ui.usb.handlers]
-            [kii.ui.base.handlers]
             [kii.ui.conf.handlers]))
 
 (defn initialize [_ _]
@@ -18,3 +17,16 @@
     {:db db/default-db
      :usb/watch nil
      :usb/poll nil}))
+
+;; Base Components
+
+(defn set-active-panel [db [_ value]]
+  (assoc db :active-panel value))
+
+(rf/reg-event-db :panel/set-active set-active-panel)
+
+(defn set-active-layout
+  [db [_ layout]]
+  (assoc db :active-layout layout))
+
+(rf/reg-event-db :layout/set-active set-active-layout)

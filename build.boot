@@ -42,6 +42,9 @@
    [funcool/cuerdas "2.0.4"]
    [com.taoensso/timbre "4.10.0"]
    [cljsjs/chroma "1.1.1-0"]
+   [cljsjs/jszip "3.1.3-0"]
+   [cljs-node-io "0.5.0"]
+   [cljsjs/localforage "1.5.3-0"]
    ]
  :source-paths #{"src"}
  ;;:asset-paths #{"assets"}
@@ -61,7 +64,7 @@
   (comp (cljs :ids #{"main"}
               :optimizations :simple)
         (cljs :ids #{"renderer"}
-              ;; TODO -Some odd munging happening in advanced mode.
+              ;; TODO - Need to figure out all the different externs needed.
               :optimizations :none                        ;:advanced
               :compiler-options {:load-tests false})
         ;; Right now an npm-install will call a naked `target` call clearing everything

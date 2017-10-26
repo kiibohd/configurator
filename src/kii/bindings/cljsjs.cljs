@@ -1,4 +1,6 @@
 (ns kii.bindings.cljsjs
-  (:require [cljsjs.chroma :as chroma]))
+  (:require [cljsjs.chroma]
+            [cljsjs.jszip]))
 
 (def chroma js/chroma)
+(def jszip js/JSZip)

@@ -1,13 +1,13 @@
-(ns kii.ui.base.components
+(ns kii.ui.components.base
   (:require [reagent.core :as r]
             [re-frame.core :as rf]
             [cljs-css-modules.macro :refer-macros [defstyle]]
             [cljs-react-material-ui.core :as mui-core]
             [cljs-react-material-ui.reagent :as mui]
-            [kii.ui.conf.components]
-            [kii.ui.conf.components :as conf]
+            [kii.ui.conf.components.main :as conf-main]
             [kii.device.keyboard :as keyboard]
             [kii.ui.alert.components :as alert]
+            [kii.ui.components.flash :refer [flash-firmware]]
             [kii.ui.conf.palette :as palette]
             [kii.ui.util :as util]
             [kii.ui.styling :as styling]))
@@ -19,7 +19,7 @@
   [device]
   (if (nil? device)
     [:div
-     [:h2 "Input:Club Configurator"]]
+     [:h2 "Kiibohd Configurator"]]
     (let [kbd (keyboard/product->keyboard (:product device))]
       [:div
        [:h2 (str (:manufacturer device) " - "
@@ -48,15 +48,25 @@
     {:outline "0"}]
    ])
 (defn navigation-comp
-  [home-disabled?]
+  [active-panel]
   [:div {:style {:display "inline-flex"}}
+   [:button
+    {:class    (:btn nav-style)
+     :title    "Flash"
+     :on-click #(rf/dispatch [:panel/set-active :flash])                   ;; TODO: Warn before navigation.
+     :disabled (= active-panel :flash)
+     }
+    [:i
+     {:class (str "material-icons md-36" (if (= active-panel :flash) " md-inactive"))}
+     "flash_on"]
+    ]
    [:button
     {:class    (:btn nav-style)
      :title    "Home"
      :on-click #(rf/dispatch [:nav/home])                   ;; TODO: Warn before navigation.
-     :disabled home-disabled?}
+     :disabled (= active-panel :home)}
     [:i
-     {:class (str "material-icons md-36" (if home-disabled? " md-inactive"))}
+     {:class (str "material-icons md-36" (if (= active-panel :home) " md-inactive"))}
      "home"]
     ]
    ])
@@ -64,7 +74,7 @@
 (defn navigation []
   (let [panel (rf/subscribe [:panel/active])]
     (fn []
-      (navigation-comp (= @panel :home)))))
+      (navigation-comp @panel))))
 
 ;;==== Keyboard Select =====;;
 (defn keyboard-display-comp
@@ -78,8 +88,8 @@
                    [:start-configurator]
                    [:panel/set-active :configurator])
                  #(util/dispatch-all
-                  [:device/set-active d]
-                  [:panel/set-active :choose-layout]))]
+                   [:device/set-active d]
+                   [:panel/set-active :choose-layout]))]
     [:a
      {:key      (:path d)
       :class    (:kbd-item sheet)
@@ -194,9 +204,9 @@
    {:key        (str name)
     :class-name (:layout-item sheet)
     :on-click   #(util/dispatch-all
-                   [:layout/set-active name]
-                   [:start-configurator]
-                   [:panel/set-active :configurator])}
+                  [:layout/set-active name]
+                  [:start-configurator]
+                  [:panel/set-active :configurator])}
    [:span (str name)]
    ])
 
@@ -230,8 +240,8 @@
     [:ul
      [:li
       {:on-click #(util/dispatch-all
-                    [:start-configurator]
-                    [:panel/set-active :configurator])}
+                   [:start-configurator]
+                   [:panel/set-active :configurator])}
       "Configure"]
      [:li "Flash"]]]])
 
@@ -240,9 +250,9 @@
   [initialized? panel]
   [mui/mui-theme-provider
    {:mui-theme (mui-core/get-mui-theme
-                 {:font-family styling/font-stack
-                  :palette {:primary1-color (mui-core/color :deep-purple400)
-                            :primary2-color (mui-core/color :deep-purple600)}})}
+                {:font-family styling/font-stack
+                 :palette {:primary1-color (mui-core/color :deep-purple400)
+                           :primary2-color (mui-core/color :deep-purple600)}})}
    (if initialized?
      [:div {:class (:main-container sheet)}
       [:div {:style {:display "flex" :justify-content "space-between"}}
@@ -256,7 +266,8 @@
           (= panel :home) [keyboard-select]
           (= panel :choose-layout) [layout-select]
           (= panel :choose-activity) [activity-select]
-          (= panel :configurator) [conf/main]
+          (= panel :configurator) [conf-main/main]
+          (= panel :flash) [flash-firmware]
           :else [:h3 "Unknown Panel!"])]]]
      [:div
       [:h3 "Initializing..."]]

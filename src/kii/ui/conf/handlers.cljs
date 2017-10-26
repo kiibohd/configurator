@@ -7,7 +7,7 @@
             [kii.config.core :as config]
             [ajax.core :as ajax]
             [clojure.string]
-            [kii.ui.conf.core :as conf]
+            [kii.ui.conf.util :as conf-util]
             [kii.ui.conf.key-group.handlers]
             [kii.ui.conf.actions.handlers]
             [kii.ui.conf.keyboard.handlers]
@@ -80,8 +80,8 @@
 (rf/reg-event-db :conf/set-led-status
   (fn [db [_ values action]]
     (case action
-      :append    (update-in db conf/led-status #(merge % values))
-      :overwrite (assoc-in db conf/led-status values)
+      :append    (update-in db conf-util/led-status #(merge % values))
+      :overwrite (assoc-in db conf-util/led-status values)
       db)))
 
 (rf/reg-event-db :conf/set-selected-leds
@@ -89,8 +89,8 @@
     (let [leds (into {} (for [v (if (vector? values) values [values])]
                           [(:id v) v]))]
       (case action
-        :append (update-in db conf/selected-leds-path #(merge % leds))
-        :overwrite (assoc-in db conf/selected-leds-path leds)
+        :append (update-in db conf-util/selected-leds-path #(merge % leds))
+        :overwrite (assoc-in db conf-util/selected-leds-path leds)
         db))))
 
 ;; === Animations === ;;
@@ -118,7 +118,7 @@
 
 (defn modify-selected-key
   [f db]
-  (if-let [selected-key (conf/get-selected-key db)]
+  (if-let [selected-key (conf-util/get-selected-key db)]
     (let [matrix (conf-sub/get-matrix db nil)
           active-layer (keyword (str (ls-sub/get-active-layer db nil)))
           new-key (f selected-key)

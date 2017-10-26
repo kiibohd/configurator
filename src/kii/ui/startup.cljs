@@ -3,11 +3,12 @@
             [cljsjs.react]
             [reagent.core :as r]
             [re-frame.core :as rf]
+            [kii.ui.config]
             [kii.ui.core]
             [kii.ui.browser]
             [kii.test.runner]
             [kii.env :as env]
-            [kii.ui.components :as comp]
+            [kii.ui.components.base :refer [base-layout]]
             [taoensso.timbre :as timbre :refer-macros [log logf]]))
 
 (defn mount-root
@@ -15,7 +16,7 @@
   to the root `container` element on the DOM."
   []
   (r/render
-    [comp/base-layout]
+    [base-layout]
     (js/document.getElementById "container"))
   )
 

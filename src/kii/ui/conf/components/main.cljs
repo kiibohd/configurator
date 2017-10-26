@@ -1,4 +1,4 @@
-(ns kii.ui.conf.impl.components.main
+(ns kii.ui.conf.components.main
   (:require [reagent.core :as r]
             [re-frame.core :as rf]
             [kii.ui.conf.actions.components]
@@ -9,10 +9,10 @@
             [kii.ui.conf.config-tabs.components]
             [kii.ui.conf.animation-visualize.components]
             [kii.ui.conf.custom-animation.components]
-            [kii.ui.conf.impl.components.keyboard :refer [keyboard]]
-            [kii.ui.conf.impl.components.config-visuals :refer [config-visuals]]
-            [kii.ui.conf.impl.components.static-colors :refer [static-colors]]
-            [kii.ui.conf.impl.components.customize-canned :refer [customize-canned]]
+            [kii.ui.conf.components.keyboard :refer [keyboard]]
+            [kii.ui.conf.components.config-visuals :refer [config-visuals]]
+            [kii.ui.conf.components.static-colors :refer [static-colors]]
+            [kii.ui.conf.components.customize-canned :refer [customize-canned]]
             ))
 
 (defn main-comp [active-tab mode]

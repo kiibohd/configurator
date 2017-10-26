@@ -1,4 +1,4 @@
-{:require  [kii.ui.core]
+{:require  [kii.ui.startup]
  :init-fns [kii.ui.startup/init]
  :compiler-options {:language-in :ecmascript5
                     :language-out :ecmascript5}}

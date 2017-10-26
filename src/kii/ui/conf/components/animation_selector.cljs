@@ -1,4 +1,4 @@
-(ns kii.ui.conf.impl.components.animation-selector
+(ns kii.ui.conf.components.animation-selector
   (:require [reagent.core :as r]
             [re-frame.core :as rf]
             [cljs-react-material-ui.reagent :as mui]

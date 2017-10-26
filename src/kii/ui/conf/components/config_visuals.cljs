@@ -1,7 +1,7 @@
-(ns kii.ui.conf.impl.components.config-visuals
+(ns kii.ui.conf.components.config-visuals
   (:require [re-frame.core :as rf]
             [cljs-css-modules.macro :refer-macros [defstyle]]
-            [kii.ui.conf.impl.components.assign-visuals :refer [assign-visuals]]))
+            [kii.ui.conf.components.assign-visuals :refer [assign-visuals]]))
 
 (defstyle css
   [".errmsg"

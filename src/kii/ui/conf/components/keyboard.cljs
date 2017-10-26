@@ -1,8 +1,8 @@
-(ns kii.ui.conf.impl.components.keyboard
+(ns kii.ui.conf.components.keyboard
   (:require [reagent.core :as r]
             [re-frame.core :as rf]
             [cljs-css-modules.macro :refer-macros [defstyle]]
-            [kii.ui.conf.core :as conf]
+            [kii.ui.conf.util :as conf-util]
             [kii.ui.conf.palette :as palette]
             [kii.device.keyboard :as keyboard]
             [kii.util :as u]))
@@ -115,7 +115,7 @@
 ;;==== Keyboard ====;;
 (defn keyboard-comp
   [active-layer matrix selected-key ui-settings]
-  (let [{:keys [width height]} (conf/get-size matrix ui-settings)]
+  (let [{:keys [width height]} (conf-util/get-size matrix ui-settings)]
     [:div
      {:class-name (:backdrop conf-styles)
       :style      {:border-color (palette/get-layer-fg active-layer)

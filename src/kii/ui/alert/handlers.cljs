@@ -16,3 +16,7 @@
     (assoc db :alerts (filterv (complement #{alert}) alerts))))
 
 (rf/reg-event-db :alert/remove remove-alert)
+
+(rf/reg-event-db :alert/remove-all
+  (fn [db _]
+    (assoc db :alerts [])))

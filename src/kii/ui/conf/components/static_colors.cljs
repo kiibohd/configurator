@@ -1,9 +1,9 @@
-(ns kii.ui.conf.impl.components.static-colors
+(ns kii.ui.conf.components.static-colors
   (:require [reagent.core :as r]
             [kii.ui.re-frame :refer [<<= <== =>> >=>]]
             [cljs-react-material-ui.reagent :as mui]
             [kii.util :refer [str->int]]
-            [kii.ui.conf.impl.components.animation-selector :refer [animation-selector]]
+            [kii.ui.conf.components.animation-selector :refer [animation-selector]]
             [kii.ui.color-picker :as color-picker]
             [cuerdas.core :as str]
             [clojure.string :as cstr])

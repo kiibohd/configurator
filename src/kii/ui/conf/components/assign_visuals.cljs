@@ -1,4 +1,4 @@
-(ns kii.ui.conf.impl.components.assign-visuals
+(ns kii.ui.conf.components.assign-visuals
   (:require [kii.util]
             [reagent.core :as r]
             [re-frame.core :as rf]

@@ -1,4 +1,4 @@
-(ns kii.ui.conf.impl.components.customize-canned
+(ns kii.ui.conf.components.customize-canned
   (:require [reagent.core :as r]
             [taoensso.timbre :as timbre :refer-macros [log logf]]
             [kii.ui.re-frame :refer [<<= <== =>> >=>]]

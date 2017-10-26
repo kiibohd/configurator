@@ -1,25 +1,16 @@
-(ns kii.ui.conf.core)
+(ns kii.ui.conf.core
+ (:require [kii.ui.conf.components.main]
+            [kii.ui.conf.components.assign-visuals]
+            [kii.ui.conf.components.keyboard]
+            ;; TODO -- Move these to components
+            [kii.ui.conf.actions.components]
+            [kii.ui.conf.layer-select.components]
+            [kii.ui.conf.mode-select.components]
+            [kii.ui.conf.key-group.components]
+            [kii.ui.conf.subscriptions]
+            [kii.ui.conf.config-tabs.components]
+            [kii.ui.conf.animation-visualize.components]
+            [kii.ui.conf.custom-animation.components]
+            )
+ )
 
-(defn get-size
-  "Get the size of the area needed to display the supplied key matrix"
-  [matrix ui-settings]
-  (let [right-most (apply max-key #(+ (:x %) (:w %)) matrix)
-        bottom-most (apply max-key #(+ (:y %) (:h %)) matrix)
-        sf (:size-factor ui-settings)]
-    {:height (* sf (+ (:y bottom-most) (:h bottom-most)))
-     :width  (* sf (+ (:x right-most) (:w right-most)))}
-    ))
-
-(def leds-path [:conf :kll :leds])
-
-(def led-status [:conf :led-status])
-
-(def selected-leds-path [:conf :selected-leds])
-
-(defn get-selected-key
-  [db]
-  (-> db :conf :selected-key))
-
-(defn get-active-config-tab
-  [db]
-  (or (-> db :conf :active-config-tab) :keys))

@@ -3,7 +3,7 @@
             [re-frame.core :as rf]
             [cljs-react-material-ui.reagent :as mui]
             [kii.ui.styling :as styling]
-            [kii.ui.conf.impl.components.animation-selector :refer [animation-selector]]
+            [kii.ui.conf.components.animation-selector :refer [animation-selector]]
             [clojure.string :as cstr]))
 
 (def max-width "calc(100% - 2em)")

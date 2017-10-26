@@ -3,9 +3,9 @@
             [re-frame.core :as rf]
             [cljs-css-modules.macro :refer-macros [defstyle]]
             [kii.keys.firmware.map :as fw]
-            [kii.ui.conf.core :as conf]
+            [kii.ui.conf.util :as conf-util]
             [kii.ui.conf.palette :as palette]
-            [kii.ui.conf.impl.components.keyboard :as keeb]
+            [kii.ui.conf.components.keyboard :as keeb]
             [kii.util :as u]
             [kii.ui.util :as uiu]
             [kii.keys.core :as keys]
@@ -106,7 +106,7 @@
 (defn key-groups []
   (let [matrix (rf/subscribe [:conf/matrix])
         ui-settings (rf/subscribe [:conf/ui-settings])
-        width (:width (conf/get-size @matrix @ui-settings))]
+        width (:width (conf-util/get-size @matrix @ui-settings))]
     #_[:div {:style {:width      width
                    :margin-top "15px"}}
      [:div {:style {:border       "1px solid black"

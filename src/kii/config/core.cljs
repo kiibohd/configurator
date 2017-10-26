@@ -58,7 +58,7 @@
                                    :y      (- (:y %) min-top)
                                    :layers (normalize-layers (:layers %))})
                         matrix))
-      :defines (mapv #({:id (random-uuid) :data %})
+      :defines (mapv (fn [d] {:id (random-uuid) :data d})
                      defines)
       :leds leds
       :custom custom

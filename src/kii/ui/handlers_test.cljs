@@ -1,6 +1,6 @@
-(ns kii.ui.base.handlers-test
+(ns kii.ui.handlers-test
   (:require  [cljs.test :refer-macros [deftest is testing]]
-             [kii.ui.base.handlers :as handlers]))
+             [kii.ui.handlers :as handlers]))
 
 (deftest set-active-panel
   (testing "single entry"

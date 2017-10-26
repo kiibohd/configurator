@@ -4,7 +4,7 @@
             [kii.ui.conf.actions.subscriptions]
             [kii.ui.conf.layer-select.subscriptions]
             [kii.ui.conf.custom-kll.subscriptions]
-            [kii.ui.conf.core :as conf]))
+            [kii.ui.conf.util :as conf-util]))
 
 (defn get-cfg
   [db _]
@@ -67,11 +67,11 @@
     (get settings setting)))
 
 
-(rf/reg-sub :conf/active-config-tab conf/get-active-config-tab)
+(rf/reg-sub :conf/active-config-tab conf-util/get-active-config-tab)
 
-(rf/reg-sub :conf/selected-key conf/get-selected-key)
+(rf/reg-sub :conf/selected-key conf-util/get-selected-key)
 
-(rf/reg-sub :conf/leds #(get-in % conf/leds-path))
+(rf/reg-sub :conf/leds #(get-in % conf-util/leds-path))
 
 (rf/reg-sub :conf/led-all-statuses
   :<- [:conf]
@@ -83,7 +83,7 @@
   (fn [statuses [_ id]]
     (get statuses :led-status)))
 
-(rf/reg-sub :conf/selected-leds #(or (get-in % conf/selected-leds-path) {}))
+(rf/reg-sub :conf/selected-leds #(or (get-in % conf-util/selected-leds-path) {}))
 
 (rf/reg-sub :conf/canned
   :<- [:conf]
