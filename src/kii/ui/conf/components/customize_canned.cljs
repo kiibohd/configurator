@@ -111,6 +111,7 @@
                      ;; Add the animation & perform replacements
                      (=>> [:conf/add-animation (keyword @name)
                            {:settings (replace-all settings @values configurable)
+                            :type (:type animation)
                             :frames   (mapv #(replace-all % @values configurable) frames)}])
                      ;; Append the required custom-kll
                      (when-not (str/empty-or-nil? (:custom-kll animation))

@@ -13,6 +13,7 @@
             [kii.ui.conf.components.config-visuals :refer [config-visuals]]
             [kii.ui.conf.components.static-colors :refer [static-colors]]
             [kii.ui.conf.components.customize-canned :refer [customize-canned]]
+            [kii.ui.conf.components.manage-animations :refer [manage-animations]]
             ))
 
 (defn main-comp [active-tab mode]
@@ -45,7 +46,10 @@
                         [kii.ui.conf.animation-visualize.components/visualizer]
                         [:div
                          [kii.ui.conf.config-tabs.components/config-tabs
-                          [{:id   :customize-canned
+                          [{:id   :manage-animations
+                            :icon "settings"
+                            :tab  manage-animations}
+                           {:id   :customize-canned
                             :icon "build"
                             :tab  customize-canned}
                            {:id   :custom-animation

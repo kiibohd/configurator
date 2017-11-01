@@ -1,7 +1,7 @@
 {
   "name": "kiibohd-configurator",
   "productName": "Kiibohd Configurator",
-  "version": "0.1.0-alpha7",
+  "version": "0.1.0-beta1",
   "description": "Configuration utility for Input Club keyboards",
   "keywords": [],
   "dependencies": {

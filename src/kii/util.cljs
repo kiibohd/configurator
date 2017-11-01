@@ -43,3 +43,7 @@
   [s]
   (js/parseFloat s))
 
+(defn update-values
+  "Creates a new map by applying the function to the values in the map."
+  [m f & args]
+  (into {} (for [[k v] m] [k (apply f v args)])))

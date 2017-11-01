@@ -46,7 +46,7 @@
    [:button {:class (str (:btn mode-select-style) (if (= mode :visuals) " active"))
              :disabled (false? (:visuals-enabled? active-keyboard))
              :on-click #(when-not (= mode :visuals)
-                          (rf/dispatch [:conf/set-active-config-tab :custom-animation])
+                          (rf/dispatch [:conf/set-active-config-tab :manage-animations])
                           (rf/dispatch [:conf/mode-update :visuals]))}
     "visuals"]])
 

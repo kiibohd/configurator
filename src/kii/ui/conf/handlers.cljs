@@ -1,6 +1,8 @@
 (ns kii.ui.conf.handlers
   (:require [re-frame.core :as rf]
             [kii.env :as env]
+            [kii.util :refer [update-values]]
+            [taoensso.timbre :as timbre :refer-macros [log logf]]
             [kii.device.keyboard :as keyboard]
             [kii.keys.firmware.map :as fw]
             [kii.keys.core :as keys]
@@ -16,7 +18,7 @@
             [kii.ui.conf.custom-kll.handlers]
             [kii.ui.conf.subscriptions :as conf-sub]
             [kii.ui.conf.layer-select.subscriptions :as ls-sub]
-            ))
+            [cuerdas.core :as str]))
 
 (def default-conf
   {:mode         :keymap
@@ -108,10 +110,34 @@
 (rf/reg-event-db :conf/add-animation add-animation)
 
 (defn partial-update-animation
-  [db [_ data]]
-  (let [selected (-> db :conf :selected-animation)]
-    (-> db (update-in [:conf :kll :animations selected] merge data))))
+  [db [_ data name]]
+  (let [name (or name (-> db :conf :selected-animation))]
+    (-> db (update-in [:conf :kll :animations name] merge data))))
 (rf/reg-event-db :conf/partial-update-animation partial-update-animation)
+
+(defn contains-animation
+  [name line]
+  (or
+    (str/includes? line (str/fmt "A[%s]" name))
+    (str/includes? line (str/fmt "A[%s," name))))
+
+(defn delete-animation
+  [db [_ name]]
+  (-> db
+      (update-in [:conf :kll :animations] #(dissoc % name))
+      (update-in [:conf :kll :custom] (fn [m]
+                                        (update-values
+                                          m
+                                          (fn [value]
+                                            (as-> value x
+                                                  (str/rtrim x)
+                                                  (str/split x ";")
+                                                  (filterv #(not (contains-animation (clojure.core/name name) %)) x)
+                                                  (conj x "")
+                                                  (str/join ";" x))))))))
+
+
+(rf/reg-event-db :conf/delete-animation delete-animation)
 
 ;; === Triggers === ;;
 
