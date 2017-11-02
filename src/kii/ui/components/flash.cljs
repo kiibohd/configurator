@@ -28,20 +28,22 @@
 
 (defn flash-firmware
   []
-  (r/with-let [dfu-path (r/atom (if ((.-sync command-exists) "dfu-util") "dfu-util" ""))
+  (r/with-let [loaded? (r/atom false)
+               dfu-path (r/atom (if ((.-sync command-exists) "dfu-util") "dfu-util" ""))
                bin-file (r/atom "")
                flashing? (r/atom false)
                progress (r/atom "")
                status (r/atom :none)]
     ;; TODO - Read this in on start...
-    (go
-      (if-let [cfg-val (<? (config/get :dfu-util-path))]
-        (reset! dfu-path cfg-val)))
+    (when (false? @loaded?)
+      (go
+       (let [cfg-val (<? (config/get :dfu-util-path))
+             last-dl (<? (config/get :last-download))]
+         (when (some? cfg-val) (reset! dfu-path cfg-val))
+         (when (some? last-dl) (reset! bin-file last-dl))
+         (reset! loaded? true)
+         )))
 
-    (go
-      (if-let [last-dl (<? (config/get :last-download))]
-        (reset! bin-file last-dl)))
-    
     (add-watch dfu-path :path-update
                (fn [k a prev next]
                  (when (not= prev next)
