@@ -1,6 +1,7 @@
 (ns kii.ui.conf.components.static-colors
   (:require [reagent.core :as r]
             [kii.ui.re-frame :refer [<<= <== =>> >=>]]
+            [taoensso.timbre :as timbre :refer-macros [log logf]]
             [cljs-react-material-ui.reagent :as mui]
             [kii.util :refer [str->int]]
             [kii.ui.conf.components.animation-selector :refer [animation-selector]]
@@ -53,6 +54,7 @@
                          (=>> [:conf/set-led-status (build-status leds (:rgb c)) :append])
                          (=>> [:conf/partial-update-animation (build-animation statuses)])
                          )
+       :disabled (not (seq leds))
        }]
 
      (when-not (seq leds)
@@ -72,26 +74,52 @@
     (fn []
       (let [all-animations (<<= [:conf/animations])
             selected-animation (<<= [:conf/selected-animation])
+            leds (<<= [:conf/leds])
             animations (select-keys all-animations (for [[k v] all-animations :when (-> v :frames first (= header))]
                                                      k))
             animation (and selected-animation (selected-animation animations))]
         [:div
-         [:h3 "Static LED Maps"]
-         [animation-selector animations selected-animation
-          :validator #(and (contains? all-animations (keyword %)) (not (contains? animations (keyword %))) "Animation is not a static LED map.")
-          :default-value {:settings settings :frames [header]}]
-         (when (some? animation)
-           ;; Only force reset the LED statuses when we change animations.
-           (when (not= @prev-animation selected-animation)
-             (reset! prev-animation selected-animation)
-             (let [parsed (parse-animation animation)]
-               (=>> [:conf/set-led-status parsed :overwrite])
-               )
+         [:div {:style {:display "flex"}}
+          [:div {:style {:max-width "400px"}}
+           [:h3 "Static LED Maps"]
+           [animation-selector animations selected-animation
+            :validator #(and (contains? all-animations (keyword %)) (not (contains? animations (keyword %))) "Animation is not a static LED map.")
+            :default-value {:settings settings :frames [header]}]
+           (when (some? animation)
+             [:div
+              [:h5 {:style {:margin-bottom "0.5em"}}
+               "Select"]
+              [:div {:style {:display "flex"
+                             :flex-flow "row wrap"
+                             :justify-content "space-around"
+                             :align-items "flex-start"}}
+               [mui/raised-button
+                {:style    {:min-width "120px" :margin-bottom "10px" :margin-right "10px"}
+                 :on-click #(=>> [:conf/set-selected-leds (filterv (fn [x] (some? (:scanCode x))) leds) :overwrite])}
+                "Backlighting"]
+               [mui/raised-button
+                {:style {:min-width "120px" :margin-bottom "10px" :margin-right "10px"}
+                 :on-click #(=>> [:conf/set-selected-leds (filterv (fn [x] (nil? (:scanCode x))) leds) :overwrite])}
+                "Underlighting"]
+               [mui/raised-button
+                {:style    {:min-width "120px" :margin-bottom "10px" :margin-right "10px"}
+                 :on-click #(=>> [:conf/set-selected-leds leds :overwrite])}
+                "All"]]]
              )
-           [:div {:key selected-animation}
-            [:h5 "Assign Color"]
-            [color-editor animation]
-            ])
+           ]
+          (when (some? animation)
+            ;; Only force reset the LED statuses when we change animations.
+            (when (not= @prev-animation selected-animation)
+              (reset! prev-animation selected-animation)
+              (let [parsed (parse-animation animation)]
+                (=>> [:conf/set-led-status parsed :overwrite])
+                )
+              )
+            [:div {:key selected-animation
+                   :style {:margin-left "20px"}}
+             [:h5 "Assign Color"]
+             [color-editor animation]
+             ])]
          ])))
   )
 
