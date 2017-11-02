@@ -3,7 +3,8 @@
   (:require [kii.bindings.npm :as npm]
             [cuerdas.core :as str]
             [taoensso.timbre :as timbre :refer-macros [log logf]]
-            [cljs.core.async :refer [chan <! >! put! close!]]))
+            [cljs.core.async :refer [chan <! >! put! close!]]
+            [kii.device.keyboard :as kbd]))
 
 (defn get-devices-raw []
   (.getDeviceList npm/usb))
@@ -76,21 +77,30 @@
   (let [devices (get-devices-min)
         ch (chan)]
     (go
-      (loop [devices devices]
-        (when-let [device (first devices)]
-          (let [c (-get-data device)
-                d (<! c)]
-            (>! ch d)
-            (recur (rest devices))))
-        )
-      (close! ch))
+     (loop [devices devices]
+       (when-let [device (first devices)]
+         (do
+           (if (some? (kbd/get-ic-device device))
+             (let [c (-get-data device)
+                   d (<! c)]
+               (>! ch d))
+             (logf :info "Skipping: %s" device))
+           (recur (rest devices)))
+         )
+       )
+     (close! ch))
     ch))
 
 (defn usb-event-chan []
   (let [ch (chan)]
     (.on npm/usb "attach" #(go
-                             (let [min (-get-device-min %)
-                                   dev (<! (-get-data min))]
-                               (put! ch [:attach dev]))))
+                             (let [min (-get-device-min %)]
+                               (if (some? (kbd/get-ic-device min))
+                                 (let [dev (<! (-get-data min))]
+                                   (put! ch [:attach dev]))
+                                 (logf :info "Skipping: %s" min)
+                                 )
+                               ))
+         )
     (.on npm/usb "detach" #(put! ch [:detach (-get-device-min %)]))
     ch))
