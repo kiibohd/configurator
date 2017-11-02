@@ -1,6 +1,7 @@
 (ns kii.ui.conf.animation-visualize.components
   (:require [reagent.core :as r]
             [kii.ui.re-frame :refer [<<= <== =>> >=>]]
+            [taoensso.timbre :as timbre :refer-macros [log logf]]
             [cljs-css-modules.macro :refer-macros [defstyle]]
             [kii.ui.conf.palette :as palette]
             [kii.device.keyboard :as keyboard]
@@ -86,7 +87,12 @@
         selected-leds (<<= [:conf/selected-leds])
         led-statuses (<<= [:conf/led-all-statuses])
         on-click (fn [l e]
-                   (=>> [:conf/set-selected-leds l (if (.-shiftKey e) :append :overwrite)])
+                   (let [shift? (.-shiftKey e)
+                         set-leds (fn [ls t] (=>> [:conf/set-selected-leds ls t]))]
+                     (cond
+                       (and (contains? selected-leds (:id l)) shift?) (set-leds (into [] (vals (dissoc selected-leds (:id l)))) :overwrite)
+                       shift? (set-leds l :append)
+                       :else  (set-leds l :overwrite)))
                    )]
     (let [{:keys [width height]} (conf-util/get-size matrix ui-settings)]
       [:div
