@@ -13,7 +13,8 @@
                (cond
                  (= :attach type) (rf/dispatch-sync [:device/add device])
                  (= :detach type) (rf/dispatch-sync [:device/remove device]))
-               ))))
+               )
+             (recur))))
 
 (rf/reg-fx
   :usb/watch

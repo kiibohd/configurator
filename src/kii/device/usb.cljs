@@ -18,7 +18,7 @@
 
 (defn safe-open-raw [device]
   (try
-    (or (.open device) true)
+    (or (.open device false) true)
     (catch :default e
       (logf :warn e "Cannot open usb device - %s" (device-path device))
       false)))
@@ -91,16 +91,22 @@
      (close! ch))
     ch))
 
+(defn- attach-device
+  [ch raw-device]
+  (logf :debug "attach device call %s" raw-device)
+  (let [min (-get-device-min raw-device)]
+   (if (some? (kbd/get-ic-device min))
+     (go
+      (logf :debug "opening device")
+      (let [dev (<! (-get-data min))]
+        (logf :debug "got device - %s" dev)
+        (put! ch [:attach dev])))
+     (logf :debug "Skipping: %s" min))
+   )
+  )
+
 (defn usb-event-chan []
   (let [ch (chan)]
-    (.on npm/usb "attach" #(go
-                             (let [min (-get-device-min %)]
-                               (if (some? (kbd/get-ic-device min))
-                                 (let [dev (<! (-get-data min))]
-                                   (put! ch [:attach dev]))
-                                 (logf :info "Skipping: %s" min)
-                                 )
-                               ))
-         )
+    (.on npm/usb "attach" #(attach-device ch %))
     (.on npm/usb "detach" #(put! ch [:detach (-get-device-min %)]))
     ch))
