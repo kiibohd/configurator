@@ -21,7 +21,7 @@
     (or (.open device false) true)
     (catch :default e
       (logf :warn e "Cannot open usb device - %s" (device-path device))
-      false)))
+      true)))
 
 (defn safe-close-raw [device]
   (try
