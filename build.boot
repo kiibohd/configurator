@@ -66,7 +66,8 @@
         (cljs :ids #{"renderer"}
               ;; TODO - Need to figure out all the different externs needed.
               :optimizations :none                        ;:advanced
-              :compiler-options {:load-tests false})
+              :compiler-options {:load-tests false
+                                 :closure-defines {'process.env/NODE_ENV "production"}})
         ;; Right now an npm-install will call a naked `target` call clearing everything
         ;; until a good method for npm dependencies is found this will have to do for now.
         (target :no-clean true)))
@@ -92,7 +93,8 @@
    (cljs-devtools)
    ;; Compile renderer =========================================
    (cljs :ids #{"renderer"}
-         :compiler-options {:closure-defines {'kii.env/dev? true}
+         :compiler-options {:closure-defines {'kii.env/dev? true
+                                              'process.env/NODE_ENV "production"}
                             :output-wrapper  true
                             ; There's a little funny business going on with exporting other ns vars
                             ;  to reduce the proliferation of imports for small components so the

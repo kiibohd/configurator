@@ -12,9 +12,14 @@
         )))
 
 (rf/reg-sub
- :layout/active
+ :variant/active
  (fn [db _]
-   (:active-layout db)))
+   (:active-variant db)))
+
+(rf/reg-sub
+  :layout/active
+  (fn [db _]
+    (:active-layout db)))
 
 (rf/reg-sub
  :panel/active

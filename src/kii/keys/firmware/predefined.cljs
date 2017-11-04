@@ -241,13 +241,13 @@
    [:mouse/btn15 "Btn 15" ["#:mouseOut( 15, 0, 0 )"] :mouse]
    [:mouse/btn16 "Btn 16" ["#:mouseOut( 16, 0, 0 )"] :mouse]
    [:mouse/up1 "↑ x1" ["#:mouseOut( 0, 0, 1 )"] :mouse]
-   [:mouse/up5 "↑ x5" ["#:mouseOut( 0, 0, 5 )"] :mouse]
    [:mouse/dn1 "↓ x1" ["#:mouseOut( 0, 0, -1 )"] :mouse]
-   [:mouse/dn5 "↓ x5" ["#:mouseOut( 0, 0, -5 )"] :mouse]
    [:mouse/lf1 "← x1" ["#:mouseOut( 0, -1, 0 )"] :mouse]
-   [:mouse/lf5 "← x1" ["#:mouseOut( 0, -5, 0 )"] :mouse]
    [:mouse/rt1 "→ x1" ["#:mouseOut( 0, 1, 0 )"] :mouse]
-   [:mouse/rt5 "→ x1" ["#:mouseOut( 0, 5, 0 )"] :mouse]
+   [:mouse/up5 "↑ x5" ["#:mouseOut( 0, 0, 5 )"] :mouse]
+   [:mouse/dn5 "↓ x5" ["#:mouseOut( 0, 0, -5 )"] :mouse]
+   [:mouse/lf5 "← x5" ["#:mouseOut( 0, -5, 0 )"] :mouse]
+   [:mouse/rt5 "→ x5" ["#:mouseOut( 0, 5, 0 )"] :mouse]
 
    ;; macros
    [:mac/tilde "~" ["#:'~'"] :mac {:font-size "16px"}]

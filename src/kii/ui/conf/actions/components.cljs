@@ -1,13 +1,17 @@
 (ns kii.ui.conf.actions.components
   (:require [reagent.core :as r]
-            [re-frame.core :as rf]
             [cljs-css-modules.macro :as css]
+            [taoensso.timbre :as timbre :refer-macros [log logf]]
+            [kii.ui.re-frame :refer [<<= <== =>> >=>]]
+            [cuerdas.core :as str]
             [kii.ui.conf.subscriptions]
             [kii.config.core :as config]
             [kii.ui.styling :as styling]
             [kii.ui.conf.palette :as palette]
             [goog.json :as goog-json]
-            ))
+            [cljs-react-material-ui.reagent :as mui]
+            [cljs-react-material-ui.icons :as mui-icons]
+            [kii.device.keyboard :as keyboard]))
 
 ;;==== Button ====;;
 (css/defstyle btn-style
@@ -157,37 +161,79 @@
    [{:text "import"
      :fn   #(let [json (goog-json/parse %)
                   cnv (js->clj json :keywordize-keys true)]
-              (rf/dispatch-sync [:load-config cnv])
+              (>=> [:load-config cnv])
               (reset! visible? false)
-              (rf/dispatch [:alert/add {:type :success :msg "Successfully imported layout!"}]))
+              (=>> [:alert/add {:type :success :msg "Successfully imported layout!"}]))
      }]])
 
 ;;==== Action Bar ====;;
 (css/defstyle action-bar-style
   [".action-bar"
-   {:float         "right"
+   {:display       "flex"
+    :float         "right"
     :margin-right  "-10px"
     :margin-bottom "10px"}])
 
-(defn actions-comp
-  [changes? kll]
-  (let [code-visible? (r/atom false)
-        import-visible? (r/atom false)]
-    (fn [changes? kll]
+(defn history
+  []
+  (let [state (r/atom {:open false :anchor nil})
+        device (<<= [:device/active])
+        variant (<<= [:variant/active])
+        kbd (keyboard/product->keyboard (:product device))
+        ]
+    (fn []
       [:div
-       {:class (:action-bar action-bar-style)}
-       (code-popup code-visible? kll)
-       (import-popup import-visible?)
-       (button-comp "help_outline" "Help" false #(rf/dispatch [:alert/add {:type :warning :msg "Help not implemented yet :("}]))
-       (button-comp "undo" "Revert to original" (not changes?) #(do
-                                                            (rf/dispatch-sync [:conf/reset])
-                                                            (rf/dispatch [:alert/add {:type :success :msg "Successfully reverted to original!"}])))
-       (button-comp "code" "View layout JSON" false #(reset! code-visible? true))
-       (button-comp "file_upload" "Import keymap" false #(reset! import-visible? true))
-       (button-comp "file_download" "Download firmware" false #(rf/dispatch [:start-firmware-compile]))
-       ])))
+       [mui/raised-button
+        {:style    {:display "inline-block" :margin-right "10px"}
+         :on-click #(do (.preventDefault %)
+                        (reset! state {:open true :anchor (.-currentTarget %)}))
+         :label    "layouts"
+         :icon     (mui-icons/action-history)}
+        ]
+       [mui/popover
+        {:open             (:open @state)
+         :anchorEl         (:anchor @state)
+         :anchor-origin    {:horizontal "left" :vertical "bottom"}
+         :target-origin    {:horizontal "left" :vertical "top"}
+         :on-request-close #(reset! state {:open false :anchor nil})}
+        [mui/menu
+         (for [layout (get-in kbd [:layouts variant])]
+           ^{:key layout}
+           [mui/menu-item {:primary-text (str/title layout)
+                           :on-click     #(do (reset! state {:open false :anchor nil})
+                                              (>=> [:layout/set-active layout])
+                                              (=>> [:start-configurator])
+                                              )}] )
+         [mui/divider]
+         ;; TODO - Historically downloaded layouts.
+         #_(for []
+             [mui/menu-item {:primary-text "item"}]
+             )
+         ]
+        ]
+       ]))
+  )
+
 
 (defn actions []
-  (let [changes? (rf/subscribe [:conf/changes?])
-        kll (rf/subscribe [:conf/kll])]
-    [actions-comp @changes? @kll]))
+  (let [changes? (<<= [:conf/changes?])
+        kll (<<= [:conf/kll])
+        code-visible? (r/atom false)
+        import-visible? (r/atom false)]
+    (fn []
+      [:div
+       {:class (:action-bar action-bar-style)}
+       [code-popup code-visible? kll]
+       [import-popup import-visible?]
+
+       [history]
+       [button-comp "help_outline" "Help" false #(=>> [:alert/add {:type :warning :msg "Help not implemented yet :("}])]
+       [button-comp "undo" "Revert to original" (not changes?) #(do
+                                                                  (>=> [:conf/reset])
+                                                                  (=>> [:alert/add {:type :success :msg "Successfully reverted to original!"}]))]
+       [button-comp "code" "View layout JSON" false #(reset! code-visible? true)]
+       [button-comp "file_upload" "Import keymap" false #(reset! import-visible? true)]
+       [button-comp "file_download" "Download firmware" false #(=>> [:start-firmware-compile])]
+       ])
+    )
+)

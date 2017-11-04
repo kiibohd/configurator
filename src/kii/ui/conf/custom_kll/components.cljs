@@ -20,16 +20,17 @@
 (defn kll-editor [active-layer custom]
   (r/with-let [a (r/atom custom)
                r (count-newlines a)]
-    [:div
-     [:textarea
-      {:key           active-layer
-       :rows          (+ 10 @r)
-       :class         (:editor css)
-       :default-value custom
-       :on-blur       #(rf/dispatch-sync [:conf/custom-kll @a])
-       :on-change     #(do
-                         (reset!
-                           a (.. % -target -value)))}]]))
+    (fn [active-layer custom]
+      [:div
+       [:textarea
+        {:key           active-layer
+         :rows          (+ 10 @r)
+         :class         (:editor css)
+         :default-value custom
+         :on-blur       #(rf/dispatch-sync [:conf/custom-kll @a])
+         :on-change     #(do
+                           (reset!
+                            a (.. % -target -value)))}]])))
 
 (defn custom-kll-comp
   [active-layer custom]

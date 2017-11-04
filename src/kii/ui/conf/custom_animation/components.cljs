@@ -10,36 +10,38 @@
 
 (defn animation-editor [animation]
   (r/with-let [a (r/atom (cstr/join ";\n" (:frames animation)))]
-    [mui/text-field
-     {:default-value        @a
-      :floating-label-fixed true
-      :floating-label-text  "frames — each frame separated by a semi-colon \";\""
-      :multi-line           true
-      :on-blur              #(rf/dispatch-sync [:conf/partial-update-animation {:frames (cstr/split @a #";\n?")}])
-      :on-change            (fn [_ val] (reset! a val))
-      :rows                 5
-      :style                {:display     "block"
-                             :width       max-width
-                             :font-family styling/monospace-font-stack}
-      :textarea-style       {:white-space    "pre"
-                             :padding-bottom "1.2em"
-                             :overflow-y     "hidden"
-                             :font-size      "0.9em"}
-      }]
+    (fn [animation]
+      [mui/text-field
+       {:default-value        @a
+        :floating-label-fixed true
+        :floating-label-text  "frames — each frame separated by a semi-colon \";\""
+        :multi-line           true
+        :on-blur              #(rf/dispatch-sync [:conf/partial-update-animation {:frames (cstr/split @a #";\n?")}])
+        :on-change            (fn [_ val] (reset! a val))
+        :rows                 5
+        :style                {:display     "block"
+                               :width       max-width
+                               :font-family styling/monospace-font-stack}
+        :textarea-style       {:white-space    "pre"
+                               :padding-bottom "1.2em"
+                               :overflow-y     "hidden"
+                               :font-size      "0.9em"}
+        }])
     ))
 
 (defn animation-settings
   [animation]
   (r/with-let [a (r/atom (:settings animation))]
-    [mui/text-field
-     {:floating-label-text "settings"
-      :default-value       @a
-      :disabled            (nil? animation)
-      :on-change           (fn [_ val] (reset! a val))
-      :on-blur             #(rf/dispatch-sync [:conf/partial-update-animation {:settings @a}])
-      :style               {:display "block"
-                            :width max-width}
-      }]
+    (fn [animation]
+      [mui/text-field
+       {:floating-label-text "settings"
+        :default-value       @a
+        :disabled            (nil? animation)
+        :on-change           (fn [_ val] (reset! a val))
+        :on-blur             #(rf/dispatch-sync [:conf/partial-update-animation {:settings @a}])
+        :style               {:display "block"
+                              :width   max-width}
+        }])
     ))
 
 

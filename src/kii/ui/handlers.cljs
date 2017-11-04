@@ -25,8 +25,12 @@
 
 (rf/reg-event-db :panel/set-active set-active-panel)
 
-(defn set-active-layout
-  [db [_ layout]]
-  (assoc db :active-layout layout))
+(defn set-active-variant
+  [db [_ variant]]
+  (assoc db :active-variant variant))
 
-(rf/reg-event-db :layout/set-active set-active-layout)
+(rf/reg-event-db :variant/set-active set-active-variant)
+
+(rf/reg-event-db :layout/set-active
+                 (fn [db [_ layout]]
+                   (assoc db :active-layout layout)))

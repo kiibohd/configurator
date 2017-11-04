@@ -207,7 +207,9 @@
                   keyboard/product->keyboard
                   :names
                   first)
-          layout (clojure.string/replace (:active-layout db) " " "")]
+          variant (clojure.string/replace (:active-variant db) " " "")
+          layout (:active-layout db)
+          ]
       {:db   (assoc db :conf {:loaded? false})
        :http {:method     :get
               :uri        (str env/base-uri "layouts/" kbd "-" layout ".json")

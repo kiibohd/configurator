@@ -2,6 +2,8 @@
   (:require [reagent.core :as r]
             [re-frame.core :as rf]
             [cljs-css-modules.macro :refer-macros [defstyle]]
+            [taoensso.timbre :as timbre :refer-macros [log logf]]
+            [kii.ui.re-frame :refer [<<= <== =>> >=>]]
             [cljs-react-material-ui.core :as mui-core]
             [cljs-react-material-ui.reagent :as mui]
             [kii.ui.conf.components.main :as conf-main]
@@ -80,16 +82,18 @@
 (defn keyboard-display-comp
   [d]
   (let [kbd (keyboard/product->keyboard (:product d))
-        layouts (:layouts kbd)
-        action (if (= 1 (count layouts))
+        variants (:variants kbd)
+        action (if (= 1 (count variants))
+                 ;; TODO - This needs to get refactored out 3 places now initiate conf mode
+                 #(do
+                    (>=> [:device/set-active d])
+                    (>=> [:variant/set-active (first variants)])
+                    (>=> [:layout/set-active (first (get-in kbd [:layouts (first variants)]))])
+                    (=>> [:start-configurator])
+                    (=>> [:panel/set-active :configurator]))
                  #(util/dispatch-all
                    [:device/set-active d]
-                   [:layout/set-active (first layouts)]
-                   [:start-configurator]
-                   [:panel/set-active :configurator])
-                 #(util/dispatch-all
-                   [:device/set-active d]
-                   [:panel/set-active :choose-layout]))]
+                   [:panel/set-active :choose-variant]))]
     [:a
      {:key      (:path d)
       :class    (:kbd-item sheet)
@@ -122,9 +126,9 @@
   (let [devices (rf/subscribe [:device/all])]
     (fn [] (keyboard-select-comp @devices))))
 
-;;==== Layout Select ====;;
+;;==== Variant Select ====;;
 (defstyle ldv-css
-  [".layout"
+  [".variant"
    {:cursor "pointer"
     :border "1px solid gray"
     :border-radius "4px"
@@ -182,54 +186,54 @@
       )
     )
 
-  (defn layout-display-visual-comp
-    [name {:keys [rows keys]}]
+  (defn variant-display-visual-comp
+    [kbd name {:keys [rows keys]}]
     [:div {:key      (str name)
-           :class    (:layout ldv-css)
-           :on-click #(util/dispatch-all
-                       [:layout/set-active name]
-                       [:start-configurator]
-                       [:panel/set-active :configurator])}
+           :class    (:variant ldv-css)
+           :on-click #(do
+                        (>=> [:variant/set-active name])
+                        (>=> [:layout/set-active (first (get-in kbd [:layouts name]))])
+                        (=>> [:start-configurator])
+                        (=>> [:panel/set-active :configurator]))
+           }
      [:h3 name]
      [:div {:class (:container ldv-css)
             :style {:height (str (* (+ (last rows) 1) scale) "px")
                     :width  (str (reduce (fn [sum k] (+ sum (* scale (keyword->float k)))) 0 (first keys)) "px")}}
       (map-indexed (fn [i r] (ldv-process-row i r rows)) keys)
       ]]
-    ))
+    )
+  )
 
-(defn layout-display-comp
-  [name]
-  [:li
-   {:key        (str name)
-    :class-name (:layout-item sheet)
-    :on-click   #(util/dispatch-all
-                  [:layout/set-active name]
-                  [:start-configurator]
-                  [:panel/set-active :configurator])}
-   [:span (str name)]
-   ])
 
-(defn layout-select-comp
-  [device]
-  (let [kbd (keyboard/product->keyboard (:product device))
-        detail (:layout-detail kbd)]
-    (if (nil? detail)
-      [:h3 "Select a layout."
-       [:ul (map layout-display-comp (:layouts kbd))]]
-
-      [:h3 "Select a Layout"
-       [:div
-        (map #(layout-display-visual-comp % (get detail %)) (:layouts kbd))
-        ]
-       ]
-      )))
-
-(defn layout-select
+(defn variant-select
   []
-  (let [kbd (rf/subscribe [:device/active])]
+  (let [device (<<= [:device/active])]
     (fn []
-      (layout-select-comp @kbd))))
+      (let [kbd (keyboard/product->keyboard (:product device))
+            detail (:variant-detail kbd)]
+        (if (nil? detail)
+          [:h3 "Select a variant."
+           [:ul
+            (for [name (:variants kbd)]
+              ^{:key name}
+              [:li
+               {:class    (:variant-item sheet)
+                :on-click #(do
+                             (>=> [:variant/set-active name])
+                             (>=> [:layout/set-active (first (get-in kbd [:layouts name]))])
+                             (=>> [:start-configurator])
+                             (=>>[:panel/set-active :configurator]))}
+               [:span (str name)] ] ) ] ]
+          [:h3 "Select a Variant"
+           [:div
+            (for [variant (:variants kbd)]
+              ^{:key variant}
+             [variant-display-visual-comp kbd variant (get detail variant)] )
+            ]
+           ]
+          ))
+      )))
 
 ;;==== Activity Select ====;;
 ;;XXXX DISABLED XXXX;;
@@ -264,7 +268,7 @@
        [:div {:style {:clear "both"}}
         (cond
           (= panel :home) [keyboard-select]
-          (= panel :choose-layout) [layout-select]
+          (= panel :choose-variant) [variant-select]
           (= panel :choose-activity) [activity-select]
           (= panel :configurator) [conf-main/main]
           (= panel :flash) [flash-firmware]
@@ -313,7 +317,7 @@
    {:cursor           "pointer"
     :margin           "20px"
     :padding          "0.25em"}]
-  [".layout-item"
+  [".variant-item"
    {:width            "600px"
     :background-color "palevioletred"
     :list-style       "none"

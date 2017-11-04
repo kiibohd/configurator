@@ -78,52 +78,53 @@
   [selected! {:keys [configurable description frames settings] :as animation}]
   (r/with-let [name (r/atom @selected!)
                values (r/atom (into {} (map (fn [x] [(:name x) (:default x)]) configurable)))]
-    [:div
-     [mui/card
-      {:style {:min-width "35em"
-               :margin-left "2em"
-               :margin-top "1em"}}
-      [mui/card-text
-       [mui/text-field {:floating-label-text "name to create as"
-                        :default-value @name
-                        :on-change (fn [_ val] (reset! name val))
-                        }]]
-      [mui/card-text
-       description
-       ]
-      [:hr {:style {:margin "0 10px"}}]
-      [mui/card-header {:text-style {:padding-right "0" }
-                        :style {:padding-bottom "0"}}
-       "customizations"]
-      (if (count configurable)
+    (fn [selected! {:keys [configurable description frames settings] :as animation}]
+      [:div
+       [mui/card
+        {:style {:min-width   "35em"
+                 :margin-left "2em"
+                 :margin-top  "1em"}}
         [mui/card-text
-         {:style {}}
-         (for [c configurable]
-           ^{:key (:name c)}
-           [customization values c])]
-        [mui/card-text {:style {:font-style "italic" :padding-top "0"}}
-         "none"])
-      [mui/card-actions
-       [mui/raised-button
-        {:label    "Add Animation"
-         :primary  true
-         :on-click (fn []
-                     ;; Add the animation & perform replacements
-                     (=>> [:conf/add-animation (keyword @name)
-                           {:settings (replace-all settings @values configurable)
-                            :type (:type animation)
-                            :frames   (mapv #(replace-all % @values configurable) frames)}])
-                     ;; Append the required custom-kll
-                     (when-not (str/empty-or-nil? (:custom-kll animation))
-                       (let [custom-kll (<<= [:conf/custom-kll 0])
-                             additions (str/replace (str "### Added by canned animation ${__NAME__} ###\n" (:custom-kll animation))
-                                                    "${__NAME__}" @name)]
-                         (=>> [:conf/custom-kll (str/fmt "%s\n\n%s\n" custom-kll additions)])))
-                     ;; Reset to nothing selected.
-                     (reset! selected! nil))}]
-       ]
-      ]
-     ]
+         [mui/text-field {:floating-label-text "name to create as"
+                          :default-value       @name
+                          :on-change           (fn [_ val] (reset! name val))
+                          }]]
+        [mui/card-text
+         description
+         ]
+        [:hr {:style {:margin "0 10px"}}]
+        [mui/card-header {:text-style {:padding-right "0"}
+                          :style      {:padding-bottom "0"}}
+         "customizations"]
+        (if (count configurable)
+          [mui/card-text
+           {:style {}}
+           (for [c configurable]
+             ^{:key (:name c)}
+             [customization values c])]
+          [mui/card-text {:style {:font-style "italic" :padding-top "0"}}
+           "none"])
+        [mui/card-actions
+         [mui/raised-button
+          {:label    "Add Animation"
+           :primary  true
+           :on-click (fn []
+                       ;; Add the animation & perform replacements
+                       (=>> [:conf/add-animation (keyword @name)
+                             {:settings (replace-all settings @values configurable)
+                              :type     (:type animation)
+                              :frames   (mapv #(replace-all % @values configurable) frames)}])
+                       ;; Append the required custom-kll
+                       (when-not (str/empty-or-nil? (:custom-kll animation))
+                         (let [custom-kll (<<= [:conf/custom-kll 0])
+                               additions (str/replace (str "### Added by canned animation ${__NAME__} ###\n" (:custom-kll animation))
+                                                      "${__NAME__}" @name)]
+                           (=>> [:conf/custom-kll (str/fmt "%s\n\n%s\n" custom-kll additions)])))
+                       ;; Reset to nothing selected.
+                       (reset! selected! nil))}]
+         ]
+        ]
+       ])
     ))
 
 (defn customize-canned
@@ -131,23 +132,24 @@
   (r/with-let [selected (r/atom nil)]
     (let [canned (<<= [:conf/canned])
           animation (get canned (keyword @selected))]
-      [:div {:style {:display "flex"}}
-       [:div
-        [:h3 "Customize Pre-built"]
-        [mui/select-field
-         {:floating-label-text "animation"
-          :value               @selected
-          :on-change           (fn [o k v]
-                                 (reset! selected v))}
-         (for [name (keys canned)]
-           [mui/menu-item {:key          name
-                           :value        name
-                           :primary-text name}]
-           )
-         ]
-        ]
-       (when animation
-         ;; Key is specified to force a reload of reagent atoms when we change selections.
-         ^{:key @selected}
-         [customize-card selected animation])
-       ])))
+      (fn []
+        [:div {:style {:display "flex"}}
+         [:div
+          [:h3 "Customize Pre-built"]
+          [mui/select-field
+           {:floating-label-text "animation"
+            :value               @selected
+            :on-change           (fn [o k v]
+                                   (reset! selected v))}
+           (for [name (keys canned)]
+             [mui/menu-item {:key          name
+                             :value        name
+                             :primary-text name}]
+             )
+           ]
+          ]
+         (when animation
+           ;; Key is specified to force a reload of reagent atoms when we change selections.
+           ^{:key @selected}
+           [customize-card selected animation])
+         ]))))
