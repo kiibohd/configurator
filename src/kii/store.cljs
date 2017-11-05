@@ -7,8 +7,11 @@
             [kii.bindings.node.fs :as fs]
             [kii.bindings.node.path :as path]
             [kii.bindings.electron-renderer :refer [user-data-dir]]
-            [cuerdas.core :as str]))
+            [cuerdas.core :as str]
+            [cljs-time.core :as time]
+            [cljs-time.coerce :as time-coerce]))
 
+(def log-file "log/build.log")
 (def bin-file "kiibohd.dfu.bin")
 (def cache-dir "firmware-cache")
 
@@ -27,13 +30,24 @@
               zip (<? (p->chan (.loadAsync jszip file)))
               json-name (str/fmt "%s-%s.json" board layout)
               bin-data (<? (extract zip bin-file))
-              json-data (<? (extract zip json-name)) ]
+              json-data (<? (extract zip json-name))
+              log-data (<? (extract zip log-file))
+              log-out (path/join out-dir "build.log")
+              json-out (path/join out-dir json-name)
+              ]
           (fs/write-file! bin-out bin-data)
-          (fs/write-file! (path/join out-dir json-name) json-data)
+          (fs/write-file! json-out json-data)
+          (fs/write-file! log-out log-data)
 
           (logf :info "Successfully extracted firmware and config to local cache: %s" bin-out)
 
-          (put! c bin-out)
+          (put! c {:board  board
+                   :layout layout
+                   :hash   hash
+                   :bin    bin-out
+                   :json   json-out
+                   :log    log-out
+                   :time   (time-coerce/to-long (time/now))})
           )
         (catch js/Error e
           (logf :error e "Error extracting firmware"))))

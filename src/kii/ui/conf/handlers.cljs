@@ -18,7 +18,8 @@
             [kii.ui.conf.custom-kll.handlers]
             [kii.ui.conf.subscriptions :as conf-sub]
             [kii.ui.conf.layer-select.subscriptions :as ls-sub]
-            [cuerdas.core :as str]))
+            [cuerdas.core :as str]
+            [kii.ui.util :as util]))
 
 (def default-conf
   {:mode         :keymap
@@ -201,12 +202,7 @@
   :start-configurator
   (fn [cofx _]
     (let [db (:db cofx)
-          kbd (-> db
-                  :active-keyboard
-                  :product
-                  keyboard/product->keyboard
-                  :names
-                  first)
+          kbd (util/active-keyboard-name db)
           variant (clojure.string/replace (:active-variant db) " " "")
           layout (:active-layout db)
           ]

@@ -11,7 +11,11 @@
             [goog.json :as goog-json]
             [cljs-react-material-ui.reagent :as mui]
             [cljs-react-material-ui.icons :as mui-icons]
-            [kii.device.keyboard :as keyboard]))
+            [kii.device.keyboard :as keyboard]
+            [cljs-time.core :as time]
+            [cljs-time.format :as time-fmt]
+            [cljs-time.coerce :as time-coerce]
+            [cljs-node-io.core :as io]))
 
 ;;==== Button ====;;
 (css/defstyle btn-style
@@ -150,6 +154,13 @@
          ])))
   )
 
+(defn load-json
+  [raw-str]
+  (let [json (goog-json/parse raw-str)
+        cnv (js->clj json :keywordize-keys true)]
+    (>=> [:load-config cnv])
+  ))
+
 (defn code-popup [visible? kll]
   (let [mangled (-> kll config/mangle clj->js)]
     [popup-comp "raw layout json" visible? true (.stringify js/JSON mangled nil 4)]
@@ -159,9 +170,8 @@
   [popup-comp
    "import layout json" visible? false ""
    [{:text "import"
-     :fn   #(let [json (goog-json/parse %)
-                  cnv (js->clj json :keywordize-keys true)]
-              (>=> [:load-config cnv])
+     :fn   #(do
+              (load-json %)
               (reset! visible? false)
               (=>> [:alert/add {:type :success :msg "Successfully imported layout!"}]))
      }]])
@@ -174,44 +184,60 @@
     :margin-right  "-10px"
     :margin-bottom "10px"}])
 
+(def short-fmt (time-fmt/formatter "MM/dd ha"))
+
 (defn history
   []
   (let [state (r/atom {:open false :anchor nil})
-        device (<<= [:device/active])
-        variant (<<= [:variant/active])
-        kbd (keyboard/product->keyboard (:product device))
         ]
     (fn []
-      [:div
-       [mui/raised-button
-        {:style    {:display "inline-block" :margin-right "10px"}
-         :on-click #(do (.preventDefault %)
-                        (reset! state {:open true :anchor (.-currentTarget %)}))
-         :label    "layouts"
-         :icon     (mui-icons/action-history)}
-        ]
-       [mui/popover
-        {:open             (:open @state)
-         :anchorEl         (:anchor @state)
-         :anchor-origin    {:horizontal "left" :vertical "bottom"}
-         :target-origin    {:horizontal "left" :vertical "top"}
-         :on-request-close #(reset! state {:open false :anchor nil})}
-        [mui/menu
-         (for [layout (get-in kbd [:layouts variant])]
-           ^{:key layout}
-           [mui/menu-item {:primary-text (str/title layout)
-                           :on-click     #(do (reset! state {:open false :anchor nil})
-                                              (>=> [:layout/set-active layout])
-                                              (=>> [:start-configurator])
-                                              )}] )
-         [mui/divider]
-         ;; TODO - Historically downloaded layouts.
-         #_(for []
-             [mui/menu-item {:primary-text "item"}]
+      (let [device (<<= [:device/active])
+            variant (<<= [:variant/active])
+            recent-downloads (<<= [:local/recent-downloads])
+            kbd (keyboard/product->keyboard (:product device))
+            kbd-name (-> kbd :names first)
+            dls (seq (take 5 (get-in recent-downloads [kbd-name variant])))]
+        [:div
+         [mui/raised-button
+          {:style    {:display "inline-block" :margin-right "10px"}
+           :on-click #(do (.preventDefault %)
+                          (reset! state {:open true :anchor (.-currentTarget %)}))
+           :label    "layouts"
+           :icon     (mui-icons/action-history)}
+          ]
+         [mui/popover
+          {:open             (:open @state)
+           :anchorEl         (:anchor @state)
+           :anchor-origin    {:horizontal "left" :vertical "bottom"}
+           :target-origin    {:horizontal "left" :vertical "top"}
+           :on-request-close #(reset! state {:open false :anchor nil})}
+          [mui/menu
+           (for [layout (get-in kbd [:layouts variant])]
+             ^{:key layout}
+             [mui/menu-item {:primary-text (str/title layout)
+                             :on-click     #(do (reset! state {:open false :anchor nil})
+                                                (>=> [:layout/set-active layout])
+                                                (=>> [:start-configurator])
+                                                )}])
+           (if dls [mui/divider])
+           (for [dl dls]
+             ^{:key dl}
+             [mui/menu-item {:primary-text (str/fmt "%s (%s) - %s"
+                                                    (:layout dl)
+                                                    (subs (:hash dl) 0 5)
+                                                    (->> dl :time time-coerce/from-long time/to-default-time-zone (time-fmt/unparse short-fmt))
+                                                    )
+                             :on-click     #(do (reset! state {:open false :anchor nil})
+                                                (let [raw-str (io/slurp (:json dl))]
+                                                  (load-json raw-str)
+                                                  (=>> [:alert/add {:type :success :msg "Successfully loaded layout!"}])
+                                                  )
+                                                )}]
              )
-         ]
-        ]
-       ]))
+
+           ]
+          ]
+         ])))
   )
 
 

@@ -130,8 +130,7 @@
 (defn customize-canned
   []
   (r/with-let [selected (r/atom nil)]
-    (let [canned (<<= [:conf/canned])
-          animation (get canned (keyword @selected))]
+    (let [canned (<<= [:conf/canned])]
       (fn []
         [:div {:style {:display "flex"}}
          [:div
@@ -148,7 +147,7 @@
              )
            ]
           ]
-         (when animation
+         (when-let [animation (get canned (keyword @selected))]
            ;; Key is specified to force a reload of reagent atoms when we change selections.
            ^{:key @selected}
            [customize-card selected animation])

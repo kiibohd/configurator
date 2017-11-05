@@ -2,7 +2,9 @@
   (:require [kii.ui.conf.subscriptions]
             [kii.ui.device.subscriptions]
             [kii.ui.alert.subscriptions]
-            [re-frame.core :as rf]))
+            [re-frame.core :as rf]
+            [cuerdas.core :as str]
+            ))
 
 (rf/reg-sub
  :initialized?
@@ -25,4 +27,23 @@
  :panel/active
  (fn [db _]
    (:active-panel db)))
+
+(rf/reg-sub :local/all
+  (fn [db _] (-> db :local)))
+
+(rf/reg-sub :local/dfu-util-path
+  :<- [:local/all]
+  (fn [local _]
+    (let [value (:dfu-util-path local)]
+      (if (str/empty-or-nil? (str/trim value))
+        nil
+        value))))
+
+(rf/reg-sub :local/last-download
+  :<- [:local/all]
+  (fn [local _] (:last-download local) ))
+
+(rf/reg-sub :local/recent-downloads
+  :<- [:local/all]
+  (fn [local _] (:recent-downloads local)))
 

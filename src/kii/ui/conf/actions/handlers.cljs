@@ -70,7 +70,9 @@
       "success" (do
                   (go
                     (let [cached (<! (store/cache-firmware path))]
-                      (kii.ui.config/set :last-download cached)))
+                      (=>> [:local/set-last-download cached])
+                      (=>> [:local/add-recent-downloads cached])
+                      ))
                   {:dispatch [:alert/add
                               {:type :success
                                :msg  [:div
