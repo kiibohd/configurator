@@ -22,11 +22,10 @@
   (fn [cofx _]
     (do
       (let [db (:db cofx)
-            actions (sub/get-current-actions db nil)
             kll (-> db :conf :kll)
             mangled-kll (config/mangle kll)
             ]
-        {:db   (assoc-in db [:conf :current-actions] (conj actions :firmware-dl))
+        {:dispatch [:start-action :firmware-dl]
          :http {:method     :post
                 :uri        (str env/base-uri "download.php")
                 :on-success [:start-firmware-dl]
@@ -38,6 +37,16 @@
                                                 {:keywords? true})}}
          }
         ))))
+
+(rf/reg-event-db
+  :start-action
+  (fn [db [_ action-name]]
+    (update-in db [:conf :current-actions] #(conj (or % #{}) action-name))))
+
+(rf/reg-event-db
+  :finish-action
+  (fn [db [_ action-name]]
+    (update-in db [:conf :current-actions] #(disj (or % #{}) action-name))))
 
 (defn dl-complete
   [_ arg]
@@ -59,8 +68,9 @@
 (rf/reg-event-fx
   :firmware-compile-failure
   (fn [{:keys [db]} [_ response]]
-    (logf :warn "Firmware compilation failed %s" (-> response :response :error))
-    {:dispatch [:alert/add {:type :error :msg (str "Compilation Failed: " (-> response :response :error))}]}
+    (logf :warn "Firmware compilation failed %s" (js->clj (-> response :response :error)))
+    {:dispatch-n (list [:finish-action :firmware-dl]
+                       [:alert/add {:type :error :msg (str "Compilation Failed: " (-> response :response :error))}])}
     ))
 
 (rf/reg-event-fx
@@ -72,9 +82,9 @@
                     (let [cached (<! (store/cache-firmware path))]
                       (=>> [:local/set-last-download cached])
                       (=>> [:local/add-recent-downloads cached])
-                      ))
-                  {:dispatch [:alert/add
+                      (=>> [:alert/add
                               {:type :success
+                               :key (rand-int 200000)
                                :msg  [:div
                                       {:style {:display "flex" :align-items "center"}}
 
@@ -92,7 +102,9 @@
                                                        (=>> [:alert/remove-all])
                                                        (=>> [:panel/set-active :flash])
                                                        )}]
-                                      ]}]})
+                                      ]}])
+                      ))
+                  {:dispatch [:finish-action :firmware-dl]})
       "error" (do
                 (logf :error "Failed to download file %s" error)
                 {:dispatch [:alert/add {:type :error :msg "Failed to download"}]}))

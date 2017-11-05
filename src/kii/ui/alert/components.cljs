@@ -81,8 +81,8 @@
   [alerts]
   (when-not (empty? alerts)
     [:div {:class (:container alert-styles)}
-     (for [{:keys [msg type] :as alert} alerts]
-       [:div {:key msg}
+     (for [{:keys [msg type key] :as alert} alerts]
+       [:div {:key (or key msg)}
         [:span {:class (str (:alert alert-styles) " ")}
          msg
          [:div

@@ -242,24 +242,28 @@
 
 
 (defn actions []
-  (let [changes? (<<= [:conf/changes?])
-        kll (<<= [:conf/kll])
-        code-visible? (r/atom false)
+  (let [code-visible? (r/atom false)
         import-visible? (r/atom false)]
     (fn []
-      [:div
-       {:class (:action-bar action-bar-style)}
-       [code-popup code-visible? kll]
-       [import-popup import-visible?]
+      (let [changes? (<<= [:conf/changes?])
+            kll (<<= [:conf/kll])
+            current-actions (<<= [:conf/current-actions])]
+        [:div
+         {:class (:action-bar action-bar-style)}
+         [code-popup code-visible? kll]
+         [import-popup import-visible?]
 
-       [history]
-       [button-comp "help_outline" "Help" false #(=>> [:alert/add {:type :warning :msg "Help not implemented yet :("}])]
-       [button-comp "undo" "Revert to original" (not changes?) #(do
-                                                                  (>=> [:conf/reset])
-                                                                  (=>> [:alert/add {:type :success :msg "Successfully reverted to original!"}]))]
-       [button-comp "code" "View layout JSON" false #(reset! code-visible? true)]
-       [button-comp "file_upload" "Import keymap" false #(reset! import-visible? true)]
-       [button-comp "file_download" "Download firmware" false #(=>> [:start-firmware-compile])]
-       ])
+         [history]
+         [button-comp "help_outline" "Help" false #(=>> [:alert/add {:type :warning :msg "Help not implemented yet :("}])]
+         [button-comp "undo" "Revert to original" (not changes?) #(do
+                                                                    (>=> [:conf/reset])
+                                                                    (=>> [:alert/add {:type :success :msg "Successfully reverted to original!"}]))]
+         [button-comp "code" "View layout JSON" false #(reset! code-visible? true)]
+         [button-comp "file_upload" "Import keymap" false #(reset! import-visible? true)]
+         (if (:firmware-dl current-actions)
+           [:div {:style {:height "36px" :width "36px" :margin "1px 10px 1px 0"}}
+            [mui/circular-progress {:size 28 :thickness 5}]]
+           [button-comp "file_download" "Download firmware" false #(=>> [:start-firmware-compile])])
+         ]))
     )
 )
