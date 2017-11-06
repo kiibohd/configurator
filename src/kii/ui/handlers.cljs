@@ -59,7 +59,7 @@
 
 (defn local-read-last-dl
   [raw]
-  (safe-read-string raw "\"" #(when (some? %) {:bin %})))
+  (safe-read-string raw "{" #(when (some? %) {:bin %})))
 
 (defn local-read-recent-dl
   [raw]

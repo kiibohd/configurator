@@ -15,7 +15,8 @@
             [kii.macros :refer-macros [<?]]
             [kii.bindings.npm :refer [command-exists]]
             [kii.bindings.electron-renderer :refer [dialog child-process]]
-            [kii.ui.styling :as styling]))
+            [kii.ui.styling :as styling]
+            [kii.device.keyboard :as kbd]))
 
 (defn- open-dialog
   [title filters callback]
@@ -33,7 +34,8 @@
 (defn flash-firmware
   []
   (let [last-download (<<= [:local/last-download])
-        dfu-util-path (<<= [:local/dfu-util-path])]
+        dfu-util-path (<<= [:local/dfu-util-path])
+        ]
     (logf :info "%s" last-download)
     (r/with-let [loaded? (r/atom false)
                  dfu-path (r/atom (or dfu-util-path (dfu-command) nil))
@@ -62,86 +64,90 @@
                 (change-dfu-path [val]
                   (reset! dfu-path val)
                   (=>> [:local/set-dfu-util-path val]))]
-          [:div
-           [:div {:style {:float "left"
-                          :width "310px"}}
-            [:h3 "Flash Firmware"]
-            [:div {:style {:display "flex"}}
-             [kii-mui/text-field
-              {:floating-label-text "dfu-util command"
-               :value               @dfu-path
-               :on-change           (fn [_ val] (change-dfu-path val))
-               :error-text          (when-not (or (= 0 (count @dfu-path)) (str/includes? @dfu-path "dfu-util"))
-                                      "does not appear to be the dfu-util binary")
-               :error-style         {:color (mui-core/color :deep-orange300)}
-               }
-              ]
+          (let [devices (<<= [:device/all])]
+            [:div
+             [:div {:style {:float "left"
+                            :width "310px"}}
+              [:h3 [:span "Flash Firmware"]]
+              (when-not (some #(and (:connected %) (-> % kbd/get-ic-device :flashable?)) devices)
+                [:span {:style {:color "red"}}
+                 "(no keyboard is in flash mode)"])
+              [:div {:style {:display "flex"}}
+               [kii-mui/text-field
+                {:floating-label-text "dfu-util command"
+                 :value               @dfu-path
+                 :on-change           (fn [_ val] (change-dfu-path val))
+                 :error-text          (when-not (or (= 0 (count @dfu-path)) (str/includes? @dfu-path "dfu-util"))
+                                        "does not appear to be the dfu-util binary")
+                 :error-style         {:color (mui-core/color :deep-orange300)}
+                 }
+                ]
 
-             [mui/icon-button
-              {:style    {:margin-left "1em" :align-self "flex-end"}
-               :on-click #(open-dialog "path to dfu-util" [{:name "All Files" :extensions ["*"]}]
-                                       (fn [selected]
-                                         (when-let [file (first selected)]
-                                           (change-dfu-path file))))
+               [mui/icon-button
+                {:style    {:margin-left "1em" :align-self "flex-end"}
+                 :on-click #(open-dialog "path to dfu-util" [{:name "All Files" :extensions ["*"]}]
+                                         (fn [selected]
+                                           (when-let [file (first selected)]
+                                             (change-dfu-path file))))
 
-               }
-              [mui-icons/navigation-more-vert
-               {:color "black"}]
-              ]
-             ]
-
-            [:div {:style {:display "flex"}}
-             [kii-mui/text-field
-              {:floating-label-text ".bin file to flash"
-               :value               @bin-file
-               :on-change           (fn [_ val] (reset! bin-file val))
-               :error-text          (when-not (or (= 0 (count @bin-file)) (str/ends-with? @bin-file ".bin"))
-                                      "does not appear to be a .bin file")
-               :error-style         {:color (mui-core/color :deep-orange300)}
-               }
-
-              ]
-
-             [mui/icon-button
-              {:style    {:margin-left "1em" :align-self "flex-end"}
-               :on-click #(open-dialog "firmware to flash" [{:name "bin files" :extensions ["bin"]}]
-                                       (fn [selected]
-                                         (when-let [file (first selected)]
-                                           (reset! bin-file file))))
-
-               }
-              [mui-icons/navigation-more-vert
-               {:color "black"}]
-              ]
-             ]
-            [mui/raised-button
-             {:style    {:float "right" :margin-right "55px" :margin-top "20px"}
-              :label    "Flash"
-              :primary  true
-              :disabled (or (str/empty-or-nil? @dfu-path) (str/empty-or-nil? @bin-file) (= @status :in-progress))
-              :on-click #(exec-flash)}]
-            ]
-           (when @flashing?
-             [:div {:style {;:margin-right "320px"
-                            :display "inline-block"}}
-              [mui/text-field
-               {:value                @progress
-                :floating-label-fixed true
-                :floating-label-text  "flashing progress"
-                :disabled             true
-                :multi-line           true
-                :rows                 20
-                :style                {:display     "block"
-                                       :width       "900px"
-                                       :font-family styling/monospace-font-stack
-                                       :border-top  (str/fmt "10px solid %s" (case @status :success "green" :failure "red" "lightgray"))}
-                :textarea-style       {:white-space    "pre"
-                                       :padding-bottom "1.2em"
-                                       :overflow-y     "hidden"
-                                       :color          "black"
-                                       :font-size      "0.9em"}}
+                 }
+                [mui-icons/navigation-more-vert
+                 {:color "black"}]
+                ]
                ]
-              ])
-           ]))
+
+              [:div {:style {:display "flex"}}
+               [kii-mui/text-field
+                {:floating-label-text ".bin file to flash"
+                 :value               @bin-file
+                 :on-change           (fn [_ val] (reset! bin-file val))
+                 :error-text          (when-not (or (= 0 (count @bin-file)) (str/ends-with? @bin-file ".bin"))
+                                        "does not appear to be a .bin file")
+                 :error-style         {:color (mui-core/color :deep-orange300)}
+                 }
+
+                ]
+
+               [mui/icon-button
+                {:style    {:margin-left "1em" :align-self "flex-end"}
+                 :on-click #(open-dialog "firmware to flash" [{:name "bin files" :extensions ["bin"]}]
+                                         (fn [selected]
+                                           (when-let [file (first selected)]
+                                             (reset! bin-file file))))
+
+                 }
+                [mui-icons/navigation-more-vert
+                 {:color "black"}]
+                ]
+               ]
+              [mui/raised-button
+               {:style    {:float "right" :margin-right "55px" :margin-top "20px"}
+                :label    "Flash"
+                :primary  true
+                :disabled (or (str/empty-or-nil? @dfu-path) (str/empty-or-nil? @bin-file) (= @status :in-progress))
+                :on-click #(exec-flash)}]
+              ]
+             (when @flashing?
+               [:div {:style {;:margin-right "320px"
+                              :display "inline-block"}}
+                [mui/text-field
+                 {:value                @progress
+                  :floating-label-fixed true
+                  :floating-label-text  "flashing progress"
+                  :disabled             true
+                  :multi-line           true
+                  :rows                 20
+                  :style                {:display     "block"
+                                         :width       "900px"
+                                         :font-family styling/monospace-font-stack
+                                         :border-top  (str/fmt "10px solid %s" (case @status :success "green" :failure "red" "lightgray"))}
+                  :textarea-style       {:white-space    "pre"
+                                         :padding-bottom "1.2em"
+                                         :overflow-y     "hidden"
+                                         :color          "black"
+                                         :font-size      "0.9em"}}
+                 ]
+                ])
+             ])))
       ))
   )
