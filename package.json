@@ -1,7 +1,7 @@
 {
   "name": "kiibohd-configurator",
   "productName": "Kiibohd Configurator",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Configuration utility for Input Club keyboards",
   "keywords": [],
   "dependencies": {
@@ -12,9 +12,9 @@
     "react-color": "^2.13.8"
   },
   "devDependencies": {
-    "cross-env": "^5.1.0",
-    "electron": "1.8.2-beta.1",
-    "electron-builder": "^19.39.0"
+    "cross-env": "^5.1.1",
+    "electron": "1.8.2-beta.2",
+    "electron-builder": "^19.45.4"
   },
   "author": "Jeremy Bondeson <jbondeson@gmail.com> (https://input.club)",
   "license": "GPL-3.0",

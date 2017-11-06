@@ -15,3 +15,5 @@
 
 (defn on-msg-from-main [msg f]
   (.on ipc msg f))
+
+(def app-version (.getVersion app))

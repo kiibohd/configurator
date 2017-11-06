@@ -46,6 +46,7 @@
    [cljs-node-io "0.5.0"]
    [cljsjs/localforage "1.5.3-0"]
    [com.andrewmcveigh/cljs-time "0.5.0"]
+   [version-clj "0.1.2"]
    ]
  :source-paths #{"src"}
  ;;:asset-paths #{"assets"}

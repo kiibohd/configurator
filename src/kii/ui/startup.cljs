@@ -9,6 +9,7 @@
             [kii.test.runner]
             [kii.env :as env]
             [kii.ui.components.base :refer [base-layout]]
+            [kii.bindings.electron-renderer :as electron]
             [taoensso.timbre :as timbre :refer-macros [log logf]]))
 
 (defn mount-root
@@ -31,6 +32,10 @@
   "UI Entry Point"
   []
   (enable-console-print!)
+  ;; Version check:
+  ;;https://developer.github.com/v3/repos/releases/
+  ;;https://developer.github.com/v3/
+  (logf :info "Loading v%s" electron/app-version)
   (when env/dev? (dev-reload))
   (rf/dispatch [:boot])
   (mount-root)

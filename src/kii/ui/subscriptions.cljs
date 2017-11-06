@@ -47,3 +47,7 @@
   :<- [:local/all]
   (fn [local _] (:recent-downloads local)))
 
+(rf/reg-sub :local/last-ver-check
+  :<- [:local/all]
+  (fn [local _] (:last-ver-check local)))
+
