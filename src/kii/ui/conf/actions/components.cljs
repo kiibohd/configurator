@@ -47,10 +47,16 @@
 
 (defn load-json
   [raw-str]
-  (let [json (goog-json/parse raw-str)
-        cnv (js->clj json :keywordize-keys true)]
-    (>=> [:load-config cnv])
-  ))
+  (try
+    (let [json (goog-json/parse raw-str)
+          cnv (js->clj json :keywordize-keys true)]
+      (if (and (:header cnv)  (:matrix cnv))
+        (do (>=> [:load-config cnv]) true)
+        false)
+      )
+    (catch :default e
+      (logf :warn e "Could not import JSON")
+      false)))
 
 (defn code-popup [visible? kll]
   (let [mangled (-> kll config/mangle clj->js)]
@@ -61,10 +67,12 @@
   [popup
    "import layout json" visible? false ""
    [{:text "import"
-     :fn   #(do
-              (load-json %)
-              (reset! visible? false)
-              (=>> [:alert/add {:type :success :msg "Successfully imported layout!"}]))
+     :fn   (fn [val]
+             (if (load-json val)
+               (=>> [:alert/add {:type :success :msg "Successfully imported layout!"}])
+               (=>> [:alert/add {:type :error :msg "Could not import, invalid format."}])
+               )
+             (reset! visible? false))
      }]])
 
 ;;==== Action Bar ====;;
@@ -153,7 +161,7 @@
          [button-comp "file_upload" "Import keymap" false #(reset! import-visible? true)]
          (if (:firmware-dl current-actions)
            [:div {:style {:height "36px" :width "36px" :margin "1px 10px 1px 0"}}
-            [mui/circular-progress {:size 28 :thickness 5}]]
+            [mui/circular-progress {:size 28 :thickness 3}]]
            [button-comp "file_download" "Download firmware" false #(=>> [:start-firmware-compile])])
          ]))
     )
