@@ -76,9 +76,9 @@
       (let [dfu-util-path (<? (config/get :dfu-util-path))
             last-dl (<? (config/get :last-download))
             recent-dls (<? (config/get :recent-downloads))]
-        (logf :debug "Setting [:dfu-util-path] - %s" dfu-util-path)
-        (logf :debug "Setting [:last-download] - %s" last-dl)
-        (logf :debug "Setting [:recent-downloads] - %s" recent-dls)
+        ;(logf :debug "Setting [:dfu-util-path] - %s" dfu-util-path)
+        ;(logf :debug "Setting [:last-download] - %s" last-dl)
+        ;(logf :debug "Setting [:recent-downloads] - %s" recent-dls)
         (=>> [:db/raw-assoc-in [:local :dfu-util-path] (local-read-dfu-util-path dfu-util-path)])
         (=>> [:db/raw-assoc-in [:local :last-download] (local-read-last-dl last-dl)])
         (=>> [:db/raw-assoc-in [:local :recent-downloads] (local-read-recent-dl recent-dls)])
