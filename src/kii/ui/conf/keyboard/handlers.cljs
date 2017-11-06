@@ -8,12 +8,12 @@
 
 (defn update-matrix
   [new-key matrix selected-key]
-  (->> matrix
-       (map
-         #(if (= %1 selected-key)
-            new-key
-            %1))
-       vec))
+  (mapv
+    #(if (= %1 selected-key)
+       new-key
+       %1)
+    matrix)
+  )
 
 (defn set-selected-key
   [db [_ value]]

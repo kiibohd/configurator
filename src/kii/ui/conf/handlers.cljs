@@ -34,8 +34,8 @@
   [db [_ value]]
   (assoc db
     :active-keyboard nil
-    :active-panel    :home
-    :conf            {}))
+    :active-panel :home
+    :conf {}))
 (rf/reg-event-db :nav/home nav-home)
 
 ;; === Configuration Mode === ;;
@@ -83,7 +83,7 @@
 (rf/reg-event-db :conf/set-led-status
   (fn [db [_ values action]]
     (case action
-      :append    (update-in db conf-util/led-status #(merge % values))
+      :append (update-in db conf-util/led-status #(merge % values))
       :overwrite (assoc-in db conf-util/led-status values)
       db)))
 
@@ -124,18 +124,35 @@
 
 (defn delete-animation
   [db [_ name]]
-  (-> db
-      (update-in [:conf :kll :animations] #(dissoc % name))
-      (update-in [:conf :kll :custom] (fn [m]
-                                        (update-values
-                                          m
-                                          (fn [value]
-                                            (as-> value x
-                                                  (str/rtrim x)
-                                                  (str/split x ";")
-                                                  (filterv #(not (contains-animation (clojure.core/name name) %)) x)
-                                                  (conj x "")
-                                                  (str/join ";" x))))))))
+  (let [sname (clojure.core/name name)]
+    (-> db
+        (update-in [:conf :kll :animations] #(dissoc % name))
+        (update-in
+          [:conf :kll :custom]
+          (fn [m]
+            (update-values
+              m
+              (fn [value]
+                (as-> value x
+                      (str/rtrim x)
+                      (str/split x ";")
+                      (filterv #(not (contains-animation sname %)) x)
+                      (conj x "")
+                      (str/join ";" x))))))
+        (update-in
+          [:conf :kll :matrix]
+          (fn [m]
+            (mapv
+              (fn [key]
+                (update key :triggers
+                        (fn [layers]
+                          (into {}
+                                (map (fn [[layer triggers]]
+                                       [layer (filterv #(not (contains-animation sname (:action %))) triggers)])
+                                     layers))
+
+                          )))
+              m))))))
 
 
 (rf/reg-event-db :conf/delete-animation delete-animation)
@@ -180,7 +197,7 @@
   [db [_ setting value]]
   (let [conf (:conf db)
         orig-kll (:orig-kll conf)
-        db' (assoc db :conf (merge conf {:kll orig-kll
+        db' (assoc db :conf (merge conf {:kll          orig-kll
                                          :active-layer 0}))]
     db'))
 
@@ -192,10 +209,10 @@
 (rf/reg-fx
   :http
   (fn [{:keys [method uri options
-               on-success on-failure]}] ; options - as expected by ajax calls
+               on-success on-failure]}]                     ; options - as expected by ajax calls
     (let [m-fn (method ajax-methods)]
       (m-fn uri (-> options
-                    (assoc :handler       #(rf/dispatch (conj on-success %))
+                    (assoc :handler #(rf/dispatch (conj on-success %))
                            :error-handler #(rf/dispatch (conj on-failure %))))))))
 
 (rf/reg-event-fx
