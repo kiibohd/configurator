@@ -136,7 +136,8 @@
                 (as-> value x
                       (str/rtrim x)
                       (str/split x ";")
-                      (filterv #(not (contains-animation sname %)) x)
+                      (filterv #(not (or (contains-animation sname %)
+                                         (-> str/trim str/empty-or-nil?))) x)
                       (conj x "")
                       (str/join ";" x))))))
         (update-in
