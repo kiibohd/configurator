@@ -50,11 +50,12 @@
      [color-picker/chrome
       {:disable-alpha true
        :color         (clj->js color)
-       :on-change     #(let [c (js->clj %1 :keywordize-keys true)]
-                         (=>> [:conf/set-led-status (build-status leds (:rgb c)) :append])
-                         (=>> [:conf/partial-update-animation (build-animation statuses)])
+       :on-change     #(let [c (js->clj %1 :keywordize-keys true)
+                             new-statuses (build-status leds (:rgb c))
+                             full-status (merge statuses new-statuses)]
+                         (=>> [:conf/set-led-status new-statuses :append])
+                         (=>> [:conf/partial-update-animation (build-animation full-status)])
                          )
-       :disabled (not (seq leds))
        }]
 
      (when-not (seq leds)
