@@ -81,20 +81,20 @@
 ;; === LEDs === ;;
 
 (rf/reg-event-db :conf/set-led-status
-  (fn [db [_ values action]]
-    (case action
-      :append (update-in db conf-util/led-status #(merge % values))
-      :overwrite (assoc-in db conf-util/led-status values)
-      db)))
+                 (fn [db [_ values action]]
+                   (case action
+                     :append (update-in db conf-util/led-status #(merge % values))
+                     :overwrite (assoc-in db conf-util/led-status values)
+                     db)))
 
 (rf/reg-event-db :conf/set-selected-leds
-  (fn [db [_ values action]]
-    (let [leds (into {} (for [v (if (vector? values) values [values])]
-                          [(:id v) v]))]
-      (case action
-        :append (update-in db conf-util/selected-leds-path #(merge % leds))
-        :overwrite (assoc-in db conf-util/selected-leds-path leds)
-        db))))
+                 (fn [db [_ values action]]
+                   (let [leds (into {} (for [v (if (vector? values) values [values])]
+                                         [(:id v) v]))]
+                     (case action
+                       :append (update-in db conf-util/selected-leds-path #(merge % leds))
+                       :overwrite (assoc-in db conf-util/selected-leds-path leds)
+                       db))))
 
 ;; === Animations === ;;
 
@@ -119,8 +119,8 @@
 (defn contains-animation
   [name line]
   (or
-    (str/includes? line (str/fmt "A[%s]" name))
-    (str/includes? line (str/fmt "A[%s," name))))
+   (str/includes? line (str/fmt "A[%s]" name))
+   (str/includes? line (str/fmt "A[%s," name))))
 
 (defn delete-animation
   [db [_ name]]
@@ -128,32 +128,32 @@
     (-> db
         (update-in [:conf :kll :animations] #(dissoc % name))
         (update-in
-          [:conf :kll :custom]
-          (fn [m]
-            (update-values
-              m
-              (fn [value]
-                (as-> value x
-                      (str/rtrim x)
-                      (str/split x ";")
-                      (filterv #(not (or (contains-animation sname %)
-                                         (-> str/trim str/empty-or-nil?))) x)
-                      (conj x "")
-                      (str/join ";" x))))))
+         [:conf :kll :custom]
+         (fn [m]
+           (update-values
+            m
+            (fn [value]
+              (as-> value x
+                    (str/rtrim x)
+                    (str/split x ";")
+                    (filterv #(not (or (contains-animation sname %)
+                                       (-> str/trim str/empty-or-nil?))) x)
+                    (conj x "")
+                    (str/join ";" x))))))
         (update-in
-          [:conf :kll :matrix]
-          (fn [m]
-            (mapv
-              (fn [key]
-                (update key :triggers
-                        (fn [layers]
-                          (into {}
-                                (map (fn [[layer triggers]]
-                                       [layer (filterv #(not (contains-animation sname (:action %))) triggers)])
-                                     layers))
+         [:conf :kll :matrix]
+         (fn [m]
+           (mapv
+            (fn [key]
+              (update key :triggers
+                      (fn [layers]
+                        (into {}
+                              (map (fn [[layer triggers]]
+                                     [layer (filterv #(not (contains-animation sname (:action %))) triggers)])
+                                   layers))
 
-                          )))
-              m))))))
+                        )))
+            m))))))
 
 
 (rf/reg-event-db :conf/delete-animation delete-animation)
@@ -176,22 +176,22 @@
   )
 
 (rf/reg-event-db :conf/add-trigger
-  (fn [db [_ trigger]]
-    (let [active-layer (keyword (str (ls-sub/get-active-layer db nil)))]
-      (modify-selected-key
-        (fn [key] (update-in key [:triggers active-layer] #(conj % trigger)))
-        db))
-    )
-  )
+                 (fn [db [_ trigger]]
+                   (let [active-layer (keyword (str (ls-sub/get-active-layer db nil)))]
+                     (modify-selected-key
+                      (fn [key] (update-in key [:triggers active-layer] #(conj % trigger)))
+                      db))
+                   )
+                 )
 
 (rf/reg-event-db :conf/remove-trigger
-  (fn [db [_ trigger]]
-    (let [active-layer (keyword (str (ls-sub/get-active-layer db nil)))
-          without (fn [coll] (filterv #(not= % trigger) coll))]
-      (modify-selected-key
-        (fn [key] (update-in key [:triggers active-layer] without))
-        db))
-    ))
+                 (fn [db [_ trigger]]
+                   (let [active-layer (keyword (str (ls-sub/get-active-layer db nil)))
+                         without (fn [coll] (filterv #(not= % trigger) coll))]
+                     (modify-selected-key
+                      (fn [key] (update-in key [:triggers active-layer] without))
+                      db))
+                   ))
 
 ;; === Reset KLL === ;;
 (defn reset-kll
@@ -208,43 +208,56 @@
 (def ajax-methods {:post ajax/POST
                    :get  ajax/GET})
 (rf/reg-fx
-  :http
-  (fn [{:keys [method uri options
-               on-success on-failure]}]                     ; options - as expected by ajax calls
-    (let [m-fn (method ajax-methods)]
-      (m-fn uri (-> options
-                    (assoc :handler #(rf/dispatch (conj on-success %))
-                           :error-handler #(rf/dispatch (conj on-failure %))))))))
+ :http
+ (fn [{:keys [method uri options
+              on-success on-failure]}]                      ; options - as expected by ajax calls
+   (let [m-fn (method ajax-methods)]
+     (m-fn uri (-> options
+                   (assoc :handler #(rf/dispatch (conj on-success %))
+                          :error-handler #(rf/dispatch (conj on-failure %))))))))
 
 (rf/reg-event-fx
-  :start-configurator
-  (fn [cofx _]
-    (let [db (:db cofx)
-          kbd (util/active-keyboard-name db)
-          variant (clojure.string/replace (:active-variant db) " " "")
-          layout (:active-layout db)
-          ]
-      {:db   (assoc db :conf {:loaded? false})
-       :http {:method     :get
-              :uri        (str env/base-uri "layouts/" kbd "-" layout ".json")
-              :on-success [:load-config]
-              :on-failure [:load-config-failure]
-              :options    {:format          (ajax/json-request-format)
-                           :response-format (ajax/json-response-format {:keywords? true})}
-              }}
-      )))
+ :start-configurator
+ (fn [cofx [_ load-last?]]
+   (let [db (:db cofx)
+         kbd (util/active-keyboard-name db)
+         variant (clojure.string/replace (:active-variant db) " " "")
+         layout (:active-layout db)
+         ]
+     {:db   (assoc db :conf {:loaded? false})
+      :http {:method     :get
+             :uri        (str env/base-uri "layouts/" kbd "-" layout ".json")
+             :on-success (if load-last? [:load-last-config] [:load-config])
+             :on-failure [:load-config-failure]
+             :options    {:format          (ajax/json-request-format)
+                          :response-format (ajax/json-response-format {:keywords? true})}
+             }}
+     )))
+
+(defn build-conf
+  [current config]
+  (merge current default-conf
+         {:loaded? true
+          :kll config
+          :orig-kll config}))
 
 (rf/reg-event-fx
-  :load-config
-  (fn [cofx [_ response]]
-    (let [db (:db cofx)
-          cfg (or (:conf db) {})
-          config (config/normalize response)
-          cfg (merge {:canned (:canned response)} cfg)]
-      {:db (assoc db :conf
-                     (merge cfg
-                            default-conf
-                            {:loaded?  true
-                             :kll      config
-                             :orig-kll config
-                             }))})))
+ :load-last-config
+ (fn [cofx [_ response]]
+   (let [db (:db cofx)
+         cfg (merge {:canned (:canned response)} (:conf db))
+         recent-downloads (get-in db [:local :recent-downloads])
+         last-dl (first (get-in recent-downloads [(util/active-keyboard-name db) (:active-variant db)]))
+         raw (and last-dl (config/file->config (:json last-dl)))
+         config (config/normalize (or raw response))]
+     {:db (assoc db :conf (build-conf cfg config))})
+   ))
+
+(rf/reg-event-fx
+ :load-config
+ (fn [cofx [_ response]]
+   (let [db (:db cofx)
+         cfg (or (:conf db) {})
+         config (config/normalize response)
+         cfg (merge {:canned (:canned response)} cfg)]
+     {:db (assoc db :conf (build-conf cfg config))})))

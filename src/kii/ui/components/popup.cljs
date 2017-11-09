@@ -6,11 +6,11 @@
             [cljs-react-material-ui.icons :as mui-icons]
             [cuerdas.core :as str]
             [kii.ui.conf.palette :as palette]
-            [cljs-css-modules.macro :as css]
+            [cljs-css-modules.macro :refer-macros [defstyle]]
             [kii.ui.styling :as styling]))
 
 ;;==== Code Popup ====;;
-(css/defstyle popup-style
+(defstyle popup-style
   [".outer-container"
    {:position   "fixed"
     :display         "flex"

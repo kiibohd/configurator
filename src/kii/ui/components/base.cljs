@@ -89,7 +89,7 @@
                     (>=> [:device/set-active d])
                     (>=> [:variant/set-active (first variants)])
                     (>=> [:layout/set-active (first (get-in kbd [:layouts (first variants)]))])
-                    (=>> [:start-configurator])
+                    (=>> [:start-configurator true])
                     (=>> [:panel/set-active :configurator]))
                  #(util/dispatch-all
                    [:device/set-active d]
@@ -193,7 +193,7 @@
            :on-click #(do
                         (>=> [:variant/set-active name])
                         (>=> [:layout/set-active (first (get-in kbd [:layouts name]))])
-                        (=>> [:start-configurator])
+                        (=>> [:start-configurator true])
                         (=>> [:panel/set-active :configurator]))
            }
      [:h3 name]
@@ -222,7 +222,7 @@
                 :on-click #(do
                              (>=> [:variant/set-active name])
                              (>=> [:layout/set-active (first (get-in kbd [:layouts name]))])
-                             (=>> [:start-configurator])
+                             (=>> [:start-configurator true])
                              (=>>[:panel/set-active :configurator]))}
                [:span (str name)] ] ) ] ]
           [:h3 "Select a Variant"
@@ -234,20 +234,6 @@
            ]
           ))
       )))
-
-;;==== Activity Select ====;;
-;;XXXX DISABLED XXXX;;
-(defn activity-select
-  []
-  [:div {:style {:width "80vw" :margin "20px"}}
-   [:h3 "What do you want to do?"
-    [:ul
-     [:li
-      {:on-click #(util/dispatch-all
-                   [:start-configurator]
-                   [:panel/set-active :configurator])}
-      "Configure"]
-     [:li "Flash"]]]])
 
 ;;==== Base Layout =====;;
 (defn base-layout-comp
@@ -269,7 +255,6 @@
         (cond
           (= panel :home) [keyboard-select]
           (= panel :choose-variant) [variant-select]
-          (= panel :choose-activity) [activity-select]
           (= panel :configurator) [conf-main/main]
           (= panel :flash) [flash-firmware]
           :else [:h3 "Unknown Panel!"])]]]

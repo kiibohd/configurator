@@ -1,6 +1,9 @@
 (ns kii.config.core
   (:require [kii.keys.firmware.map :as fw]
-            [kii.keys.core :as keys]))
+            [kii.keys.core :as keys]
+            [taoensso.timbre :as timbre :refer-macros [log logf]]
+            [cljs-node-io.core :as io]
+            [goog.json]))
 
 (defn de-key [m f]
   (into
@@ -64,3 +67,22 @@
       :custom custom
       :animations animations)
     ))
+
+(defn json->config
+  [raw-json]
+  (try
+    (let [json (goog.json/parse raw-json)
+          cnv (js->clj json :keywordize-keys true)]
+      (when (and (:header cnv)  (:matrix cnv))
+        cnv))
+    (catch :default e
+      (logf :warn e "Could not import JSON"))))
+
+(defn file->config
+  [file]
+  (try
+    (let [raw-json (io/slurp  file)]
+      (json->config raw-json))
+    (catch :default e
+      (logf :warn e "Could not read JSON")))
+  )

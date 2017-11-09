@@ -46,17 +46,10 @@
     icon]])
 
 (defn load-json
-  [raw-str]
-  (try
-    (let [json (goog-json/parse raw-str)
-          cnv (js->clj json :keywordize-keys true)]
-      (if (and (:header cnv)  (:matrix cnv))
-        (do (>=> [:load-config cnv]) true)
-        false)
-      )
-    (catch :default e
-      (logf :warn e "Could not import JSON")
-      false)))
+  [raw-json]
+  (if-let [cnv (config/json->config raw-json)]
+    (do (>=> [:load-config cnv]) true)
+    false))
 
 (defn code-popup [visible? kll]
   (let [mangled (-> kll config/mangle clj->js)]
@@ -70,8 +63,7 @@
      :fn   (fn [val]
              (if (load-json val)
                (=>> [:alert/add {:type :success :msg "Successfully imported layout!"}])
-               (=>> [:alert/add {:type :error :msg "Could not import, invalid format."}])
-               )
+               (=>> [:alert/add {:type :error :msg "Could not import, invalid format."}]))
              (reset! visible? false))
      }]])
 
@@ -129,9 +121,8 @@
                              :on-click     #(do (reset! state {:open false :anchor nil})
                                                 (let [raw-str (io/slurp (:json dl))]
                                                   (load-json raw-str)
-                                                  (=>> [:alert/add {:type :success :msg "Successfully loaded layout!"}])
-                                                  )
-                                                )}]
+                                                  (=>> [:alert/add {:type :success :msg "Successfully loaded layout!"}])))
+                             }]
              )
 
            ]
