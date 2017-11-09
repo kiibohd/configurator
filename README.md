@@ -19,21 +19,30 @@ Client Side Configuration & Flashing Software for Kiibohd compatible keyboards.
 * WhiteFox/NightFox
 * K-Type
 
-## Installation
-
-Download the installer/binary for your platform from the [latest release](https://github.com/kiibohd/configurator/releases/latest)
+## Dependencies
 
 ### Windows
 
 You will need to install Zadig drivers & download dfu-util (TODO: Updated Install Instruction link)
 
-### macOS
-
-Install dfu-util (available via homebrew)
-
 ### Linux
 
 Install dfu-util from your disto's package manager.
+
+
+## Installation
+
+### macOS
+
+Install via brew cask (this will automatically install the dfu-util dependency)
+
+```bash
+$ brew cask install kiibohd-configurator
+```
+
+### Other operating systems
+
+Download the installer/binary for your platform from the [latest release](https://github.com/kiibohd/configurator/releases/latest)
 
 
 ## Compilation
@@ -45,7 +54,7 @@ NOTE: If you perform a `build:dev` you will also need to run [KiiConf](https://g
 
 ### Requirements
 
-* node 8.7 
+* node 8.7
 * jdk 1.8
 * [boot 2.7.2](https://github.com/boot-clj/boot)
 
@@ -89,4 +98,3 @@ npm install
 npm run build:prod
 npm start
 ```
-
