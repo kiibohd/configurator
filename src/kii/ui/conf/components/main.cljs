@@ -3,12 +3,12 @@
             [kii.ui.re-frame :refer [<<= <== =>> >=>]]
             [kii.ui.conf.actions.components]
             [kii.ui.conf.layer-select.components]
-            [kii.ui.conf.mode-select.components]
+            [kii.ui.conf.components.mode-select]
             [kii.ui.conf.key-group.components]
             [kii.ui.conf.subscriptions]
-            [kii.ui.conf.config-tabs.components]
-            [kii.ui.conf.animation-visualize.components]
-            [kii.ui.conf.custom-animation.components]
+            [kii.ui.conf.components.config-tabs]
+            [kii.ui.conf.components.animation-visualize]
+            [kii.ui.conf.components.custom-animation]
             [kii.ui.conf.components.keyboard :refer [keyboard]]
             [kii.ui.conf.components.config-visuals :refer [config-visuals]]
             [kii.ui.conf.components.static-colors :refer [static-colors]]
@@ -24,14 +24,14 @@
     (if-not loaded?
       [:h2 "LOADING... Enhance your calm."]
       [:div
-       [kii.ui.conf.mode-select.components/mode-select]
+       [kii.ui.conf.components.mode-select/mode-select]
        [kii.ui.conf.actions.components/actions]
        (cond
          (= mode :keymap) [:div
                            [kii.ui.conf.layer-select.components/layer-tabs]
                            [keyboard]
                            [:div
-                            [kii.ui.conf.config-tabs.components/config-tabs
+                            [kii.ui.conf.components.config-tabs/config-tabs
                              [{:id   :keys
                                :icon "keyboard"
                                :tab  kii.ui.conf.key-group.components/key-groups}
@@ -40,18 +40,18 @@
                                :tab config-visuals}
                               {:id   :settings
                                :icon "settings"
-                               :tab  kii.ui.conf.settings.components/settings}
+                               :tab  kii.ui.conf.components.settings/settings}
                               {:id   :macros
                                :icon "videocam"
-                               :tab  kii.ui.conf.macros.components/macros}
+                               :tab  kii.ui.conf.components.macros/macros}
                               {:id   :custom-kll
                                :icon "code"
                                :tab  kii.ui.conf.custom-kll.components/custom-kll}]]]]
          (= mode :visuals) [:div {:style {:clear "both"}}
                             [:div {:style {:height "36px"}}]
-                            [kii.ui.conf.animation-visualize.components/visualizer]
+                            [kii.ui.conf.components.animation-visualize/visualizer]
                             [:div
-                             [kii.ui.conf.config-tabs.components/config-tabs
+                             [kii.ui.conf.components.config-tabs/config-tabs
                               [{:id   :manage-animations
                                 :icon "settings"
                                 :tab  manage-animations}
@@ -60,7 +60,7 @@
                                 :tab  customize-canned}
                                {:id   :custom-animation
                                 :icon "code"
-                                :tab  kii.ui.conf.custom-animation.components/custom-animation}
+                                :tab  kii.ui.conf.components.custom-animation/custom-animation}
                                {:id   :static-leds
                                 :icon "color_lens"
                                 :tab static-colors}

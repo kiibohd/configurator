@@ -25,7 +25,7 @@
            :error-text          (when (and (some? @animation) (> (count @animation) 0)
                                            (not (existing? @animation @animations)))
                                   "Animation does not exist.")
-           :on-update-input     (fn [s ds p] (do (reset! animation s)))
+           :on-update-input     (fn [s ds p] (reset! animation s))
            :filter              (fn [s k] (some? (cstr/index-of k s)))
            }]
          [mui/select-field

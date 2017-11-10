@@ -37,8 +37,7 @@
                                  :format          (ajax/json-request-format)
                                  :response-format (ajax/json-response-format
                                                     {:keywords? true})}}
-         }
-        ))))
+         }))))
 
 (rf/reg-event-db
   :start-action
@@ -63,8 +62,7 @@
     (js/setTimeout
       #(.send electron/ipc "download-file" (str env/base-uri (:filename response)))
       500)
-    {}
-    ))
+    {}))
 
 (rf/reg-event-fx
   :firmware-compile-failure
@@ -96,8 +94,7 @@
                             (=>> [:alert/remove-all])
                             (=>> [:panel/set-active :flash])
                             )}]
-           ]}]
-  )
+           ]}])
 
 (defn dl-failed-comp
   [dl path]
@@ -122,9 +119,7 @@
          :style       {:margin-left "10px" :min-width "72px"}
          :label-style {:vertical-align "baseline" :padding-left "8px" :padding-right "8px"}
          :on-click    (fn [] (reset! visible? true))}]
-       ]
-      ))
-  )
+       ])))
 
 (defn dl-failed
   [dl path]

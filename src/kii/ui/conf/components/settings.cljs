@@ -1,4 +1,4 @@
-(ns kii.ui.conf.settings.components
+(ns kii.ui.conf.components.settings
   (:require [reagent.core :as r]
             [re-frame.core :as rf]
             [cljs-css-modules.macro :refer-macros [defstyle]]
@@ -147,4 +147,3 @@
      ;;[:br]
      (defines-comp @defines)]
     ))
-

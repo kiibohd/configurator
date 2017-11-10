@@ -1,4 +1,4 @@
-(ns kii.ui.conf.config-tabs.components
+(ns kii.ui.conf.components.config-tabs
   (:require [reagent.core :as r]
             [re-frame.core :as rf]
             [cljs-css-modules.macro :refer-macros [defstyle]]
@@ -6,8 +6,8 @@
             [kii.ui.conf.util :as conf-util]
             [kii.ui.conf.key-group.components]
             [kii.ui.conf.palette :as palette]
-            [kii.ui.conf.settings.components]
-            [kii.ui.conf.macros.components]
+            [kii.ui.conf.components.settings]
+            [kii.ui.conf.components.macros]
             [kii.ui.conf.custom-kll.components]))
 
 (defstyle styles
@@ -62,4 +62,3 @@
                       :height "14px"}}]
        ]]]
     ))
-

@@ -1,4 +1,4 @@
-(ns kii.ui.conf.animation-visualize.components
+(ns kii.ui.conf.components.animation-visualize
   (:require [reagent.core :as r]
             [kii.ui.re-frame :refer [<<= <== =>> >=>]]
             [taoensso.timbre :as timbre :refer-macros [log logf]]

@@ -14,7 +14,6 @@
             [kii.ui.conf.actions.handlers]
             [kii.ui.conf.keyboard.handlers]
             [kii.ui.conf.layer-select.handlers]
-            [kii.ui.conf.config-tabs.handlers]
             [kii.ui.conf.custom-kll.handlers]
             [kii.ui.conf.subscriptions :as conf-sub]
             [kii.ui.conf.layer-select.subscriptions :as ls-sub]
@@ -203,6 +202,14 @@
     db'))
 
 (rf/reg-event-db :conf/reset reset-kll)
+
+;; === Config Tabs === ;;
+
+(defn set-active-layer
+  [db [_ value]]
+  (assoc-in db [:conf :active-config-tab] value))
+
+(rf/reg-event-db :conf/set-active-config-tab set-active-layer)
 
 ;; === Configuration Loading === ;;
 (def ajax-methods {:post ajax/POST

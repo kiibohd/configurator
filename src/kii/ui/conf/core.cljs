@@ -5,12 +5,12 @@
             ;; TODO -- Move these to components
             [kii.ui.conf.actions.components]
             [kii.ui.conf.layer-select.components]
-            [kii.ui.conf.mode-select.components]
+            [kii.ui.conf.components.mode-select]
             [kii.ui.conf.key-group.components]
             [kii.ui.conf.subscriptions]
-            [kii.ui.conf.config-tabs.components]
-            [kii.ui.conf.animation-visualize.components]
-            [kii.ui.conf.custom-animation.components]
+            [kii.ui.conf.components.config-tabs]
+            [kii.ui.conf.components.animation-visualize]
+            [kii.ui.conf.components.custom-animation]
             )
  )
 

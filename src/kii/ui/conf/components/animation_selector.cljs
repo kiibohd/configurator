@@ -48,7 +48,7 @@
                                        (do
                                          (reset! names (conj @names name))
                                          (rf/dispatch-sync [:conf/add-animation name default-value]))))))
-          :on-update-input     (fn [s ds p] (do (reset! a s)))
+          :on-update-input     (fn [s ds p] (reset! a s))
           :filter              (fn [s k] (some? (cstr/index-of k s)))
           }])
       )))

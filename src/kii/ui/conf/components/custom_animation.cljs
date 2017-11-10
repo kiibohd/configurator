@@ -1,4 +1,4 @@
-(ns kii.ui.conf.custom-animation.components
+(ns kii.ui.conf.components.custom-animation
   (:require [reagent.core :as r]
             [re-frame.core :as rf]
             [cljs-react-material-ui.reagent :as mui]

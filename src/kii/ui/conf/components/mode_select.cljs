@@ -1,4 +1,4 @@
-(ns kii.ui.conf.mode-select.components
+(ns kii.ui.conf.components.mode-select
   (:require [reagent.core :as r]
             [re-frame.core :as rf]
             [cljs-css-modules.macro :refer-macros [defstyle]]
