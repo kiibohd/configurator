@@ -31,6 +31,15 @@
   (when ((.-sync command-exists) "dfu-util")
     "dfu-util"))
 
+(defn- bin-file
+  [dl]
+  (let [bin (:bin dl)]
+    (cond
+      (string? bin) bin
+      ;; TODO - Make flashing smarter for ergodox.
+      (map? bin) (first (vals bin))
+      :default "" )))
+
 (defn flash-firmware
   []
   (let [last-download (<<= [:local/last-download])
@@ -39,7 +48,7 @@
     (logf :info "%s" last-download)
     (r/with-let [loaded? (r/atom false)
                  dfu-path (r/atom (or dfu-util-path (dfu-command) nil))
-                 bin-file (r/atom (or (:bin last-download) ""))
+                 bin-file (r/atom (bin-file last-download))
                  flashing? (r/atom false)
                  progress (r/atom "")
                  status (r/atom :none)]
