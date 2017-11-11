@@ -3,7 +3,6 @@
             [kii.ui.conf.components.assign-visuals]
             [kii.ui.conf.components.keyboard]
             ;; TODO -- Move these to components
-            [kii.ui.conf.actions.components]
             [kii.ui.conf.layer-select.components]
             [kii.ui.conf.components.mode-select]
             [kii.ui.conf.key-group.components]

@@ -2,11 +2,6 @@
   (:require [re-frame.core :as rf]
             [kii.device.keyboard :as keyboard]))
 
-(defn dispatch-all
-  [& msgs]
-  (doseq [msg msgs]
-    (rf/dispatch msg)))
-
 (defn ->c
   [& args]
   (clojure.string/join

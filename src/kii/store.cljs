@@ -22,7 +22,7 @@
      (try
        (let [extract (fn [zip path] (p->chan (-> zip (.file path) (.async "nodebuffer"))))
              filename (-> zip-file path/parse :name)
-             [_ board layout hash failure?] (first (re-seq #"^([A-Za-z0-9_-]+)-([A-Za-z0-9_]+)-([0-9A-Fa-f]{32})(_error)?" filename))
+             [_ board layout hash failure?] (first (re-seq #"^([A-Za-z0-9_\.-]+)-([A-Za-z0-9_\.-]+)-([0-9A-Fa-f]{32})(_error)?" filename))
              out-dir (path/join user-data-dir cache-dir filename)
              bin-out (path/join out-dir bin-file)
              _ (<? (fs/mkdirp out-dir))
@@ -33,7 +33,6 @@
              json-data (<? (extract zip json-name))
              log-data (<? (extract zip log-file))
              log-out (path/join out-dir "build.log")]
-         (logf :debug "board: %s" board)
          (case board
            "MDErgo1" (let [left-data (<? (extract zip (str "left_" bin-file)))
                            right-data(<? (extract zip (str "right_" bin-file)))
@@ -71,9 +70,7 @@
 
              (logf :info "Successfully extracted firmware and config to local cache: %s" data)
 
-             (put! c data)))
-
-         )
+             (put! c data))))
        (catch js/Error e
          (logf :error e "Error extracting firmware"))))
     c))

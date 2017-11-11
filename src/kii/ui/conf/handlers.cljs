@@ -33,7 +33,7 @@
   [db [_ value]]
   (assoc db
     :active-keyboard nil
-    :active-panel :home
+    :active-panel :keyboard-select
     :conf {}))
 (rf/reg-event-db :nav/home nav-home)
 

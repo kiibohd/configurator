@@ -8,7 +8,9 @@
             [kii.ui.browser]
             [kii.test.runner]
             [kii.env :as env]
-            [kii.ui.components.base :refer [base-layout]]
+            [kii.ui.components.core]
+            [kii.ui.components.home :refer [home]]
+            [kii.ui.conf.components.main]
             [kii.bindings.electron-renderer :as electron]
             [taoensso.timbre :as timbre :refer-macros [log logf]]))
 
@@ -17,7 +19,7 @@
   to the root `container` element on the DOM."
   []
   (r/render
-    [base-layout]
+    [home]
     (js/document.getElementById "container"))
   )
 

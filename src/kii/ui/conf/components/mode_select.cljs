@@ -7,17 +7,14 @@
 
 (defstyle mode-select-style
   [".mode-select"
-   {:clear         "both"
-    :float         "left"
-    :margin-right  "-10px"
-    :margin-bottom "10px"}]
+   {:margin-right  "20px"}]
   [".btn"
    {:font-size     "20px"
     :color         (:gray palette/palette)
     :background    "rgba(0, 0, 0, 0)"
     :border        "none"
     :border-bottom (str "solid 8px " (:silver palette/palette))
-    :padding       "2px 40px"}
+    :padding       "2px 20px"}
    ["&:hover"
     ["&:enabled"
      {:border-bottom "solid 8px #4CACFF"

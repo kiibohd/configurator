@@ -16,16 +16,32 @@
             [kii.bindings.npm :refer [command-exists]]
             [kii.bindings.electron-renderer :refer [dialog child-process]]
             [kii.ui.styling :as styling]
-            [kii.device.keyboard :as kbd]))
+            [kii.device.keyboard :as kbd]
+            [kii.ui.components.toolbar :as toolbar]
+            [kii.ui.components.home :refer [register-panel]]))
+
+(defn- build-back [prev-panel disabled?]
+  {:name      :back
+   :component (fn []
+                [mui/icon-button
+                 {:icon-style {:font-size "36px"}
+                  :tooltip    "Back"
+                  :on-click   #(=>> [:panel/set-active prev-panel])
+                  :disabled   disabled?}
+                 [mui/font-icon
+                  {:class "material-icons md-36"}
+                  "arrow_back"]
+                 ])}
+  )
 
 (defn- open-dialog
   [title filters callback]
   (js->clj
-    (.showOpenDialog dialog nil
-                     (clj->js {:title      title
-                               :properties ["openFile"]
-                               :filters   filters})
-                     callback)))
+   (.showOpenDialog dialog nil
+                    (clj->js {:title      title
+                              :properties ["openFile"]
+                              :filters    filters})
+                    callback)))
 (defn- dfu-command
   []
   (when ((.-sync command-exists) "dfu-util")
@@ -38,13 +54,13 @@
       (string? bin) bin
       ;; TODO - Make flashing smarter for ergodox.
       (map? bin) (first (vals bin))
-      :default "" )))
+      :default "")))
 
 (defn flash-firmware
   []
   (let [last-download (<<= [:local/last-download])
         dfu-util-path (<<= [:local/dfu-util-path])
-        ]
+        prev-panel (<<= [:panel/previous])]
     (logf :info "%s" last-download)
     (r/with-let [loaded? (r/atom false)
                  dfu-path (r/atom (or dfu-util-path (dfu-command) nil))
@@ -73,6 +89,9 @@
                 (change-dfu-path [val]
                   (reset! dfu-path val)
                   (=>> [:local/set-dfu-util-path val]))]
+          (toolbar/add-to-menu (build-back prev-panel (= @status :in-progress)))
+          (add-watch status :watch (fn [key atom old-state new-state] (toolbar/replace-in-menu (build-back prev-panel (= new-state :in-progress)))))
+
           (let [devices (<<= [:device/all])]
             [:div
              [:div {:style {:float "left"
@@ -155,8 +174,9 @@
                                          :overflow-y     "hidden"
                                          :color          "black"
                                          :font-size      "0.9em"}}
-                 ]
-                ])
-             ])))
-      ))
-  )
+                 ]])]))))))
+
+(register-panel :flash flash-firmware
+                :on-deactivate (fn [_ __] (toolbar/remove-from-menu :back))
+                :on-activate (fn [_ __]))
+

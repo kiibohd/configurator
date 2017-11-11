@@ -40,7 +40,11 @@
 ;; Base Components
 
 (defn set-active-panel [db [_ value]]
-  (assoc db :active-panel value))
+  (let [current (:active-panel db)]
+    (if (not= db current)
+      (merge db {:prev-panel   current
+                 :active-panel value})
+      db)))
 
 (rf/reg-event-db :panel/set-active set-active-panel)
 

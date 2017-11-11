@@ -1,7 +1,7 @@
 (ns kii.ui.device.handlers
   (:require [re-frame.core :as rf]
             [kii.env :as env]
-            [kii.ui.util :as u]
+            [kii.ui.re-frame :refer [<<= <== =>> >=> =A=>]]
             [kii.device.keyboard :as keyboard]))
 
 (declare seed-devices)
@@ -47,7 +47,7 @@
 (defn seed-devices []
   ;; TODO: Evaluate if we should always do this...
   ;;(when env/dev?)
-  (u/dispatch-all
+  (=A=>
     [:device/add {:product-id   0xb04d
                   :vendor-id    0x1c11
                   :bus-no       9
@@ -75,7 +75,7 @@
                   :product      "Keyboard - MD1.1 PartialMap pjrcUSB full"
                   :raw          nil
                   :connected    false}]
-    [:device/add {:product-id   0xb007
+    [:device/add {:product-id   (if env/dev? 0xb007 0xb04d)
                   :vendor-id    0x1c11
                   :bus-no       9
                   :path         "9-9.9.2"

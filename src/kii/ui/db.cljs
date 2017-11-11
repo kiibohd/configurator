@@ -6,6 +6,6 @@
   {:devices         nil
    :active-filter   :ic-only
    :active-keyboard nil
-   :active-panel    :home
+   :active-panel    :keyboard-select
    :conf            {}})
 

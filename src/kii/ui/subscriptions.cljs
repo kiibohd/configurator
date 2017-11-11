@@ -28,6 +28,11 @@
  (fn [db _]
    (:active-panel db)))
 
+(rf/reg-sub
+  :panel/previous
+  (fn [db _]
+    (:prev-panel db)))
+
 (rf/reg-sub :local/all
   (fn [db _] (-> db :local)))
 
