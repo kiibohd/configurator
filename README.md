@@ -37,6 +37,7 @@ Install dfu-util from your disto's package manager.
 Install via brew cask (this will automatically install the dfu-util dependency)
 
 ```bash
+$ brew tap caskroom/drivers
 $ brew cask install kiibohd-configurator
 ```
 
