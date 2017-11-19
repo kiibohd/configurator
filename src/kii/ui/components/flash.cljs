@@ -165,6 +165,7 @@
                   :disabled             true
                   :multi-line           true
                   :rows                 20
+                  :rowsMax              20
                   :style                {:display     "block"
                                          :width       "900px"
                                          :font-family styling/monospace-font-stack
