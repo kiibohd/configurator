@@ -156,25 +156,25 @@
                 :on-click #(exec-flash)}]
               ]
              (when @flashing?
-               [:div {:style {;:margin-right "320px"
-                              :display "inline-block"}}
+               [:div {:style {:display "inline-block"}}
                 [mui/text-field
                  {:value                @progress
                   :floating-label-fixed true
                   :floating-label-text  "flashing progress"
-                  :disabled             true
+                  :read-only            true
                   :multi-line           true
-                  :rows                 20
-                  :rowsMax              20
+                  :rows                 25
+                  :rowsMax              25
                   :style                {:display     "block"
                                          :width       "900px"
                                          :font-family styling/monospace-font-stack
                                          :border-top  (str/fmt "10px solid %s" (case @status :success "green" :failure "red" "lightgray"))}
                   :textarea-style       {:white-space    "pre"
                                          :padding-bottom "1.2em"
-                                         :overflow-y     "hidden"
                                          :color          "black"
-                                         :font-size      "0.9em"}}
+                                         :font-size      "0.9em"}
+                  :floating-label-style {:font-size "24px"}
+                  }
                  ]])]))))))
 
 (register-panel :flash flash-firmware
