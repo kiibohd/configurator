@@ -268,7 +268,7 @@
    [:mac/pipe  "|" ["#:'|'"] :mac]
    [:mac/lt    "<" ["#:'<'"] :mac {:font-size "16px"}]
    [:mac/gt    ">" ["#:'>'"] :mac {:font-size "16px"}]
-   [:mac/ques  "?" ["#:'e?'"] :mac]
+   [:mac/ques  "?" ["#:'?'"] :mac]
    [:mac/colon ":" ["#:':'"] :mac {:font-size "16px"}]
    [:mac/dquot "\"" ["#:'\"'"] :mac {:font-size "16px"}]
 
