@@ -6,9 +6,9 @@
             [cuerdas.core :as str]
             [kii.ui.color-picker :as color-picker]
             [kii.util :as util]
-            [kii.bindings.cljsjs :refer [chroma]]))
+            [kii.bindings.cljsjs :refer [chroma]]
+            [kii.config.core :as config]))
 
-;;TODO - Don't allow overwrite of same animation.
 ;;TODO? - Allow custom kll to be put on a different layer.
 ;;TODO! - Fix the canned animation syntax the ':' for interpolation and '!' for darken is limiting
 
@@ -74,57 +74,69 @@
     )
   )
 
+(defn name-error [value existing]
+  (cond
+    (nil? value) nil
+    (= 0 (count (name value))) nil
+    (not (config/valid-animation-name? value)) "invalid name - valid characters [A-Za-z0-9_] must not start with number"
+    (some #(= value %) existing) "an animation with that name already exists"))
+
 (defn- customize-card
   [selected! {:keys [configurable description frames settings] :as animation}]
   (r/with-let [name (r/atom @selected!)
                values (r/atom (into {} (map (fn [x] [(:name x) (:default x)]) configurable)))]
     (fn [selected! {:keys [configurable description frames settings] :as animation}]
-      [:div
-       [mui/card
-        {:style {:min-width   "35em"
-                 :margin-left "2em"
-                 :margin-top  "1em"}}
-        [mui/card-text
-         [mui/text-field {:floating-label-text "name to create as"
-                          :default-value       @name
-                          :on-change           (fn [_ val] (reset! name val))
-                          }]]
-        [mui/card-text
-         description
-         ]
-        [:hr {:style {:margin "0 10px"}}]
-        [mui/card-header {:text-style {:padding-right "0"}
-                          :style      {:padding-bottom "0"}}
-         "customizations"]
-        (if (count configurable)
+      (let [animations (<<= [:conf/animations])
+            existing-names (map cljs.core/name (keys animations))]
+        [:div
+         [mui/card
+          {:style {:min-width   "35em"
+                   :margin-left "2em"
+                   :margin-top  "1em"}}
           [mui/card-text
-           {:style {}}
-           (for [c configurable]
-             ^{:key (:name c)}
-             [customization values c])]
-          [mui/card-text {:style {:font-style "italic" :padding-top "0"}}
-           "none"])
-        [mui/card-actions
-         [mui/raised-button
-          {:label    "Add Animation"
-           :primary  true
-           :on-click (fn []
-                       ;; Add the animation & perform replacements
-                       (=>> [:conf/add-animation (keyword @name)
-                             {:settings (replace-all settings @values configurable)
-                              :type     (:type animation)
-                              :frames   (mapv #(replace-all % @values configurable) frames)}])
-                       ;; Append the required custom-kll
-                       (when-not (str/empty-or-nil? (:custom-kll animation))
-                         (let [custom-kll (<<= [:conf/custom-kll 0])
-                               additions (str/replace (str "### Added by canned animation ${__NAME__} ###\n" (:custom-kll animation))
-                                                      "${__NAME__}" @name)]
-                           (=>> [:conf/custom-kll (str/fmt "%s\n\n%s\n" custom-kll additions)])))
-                       ;; Reset to nothing selected.
-                       (reset! selected! nil))}]
-         ]
-        ]
-       ])
+           [mui/text-field {:floating-label-text "name to create as"
+                            :default-value       @name
+                            :on-change           (fn [_ val] (reset! name val))
+                            :error-text          (name-error @name existing-names)
+                            }]]
+          [mui/card-text
+           description
+           ]
+          [:hr {:style {:margin "0 10px"}}]
+          [mui/card-header {:text-style {:padding-right "0"}
+                            :style      {:padding-bottom "0"}}
+           "customizations"]
+          (if (count configurable)
+            [mui/card-text
+             {:style {}}
+             (for [c configurable]
+               ^{:key (:name c)}
+               [customization values c])]
+            [mui/card-text {:style {:font-style "italic" :padding-top "0"}}
+             "none"])
+          [mui/card-actions
+           [mui/raised-button
+            {:label    "Add Animation"
+             :primary  true
+             :disabled (or (not (config/valid-animation-name? @name))
+                           (some #(= @name %) existing-names))
+             :on-click (fn []
+                         ;; Add the animation & perform replacements
+                         (=>> [:conf/add-animation (keyword @name)
+                               {:settings (replace-all settings @values configurable)
+                                :type     (:type animation)
+                                :frames   (mapv #(replace-all % @values configurable) frames)}])
+                         ;; Append the required custom-kll
+                         (when-not (str/empty-or-nil? (:custom-kll animation))
+                           (let [custom-kll (<<= [:conf/custom-kll 0])
+                                 additions (str/replace (str "### Added by canned animation ${__NAME__} ###\n" (:custom-kll animation))
+                                                        "${__NAME__}" @name)]
+                             (=>> [:conf/custom-kll (str/fmt "%s\n\n%s\n" custom-kll additions)])))
+                         ;; Reset to nothing selected.
+                         (reset! selected! nil))}]
+           ]
+          ]
+         ]))
     ))
 
 (defn customize-canned
