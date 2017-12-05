@@ -1,5 +1,6 @@
 (ns kii.ui.components.core
   (:require [kii.ui.components.home]
+            [kii.ui.components.settings]
             [kii.ui.components.flash]
             [kii.ui.components.keyboard-select]
             [kii.ui.components.popup]

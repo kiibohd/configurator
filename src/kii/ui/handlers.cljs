@@ -128,6 +128,10 @@
   [raw]
   (safe-read-string raw "\""))
 
+(defn local-read-canned-animations
+  [raw]
+  (safe-read-string raw "{" (fn [_] {})))
+
 (rf/reg-fx
  :indexed-db/load
  (fn []
@@ -135,13 +139,15 @@
     (let [dfu-util-path (<? (config/get :dfu-util-path))
           last-dl (<? (config/get :last-download))
           recent-dls (<? (config/get :recent-downloads))
-          last-ver-check (<? (config/get :last-version-check))]
+          last-ver-check (<? (config/get :last-version-check))
+          canned-animations (<? (config/get :canned-animations))]
       ;(logf :debug "Setting [:dfu-util-path] - %s" dfu-util-path)
       ;(logf :debug "Setting [:last-download] - %s" last-dl)
       ;(logf :debug "Setting [:recent-downloads] - %s" recent-dls)
       (=>> [:db/raw-assoc-in [:local :dfu-util-path] (local-read-dfu-util-path dfu-util-path)])
       (=>> [:db/raw-assoc-in [:local :last-download] (local-read-last-dl last-dl)])
       (=>> [:db/raw-assoc-in [:local :recent-downloads] (local-read-recent-dl recent-dls)])
+      (=>> [:db/raw-assoc-in [:local :canned-animations] (local-read-canned-animations canned-animations)])
       (=>> [:db/raw-assoc-in [:local :last-version-check] last-ver-check])
       ))))
 
@@ -184,6 +190,21 @@
          updated (update-in current [kbd variant] #(conj % value))]
      {:db             (assoc-in db [:local :recent-downloads] updated)
       :indexed-db/set [:recent-downloads updated]})))
+
+(rf/reg-event-fx
+ :local/update-canned-animations
+ (fn [cofx [_ value name]]
+   (let [canned (assoc (get-in (:db cofx) [:local :canned-animations]) name value)]
+     {:db             (assoc-in (:db cofx) [:local :canned-animations] canned)
+      :indexed-db/set [:canned-animations canned]})))
+
+(rf/reg-event-fx
+ :local/remove-canned-animation
+ (fn [cofx [_ name]]
+   (let [canned (dissoc (get-in (:db cofx) [:local :canned-animations]) name)]
+     {:db             (assoc-in (:db cofx) [:local :canned-animations] canned)
+      :indexed-db/set [:canned-animations canned]}))
+ )
 
 (rf/reg-fx
  :indexed-db/set

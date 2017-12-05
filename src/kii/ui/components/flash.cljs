@@ -18,21 +18,9 @@
             [kii.ui.styling :as styling]
             [kii.device.keyboard :as kbd]
             [kii.ui.components.toolbar :as toolbar]
-            [kii.ui.components.home :refer [register-panel]]))
-
-(defn- build-back [prev-panel disabled?]
-  {:name      :back
-   :component (fn []
-                [mui/icon-button
-                 {:icon-style {:font-size "36px"}
-                  :tooltip    "Back"
-                  :on-click   #(=>> [:panel/set-active prev-panel])
-                  :disabled   disabled?}
-                 [mui/font-icon
-                  {:class "material-icons md-36"}
-                  "arrow_back"]
-                 ])}
-  )
+            [kii.ui.components.home :refer [register-panel]]
+            [kii.ui.components.buttons :refer [back-button]]
+            ))
 
 (defn- open-dialog
   [title filters callback]
@@ -61,7 +49,6 @@
   (let [last-download (<<= [:local/last-download])
         dfu-util-path (<<= [:local/dfu-util-path])
         prev-panel (<<= [:panel/previous])]
-    (logf :info "%s" last-download)
     (r/with-let [loaded? (r/atom false)
                  dfu-path (r/atom (or dfu-util-path (dfu-command) nil))
                  bin-file (r/atom (bin-file last-download))
@@ -89,8 +76,8 @@
                 (change-dfu-path [val]
                   (reset! dfu-path val)
                   (=>> [:local/set-dfu-util-path val]))]
-          (toolbar/add-to-menu (build-back prev-panel (= @status :in-progress)))
-          (add-watch status :watch (fn [key atom old-state new-state] (toolbar/replace-in-menu (build-back prev-panel (= new-state :in-progress)))))
+          (toolbar/add-to-menu (back-button prev-panel (= @status :in-progress)))
+          (add-watch status :watch (fn [key atom old-state new-state] (toolbar/replace-in-menu (back-button prev-panel (= new-state :in-progress)))))
 
           (let [devices (<<= [:device/all])]
             [:div

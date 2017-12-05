@@ -25,18 +25,18 @@
                                 interp-to                   ;; nil -or- hex-code color
                                 (rgb->js (get values interp-to)))
                     interp-pct (and interp-pct (util/str->float interp-pct))
-                    darken-pct  (and darken-pct (util/str->float darken-pct))]
+                    darken-pct (and darken-pct (util/str->float darken-pct))]
                 (str/fmt "$0,$1,$2" (-> (rgb->js value)
                                         (interp interp-to interp-pct)
                                         (interp "#000000" darken-pct)
                                         chroma->vec)))
               (str/fmt "$r,$g,$b" value))
-            )
+           )
           (def-rep [s name value] (str/replace s (str "${" name "}") value))
           (clr-rep [s name value]
             (str/replace s (re-pattern (str "\\$\\{" name ":?([\\w.#]+)?:?([\\d.]+)?\\!?([\\d.]+)?}"))
                          (fn [[_ interp-to interp-pct darken-pct]]
-                            (construct-color value interp-to interp-pct darken-pct))))]
+                           (construct-color value interp-to interp-pct darken-pct))))]
     (loop [[{:keys [name type] :as c} & cs] (seq config)
            s string]
       (if (some? c)
@@ -130,24 +130,35 @@
 (defn customize-canned
   []
   (r/with-let [selected (r/atom nil)]
-    (let [canned (<<= [:conf/canned])]
+    (let [canned (<<= [:conf/canned])
+          locals (<<= [:local/canned-animations])
+          all (merge canned locals)]
       (fn []
         [:div {:style {:display "flex"}}
          [:div
           [:h3 "Customize Pre-built"]
           [mui/select-field
            {:floating-label-text "animation"
-            :value               @selected
-            :on-change           (fn [o k v]
-                                   (reset! selected v))}
-           (for [name (keys canned)]
-             [mui/menu-item {:key          name
-                             :value        name
-                             :primary-text name}]
-             )
+            :value               @selected}
+           (for [k (keys canned)]
+             ^{:key k}
+             [mui/menu-item {:value        k
+                             ;; Using on click here due to value being coerced into a string
+                             ;; for the select-field's on-change event.
+                             :on-click #(reset! selected k)
+                             :primary-text (name k)}])
+           (when (not-empty locals)
+             [mui/divider])
+           (for [k (keys locals)]
+             ^{:key k}
+             [mui/menu-item {:value        k
+                             ;; Using on click here due to value being coerced into a string
+                             ;; for the select-field's on-change event.
+                             :on-click     #(reset! selected k)
+                             :primary-text (name k)}])
            ]
           ]
-         (when-let [animation (get canned (keyword @selected))]
+         (when-let [animation (get all @selected)]
            ;; Key is specified to force a reload of reagent atoms when we change selections.
            ^{:key @selected}
            [customize-card selected animation])

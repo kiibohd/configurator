@@ -56,3 +56,6 @@
   :<- [:local/all]
   (fn [local _] (:last-ver-check local)))
 
+(rf/reg-sub :local/canned-animations
+  :<- [:local/all]
+  (fn [local _] (:canned-animations local)))

@@ -218,7 +218,7 @@
   (let [loaded? (<<= [:conf/loaded?])
         active-tab (<<= [:conf/active-config-tab])
         mode (<<= [:conf/mode])]
-    [:div
+    [:div {:style {:display "inline-block"}}
      (cond
        (= mode :keymap) [keymap]
        (= mode :visuals) [visuals]

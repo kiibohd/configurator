@@ -58,7 +58,6 @@
         (when (not= @active panel)
           (let [deactivate (:on-deactivate (get @panels @active))
                 activate (:on-activate (get @panels panel))]
-            (logf :debug "Panel change %s -> %s" @active panel)
             (when deactivate (deactivate @active panel))
             (when activate (activate panel @active))
             (reset! active panel)))
@@ -73,7 +72,7 @@
              [selected-keyboard]
              [toolbar]]
             [:hr]
-            [:div {:style {:display "inline-block"}}
+            [:div
              [alert/alert-popover]
              [:div {:style {:clear "both"}}
               (if-let [p (get @panels panel)]

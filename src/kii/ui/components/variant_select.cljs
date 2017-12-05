@@ -95,27 +95,28 @@
     (fn []
       (let [kbd (keyboard/product->keyboard (:product device))
             detail (:variant-detail kbd)]
-        (if (nil? detail)
-          [:h3 "Select a variant."
-           [:ul
-            (for [name (:variants kbd)]
-              ^{:key name}
-              [:li
-               {:class    (:variant-item css)
-                :on-click #(do
-                             (>=> [:variant/set-active name])
-                             (>=> [:layout/set-active (first (get-in kbd [:layouts name]))])
-                             (=>> [:start-configurator true])
-                             (=>> [:panel/set-active :configurator]))}
-               [:span (str name)]])]]
-          [:h3 "Select a Variant"
-           [:div
-            (for [variant (:variants kbd)]
-              ^{:key variant}
-              [variant-display-visual-comp kbd variant (get detail variant)])
+        [:div {:style {:display "inline-block"}}
+         (if (nil? detail)
+           [:h3 "Select a variant."
+            [:ul
+             (for [name (:variants kbd)]
+               ^{:key name}
+               [:li
+                {:class    (:variant-item css)
+                 :on-click #(do
+                              (>=> [:variant/set-active name])
+                              (>=> [:layout/set-active (first (get-in kbd [:layouts name]))])
+                              (=>> [:start-configurator true])
+                              (=>> [:panel/set-active :configurator]))}
+                [:span (str name)]])]]
+           [:h3 "Select a Variant"
+            [:div
+             (for [variant (:variants kbd)]
+               ^{:key variant}
+               [variant-display-visual-comp kbd variant (get detail variant)])
+             ]
             ]
-           ]
-          ))
+           )])
       )))
 
 (register-panel :choose-variant variant-select)
