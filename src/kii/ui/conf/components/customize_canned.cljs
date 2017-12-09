@@ -83,11 +83,13 @@
 
 (defn- customize-card
   [selected! {:keys [configurable description frames settings] :as animation}]
-  (r/with-let [name (r/atom @selected!)
+  (r/with-let [name (r/atom (if (keyword? @selected!) (name @selected!) @selected!))
                values (r/atom (into {} (map (fn [x] [(:name x) (:default x)]) configurable)))]
     (fn [selected! {:keys [configurable description frames settings] :as animation}]
       (let [animations (<<= [:conf/animations])
-            existing-names (map cljs.core/name (keys animations))]
+            existing-names (map cljs.core/name (keys animations))
+            ;; TODO - Better solution here.
+            get-name #(if (keyword? @name) (cljs.core/name @name) @name)]
         [:div
          [mui/card
           {:style {:min-width   "35em"
@@ -95,7 +97,7 @@
                    :margin-top  "1em"}}
           [mui/card-text
            [mui/text-field {:floating-label-text "name to create as"
-                            :default-value       @name
+                            :default-value       (get-name)
                             :on-change           (fn [_ val] (reset! name val))
                             :error-text          (name-error @name existing-names)
                             }]]
@@ -118,8 +120,8 @@
            [mui/raised-button
             {:label    "Add Animation"
              :primary  true
-             :disabled (or (not (config/valid-animation-name? @name))
-                           (some #(= @name %) existing-names))
+             :disabled (or (not (config/valid-animation-name? (get-name)))
+                           (some #(= (get-name) %) existing-names))
              :on-click (fn []
                          ;; Add the animation & perform replacements
                          (=>> [:conf/add-animation (keyword @name)
@@ -130,7 +132,7 @@
                          (when-not (str/empty-or-nil? (:custom-kll animation))
                            (let [custom-kll (<<= [:conf/custom-kll 0])
                                  additions (str/replace (str "### Added by canned animation ${__NAME__} ###\n" (:custom-kll animation))
-                                                        "${__NAME__}" @name)]
+                                                        "${__NAME__}" (get-name))]
                              (=>> [:conf/custom-kll (str/fmt "%s\n\n%s\n" custom-kll additions)])))
                          ;; Reset to nothing selected.
                          (reset! selected! nil))}]
