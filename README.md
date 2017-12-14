@@ -77,7 +77,7 @@ npm start
 * libusb
 
 ```bash
-npm install
+npm install build
 CXX=clang++ npm run build:prod
 npm start
 ```
