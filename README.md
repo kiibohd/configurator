@@ -27,7 +27,24 @@ You will need to install Zadig drivers & download dfu-util (TODO: Updated Instal
 
 ### Linux
 
-Install dfu-util from your disto's package manager.
+* Install dfu-util from your disto's package manager.
+* Add the following to /etc/udev/rules.d/60-input-club.rules (You will need to create the new file)
+  ```bash
+  # UDEV Rules for Input Club keyboards
+  #
+  # This will allow reflashing via dfu-util without using sudo
+  #
+  # This file must be placed /at /etc/udev/rules.d/60-input-club.rules  (preferred location)
+  
+  # Board
+  SUBSYSTEMS=="usb", ATTRS{idVendor}=="1c11", ATTRS{idProduct}=="b04d", MODE="664", GROUP="plugdev"
+  # Boot
+  SUBSYSTEMS=="usb", ATTRS{idVendor}=="1c11", ATTRS{idProduct}=="b007", MODE="664", GROUP="plugdev"
+  # Registered Board
+  SUBSYSTEMS=="usb", ATTRS{idVendor}=="1209", ATTRS{idProduct}=="01c0", MODE="664", GROUP="plugdev"
+  # Registered Boot
+  SUBSYSTEMS=="usb", ATTRS{idVendor}=="1209", ATTRS{idProduct}=="01cb", MODE="664", GROUP="plugdev"
+  ```
 
 
 ## Installation
