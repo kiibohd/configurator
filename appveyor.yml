@@ -11,11 +11,11 @@ environment:
   matrix:
     - platform: x86
       PACKAGE_OS: win32
-      nodejs_version: "8"
+      nodejs_version: "9"
       ARCH: ia32
     - platform: x64
       PACKAGE_OS: win32
-      nodejs_version: "8"
+      nodejs_version: "9"
       ARCH: x64
 
 
