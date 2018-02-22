@@ -151,7 +151,23 @@
                             ]
                      }}
     :layouts {"Standard" ["Standard" "NoAnimations"]}
-    }])
+    }
+  {:display       "Kira"
+    :names         ["Kira"]
+    :variants       ["Standard"]
+    :image         "unknown.png"
+    :variant-detail {"Standard"
+                    {:rows [0 1 2 3 4 5]
+                     :keys [[:1 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1]
+                            [:1 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1 :2 :1 :1 :1 :1]
+                            [:1.5 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1.5 :1 :1 :1 :1v]
+                            [:1.75 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1 :2.25 :1 :1 :1 ]
+                            [:2.25 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1 :1.75 :1 :1 :1 :1 :1v]
+                            [:1.25 :1.25 :1.25 :6.25 :1.5 :1.5 :1 :1 :1 :1 :1]
+                            ]
+                     }}
+    :layouts {"Standard" ["Standard"]}
+    } ])
 
 (defn get-ic-device
   [device]

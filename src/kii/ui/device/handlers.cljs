@@ -60,7 +60,7 @@
     [:device/add {:product-id   0xb04d
                   :vendor-id    0x1c11
                   :bus-no       9
-                  :path         "9-9.9.5"
+                  :path         "9-9.9.2"
                   :serial-no    ""
                   :manufacturer "Input:Club"
                   :product      "Keyboard - MD1 PartialMap pjrcUSB full"
@@ -78,7 +78,7 @@
     [:device/add {:product-id   (if env/dev? 0xb007 0xb04d)
                   :vendor-id    0x1c11
                   :bus-no       9
-                  :path         "9-9.9.2"
+                  :path         "9-9.9.4"
                   :serial-no    ""
                   :manufacturer "Input:Club"
                   :product      "Keyboard - WhiteFox PartialMap pjrcUSB full"
@@ -87,10 +87,19 @@
     [:device/add {:product-id   0xb04d
                   :vendor-id    0x1c11
                   :bus-no       9
-                  :path         "9-9.9.4"
+                  :path         "9-9.9.5"
                   :serial-no    ""
                   :manufacturer "Input:Club"
                   :product      "Keyboard - KType PartialMap pjrcUSB full"
+                  :raw          nil
+                  :connected    false}]
+    [:device/add {:product-id   0xb04d
+                  :vendor-id    0x1c11
+                  :bus-no       9
+                  :path         "9-9.9.6"
+                  :serial-no    ""
+                  :manufacturer "Input:Club"
+                  :product      "Keyboard - Kira PartialMap pjrcUSB full"
                   :raw          nil
                   :connected    false}]
     #_[:device/add {:product-id   0xb04d
@@ -101,5 +110,6 @@
                   :manufacturer nil
                   :product      nil
                   :raw          nil
-                  :connected    true}])
+                  :connected    true}]
+    )
   )
