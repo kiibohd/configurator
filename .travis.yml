@@ -18,7 +18,7 @@ addons:
 
 # Versions of node.js to test
 node_js:
-  - "9"
+  - "8"
 
 
 # Specific Environment Variables
