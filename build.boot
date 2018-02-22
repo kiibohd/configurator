@@ -3,7 +3,7 @@
 
 (task-options!
  pom {:project     'kiibohd-configurator
-      :version     "0.1"
+      :version     "0.5.0"
       :description "Input:Club Configuration Utility"
       :license     {"GPLv3" "https://www.gnu.org/licenses/gpl-3.0.en.html"}})
 
@@ -11,7 +11,7 @@
 
 (set-env!
  :dependencies
- '[[org.clojure/clojure "1.9.0-beta2" :scope "provided"]
+ '[[org.clojure/clojure "1.9.0" :scope "provided"]
    [org.clojure/clojurescript "1.9.946" :scope "compile"]
    ;; Boot Deps
    [boot/core "2.7.2" :scope "provided"]
@@ -23,29 +23,29 @@
    [adzerk/boot-cljs-repl "0.3.3" :scope "test"]
    [adzerk/boot-reload "0.5.2" :scope "test"]
    ;; Dev tools enhancements
-   [binaryage/devtools "0.9.7" :scope "test"]
-   [binaryage/dirac "1.2.17" :scope "test"]
+   [binaryage/devtools "0.9.9" :scope "test"]
+   [binaryage/dirac "1.2.28" :scope "test"]
    [powerlaces/boot-cljs-devtools "0.2.0" :scope "test"]
    ;; Project Dependencies
    [reagent "0.7.0" :exclusions [org.clojure/tools.reader cljsjs/react]]
-   [re-frame "0.10.2"]
+   [re-frame "0.10.5"]
    [day8.re-frame/undo "0.3.2"]
    [cljsjs/react "15.6.2-0"]
    [cljsjs/react-dom "15.6.2-0"]
    [cljsjs/react-transition-group "2.2.0-0"]
    [cljs-react-material-ui "0.2.50"]
    [cljs-css-modules "0.2.1"]
-   [cljs-ajax "0.7.2"]
+   [cljs-ajax "0.7.3"]
    [camel-snake-kebab "0.4.0"]
    [cljsjs/tinycolor "1.3.0-0"]
    [cljsjs/react-color "2.13.1-0"]
-   [funcool/cuerdas "2.0.4"]
+   [funcool/cuerdas "2.0.5"]
    [com.taoensso/timbre "4.10.0"]
    [cljsjs/chroma "1.1.1-0"]
    [cljsjs/jszip "3.1.3-0"]
    [cljs-node-io "0.5.0"]
    [cljsjs/localforage "1.5.3-0"]
-   [com.andrewmcveigh/cljs-time "0.5.0"]
+   [com.andrewmcveigh/cljs-time "0.5.2"]
    [version-clj "0.1.2"]
    ]
  :source-paths #{"src"}
