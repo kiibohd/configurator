@@ -17,7 +17,7 @@
     :layouts          {"Default" ["Default" "Blank"]}
     }
    {:display       "Infinity 60% LED"
-    :names         ["MD1.1" "Infinity_60%_LED"]
+    :names         ["MD1.1" "Infinity_60%_LED" "Infinity_60_LED"]
     :variants       ["Standard" "Hacker" "Alphabet"]
     :image         "infinity-led.png"
     :visuals-enabled? false
@@ -51,7 +51,7 @@
                        "Alphabet" ["Alphabet" "AlphabetBlank"]}
     }
    {:display          "Infinity 60%"
-    :names            ["MD1" "Infinity_60%"]
+    :names            ["MD1" "Infinity_60%" "Infinity_60"]
     :variants         ["Standard" "Hacker"]
     :image            "infinity.png"
     :visuals-enabled? false
