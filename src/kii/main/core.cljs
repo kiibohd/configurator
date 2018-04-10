@@ -44,8 +44,8 @@
 
 (defn dl-file
   [e url]
-  (let [focused (.getFocusedWindow electron/BrowserWindow)
-        promise (.download electron-dl focused url)
+  (let [sender (.-sender e)
+        promise (.download electron-dl sender url)
         notify #(send-to-renderer e "download-complete" %)]
     (.then promise #(notify #js {:status "success" :path (.getSavePath %)}))
     (.catch promise #(notify #js {:status "error" :error %}))))
