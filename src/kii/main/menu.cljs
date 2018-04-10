@@ -73,7 +73,7 @@
               :submenu [{:role "about"}
                         {:label "Learn More" :click #(open-website "https://github.com/kiibohd/configurator")}
                         {:label "Documentation" :click #(open-website "https://github.com/kiibohd/configurator#readme")}
-                        {:label "Community Discussions" :click #(open-website "https://input.club/forums/forum/support/configurator/")}
+                        {:label "Community Discussions" :click #(open-website "https://community.kono.store")}
                         {:label "Search Issues" :click #(open-website "https://github.com/kiibohd/configurator/issues")}]
               }}
   )
