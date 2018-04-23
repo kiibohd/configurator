@@ -38,15 +38,14 @@
 
 ;; TODO: Move to kii.bindings.electron-renderer and use core.async
 (defn send-to-renderer
-  [e msg arg]
-  (let [sender (.-sender e)]
-    (.send sender msg arg)))
+  [target msg-name arg]
+  (.send target msg-name arg))
 
 (defn dl-file
-  [e url]
+  [e url msg-name]
   (let [sender (.-sender e)
         promise (.download electron-dl sender url)
-        notify #(send-to-renderer e "download-complete" %)]
+        notify #(send-to-renderer sender msg-name %)]
     (.then promise #(notify #js {:status "success" :path (.getSavePath %)}))
     (.catch promise #(notify #js {:status "error" :error %}))))
 

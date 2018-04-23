@@ -27,6 +27,11 @@
              (jsx->clj val)
              val)])))))
 
+(defn js->clj-own
+  "Convert a JavaScript object to a clojure map"
+  [object]
+  (into {} (for [k (.keys js/Object object)] [k (aget object k)])))
+
 (defn unescape
   [s]
   (if s

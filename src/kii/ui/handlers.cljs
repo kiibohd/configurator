@@ -21,7 +21,10 @@
             [ajax.core :as ajax]
             [version-clj.core :as ver]
             [kii.bindings.electron-renderer :as electron]
-            [cuerdas.core :as str]))
+            [cuerdas.core :as str]
+            [kii.store :as store]
+            [kii.env :as env]
+            [kii.util :as u]))
 
 (defn initialize [_ _]
   db/default-db)
@@ -35,7 +38,9 @@
     :usb/watch       nil
     :usb/poll        nil
     :indexed-db/load nil
-    :version-check   nil}))
+    :version-check   nil
+    :dfu-util-check  nil
+    :zadic-check nil}))
 
 ;; Base Components
 
@@ -106,6 +111,66 @@
      )
    ))
 
+(def dfu-info
+  {:version "0.9"
+   "win32" "http://dfu-util.sourceforge.net/releases/dfu-util-0.9-win64.zip"
+   "darwin" "https://github.com/kiibohd/dfu-util/releases/download/v0.9-kiibohd/dfu-util-v0.9-kiibohd.zip"})
+
+(defn dfu-dl-complete
+  [_ arg]
+  (let [result (u/jsx->clj arg)]
+    (go
+      (logf :info (str "completed dfu-util download" result))
+      (let [path (<? (store/store-dfu-util (:path result) (:version dfu-info)))]
+        (=>> [:local/set-dfu-util-path path])))
+    ))
+
+(rf/reg-fx
+  :dfu-util-check
+  (fn []
+    (if-let [loc (get dfu-info js/process.platform)]
+      (let [dfu-version (:version dfu-info)]
+        ; Check if dfu-util is in local
+        (if (store/dfu-util-installed? dfu-version)
+          (logf :info (str "dfu-util v" dfu-version " Installed"))
+          (let [event-name "dfu-util-download-complete"]
+            (logf :warn (str "dfu-util v" dfu-version " NOT Installed"))
+            (.once electron/ipc event-name dfu-dl-complete)
+            (.send electron/ipc "download-file" loc event-name)))))))
+
+(def zadic-info
+  {:version "1.3.1"
+   "win32" "https://github.com/kiibohd/kiidrv/releases/download/v1.3.1-kiidrv/kiidrv-x64-Release.exe"
+   "darwin" "https://github.com/kiibohd/kiidrv/releases/download/v1.3.1-kiidrv/kiidrv-x64-Release.exe"
+   })
+
+(defn zadic-dl-complete
+  [_ arg]
+  (let [result (u/jsx->clj arg)]
+    (go
+      (logf :info (str "completed zadic download" result))
+      (let [path (<? (store/store-zadic (:path result) (:version zadic-info)))]
+        (=>> [:local/set-zadic-path path])
+        )
+      )
+    ))
+
+;; TODO: Run zadic
+
+(rf/reg-fx
+  :zadic-check
+  (fn []
+    (when-let [loc (get zadic-info js/process.platform)]
+      (let [zadic-version (:version zadic-info)]
+        (if (store/zadic-installed? zadic-version)
+          (logf :info (str "Zadic v" zadic-version " Installed"))
+          (let [event-name "zadic-download-complete"]
+            (logf :warn (str "Zadic v" zadic-version " NOT Installed"))
+            (.once electron/ipc event-name zadic-dl-complete)
+            (.send electron/ipc "download-file" loc event-name))
+          ))
+      )))
+
 (defn safe-read-string
   ([raw start fallback-fn]
    (if (and raw (str/starts-with? raw start))
@@ -128,6 +193,10 @@
   [raw]
   (safe-read-string raw "\""))
 
+(defn local-read-zadic-path
+  [raw]
+  (safe-read-string raw "\""))
+
 (defn local-read-canned-animations
   [raw]
   (safe-read-string raw "{" (fn [_] {})))
@@ -140,7 +209,8 @@
           last-dl (<? (config/get :last-download))
           recent-dls (<? (config/get :recent-downloads))
           last-ver-check (<? (config/get :last-version-check))
-          canned-animations (<? (config/get :canned-animations))]
+          canned-animations (<? (config/get :canned-animations))
+          zadic-path (<? (config/get :zadic-path))]
       ;(logf :debug "Setting [:dfu-util-path] - %s" dfu-util-path)
       ;(logf :debug "Setting [:last-download] - %s" last-dl)
       ;(logf :debug "Setting [:recent-downloads] - %s" recent-dls)
@@ -148,6 +218,7 @@
       (=>> [:db/raw-assoc-in [:local :last-download] (local-read-last-dl last-dl)])
       (=>> [:db/raw-assoc-in [:local :recent-downloads] (local-read-recent-dl recent-dls)])
       (=>> [:db/raw-assoc-in [:local :canned-animations] (local-read-canned-animations canned-animations)])
+      (=>> [:db/raw-assoc-in [:local :zadic-path] (local-read-zadic-path zadic-path)])
       (=>> [:db/raw-assoc-in [:local :last-version-check] last-ver-check])
       ))))
 
@@ -167,6 +238,12 @@
  (fn [cofx [_ value]]
    {:db             (assoc-in (:db cofx) [:local :dfu-util-path] value)
     :indexed-db/set [:dfu-util-path value]}))
+
+(rf/reg-event-fx
+  :local/set-zadic-path
+  (fn [cofx [_ value]]
+    {:db             (assoc-in (:db cofx) [:local :zadic-path] value)
+     :indexed-db/set [:zadic-path value]}))
 
 (rf/reg-event-fx
  :local/set-last-download

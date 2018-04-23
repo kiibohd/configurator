@@ -7,6 +7,7 @@
             [kii.bindings.node.fs :as fs]
             [kii.bindings.node.path :as path]
             [kii.bindings.electron-renderer :refer [user-data-dir]]
+            [kii.util :as util]
             [cuerdas.core :as str]
             [cljs-time.core :as time]
             [cljs-time.coerce :as time-coerce]))
@@ -14,6 +15,7 @@
 (def log-file "log/build.log")
 (def bin-file "kiibohd.dfu.bin")
 (def cache-dir "firmware-cache")
+(def util-dir "utils")
 
 (defn cache-firmware
   [zip-file]
@@ -74,3 +76,58 @@
        (catch js/Error e
          (logf :error e "Error extracting firmware"))))
     c))
+
+(defn dfu-util-installed?
+  [version]
+  (let [store-dir (path/join user-data-dir util-dir (str "dfu-util_v" version))]
+    (fs/directory-exists! store-dir)))
+
+(defn store-dfu-util
+  [zip-file version]
+  (let [store-dir (path/join user-data-dir util-dir (str "dfu-util_v" version))
+        c (chan)]
+    (go
+      (try
+        (let [extract (fn [zip path] (p->chan (-> zip (.file path) (.async "nodebuffer"))))
+              file (<? (fs/read-file zip-file))
+              zip (<? (p->chan (.loadAsync jszip file)))
+
+              ]
+          (let [files (keys (util/js->clj-own (.-files zip)))]
+            (fs/mkdirp store-dir)
+            (loop [files files]
+              (if-let [file (first files)]
+                (do
+                  (let [data (<? (extract zip file))
+                        outpath (path/join store-dir file)]
+                    (fs/write-file! outpath data)
+                    (when (and (= file "dfu-util") (not= "win32" js/process.platform))
+                      (fs/chmod! outpath "755"))
+                    )
+                  (recur (rest files)))
+                (put! c (path/join store-dir "dfu-util"))
+                )))
+          )
+        (catch js/Error e
+          (logf :error e "Error extracting dfu-util"))))
+    c))
+
+(defn zadic-installed?
+  [version]
+  (let [store-dir (path/join user-data-dir util-dir (str "zadic_v" version))]
+    (fs/directory-exists! store-dir)))
+
+(defn store-zadic
+  [exe-file version]
+  (let [c (chan)]
+    (go
+      (let [store-dir (path/join user-data-dir util-dir (str "zadic_v" version))
+            dst (path/join store-dir "kiidrv.exe") ]
+        (fs/mkdirp store-dir)
+        (let [_ (<? (fs/copy-file exe-file dst))]
+          (put! c dst))
+        )
+      )
+    c
+    )
+  )

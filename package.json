@@ -8,9 +8,9 @@
     "@cljs-oss/module-deps": "^1.1.1"
   },
   "devDependencies": {
-    "cross-env": "^5.1.4",
-    "electron": "1.8.4",
-    "electron-builder": "^20.8.1"
+    "cross-env": "^5.2.0",
+    "electron": "2.0.4",
+    "electron-builder": "^20.19.2"
   },
   "author": "Jeremy Bondeson <jbondeson@gmail.com> (https://input.club)",
   "license": "GPL-3.0",
@@ -20,7 +20,8 @@
   },
   "scripts": {
     "preinstall": "boot target",
-    "postinstall": "cross-env PYTHON=/usr/bin/python2.7 electron-builder install-app-deps",
+    "postinstall": "electron-builder install-app-deps",
+    "postinstall-hack": "cross-env PYTHON=/usr/bin/python2.7 electron-builder install-app-deps",
     "start": "electron target/",
     "watch:dev": "cross-env TIMBRE_LEVEL=:debug boot watch dev-build",
     "build:dev": "cross-env TIMBRE_LEVEL=:debug boot dev-build",

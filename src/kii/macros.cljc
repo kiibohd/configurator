@@ -29,13 +29,20 @@
                   (some? ~'data) (~'put! ~'c ~'data))
                 (~'close! ~'c))]
       `(cb->chan* ~form ~cb)))
-  ([form transform]
+  ([form data-transform]
     (let [cb `(fn [~'e ~'data]
                 (cond
                   (some? ~'e) (~'put! ~'c ~'e)
-                  (some? ~'data) (~'put! ~'c (~transform ~'data)))
+                  (some? ~'data) (~'put! ~'c (~data-transform ~'data)))
                 (~'close! ~'c))]
       `(cb->chan* ~form ~cb)))
+  ([form data-transform err-transform]
+   (let [cb `(fn [~'e ~'data]
+               (cond
+                 (some? ~'e) (~'put! ~'c (~err-transform ~'e))
+                 (some? ~'data) (~'put! ~'c (~data-transform ~'data)))
+               (~'close! ~'c))]
+     `(cb->chan* ~form ~cb)))
   )
 
 (defmacro p->chan*

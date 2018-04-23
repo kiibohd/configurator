@@ -12,19 +12,19 @@
 (set-env!
  :dependencies
  '[[org.clojure/clojure "1.9.0" :scope "provided"]
-   [org.clojure/clojurescript "1.10.238" :scope "compile"]
+   [org.clojure/clojurescript "1.10.339" :scope "compile"]
    ;; Boot Deps
-   [boot/core "2.7.2" :scope "provided"]
+   [boot/core "2.8.1" :scope "provided"]
    [onetom/boot-lein-generate "0.1.3" :scope "test"]
    [org.clojure/tools.nrepl "0.2.13" :scope "test"]
    [com.cemerick/piggieback "0.2.2" :scope "test"]
    [weasel "0.7.0" :scope "test"]
    [adzerk/boot-cljs "2.1.4" :scope "test"]
    [adzerk/boot-cljs-repl "0.3.3" :scope "test"]
-   [adzerk/boot-reload "0.5.2" :scope "test"]
+   [adzerk/boot-reload "0.6.0" :scope "test"]
    ;; Dev tools enhancements
-   [binaryage/devtools "0.9.9" :scope "test"]
-   [binaryage/dirac "1.2.32" :scope "test"]
+   [binaryage/devtools "0.9.10" :scope "test"]
+   [binaryage/dirac "1.2.36" :scope "test"]
    [powerlaces/boot-cljs-devtools "0.2.0" :scope "test"]
    ;; Project Dependencies
    [reagent "0.7.0" :exclusions [org.clojure/tools.reader cljsjs/react]]
@@ -37,7 +37,7 @@
    [cljsjs/react-color "2.13.8-0"]
    [cljs-react-material-ui "0.2.50"]
    [cljs-css-modules "0.2.1"]
-   [cljs-ajax "0.7.3"]
+   [cljs-ajax "0.7.4"]
    [camel-snake-kebab "0.4.0"]
    [cljsjs/tinycolor "1.3.0-0"]
    [cljsjs/react-color "2.13.1-0"]

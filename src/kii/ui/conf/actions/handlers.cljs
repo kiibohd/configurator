@@ -57,12 +57,10 @@
 (rf/reg-event-fx
   :start-firmware-dl
   (fn [cofx [_ response]]
-    (.once electron/ipc "download-complete" dl-complete)
-    ;; Wait half a second (HACK for Issue #22 -- remove when backend re-written)
-    (js/setTimeout
-      #(.send electron/ipc "download-file" (str env/base-uri (:filename response)))
-      500)
-    {}))
+    (let [event-name "firmware-download-complete"]
+      (.once electron/ipc event-name dl-complete)
+      (.send electron/ipc "download-file" (str env/base-uri (:filename response)) event-name)
+      {})))
 
 (rf/reg-event-fx
   :firmware-compile-failure
