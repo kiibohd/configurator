@@ -54,7 +54,7 @@ cache:
 # Package Setup
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install tree libusb; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install tree && brew upgrade libusb; fi
 
 # System setup
 install:
