@@ -118,13 +118,15 @@
     (fs/directory-exists! store-dir)))
 
 (defn store-zadic
-  [exe-file version]
+  [exe-file version config]
   (let [c (chan)]
     (go
       (let [store-dir (path/join user-data-dir util-dir (str "zadic_v" version))
-            dst (path/join store-dir "kiidrv.exe") ]
+            dst (path/join store-dir "kiidrv.exe")
+            dst-config (path/join store-dir "kiibohd.conf")]
         (fs/mkdirp store-dir)
-        (let [_ (<? (fs/copy-file exe-file dst))]
+        (let [_ (<? (fs/copy-file exe-file dst))
+              _ (<? (fs/write-file dst-config config))]
           (put! c dst))
         )
       )

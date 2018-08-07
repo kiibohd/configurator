@@ -140,6 +140,29 @@
 
 (def zadic-info
   {:version "1.5.0"
+   :config "[
+             {
+              \"vid\":    \"0x1c11\",
+              \"pid\":    \"0xb04d\",
+              \"interface\": 0,
+              \"vendor\": \"Input Club\",
+              \"driver\": \"libusbK\"
+              },
+             {
+              \"vid\":    \"0x1c11\",
+              \"pid\":    \"0xb04d\",
+              \"interface\": 5,
+              \"vendor\": \"Input Club\",
+              \"driver\": \"libusbK\"
+              },
+             {
+              \"vid\":    \"0x1c11\",
+              \"pid\":    \"0xb007\",
+              \"interface\": 0,
+              \"vendor\": \"Input Club\",
+              \"driver\": \"libusbK\"
+              }
+             ]"
    "win32" "https://github.com/kiibohd/kiidrv/releases/download/1.5.0/kiidrv-x64-Release.exe"
    })
 
@@ -148,7 +171,7 @@
   (let [result (u/jsx->clj arg)]
     (go
       (logf :info (str "completed zadic download" result))
-      (let [path (<? (store/store-zadic (:path result) (:version zadic-info)))]
+      (let [path (<? (store/store-zadic (:path result) (:version zadic-info) (:config zadic-info)))]
         (=>> [:local/set-zadic-path path])
         )
       )
