@@ -1,5 +1,0 @@
-{:require  [kii.main.core]
- :init-fns [kii.main.core/init]
- :compiler-options {:target :nodejs
-                    :language-in :ecmascript5
-                    :language-out :ecmascript5}}
