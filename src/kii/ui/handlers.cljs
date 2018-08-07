@@ -139,8 +139,8 @@
             (.send electron/ipc "download-file" loc event-name)))))))
 
 (def zadic-info
-  {:version "1.4.0"
-   "win32" "https://github.com/kiibohd/kiidrv/releases/download/1.4.0/kiidrv-x64-Release.exe"
+  {:version "1.5.0"
+   "win32" "https://github.com/kiibohd/kiidrv/releases/download/1.5.0/kiidrv-x64-Release.exe"
    })
 
 (defn zadic-dl-complete
