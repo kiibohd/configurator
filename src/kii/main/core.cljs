@@ -32,7 +32,9 @@
              :autoSubmit false}))
 
 (defn init []
-  (.on electron/app "window-all-closed" #(when-not (= js/process.platform "darwin") (.quit electron/app)))
+  ; Disable for now
+  ;(.on electron/app "window-all-closed" #(when-not (= js/process.platform "darwin") (.quit electron/app)))
+  (.on electron/app "window-all-closed" #(.quit electron/app))
   (.on electron/app "ready" init-browser)
   (set! *main-cli-fn* (fn [] nil)))
 
