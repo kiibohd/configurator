@@ -93,25 +93,26 @@
               zip (<? (p->chan (.loadAsync jszip file)))
 
               ]
-          (let [files (keys (util/js->clj-own (.-files zip)))]
+          (let [files (util/js->clj-own (.-files zip))]
             (fs/mkdirp store-dir)
-            (loop [files files]
-              (if-let [file (first files)]
+            (loop [filepaths (keys files)]
+              (if-let [filepath (first filepaths)]
                 (do
-                  (let [data (<? (extract zip file))
-                        outpath (path/join store-dir file)]
-                    (fs/write-file! outpath data)
-                    (when (and (= file "dfu-util") (not= "win32" js/process.platform))
-                      (fs/chmod! outpath "755"))
-                    )
-                  (recur (rest files)))
+                  (when-not (.-dir (get files filepath))
+                    (let [data (<? (extract zip filepath))
+                          filename (-> filepath path/parse :base)
+                          outpath (path/join store-dir filename)]
+                      (fs/write-file! outpath data)
+                      (when (and (= filename "dfu-util") (not= "win32" js/process.platform))
+                        (fs/chmod! outpath "755"))
+                      ))
+                  (recur (rest filepaths)))
                 (put! c (path/join store-dir "dfu-util"))
                 )))
           )
         (catch js/Error e
           (logf :error e "Error extracting dfu-util"))))
     c))
-
 (defn zadic-installed?
   [version]
   (let [store-dir (path/join user-data-dir util-dir (str "zadic_v" version))]
