@@ -4,6 +4,7 @@
             [kii.ui.components.home :refer [register-panel]]
             [kii.ui.components.buttons :refer [back-button]]
             [kii.ui.components.manage-canned-animations :refer [manage-canned-animations]]
+            [kii.ui.components.manage-drivers :refer [manage-drivers]]
             [kii.ui.components.toolbar :as toolbar]
             [cljs-react-material-ui.reagent :as mui])
   )
@@ -40,6 +41,11 @@
                :label "Downloads"}
 
       [:h3 "Nothing here yet..."]
+      ]
+     [mui/tab {:icon  (r/as-element [mui/font-icon {:class "mdi mdi-windows"}])
+               :label "Drivers"}
+
+      [manage-drivers]
       ]
      ]
     )

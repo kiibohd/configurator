@@ -5,7 +5,12 @@
   [{:vendor-id 0x1c11 :product-id 0xb04d :flashable? false} ;Board
    {:vendor-id 0x1c11 :product-id 0xb007 :flashable? true}  ;Boot
    {:vendor-id 0x1209 :product-id 0x01c0 :flashable? false} ;Registered Board
-   {:vendor-id 0x1209 :product-id 0x01cb :flashable? true}]) ;Registered Boot
+   {:vendor-id 0x1209 :product-id 0x01cb :flashable? true}  ;Registered Boot
+
+   {:vendor-id 0x308F :product-id 0x0012 :flashable? true}  ;Kira Boot
+   {:vendor-id 0x308F :product-id 0x0013 :flashable? false} ;Kira Board
+   ]
+  )
 
 (def keyboards
   [{:display          "Infinity Ergodox"

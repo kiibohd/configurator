@@ -139,31 +139,67 @@
             (.send electron/ipc "download-file" loc event-name)))))))
 
 (def zadic-info
-  {:version "1.5.0"
+  {:version "1.5.1"
+   ;; TODO: Generate this from settings.
    :config "[
-             {
-              \"vid\":    \"0x1c11\",
-              \"pid\":    \"0xb04d\",
-              \"interface\": 0,
-              \"vendor\": \"Input Club\",
-              \"driver\": \"libusbK\"
-              },
-             {
-              \"vid\":    \"0x1c11\",
-              \"pid\":    \"0xb04d\",
-              \"interface\": 5,
-              \"vendor\": \"Input Club\",
-              \"driver\": \"libusbK\"
-              },
-             {
-              \"vid\":    \"0x1c11\",
-              \"pid\":    \"0xb007\",
-              \"interface\": 0,
-              \"vendor\": \"Input Club\",
-              \"driver\": \"libusbK\"
-              }
-             ]"
-   "win32" "https://github.com/kiibohd/kiidrv/releases/download/1.5.0/kiidrv-x64-Release.exe"
+  {
+    \"vid\":    \"0x1c11\",
+    \"pid\":    \"0xb04d\",
+    \"interface\": 0,
+    \"vendor\": \"Input Club\",
+    \"driver\": \"libusbK\"
+  },
+  {
+    \"vid\":    \"0x1c11\",
+    \"pid\":    \"0xb04d\",
+    \"interface\": 5,
+    \"vendor\": \"Input Club\",
+    \"driver\": \"libusbK\"
+  },
+  {
+    \"vid\":    \"0x1c11\",
+    \"pid\":    \"0xb007\",
+    \"interface\": 0,
+    \"vendor\": \"Input Club\",
+    \"driver\": \"libusbK\"
+  },
+  {
+    \"vid\":    \"0x1209\",
+    \"pid\":    \"0x01CB\",
+    \"interface\": 0,
+    \"vendor\": \"Input Club\",
+    \"driver\": \"libusbK\"
+  },
+  {
+    \"vid\":    \"0x1209\",
+    \"pid\":    \"0x01C0\",
+    \"interface\": 0,
+    \"vendor\": \"Input Club\",
+    \"driver\": \"libusbK\"
+  },
+  {
+    \"vid\":    \"0x308F\",
+    \"pid\":    \"0x0012\",
+    \"interface\": 0,
+    \"vendor\": \"Input Club\",
+    \"driver\": \"libusbK\"
+  },
+  {
+    \"vid\":    \"0x308F\",
+    \"pid\":    \"0x0013\",
+    \"interface\": 0,
+    \"vendor\": \"Input Club\",
+    \"driver\": \"libusbK\"
+  },
+  {
+    \"vid\":    \"0x308F\",
+    \"pid\":    \"0x0013\",
+    \"interface\": 5,
+    \"vendor\": \"Input Club\",
+    \"driver\": \"libusbK\"
+  }
+]"
+   "win32" "https://github.com/kiibohd/kiidrv/releases/download/v1.5.0-kiibohd/kiidrv-x64-Release.exe"
    })
 
 (defn zadic-dl-complete

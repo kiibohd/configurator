@@ -44,6 +44,14 @@
         nil
         value))))
 
+(rf/reg-sub :local/zadic-path
+  :<- [:local/all]
+  (fn [local _]
+    (let [value (:zadic-path local)]
+      (if (str/empty-or-nil? (str/trim value))
+        nil
+        value))))
+
 (rf/reg-sub :local/last-download
   :<- [:local/all]
   (fn [local _] (:last-download local) ))
