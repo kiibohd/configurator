@@ -139,7 +139,7 @@
             (.send electron/ipc "download-file" loc event-name)))))))
 
 (def zadic-info
-  {:version "1.5.1"
+  {:version "1.5.2"
    ;; TODO: Generate this from settings.
    :config "[
   {
@@ -199,7 +199,7 @@
     \"driver\": \"libusbK\"
   }
 ]"
-   "win32" "https://github.com/kiibohd/kiidrv/releases/download/v1.5.0-kiibohd/kiidrv-x64-Release.exe"
+   "win32" "https://github.com/kiibohd/kiidrv/releases/download/v1.5.2-kiidrv/kiidrv-x64-Release.exe"
    })
 
 (defn zadic-dl-complete

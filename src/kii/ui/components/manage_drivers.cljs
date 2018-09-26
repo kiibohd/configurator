@@ -18,6 +18,7 @@
         dq (fn [s] (str "\"" s "\""))
         cmd (.execFile child-process (dq zadic-path)
                        #js ["--out" "output.log"
+                            "--no-confirm"
                             (str "--" sub-cmd)
                             ]
 
