@@ -43,7 +43,8 @@
       [:h3 "Nothing here yet..."]
       ]
      [mui/tab {:icon  (r/as-element [mui/font-icon {:class "mdi mdi-windows"}])
-               :label "Drivers"}
+               :label "Drivers"
+               :disabled (not= "win32" js/process.platform)}
 
       [manage-drivers]
       ]
