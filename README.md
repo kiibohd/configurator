@@ -9,6 +9,8 @@ Client Side Configuration & Flashing Software for Kiibohd compatible keyboards.
 
 [Visit our Discord Channel](https://discord.gg/GACJa4f)
 
+# --> [Wiki](https://kiibohd.github.io/wiki/#/Quickstart) <-- If you have questions start here
+
 
 
 ## Supported Keyboards
