@@ -71,6 +71,11 @@ export function normalize(config, locale) {
   // Defines need a unique id so symbol is perfect.
   const defines = !config.defines ? [] : config.defines.map(x => ({ ...x, ...{ id: uuidv4() } }));
 
+  const animations = _.mapValues(config.animations, a => ({
+    ...a,
+    ...{ frames: a.frames.map(f => (f.trimStart().length && !f.trimStart().startsWith('#') ? f + ';' : f)).join('\n') }
+  }));
+
   // TODO: Identify custom macros...
 
   return {
@@ -81,7 +86,7 @@ export function normalize(config, locale) {
       defines,
       leds: config.leds || [],
       custom: config.custom || {},
-      animations: config.animations || {},
+      animations: animations || {},
       macros: config.macros || {}
     }
   };
@@ -102,7 +107,10 @@ export function mangle(config) {
     matrix: config.matrix.map(k => ({ ...k, ...{ layers: _.mapValues(k.layers, mangleLayer) } })),
     leds: config.leds,
     custom: config.custom,
-    animations: config.animations,
+    animations: _.mapValues(config.animations, a => ({
+      ...a,
+      ...{ frames: a.frames.split(/;[\n]*/m).filter(x => x && x.length) }
+    })),
     macros: config.macros
   };
 }

@@ -118,6 +118,21 @@ export function deleteDefine(id) {
   setConfigureState('defines', defines => defines.filter(d => d.id !== id));
 }
 
+export function addAnimation(name) {
+  setConfigureState('animations', curr => ({ ...curr, ...{ [name]: { settings: '', frames: '' } } }));
+}
+
+export function renameAnimation(prev, updated) {
+  setConfigureState('animations', animations => ({ ..._.omit(animations, prev), ...{ [updated]: animations[prev] } }));
+}
+
+export function updateAnimation(name, data) {
+  setConfigureState('animations', animations => {
+    const curr = animations[name];
+    return { ...animations, ...{ [name]: { ...curr, ...data } } };
+  });
+}
+
 export function deleteAnimation(name) {
   setConfigureState('animations', curr => _.omit(curr, name));
 }

@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { withStyles } from '@material-ui/core/styles';
-import { useConfigureState } from '../../state/configure';
+import { useConfigureState, addAnimation, updateAnimation, renameAnimation } from '../../state/configure';
 import { Button, MenuItem, Select, FormControl, InputLabel, Typography, TextField } from '../../mui';
+import { AlterFieldModal } from '../../modal';
 import { fontStack } from '../../theme';
 
 const styled = withStyles({
@@ -22,12 +23,15 @@ const styled = withStyles({
   row: {
     display: 'flex',
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-end',
     marginTop: 20
+  },
+  actionButton: {
+    marginLeft: 10
   },
   animationSelect: {
     minWidth: '20rem',
-    marginRight: '3rem'
+    marginRight: '2rem'
   },
   text: {
     fontFamily: fontStack.monospace,
@@ -39,14 +43,28 @@ function AnimationEdit(props) {
   const { classes, animation } = props;
   const [animations] = useConfigureState('animations');
   const [active, setActive] = useState(animation || '');
+  const [showRename, setShowRename] = useState(false);
+  const [showNew, setShowNew] = useState(false);
 
-  const rawAnimation = active.length
-    ? animations[active].frames
-        .map(f => (f.trimStart().length && !f.trimStart().startsWith('#') ? f + ';' : f))
-        .join('\n')
-    : null;
+  const activeAnimation = active.length && animations[active];
+  const selectedAnimationChange = e => setActive(e.target.value);
+  const rawAnimationChange = e => updateAnimation(active, { frames: e.target.value });
 
-  const change = e => setActive(e.target.value);
+  const create = (save, name) => {
+    setShowNew(false);
+    if (save) {
+      addAnimation(name);
+      setActive(name);
+    }
+  };
+
+  const rename = (save, name) => {
+    setShowRename(false);
+    if (save) {
+      renameAnimation(active, name);
+      setActive(name);
+    }
+  };
 
   return (
     <form>
@@ -55,7 +73,11 @@ function AnimationEdit(props) {
         <div className={classes.row}>
           <FormControl className={classes.animationSelect}>
             <InputLabel htmlFor="animation">Animation</InputLabel>
-            <Select value={active} onChange={change} inputProps={{ name: 'animation', id: 'animation' }}>
+            <Select
+              value={active}
+              onChange={selectedAnimationChange}
+              inputProps={{ name: 'animation', id: 'animation' }}
+            >
               {_.toPairs(animations).map(([name]) => (
                 <MenuItem key={name} value={name}>
                   {name}
@@ -63,17 +85,20 @@ function AnimationEdit(props) {
               ))}
             </Select>
           </FormControl>
-          <Button color="secondary" className={classes.fab} onClick={() => {}}>
+          <Button className={classes.actionButton} onClick={() => setShowRename(true)} disabled={active.length === 0}>
+            Rename
+          </Button>
+          <Button color="secondary" className={classes.actionButton} onClick={() => setShowNew(true)}>
             Add New
           </Button>
         </div>
-        {!!active.length && (
+        {!!activeAnimation && (
           <>
             <div className={classes.row}>
               <TextField
                 fullWidth
                 label="Settings"
-                value={animations[active].settings}
+                value={activeAnimation.settings}
                 InputProps={{ className: classes.text }}
               />
             </div>
@@ -85,10 +110,16 @@ function AnimationEdit(props) {
                 rowsMax="20"
                 label="Frames"
                 InputProps={{ className: classes.text }}
-                value={rawAnimation}
+                value={activeAnimation.frames}
+                onChange={rawAnimationChange}
               />
             </div>
           </>
+        )}
+        <AlterFieldModal open={showNew} value={''} name="Animation Name" saveText="Create" onClose={create} />
+        {/* A bit heavy handed but this will force the creation of the modal just prior to creation */}
+        {showRename && (
+          <AlterFieldModal open={showRename} value={active} name="Animation Name" saveText="Rename" onClose={rename} />
         )}
       </div>
     </form>
