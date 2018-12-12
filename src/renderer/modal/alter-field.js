@@ -33,16 +33,18 @@ function AlterFieldModal(props) {
 
   return (
     <Modal open={open} onClose={cancel}>
-    <form>
-      <div className={classes.paper}>
-        <TextField value={currValue} onChange={e => setCurrValue(e.target.value)} label={name} fullWidth />
-        <div className={classes.actions}>
-          <div className={classes.spacer} />
-          <Button onClick={cancel}>Cancel</Button>
-          <Button onClick={save} type="submit">{saveText}</Button>
+      <form>
+        <div className={classes.paper}>
+          <TextField value={currValue} onChange={e => setCurrValue(e.target.value)} label={name} fullWidth />
+          <div className={classes.actions}>
+            <div className={classes.spacer} />
+            <Button onClick={cancel}>Cancel</Button>
+            <Button onClick={save} type="submit">
+              {saveText}
+            </Button>
+          </div>
         </div>
-      </div>
-</form>
+      </form>
     </Modal>
   );
 }
