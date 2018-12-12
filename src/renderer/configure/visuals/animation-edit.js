@@ -66,6 +66,16 @@ function AnimationEdit(props) {
     }
   };
 
+  const validateName = name => {
+    if (animations[name]) {
+      return 'An animation already exists with that name';
+    }
+    const rx = /^[A-Za-z_][A-Za-z0-9_]*$/;
+    if (!name.length || !rx.test(name)) {
+      return 'Invalid name - valid characters [A-Za-z0-9_] must not start with number';
+    }
+  };
+
   return (
     <form>
       <div className={classes.container}>
@@ -116,10 +126,26 @@ function AnimationEdit(props) {
             </div>
           </>
         )}
-        <AlterFieldModal open={showNew} value={''} name="Animation Name" saveText="Create" onClose={create} />
         {/* A bit heavy handed but this will force the creation of the modal just prior to creation */}
+        {showNew && (
+          <AlterFieldModal
+            open={showNew}
+            value={''}
+            name="Animation Name"
+            saveText="Create"
+            onClose={create}
+            validation={validateName}
+          />
+        )}
         {showRename && (
-          <AlterFieldModal open={showRename} value={active} name="Animation Name" saveText="Rename" onClose={rename} />
+          <AlterFieldModal
+            open={showRename}
+            value={active}
+            name="Animation Name"
+            saveText="Rename"
+            onClose={rename}
+            validation={validateName}
+          />
         )}
       </div>
     </form>

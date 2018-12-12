@@ -9,7 +9,8 @@ const styled = withStyles(theme => ({
     width: '50vw',
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
-    padding: `${theme.spacing.unit}px ${theme.spacing.unit * 2}px`,
+    padding: `${theme.spacing.unit * 2}px`,
+    paddingBottom: `${theme.spacing.unit}px`,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'stretch'
@@ -25,26 +26,47 @@ const styled = withStyles(theme => ({
 }));
 
 function AlterFieldModal(props) {
-  const { classes, open, onClose, value, name, saveText = 'Save' } = props;
+  const { classes, open, onClose, value, name, saveText = 'Save', validation = () => {} } = props;
   const [currValue, setCurrValue] = useState(value);
+  const [error, setError] = useState(validation(value));
+  const [dirty, setDirty] = useState(false);
 
   const cancel = () => onClose(false);
-  const save = () => onClose(true, currValue);
+  const save = e => {
+    e.preventDefault();
+    onClose(true, currValue);
+  };
+  const update = e => {
+    const val = e.target.value;
+    setDirty(true);
+    setCurrValue(val);
+    setError(validation(val));
+  };
 
   return (
     <Modal open={open} onClose={cancel}>
-      <form>
-        <div className={classes.paper}>
-          <TextField value={currValue} onChange={e => setCurrValue(e.target.value)} label={name} fullWidth />
+      <div className={classes.paper}>
+        <form onSubmit={save}>
+          <TextField
+            value={currValue}
+            onChange={update}
+            onBlur={() => setDirty(true)}
+            label={name}
+            fullWidth
+            helperText={dirty ? error : ''}
+            error={dirty && !!error}
+          />
           <div className={classes.actions}>
             <div className={classes.spacer} />
-            <Button onClick={cancel}>Cancel</Button>
-            <Button onClick={save} type="submit">
+            <Button onClick={cancel} type="button">
+              Cancel
+            </Button>
+            <Button type="submit" disabled={!dirty || !!error}>
               {saveText}
             </Button>
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </Modal>
   );
 }
@@ -55,6 +77,7 @@ AlterFieldModal.propTypes = {
   value: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   onClose: PropTypes.func.isRequired,
+  validation: PropTypes.func,
   saveText: PropTypes.string
 };
 
