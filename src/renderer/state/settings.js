@@ -3,6 +3,7 @@ import { createSharedState } from '../shared-state/index';
 import db from '../db';
 
 const dev = process.env.NODE_ENV !== 'production';
+const defaultUri = dev ? 'http://localhost:8080' : 'https://configurator.input.club';
 
 const DbKey = {
   dfuPath: 'dfu-path',
@@ -10,11 +11,12 @@ const DbKey = {
   lastDl: 'last-download',
   recentDls: 'recent-dls',
   lastVerCheck: 'last-version-check',
-  cannedAnimations: 'canned-animations'
+  cannedAnimations: 'canned-animations',
+  uri: dev ? 'uri-development' : 'uri-production'
 };
 
 const initialState = {
-  uri: dev ? 'http://localhost:8080/' : 'https://configurator.input.club/',
+  uri: '',
   locale: 'en-us',
   dev,
   dfu: undefined,
@@ -48,6 +50,16 @@ export async function loadFromDb() {
   setSettingsState('recentDls', (await db.core.get(DbKey.recentDls)) || {});
   setSettingsState('versionCheck', await db.core.get(DbKey.lastVerCheck));
   setSettingsState('cannedAnimations', (await db.core.get(DbKey.cannedAnimations)) || {});
+  setSettingsState('cannedAnimations', (await db.core.get(DbKey.cannedAnimations)) || {});
+  setSettingsState('uri', (await db.core.get(DbKey.uri)) || defaultUri);
+}
+
+/**
+ * @param {string} uri
+ */
+export async function updateUri(uri) {
+  setSettingsState('uri', uri);
+  await db.core.set(DbKey.uri, uri);
 }
 
 /**

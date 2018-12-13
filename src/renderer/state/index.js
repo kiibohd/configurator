@@ -4,6 +4,7 @@ import { _currentState } from './settings';
 import _ from 'lodash';
 import fs from 'fs';
 import Bluebird from 'bluebird';
+import urljoin from 'url-join';
 
 const readFile = Bluebird.promisify(fs.readFile);
 
@@ -27,7 +28,13 @@ export async function loadDefaultConfig(keyboard, variant) {
  */
 export async function loadRemoteConfig(keyboard, variant, layout = undefined, baseUri = undefined, locale = undefined) {
   const defLayout = keyboard.keyboard.layouts[variant][0];
-  const uri = `${baseUri || _currentState('uri')}layouts/${keyboard.keyboard.names[0]}-${layout || defLayout}.json`;
+  // const uri = `${baseUri || _currentState('uri')}layouts/${keyboard.keyboard.names[0]}-${layout || defLayout}.json`;
+  const uri = urljoin(
+    // @ts-ignore
+    baseUri || _currentState('uri'),
+    'layouts',
+    `${keyboard.keyboard.names[0]}-${layout || defLayout}.json`
+  );
   toggleLoading();
   const config = await fetch(uri).then(resp => resp.json());
   updateConfig(config, locale || _currentState('locale'));

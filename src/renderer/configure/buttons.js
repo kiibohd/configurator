@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import urljoin from 'url-join';
 import {
   withStyles,
   Button,
@@ -303,7 +304,7 @@ async function compile(baseUri, variant) {
     const config = currentConfig();
     const payload = { config, env: 'latest' };
     console.log(config);
-    const uri = `${baseUri}download.php`;
+    const uri = urljoin(baseUri, 'download.php');
     const response = await fetch(uri, {
       method: 'POST',
       cache: 'no-cache',
@@ -339,7 +340,7 @@ async function compile(baseUri, variant) {
 }
 
 async function download(baseUri, file) {
-  const uri = `${baseUri}${file.startsWith('./') ? file.substring(2) : file}`;
+  const uri = urljoin(baseUri, file.startsWith('./') ? file.substring(2) : file);
   const response = await fetch(uri);
   const data = await response.arrayBuffer();
 

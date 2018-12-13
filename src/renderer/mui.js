@@ -13,6 +13,8 @@ export { default as amber } from '@material-ui/core/colors/amber';
 export { default as AppBar } from '@material-ui/core/AppBar';
 export { default as Button } from '@material-ui/core/Button';
 export { default as Card } from '@material-ui/core/Card';
+export { default as CardContent } from '@material-ui/core/CardContent';
+export { default as CardHeader } from '@material-ui/core/CardHeader';
 export { default as CardMedia } from '@material-ui/core/CardMedia';
 export { default as CircularProgress } from '@material-ui/core/CircularProgress';
 export { default as CssBaseline } from '@material-ui/core/CssBaseline';
