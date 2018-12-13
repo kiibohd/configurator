@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Card, CardHeader, CardContent, TextField, IconButton } from '../mui';
 import { EditIcon, CloseIcon, CheckIcon } from '../icons';
@@ -10,8 +10,9 @@ function ModedTextField(props) {
   const [editMode, setEditMode] = useState(false);
   const [value, setValue] = useState(defaultValue);
 
+  useEffect(() => setValue(defaultValue), [defaultValue, editMode]);
+
   const enableEdit = () => {
-    setValue(defaultValue);
     setEditMode(true);
   };
 
@@ -29,7 +30,7 @@ function ModedTextField(props) {
       <TextField
         className={classes.field}
         label="Base URI"
-        value={editMode ? value : defaultValue}
+        value={value}
         onChange={e => setValue(e.target.value)}
         disabled={!editMode}
       />

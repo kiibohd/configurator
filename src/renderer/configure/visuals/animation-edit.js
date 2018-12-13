@@ -126,27 +126,22 @@ function AnimationEdit(props) {
             </div>
           </>
         )}
-        {/* A bit heavy handed but this will force the creation of the modal just prior to creation */}
-        {showNew && (
-          <AlterFieldModal
-            open={showNew}
-            value={''}
-            name="Animation Name"
-            saveText="Create"
-            onClose={create}
-            validation={validateName}
-          />
-        )}
-        {showRename && (
-          <AlterFieldModal
-            open={showRename}
-            value={active}
-            name="Animation Name"
-            saveText="Rename"
-            onClose={rename}
-            validation={validateName}
-          />
-        )}
+        <AlterFieldModal
+          open={showNew}
+          value={''}
+          name="Animation Name"
+          saveText="Create"
+          onClose={create}
+          validation={validateName}
+        />
+        <AlterFieldModal
+          open={showRename}
+          value={active}
+          name="Animation Name"
+          saveText="Rename"
+          onClose={rename}
+          validation={validateName}
+        />
       </div>
     </form>
   );

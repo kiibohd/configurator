@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Button, Modal, TextField } from '../mui';
 
@@ -30,6 +30,14 @@ function AlterFieldModal(props) {
   const [currValue, setCurrValue] = useState(value);
   const [error, setError] = useState(validation(value));
   const [dirty, setDirty] = useState(false);
+
+  // Reset the current value when open changes
+  useEffect(
+    () => {
+      setCurrValue(value);
+    },
+    [open]
+  );
 
   const cancel = () => onClose(false);
   const save = e => {
