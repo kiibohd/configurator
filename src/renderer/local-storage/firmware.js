@@ -41,7 +41,7 @@ export function parseFilename(filename) {
   // Filename should look like
   //  ./tmp/KType-Standard-faa2f95d65d08c5eaf9a849d5573eb1b.zip
   //  ./tmp/KType-Standard-2471b9e6c95f2a4f924e116c7acb33c4_error.zip
-  const rx = /^\.\/\w+\/([A-Za-z0-9_.-]+)-([A-Za-z0-9_.-]+)-([0-9A-Fa-f]{32})(_error)?/;
+  const rx = /^\.\/\w+\/([A-Za-z0-9_.-]+)-([A-Za-z0-9_.-]+)-([0-9A-Fa-f]+)(_error)?/;
   const [, board, layout, hash, isError] = rx.exec(filename);
 
   return { board, layout, hash, isError: !!isError };
