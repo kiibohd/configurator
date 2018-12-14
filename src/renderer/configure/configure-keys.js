@@ -19,7 +19,11 @@ const tabs = [
   {
     id: 'tab/macros',
     icon: tooltipped('Macros', <VariableIcon fontSize="large" />),
-    tab: <Typography component="h1">uhhh.. yo</Typography>
+    tab: (
+      <Typography component="h1" style={{ fontStyle: 'oblique' }}>
+        Not implemented yet.
+      </Typography>
+    )
   },
   {
     id: 'tab/custom-kll',
