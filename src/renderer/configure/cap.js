@@ -53,4 +53,5 @@ Cap.propTypes = {
   onClick: PropTypes.func
 };
 
+//@ts-ignore
 export default withStyles(capStyle)(Cap);

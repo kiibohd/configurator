@@ -3,7 +3,7 @@
  * an exponential blowup in import statements when using large interconnected libraries
  * like material ui. So to solve this we'll import and re-export from a central location.
  **/
-export { withStyles, createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+export { withStyles, createStyles, createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 
 export { default as blueGrey } from '@material-ui/core/colors/blueGrey';
 export { default as deepOrange } from '@material-ui/core/colors/deepOrange';

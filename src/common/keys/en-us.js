@@ -201,7 +201,7 @@ function buildKeys() {
     ['iec/c10', 'key/semi', ';', ':'],
     ['iec/c11', 'key/quote', "'", '"'],
     ['iec/c12', 'key/enter'],
-    ['iec/b99', 'key/rshift'],
+    ['iec/b99', 'key/lshift'],
     ['iec/b01', 'key/z'],
     ['iec/b02', 'key/x'],
     ['iec/b03', 'key/c'],

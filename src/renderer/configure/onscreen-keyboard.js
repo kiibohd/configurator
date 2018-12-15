@@ -1,16 +1,16 @@
-import React from 'react';
-import { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import he from 'he';
 import { withStyles } from '../mui';
 
 import { useSettingsState } from '../state';
-import { useConfigureState, updateSelected } from '../state/configure';
+import { useConfigureState, updateSelected, updateKeymap } from '../state/configure';
 import { Palette, getLayerFg, capStyle } from './styles';
 import { getSize } from '../../common/config';
 import { locales, mergeKeys } from '../../common/keys';
 import { getKey } from '../../common/keys/firmware';
+import QuickKeyAssignDialog from './quick-key-assign-dialog';
 
 const styles = () => ({
   backdrop: {
@@ -35,7 +35,7 @@ function Key(props) {
 
   const handleClick = e => {
     e.stopPropagation();
-    onClick && onClick(data);
+    onClick && onClick(e, data);
   };
 
   return (
@@ -85,6 +85,7 @@ function OnScreenKeyboard(props) {
   const [ui] = useConfigureState('ui');
   const [selected, setSelected] = useConfigureState('selected');
   const [localeName] = useSettingsState('locale');
+  const [quickAssignKey, setQuickAssignKey] = useState(undefined);
 
   const { height, width } = getSize(matrix, ui.sizeFactor);
   const backdropStyle = {
@@ -96,9 +97,20 @@ function OnScreenKeyboard(props) {
 
   const click = () => selected && setSelected(undefined);
   // TODO: Move to a state method that gets current selected, etc.
+
+  /** @type {(e: KeyboardEvent) => void} */
   const keydown = e => {
     // Only applicable when we have a selection or the target is body (to prevent unwanted capture)
-    if (!selected || e.target.tagName !== 'BODY') return;
+    if (!selected || e.target['tagName'] !== 'BODY') return;
+    // Don't allow things like arrows or PGUP/DN to get sent when we have a selection.
+    e.stopPropagation();
+    e.preventDefault();
+  };
+
+  /** @type {(e: KeyboardEvent) => void} */
+  const keyup = e => {
+    // Only applicable when we have a selection or the target is body (to prevent unwanted capture)
+    if (!selected || e.target['tagName'] !== 'BODY') return;
     const locale = locales[localeName];
     const adj = e.keyCode + 1000 * e.location;
     const key = locale.iec2key[locale.code2iec[e.keyCode]];
@@ -118,13 +130,36 @@ function OnScreenKeyboard(props) {
     updateSelected(merged);
   };
 
+  /** @type {(e: MouseEvent, key: any) => void} */
+  const mouseClick = (e, key) => {
+    if (e.shiftKey) {
+      setQuickAssignKey(key);
+    } else {
+      setSelected(key === selected ? undefined : key);
+    }
+  };
+
+  const quickAssign = k => {
+    if (!quickAssignKey) {
+      return;
+    }
+    updateKeymap(quickAssignKey, k);
+    setQuickAssignKey(undefined);
+  };
+
+  const closeQuickAssign = () => setQuickAssignKey(undefined);
+
   useEffect(() => {
+    document.addEventListener('keyup', keyup);
     document.addEventListener('keydown', keydown);
-    return () => document.removeEventListener('keydown', keydown);
+    return () => {
+      document.removeEventListener('keyup', keyup);
+      document.removeEventListener('keydown', keydown);
+    }
   });
 
   return (
-    <div className={classes.backdrop} style={backdropStyle} onClick={click} onKeyDown={keydown}>
+    <div className={classes.backdrop} style={backdropStyle} onClick={click}>
       <div style={{ position: 'relative', height, width }}>
         {matrix.map(k => (
           <Key
@@ -134,10 +169,11 @@ function OnScreenKeyboard(props) {
             data={k}
             sizeFactor={ui.sizeFactor}
             selected={selected === k}
-            onClick={k => setSelected(k === selected ? undefined : k)}
+            onClick={mouseClick}
           />
         ))}
       </div>
+      <QuickKeyAssignDialog open={!!quickAssignKey} onSelect={quickAssign} onClose={closeQuickAssign} />
     </div>
   );
 }

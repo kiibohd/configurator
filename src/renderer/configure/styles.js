@@ -72,6 +72,7 @@ export const capStyle = {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    userSelect: 'none',
     '& span': {
       padding: '0 0.25em'
     }

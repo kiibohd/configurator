@@ -80,18 +80,25 @@ export function currentConfig() {
 export function updateSelected(key) {
   const selected = getConfigureState('selected');
   if (!selected) return;
+  const updated = updateKeymap(selected, key);
+  setConfigureState('selected', updated);
+}
+
+export function updateKeymap(target, key) {
   const layer = getConfigureState('layer');
+  let newDef = undefined;
   setConfigureState('matrix', matrix => {
     var updated = matrix.map(k => {
-      if (k !== selected) return k;
-      const copy = { ...k };
-      copy.layers[layer.toString()] = key;
-      setConfigureState('selected', copy);
-      return copy;
+      if (k !== target) return k;
+      newDef = { ...k };
+      newDef.layers[layer.toString()] = key;
+      return newDef;
     });
 
     return updated;
   });
+
+  return newDef;
 }
 
 export function updateCustomKll(kll) {
