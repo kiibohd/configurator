@@ -39,7 +39,7 @@ const styles = theme => ({
 function Flash(props) {
   const { classes } = props;
   const [lastDl] = useSettingsState('lastDl');
-  const bin = lastDl && (_.isString(lastDl.bin) ? lastDl.bin : lastDl.bin.left);
+  const bin = lastDl ? (_.isString(lastDl.bin) ? lastDl.bin : lastDl.bin.left) : '';
   const [dfuPath] = useSettingsState('dfu');
   const [binPath, setBinPath] = useState(bin);
   const [progress, setProgress] = useState('');
