@@ -21,7 +21,8 @@ const initialState = {
   dev,
   dfu: undefined,
   kiidrv: undefined,
-  versionCheck: undefined,
+  lastVersionCheck: 0,
+  newerVersionAvail: false,
   lastDl: undefined,
   recentDls: {},
   cannedAnimations: {}
@@ -37,7 +38,8 @@ export { useSettingsState };
 
 /**
  * Internal use to get the current state of a setting
- * @param {"uri"|"locale"|"dev"|"dfu"|"kiidrv"|"versionCheck"|"lastDl"|"recentDls"|"cannedAnimations"} name
+ * @param {"uri"|"locale"|"dev"|"dfu"|"kiidrv"|"lastVersionCheck"|"newerVersionAvail"|"lastDl"|"recentDls"|"cannedAnimations"} name
+ * @todo Figure out appropriate typing...
  */
 export function _currentState(name) {
   return getSettingsState(name);
@@ -48,9 +50,9 @@ export async function loadFromDb() {
   setSettingsState('kiidrv', await db.core.get(DbKey.kiidrvPath));
   setSettingsState('lastDl', await db.core.get(DbKey.lastDl));
   setSettingsState('recentDls', (await db.core.get(DbKey.recentDls)) || {});
-  setSettingsState('versionCheck', await db.core.get(DbKey.lastVerCheck));
+  setSettingsState('lastVersionCheck', (await db.core.get(DbKey.lastVerCheck)) || 0);
   setSettingsState('cannedAnimations', (await db.core.get(DbKey.cannedAnimations)) || {});
-  setSettingsState('cannedAnimations', (await db.core.get(DbKey.cannedAnimations)) || {});
+  // setSettingsState('locale', (await db.core.get(DbKey.locale)) || 'en-us');
   setSettingsState('uri', (await db.core.get(DbKey.uri)) || defaultUri);
 }
 
@@ -60,6 +62,16 @@ export async function loadFromDb() {
 export async function updateUri(uri) {
   setSettingsState('uri', uri);
   await db.core.set(DbKey.uri, uri);
+}
+
+/**
+ * @param {boolean} newerAvail
+ */
+export async function updateNewerVersionAvail(newerAvail) {
+  setSettingsState('newerVersionAvail', newerAvail);
+  const now = Date.now();
+  setSettingsState('lastVersionCheck', now);
+  await db.core.set(DbKey.lastVerCheck, now);
 }
 
 /**

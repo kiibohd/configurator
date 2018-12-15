@@ -15,6 +15,7 @@ const initialState = {
   history: [],
   keyboard: undefined,
   variant: undefined,
+  toast: undefined,
   toolbarButtons: []
 };
 
@@ -26,6 +27,7 @@ export function reset() {
   setCoreState('loading', false);
   setCoreState('keyboard', undefined);
   setCoreState('variant', undefined);
+  setCoreState('toast', undefined);
 }
 
 export function updateToolbarButtons(buttons) {
@@ -47,6 +49,13 @@ export function updatePanel(panel) {
     setCoreState('history', hist => [currPanel, ...hist.slice(0, 3)]);
     return panel;
   });
+}
+
+export function popupToast(toast, timeout = 10000) {
+  setCoreState('toast', toast);
+  setTimeout(() => {
+    setCoreState('toast', undefined);
+  }, timeout);
 }
 
 export function previousPanel() {

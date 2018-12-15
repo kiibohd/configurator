@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, CssBaseline, CircularProgress } from './mui';
+import { withStyles, CssBaseline, CircularProgress, Snackbar } from './mui';
 import AppToolbar from './app-toolbar';
 import { KeyboardSelect, VariantSelect } from './keyboard-select';
 import { Configure } from './configure';
@@ -33,6 +33,7 @@ function AppLayout(props) {
   const { classes } = props;
   const [activePanel] = useCoreState('panel');
   const [loading] = useCoreState('loading');
+  const [toast] = useCoreState('toast');
 
   return (
     <div className={classes.root}>
@@ -62,6 +63,9 @@ function AppLayout(props) {
               return <Configure />;
           }
         })()}
+        <Snackbar anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }} open={!!toast}>
+          {toast}
+        </Snackbar>
       </main>
     </div>
   );
