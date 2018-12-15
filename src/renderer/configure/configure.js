@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '../mui';
-import { updateToolbarButtons, useCoreState, Panels } from '../state/core';
+import { updateToolbarButtons, useCoreState, Actions, Panels } from '../state/core';
 import { SettingsButton, HomeButton } from '../buttons';
 import {
   ToggleKeyboardButton,
@@ -25,20 +25,26 @@ function Configure(props) {
   const { classes } = props;
   const [keyboard] = useCoreState('keyboard');
   const [activePanel] = useCoreState('panel');
+  const [executing] = useCoreState('executing');
 
-  useEffect(() => {
-    updateToolbarButtons(
-      <>
-        <LayoutHistoryButton />
-        {keyboard.keyboard.visuals && <ToggleVisualsButton />}
-        <ToggleKeyboardButton />
-        <ViewRawJsonButton />
-        <ImportKeymapButton />
-        <SettingsButton />
-        <HomeButton />
-      </>
-    );
-  }, []);
+  const compiling = executing.includes(Actions.Compile);
+
+  useEffect(
+    () => {
+      updateToolbarButtons(
+        <>
+          <LayoutHistoryButton disabled={compiling} />
+          {keyboard.keyboard.visuals && <ToggleVisualsButton />}
+          <ToggleKeyboardButton />
+          <ViewRawJsonButton disabled={compiling} />
+          <ImportKeymapButton disabled={compiling} />
+          <SettingsButton disabled={compiling} />
+          <HomeButton disabled={compiling} />
+        </>
+      );
+    },
+    [executing]
+  );
 
   return (
     <div className={classes.root}>

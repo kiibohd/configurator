@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { Button, IconButton, Snackbar } from '../../mui';
 import { UploadIcon } from '../../icons';
 import { tooltipped } from '../../utils';
@@ -7,7 +8,8 @@ import { ErrorToast } from '../../toast';
 import { updateConfig } from '../../state/configure';
 import { useSettingsState } from '../../state/settings';
 
-function ImportKeymapButton() {
+function ImportKeymapButton(props) {
+  const { disabled } = props;
   const [locale] = useSettingsState('locale');
   const [visible, setVisible] = useState(false);
   const [data, setData] = useState('');
@@ -43,7 +45,7 @@ function ImportKeymapButton() {
 
   const button = tooltipped(
     'Import Keymap',
-    <IconButton onClick={() => setVisible(true)}>
+    <IconButton onClick={() => setVisible(true)} disabled={!!disabled}>
       <UploadIcon fontSize="small" />
     </IconButton>
   );
@@ -62,5 +64,9 @@ function ImportKeymapButton() {
     </div>
   );
 }
+
+ImportKeymapButton.propTypes = {
+  disabled: PropTypes.bool
+};
 
 export default ImportKeymapButton;

@@ -20,7 +20,7 @@ const styles = theme => ({
 });
 
 function LayoutHistoryButton(props) {
-  const { classes } = props;
+  const { classes, disabled } = props;
   const [anchor, setAnchor] = useState(null);
   const [keyboard] = useCoreState('keyboard');
   const [variant] = useCoreState('variant');
@@ -52,7 +52,7 @@ function LayoutHistoryButton(props) {
 
   return (
     <div>
-      <Button className={classes.button} onClick={e => setAnchor(e.currentTarget)}>
+      <Button className={classes.button} onClick={e => setAnchor(e.currentTarget)} disabled={!!disabled}>
         <HistoryIcon className={classes.leftIcon} />
         Layouts
       </Button>
@@ -90,7 +90,8 @@ function LayoutHistoryButton(props) {
 }
 
 LayoutHistoryButton.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  disabled: PropTypes.bool
 };
 
 export default withStyles(styles)(LayoutHistoryButton);

@@ -1,4 +1,5 @@
 import { createSharedState } from '../shared-state/index';
+import _ from 'lodash';
 
 const Panels = {
   KeyboardSelect: 'Keyboard Select',
@@ -9,7 +10,12 @@ const Panels = {
   ConfigureVisuals: 'Config Visuals'
 };
 
+const Actions = {
+  Compile: 'compile-firmware'
+};
+
 const initialState = {
+  executing: [],
   panel: Panels.KeyboardSelect,
   loading: false,
   history: [],
@@ -21,13 +27,27 @@ const initialState = {
 
 const { useSharedState: useCoreState, setSharedState: setCoreState } = createSharedState(initialState);
 
-export { Panels, useCoreState };
+export { Actions, Panels, useCoreState };
 
 export function reset() {
   setCoreState('loading', false);
   setCoreState('keyboard', undefined);
   setCoreState('variant', undefined);
   setCoreState('toast', undefined);
+}
+
+/**
+ * @param {string} name
+ */
+export function startExecuting(name) {
+  setCoreState('executing', curr => [...curr, name]);
+}
+
+/**
+ * @param {string} name
+ */
+export function stopExecuting(name) {
+  setCoreState('executing', curr => _.without(curr, name));
 }
 
 export function updateToolbarButtons(buttons) {

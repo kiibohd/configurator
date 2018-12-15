@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { IconButton } from '../mui';
 import { ArrowBackIcon, FlashOnIcon, SettingsIcon, HomeIcon } from '../icons';
 import { useCoreState, updatePanel, previousPanel, Panels, reset as resetCoreState } from '../state/core';
@@ -25,18 +26,24 @@ export function QuickFlashButton() {
   );
 }
 
-export function SettingsButton() {
+export function SettingsButton(props) {
+  const { disabled } = props;
   const [activePanel] = useCoreState('panel');
 
   return tooltipped(
     'Settings',
-    <IconButton disabled={activePanel === Panels.Settings} onClick={() => updatePanel(Panels.Settings)}>
+    <IconButton disabled={!!disabled || activePanel === Panels.Settings} onClick={() => updatePanel(Panels.Settings)}>
       <SettingsIcon fontSize="small" />
     </IconButton>
   );
 }
 
-export function HomeButton() {
+SettingsButton.propTypes = {
+  disabled: PropTypes.bool
+};
+
+export function HomeButton(props) {
+  const { disabled } = props;
   const [activePanel] = useCoreState('panel');
 
   const navHome = () => {
@@ -47,8 +54,12 @@ export function HomeButton() {
 
   return tooltipped(
     'Home',
-    <IconButton disabled={activePanel === Panels.KeyboardSelect} onClick={navHome}>
+    <IconButton disabled={!!disabled || activePanel === Panels.KeyboardSelect} onClick={navHome}>
       <HomeIcon fontSize="small" />
     </IconButton>
   );
 }
+
+HomeButton.propTypes = {
+  disabled: PropTypes.bool
+};

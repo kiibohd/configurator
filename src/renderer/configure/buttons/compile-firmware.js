@@ -5,7 +5,15 @@ import { withStyles, Button, Snackbar, CircularProgress, Fab } from '../../mui';
 import { FlashOnIcon } from '../../icons';
 import { useSettingsState, addDownload } from '../../state/settings';
 import { currentConfig } from '../../state/configure';
-import { useCoreState, updatePanel, Panels, popupToast } from '../../state/core';
+import {
+  useCoreState,
+  updatePanel,
+  startExecuting,
+  stopExecuting,
+  Actions,
+  Panels,
+  popupToast
+} from '../../state/core';
 import { ErrorToast, SuccessToast } from '../../toast';
 import { SimpleDataModal } from '../../modal';
 import { parseFilename, storeFirmware, extractLog } from '../../local-storage/firmware';
@@ -80,11 +88,13 @@ function CompileFirmwareButton(props) {
   const [variant] = useCoreState('variant');
   const [toast, setToast] = useState(null);
   const [log, setLog] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [executing] = useCoreState('executing');
+
+  const compiling = executing.includes(Actions.Compile);
 
   const click = async () => {
-    if (loading) return;
-    setLoading(true);
+    if (compiling) return;
+    startExecuting(Actions.Compile);
     setToast(null);
     try {
       const result = await compile(baseUri, variant);
@@ -92,10 +102,10 @@ function CompileFirmwareButton(props) {
       if (result.success) {
         await addDownload(result.firmware);
         popupToast(<SuccessToast message={<span>Compilation Successful</span>} onClose={() => popupToast(null)} />);
-        setLoading(false);
+        stopExecuting(Actions.Compile);
         updatePanel(Panels.Flash);
       } else {
-        setLoading(false);
+        stopExecuting(Actions.Compile);
         setToast(
           <ErrorToast
             message={<span>Compilation Failed</span>}
@@ -109,14 +119,14 @@ function CompileFirmwareButton(props) {
         );
       }
     } catch {
-      setLoading(false);
+      stopExecuting(Actions.Compile);
     }
   };
 
   return (
     <div>
-      <Fab variant="extended" onClick={click} disabled={loading} style={{ position: 'absolute', right: 0, top: -20 }}>
-        {!loading ? (
+      <Fab variant="extended" onClick={click} disabled={compiling} style={{ position: 'absolute', right: 0, top: -20 }}>
+        {!compiling ? (
           <FlashOnIcon className={classes.icon} />
         ) : (
           <CircularProgress className={classes.icon} size={24} thickness={3} />
