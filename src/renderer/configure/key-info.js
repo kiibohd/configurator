@@ -28,9 +28,9 @@ function Preferences(props) {
 
   const close = () => setAssignDialogOpen(false);
   const select = key => {
-    setAssignDialogOpen(false)
+    setAssignDialogOpen(false);
     updateSelected(key);
-  }
+  };
 
   return (
     <div className={classes.container}>
