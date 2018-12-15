@@ -27,7 +27,7 @@ import {
 } from '../icons';
 import { useSettingsState, addDownload } from '../state/settings';
 import { useConfigureState, currentConfig, updateConfig } from '../state/configure';
-import { useCoreState, updatePanel, Panels } from '../state/core';
+import { useCoreState, updatePanel, Panels, popupToast } from '../state/core';
 import { loadRemoteConfig, loadLocalConfig } from '../state';
 import { tooltipped } from '../utils';
 import { SuccessToast, ErrorToast } from '../toast';
@@ -251,17 +251,8 @@ function CompileFirmwareButton(props) {
       console.log(result);
       if (result.success) {
         await addDownload(result.firmware);
-        setToast(
-          <SuccessToast
-            message={<span>Compilation Successful</span>}
-            actions={[
-              <Button key="flash" onClick={() => updatePanel(Panels.Flash)} color="inherit">
-                Flash
-              </Button>
-            ]}
-            onClose={() => setToast(null)}
-          />
-        );
+        popupToast(<SuccessToast message={<span>Compilation Successful</span>} onClose={() => popupToast(null)} />);
+        updatePanel(Panels.Flash);
       } else {
         setToast(
           <ErrorToast
