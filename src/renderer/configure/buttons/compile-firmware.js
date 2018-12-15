@@ -92,8 +92,10 @@ function CompileFirmwareButton(props) {
       if (result.success) {
         await addDownload(result.firmware);
         popupToast(<SuccessToast message={<span>Compilation Successful</span>} onClose={() => popupToast(null)} />);
+        setLoading(false);
         updatePanel(Panels.Flash);
       } else {
+        setLoading(false);
         setToast(
           <ErrorToast
             message={<span>Compilation Failed</span>}
@@ -106,7 +108,7 @@ function CompileFirmwareButton(props) {
           />
         );
       }
-    } finally {
+    } catch {
       setLoading(false);
     }
   };
