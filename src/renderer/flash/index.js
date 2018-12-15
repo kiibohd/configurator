@@ -4,7 +4,7 @@ import ChildProcess from 'child_process';
 import electron from 'electron';
 import _ from 'lodash';
 import { withStyles, deepOrange, Button, Grid, IconButton, InputAdornment, TextField, Typography } from '../mui';
-import { MoreVertIcon } from '../icons';
+import { FolderOpen } from '../icons';
 import { updateToolbarButtons } from '../state/core';
 import { useSettingsState, updateDfu } from '../state/settings';
 import { BackButton, SettingsButton, HomeButton } from '../buttons';
@@ -86,7 +86,7 @@ function Flash(props) {
                         )
                       }
                     >
-                      <MoreVertIcon />
+                      <FolderOpen />
                     </IconButton>
                   </InputAdornment>
                 )
@@ -134,7 +134,7 @@ function Flash(props) {
                         )
                       }
                     >
-                      <MoreVertIcon />
+                      <FolderOpen />
                     </IconButton>
                   </InputAdornment>
                 )

@@ -28,6 +28,7 @@ export { default as AccountSettingsIcon } from 'mdi-material-ui/AccountSettings'
 export { default as AnimationIcon } from 'mdi-material-ui/Animation';
 export { default as DownloadOutlineIcon } from 'mdi-material-ui/DownloadOutline';
 export { default as HistoryIcon } from 'mdi-material-ui/History';
+export { default as FolderOpen } from 'mdi-material-ui/FolderOpen';
 export { default as FolderDownloadIcon } from 'mdi-material-ui/FolderDownload';
 export { default as JsonIcon } from 'mdi-material-ui/Json';
 export { default as KeyboardIcon } from 'mdi-material-ui/Keyboard';
