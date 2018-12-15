@@ -30,6 +30,8 @@ const styles = () => ({
     marginRight: 0
   },
   imageContainer: {
+	position: 'absolute',
+	left: drawerWidth,
     width: `calc(100% - ${drawerWidth})`,
     height: '100%',
     display: 'flex',
@@ -92,7 +94,7 @@ function KeyboardSelect(props) {
       <Drawer
         className={classes.drawer}
         variant="permanent"
-        anchor="right"
+        anchor="left"
         classes={{
           paper: classes.drawerPaper
         }}
