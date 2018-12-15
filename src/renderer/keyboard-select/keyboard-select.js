@@ -5,7 +5,8 @@ import { withStyles, Drawer, List, ListItem, ListItemText, ListItemIcon } from '
 import {
   released as releasedKeyboardNames,
   keyboards as allKeyboards,
-  names as KeyboardNames
+  names as KeyboardNames,
+  getDevice
 } from '../../common/device/keyboard';
 import { useConnectedKeyboards } from '../hooks';
 import { useCoreState, updateSelectedKeyboard, updateToolbarButtons } from '../state/core';
@@ -44,6 +45,8 @@ const styles = {
     objectFit: 'contain'
   }
 };
+
+//TODO: This has some terrible react style... fix it.
 
 function KeyboardSelect(props) {
   const { classes } = props;
@@ -138,7 +141,8 @@ function KeyboardSelect(props) {
 
   function keyboardIcon(keyboard) {
     if (!keyboard.connected) return null;
-    if (keyboard.isFlashable) return <FlashOnIcon style={{ color: 'green' }} />;
+    const device = getDevice(keyboard);
+    if (device && device.isFlashable) return <FlashOnIcon style={{ color: 'green' }} />;
     return <FiberManualRecordIcon style={{ color: 'green' }} />;
   }
 }
