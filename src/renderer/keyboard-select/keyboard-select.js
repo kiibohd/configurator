@@ -15,7 +15,8 @@ import { QuickFlashButton, SettingsButton, HomeButton } from '../buttons';
 const staticDir = __static;
 const drawerWidth = '15em';
 
-const styles = () => ({
+/** @type {import('../theme').CssProperties} */
+const styles = {
   drawer: {
     width: drawerWidth,
     flexShrink: 0
@@ -42,7 +43,7 @@ const styles = () => ({
   image: {
     objectFit: 'contain'
   }
-});
+};
 
 function KeyboardSelect(props) {
   const { classes } = props;
@@ -145,4 +146,5 @@ function KeyboardSelect(props) {
 KeyboardSelect.propTypes = {
   classes: PropTypes.object.isRequired
 };
+
 export default withStyles(styles)(KeyboardSelect);

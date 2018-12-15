@@ -5,6 +5,7 @@ import { withStyles, blueGrey, AppBar, Toolbar, Typography } from './mui';
 
 import { useCoreState } from './state';
 
+/** @type {import('./theme').ThemedCssProperties} */
 const styles = theme => ({
   appBar: {
     zIndex: theme.zIndex.drawer + 1,

@@ -40,7 +40,8 @@ const tabs = [
   }
 ];
 
-const styled = withStyles({
+/** @type {import('../theme').CssProperties} */
+const styles = {
   hidden: {
     display: 'none'
   },
@@ -49,7 +50,7 @@ const styled = withStyles({
     minHeight: 24,
     marginTop: 16
   }
-});
+};
 
 function ConfigureKeys(props) {
   const { classes } = props;
@@ -75,4 +76,4 @@ ConfigureKeys.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default styled(ConfigureKeys);
+export default withStyles(styles)(ConfigureKeys);

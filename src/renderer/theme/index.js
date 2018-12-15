@@ -3,6 +3,14 @@ import './fonts/exo-2.css';
 import './fonts/noto-sans.css';
 import './fonts/share-tech-mono.css';
 
+/**
+ * @typedef {Record<string, import('@material-ui/core/styles/withStyles').CSSProperties>} CssProperties
+ */
+
+/**
+ * @typedef {(theme: import('@material-ui/core').Theme) => Record<string, import('@material-ui/core/styles/withStyles').CSSProperties>} ThemedCssProperties
+ */
+
 export const fontStack = {
   default: ['"Exo 2"', 'NotoSansKR-Light', 'NotoSansJP-Light', 'san-serif'].join(','),
   monospace: ['"Share Tech Mono"'].join(',')

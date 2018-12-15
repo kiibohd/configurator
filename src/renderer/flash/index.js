@@ -9,6 +9,7 @@ import { updateToolbarButtons } from '../state/core';
 import { useSettingsState, updateDfu } from '../state/settings';
 import { BackButton, SettingsButton, HomeButton } from '../buttons';
 
+/** @type {import('../theme').ThemedCssProperties} */
 const styles = theme => ({
   text: {
     marginLeft: theme.spacing.unit,

@@ -12,7 +12,8 @@ import { locales, mergeKeys } from '../../common/keys';
 import { getKey } from '../../common/keys/firmware';
 import QuickKeyAssignDialog from './quick-key-assign-dialog';
 
-const styles = () => ({
+/** @type {import('../theme').CssProperties} */
+const styles = {
   backdrop: {
     backgroundColor: Palette.silver,
     borderLeft: '1px solid transparent',
@@ -23,7 +24,7 @@ const styles = () => ({
     border: `2px solid ${Palette.red} !important`
   },
   ...capStyle
-});
+};
 
 function Key(props) {
   const { classes, layer, data, sizeFactor, selected = false, onClick } = props;
@@ -155,7 +156,7 @@ function OnScreenKeyboard(props) {
     return () => {
       document.removeEventListener('keyup', keyup);
       document.removeEventListener('keydown', keydown);
-    }
+    };
   });
 
   return (

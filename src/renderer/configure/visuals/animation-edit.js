@@ -7,7 +7,8 @@ import { Button, MenuItem, Select, FormControl, InputLabel, Typography, TextFiel
 import { AlterFieldModal } from '../../modal';
 import { fontStack } from '../../theme';
 
-const styled = withStyles({
+/** @type {import('../../theme').CssProperties} */
+const styles = {
   container: {
     padding: 10,
     paddingRight: 30,
@@ -37,7 +38,7 @@ const styled = withStyles({
     fontFamily: fontStack.monospace,
     fontSize: 'smaller'
   }
-});
+};
 
 function AnimationEdit(props) {
   const { classes, animation } = props;
@@ -152,4 +153,4 @@ AnimationEdit.propTypes = {
   animation: PropTypes.object
 };
 
-export default styled(AnimationEdit);
+export default withStyles(styles)(AnimationEdit);

@@ -6,7 +6,8 @@ import { getSize } from '../../common/config';
 import { useConfigureState } from '../state/configure';
 import { tooltipped } from '../utils';
 
-const styled = withStyles({
+/** @type {import('../theme').CssProperties} */
+const styles = {
   backdrop: {
     backgroundColor: Palette.lightgray,
     borderLeft: '1px solid transparent',
@@ -33,7 +34,7 @@ const styled = withStyles({
     border: `2px dashed ${Palette.darkgray}`,
     borderRadius: 2
   }
-});
+};
 
 function Key(props) {
   const { classes, keydef, sizeFactor } = props;
@@ -113,4 +114,4 @@ VisualizeLeds.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default styled(VisualizeLeds);
+export default withStyles(styles)(VisualizeLeds);

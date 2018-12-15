@@ -8,6 +8,7 @@ import Flash from './flash';
 import Settings from './settings';
 import { useCoreState, Panels } from './state/core';
 
+/** @type {import('./theme').ThemedCssProperties} */
 const styles = theme => ({
   root: {
     display: 'flex',

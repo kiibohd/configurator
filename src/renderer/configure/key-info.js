@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { createStyles, withStyles, Typography } from '../mui';
+import { withStyles, Typography } from '../mui';
 import { useConfigureState, updateSelected } from '../state/configure';
 import Cap from './cap';
 import QuickKeyAssignDialog from './quick-key-assign-dialog';
 import { keymap } from '../../common/keys/predefined';
 
-const styles = createStyles({
+/** @type {import('../theme').CssProperties} */
+const styles = {
   container: {
     padding: 10,
     paddingLeft: 30
@@ -14,7 +15,7 @@ const styles = createStyles({
   message: {
     fontStyle: 'oblique'
   }
-});
+};
 
 function Preferences(props) {
   const { classes } = props;

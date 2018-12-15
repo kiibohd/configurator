@@ -24,7 +24,8 @@ const tabs = [
   }
 ];
 
-const styled = withStyles({
+/** @type {import('../theme').CssProperties} */
+const styles = {
   container: {
     position: 'relative',
     minHeight: 24,
@@ -39,7 +40,7 @@ const styled = withStyles({
   hidden: {
     display: 'none'
   }
-});
+};
 
 function ConfigureVisuals(props) {
   const { classes } = props;
@@ -64,4 +65,4 @@ ConfigureVisuals.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default styled(ConfigureVisuals);
+export default withStyles(styles)(ConfigureVisuals);

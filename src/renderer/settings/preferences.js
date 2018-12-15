@@ -59,14 +59,15 @@ ModedTextField.propTypes = {
   onSave: PropTypes.func.isRequired
 };
 
-const styles = () => ({
+/** @type {import('../theme').CssProperties} */
+const styles = {
   text: {
     fontStyle: 'oblique'
   },
   field: {
     minWidth: '20em'
   }
-});
+};
 
 function Preferences(props) {
   const { classes } = props;

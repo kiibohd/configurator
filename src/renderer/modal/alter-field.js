@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Button, Dialog, TextField, DialogContent, DialogActions } from '../mui';
 
-const styled = withStyles({
+/** @type {import('../theme').CssProperties} */
+const styles = {
   //TODO: this should probably be passed in.
   text: {
     minWidth: '30em'
   }
-});
+};
 
 function AlterFieldModal(props) {
   const { classes, open, onClose, value, name, saveText = 'Save', validation = () => {} } = props;
@@ -75,4 +76,4 @@ AlterFieldModal.propTypes = {
   saveText: PropTypes.string
 };
 
-export default styled(AlterFieldModal);
+export default withStyles(styles)(AlterFieldModal);

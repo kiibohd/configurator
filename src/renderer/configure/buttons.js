@@ -136,7 +136,8 @@ export function ImportKeymap() {
   );
 }
 
-const layoutStyled = withStyles(theme => ({
+/** @type {import('../theme').ThemedCssProperties} */
+const layoutStyles = theme => ({
   button: {
     color: 'rgba(0, 0, 0, 0.54)'
     // margin: theme.spacing.unit
@@ -148,7 +149,7 @@ const layoutStyled = withStyles(theme => ({
   menu: {
     minWidth: '12rem'
   }
-}));
+});
 
 function LayoutHistoryButton(props) {
   const { classes } = props;
@@ -224,15 +225,16 @@ LayoutHistoryButton.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-const LayoutHistoryButtonStyled = layoutStyled(LayoutHistoryButton);
+const LayoutHistoryButtonStyled = withStyles(layoutStyles)(LayoutHistoryButton);
 
 export { LayoutHistoryButtonStyled as LayoutHistoryButton };
 
-const compileStyled = withStyles(theme => ({
+/** @type {import('../theme').ThemedCssProperties} */
+const compileStyles = theme => ({
   icon: {
     marginRight: theme.spacing.unit
   }
-}));
+});
 
 function CompileFirmwareButton(props) {
   const { classes } = props;
@@ -293,7 +295,7 @@ CompileFirmwareButton.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-const CompileFirmwareButtonStyled = compileStyled(CompileFirmwareButton);
+const CompileFirmwareButtonStyled = withStyles(compileStyles)(CompileFirmwareButton);
 
 export { CompileFirmwareButtonStyled as CompileFirmwareButton };
 

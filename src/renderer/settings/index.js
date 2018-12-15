@@ -12,7 +12,8 @@ import Drivers from './drivers';
 import { updateToolbarButtons } from '../state/core';
 import { BackButton, SettingsButton, HomeButton } from '../buttons';
 
-const styles = () => ({
+/** @type {import('../theme').CssProperties} */
+const styles = {
   root: {
     flexGrow: 1,
     height: '100%'
@@ -20,7 +21,7 @@ const styles = () => ({
   container: {
     padding: 8 * 3
   }
-});
+};
 
 function Settings(props) {
   const { classes } = props;

@@ -10,6 +10,7 @@ import { useConfigureState } from '../state';
 import { getSize } from '../../common/config';
 import { Palette } from './styles';
 
+/** @type {import('../theme').ThemedCssProperties} */
 const styles = theme => ({
   tabContainer: {
     float: 'left'

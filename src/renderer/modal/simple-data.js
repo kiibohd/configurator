@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { withStyles, Button, Modal, Typography } from '../mui';
 import { fontStack } from '../theme';
 
-const styled = withStyles(theme => ({
+/** @type {import('../theme').ThemedCssProperties} */
+const styles = theme => ({
   paper: {
     marginTop: '10%',
     marginLeft: '10%',
@@ -46,7 +47,7 @@ const styled = withStyles(theme => ({
   spacer: {
     flex: '1'
   }
-}));
+});
 
 function SimpleDataModal(props) {
   const { classes, open, onClose, data = '', actions, title, onChange, readonly = true } = props;
@@ -85,4 +86,4 @@ SimpleDataModal.propTypes = {
   readonly: PropTypes.bool
 };
 
-export default styled(SimpleDataModal);
+export default withStyles(styles)(SimpleDataModal);

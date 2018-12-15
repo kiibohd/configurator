@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { withStyles, amber, green, IconButton, SnackbarContent } from '../mui';
 import { CheckCircleIcon, CloseIcon, ErrorIcon, InfoIcon, WarningIcon } from '../icons';
 
+/** @type {import('../theme').ThemedCssProperties} */
 const styles = theme => ({
   message: {
     display: 'flex',

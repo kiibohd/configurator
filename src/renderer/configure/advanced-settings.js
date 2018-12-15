@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import {
   withStyles,
-  Button,
+  Fab,
   ExpansionPanel,
   ExpansionPanelDetails,
   ExpansionPanelSummary,
@@ -17,7 +17,8 @@ import { AddIcon, DeleteIcon, ExpandMoreIcon } from '../icons';
 import { useConfigureState, updateHeader, addDefine, updateDefine, deleteDefine } from '../state/configure';
 import { fontStack } from '../theme';
 
-const styled = withStyles({
+/** @type {import('../theme').CssProperties} */
+const styles = {
   container: {
     padding: 10
   },
@@ -57,7 +58,7 @@ const styled = withStyles({
     position: 'absolute',
     right: '33%'
   }
-});
+};
 
 function Headers(props) {
   const { classes } = props;
@@ -130,9 +131,9 @@ function Defines(props) {
               </Grid>
             ))}
           </Grid>
-          <Button variant="fab" color="secondary" className={classes.fab} onClick={() => addDefine('', '')}>
+          <Fab color="secondary" className={classes.fab} onClick={() => addDefine('', '')}>
             <AddIcon />
-          </Button>
+          </Fab>
         </div>
       </ExpansionPanelDetails>
     </ExpansionPanel>
@@ -158,4 +159,4 @@ AdvancedSettings.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default styled(AdvancedSettings);
+export default withStyles(styles)(AdvancedSettings);

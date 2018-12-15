@@ -2,11 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Typography } from '../mui';
 
-const styles = () => ({
+/** @type {import('../theme').CssProperties} */
+const styles = {
   text: {
     fontStyle: 'oblique'
   }
-});
+};
 
 function Downloads(props) {
   const { classes } = props;

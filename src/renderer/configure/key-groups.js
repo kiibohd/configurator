@@ -18,7 +18,8 @@ const cats = [
   Category.mac
 ];
 
-const styles = () => ({
+/** @type {import('../theme').CssProperties} */
+const styles = {
   container: {
     paddingTop: 10,
     paddingRight: 10
@@ -27,7 +28,7 @@ const styles = () => ({
     display: 'flex',
     flexWrap: 'wrap'
   }
-});
+};
 
 function Group(props) {
   const { classes, group, items, onSelect } = props;

@@ -6,6 +6,7 @@ import { Table, TableHead, TableBody, TableCell, TableRow, IconButton } from '..
 import { DeleteIcon } from '../../icons';
 import { useConfigureState, deleteAnimation } from '../../state/configure';
 
+/** @type {import('../../theme').CssProperties} */
 const styles = {
   container: {
     padding: 10

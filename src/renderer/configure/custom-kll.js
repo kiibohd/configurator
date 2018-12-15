@@ -5,7 +5,8 @@ import { withStyles, Typography } from '../mui';
 import { useConfigureState, updateCustomKll } from '../state/configure';
 import { fontStack } from '../theme';
 
-const styles = () => ({
+/** @type {import('../theme').CssProperties} */
+const styles = {
   container: {
     padding: 10
   },
@@ -23,7 +24,7 @@ const styles = () => ({
       outline: 0
     }
   }
-});
+};
 
 function CustomKll(props) {
   const { classes } = props;

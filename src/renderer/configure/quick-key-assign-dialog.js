@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles, Dialog, DialogContent, DialogActions, DialogTitle, Button } from '../mui';
 import KeyGroups from './key-groups';
 
+/** @type {import('../theme').ThemedCssProperties} */
 const styles = theme => ({
   container: {
     fontFamily: theme.typography.fontFamily

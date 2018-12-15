@@ -7,7 +7,8 @@ import { Palette, getLayerFg } from './styles';
 
 const tabHeight = 35;
 
-const styles = () => ({
+/** @type {import('../theme').CssProperties} */
+const styles = {
   navTabs: {
     display: 'block',
     height: tabHeight + 1,
@@ -44,7 +45,7 @@ const styles = () => ({
     borderBottomLeftRadius: 1,
     borderBottomRightRadius: 1
   }
-});
+};
 
 function LayerSelect(props) {
   const { classes } = props;

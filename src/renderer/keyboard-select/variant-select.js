@@ -12,7 +12,8 @@ import { SettingsButton, HomeButton } from '../buttons';
 
 const scale = 32;
 
-const styled = withStyles({
+/** @type {import('../theme').CssProperties} */
+const styles = {
   variant: {
     cursor: 'pointer',
     padding: 10,
@@ -32,7 +33,7 @@ const styled = withStyles({
     border: '1px solid red',
     borderRadius: 2
   }
-});
+};
 
 function Key(props) {
   const {
@@ -59,7 +60,7 @@ Key.propTypes = {
   data: PropTypes.object.isRequired
 };
 
-const StyledKey = styled(Key);
+const StyledKey = withStyles(styles)(Key);
 
 function Keyboard(props) {
   const { classes, variant, onSelect } = props;
@@ -83,7 +84,7 @@ Keyboard.propTypes = {
   onSelect: PropTypes.func.isRequired
 };
 
-const StyledKeyboard = styled(Keyboard);
+const StyledKeyboard = withStyles(styles)(Keyboard);
 
 export default function VariantSelect() {
   // const { classes } = props;

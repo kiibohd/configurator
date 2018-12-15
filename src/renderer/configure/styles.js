@@ -42,6 +42,7 @@ export function getLayerFg(layer) {
   return layerFg[layer] || Palette.black;
 }
 
+/** @type {import("../theme").CssProperties} */
 export const capStyle = {
   key: {
     position: 'absolute',

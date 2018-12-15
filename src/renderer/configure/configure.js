@@ -7,12 +7,13 @@ import { ToggleKeyboardButton, ToggleVisualsButton, ViewRawJson, ImportKeymap, L
 import ConfigureKeys from './configure-keys';
 import ConfigureVisuals from './configure-visuals';
 
-const styled = withStyles({
+/** @type {import('../theme').CssProperties} */
+const styles = {
   root: {
     boxSizing: 'content-box',
     display: 'inline-block'
   }
-});
+};
 
 function Configure(props) {
   const { classes } = props;
@@ -44,4 +45,4 @@ Configure.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default styled(Configure);
+export default withStyles(styles)(Configure);
