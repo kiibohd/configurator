@@ -30,9 +30,10 @@ const styles = () => ({
     marginRight: 0
   },
   imageContainer: {
-	position: 'absolute',
-	left: drawerWidth,
-    width: `calc(100% - ${drawerWidth})`,
+    top: 0,
+    position: 'absolute',
+    left: drawerWidth,
+    maxWidth: `calc(100% - ${drawerWidth} - 16px)`,
     height: '100%',
     display: 'flex',
     justifyContent: 'center',

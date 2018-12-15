@@ -1,5 +1,7 @@
 import React from 'react';
-import { Typography } from '../mui';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
+import { withStyles, Typography } from '../mui';
 import { CodeIcon, TuneIcon, VariableIcon, MagnifyIcon } from '../icons';
 import { useConfigureState } from '../state/configure';
 import LayerSelect from './layer-select';
@@ -9,6 +11,7 @@ import CustomKll from './custom-kll';
 import AdvancedSettings from './advanced-settings';
 import SideTabs from './side-tabs';
 import { tooltipped } from '../utils';
+import { CompileFirmwareButton } from './buttons';
 
 const tabs = [
   {
@@ -37,16 +40,29 @@ const tabs = [
   }
 ];
 
-function ConfigureKeys() {
-  const [keyboardHidden] = useConfigureState('keyboardHidden');
+const styled = withStyles({
+  hidden: {
+    display: 'none'
+  },
+  container: {
+    position: 'relative',
+    minHeight: 24,
+    marginTop: 16
+  }
+});
 
-  const keyboardStyle = keyboardHidden ? { display: 'none' } : {};
+function ConfigureKeys(props) {
+  const { classes } = props;
+  const [keyboardHidden] = useConfigureState('keyboardHidden');
 
   return (
     <>
-      <div style={keyboardStyle}>
-        <LayerSelect />
-        <OnScreenKeyboard />
+      <div className={classes.container}>
+        <CompileFirmwareButton />
+        <div className={classNames({ [classes.hidden]: keyboardHidden })}>
+          <LayerSelect />
+          <OnScreenKeyboard />
+        </div>
       </div>
       <div>
         <SideTabs items={tabs} />
@@ -55,4 +71,8 @@ function ConfigureKeys() {
   );
 }
 
-export default ConfigureKeys;
+ConfigureKeys.propTypes = {
+  classes: PropTypes.object.isRequired
+};
+
+export default styled(ConfigureKeys);

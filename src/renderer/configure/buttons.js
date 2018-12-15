@@ -10,7 +10,8 @@ import {
   Menu,
   MenuItem,
   Divider,
-  ListItemIcon
+  ListItemIcon,
+  Fab
 } from '../mui';
 import {
   KeyboardIcon,
@@ -227,7 +228,14 @@ const LayoutHistoryButtonStyled = layoutStyled(LayoutHistoryButton);
 
 export { LayoutHistoryButtonStyled as LayoutHistoryButton };
 
-export function CompileFirmwareButton() {
+const compileStyled = withStyles(theme => ({
+  icon: {
+    marginRight: theme.spacing.unit
+  }
+}));
+
+function CompileFirmwareButton(props) {
+  const { classes } = props;
   const [baseUri] = useSettingsState('uri');
   const [variant] = useCoreState('variant');
   const [toast, setToast] = useState(null);
@@ -272,16 +280,16 @@ export function CompileFirmwareButton() {
     }
   };
 
-  const button = tooltipped(
-    'Download Firmware',
-    <IconButton onClick={click} disabled={loading}>
-      {!loading ? <FlashOnIcon fontSize="small" /> : <CircularProgress size={20} thickness={3} />}
-    </IconButton>
-  );
-
   return (
     <div>
-      {button}
+      <Fab variant="extended" onClick={click} disabled={loading} style={{ position: 'absolute', right: 0, top: -20 }}>
+        {!loading ? (
+          <FlashOnIcon className={classes.icon} />
+        ) : (
+          <CircularProgress className={classes.icon} size={24} thickness={3} />
+        )}
+        Download Firmware
+      </Fab>
       <Snackbar anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }} open={!!toast}>
         {toast}
       </Snackbar>
@@ -289,6 +297,14 @@ export function CompileFirmwareButton() {
     </div>
   );
 }
+
+CompileFirmwareButton.propTypes = {
+  classes: PropTypes.object.isRequired
+};
+
+const CompileFirmwareButtonStyled = compileStyled(CompileFirmwareButton);
+
+export { CompileFirmwareButtonStyled as CompileFirmwareButton };
 
 /**
  * @param {string} baseUri

@@ -3,14 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '../mui';
 import { updateToolbarButtons, useCoreState, Panels } from '../state/core';
 import { SettingsButton, HomeButton } from '../buttons';
-import {
-  ToggleKeyboardButton,
-  CompileFirmwareButton,
-  ToggleVisualsButton,
-  ViewRawJson,
-  ImportKeymap,
-  LayoutHistoryButton
-} from './buttons';
+import { ToggleKeyboardButton, ToggleVisualsButton, ViewRawJson, ImportKeymap, LayoutHistoryButton } from './buttons';
 import ConfigureKeys from './configure-keys';
 import ConfigureVisuals from './configure-visuals';
 
@@ -34,7 +27,6 @@ function Configure(props) {
         <ToggleKeyboardButton />
         <ViewRawJson />
         <ImportKeymap />
-        <CompileFirmwareButton />
         <SettingsButton />
         <HomeButton />
       </>

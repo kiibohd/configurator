@@ -25,6 +25,7 @@ export { default as DialogContentText } from '@material-ui/core/DialogContentTex
 export { default as DialogActions } from '@material-ui/core/DialogActions';
 export { default as Divider } from '@material-ui/core/Divider';
 export { default as Drawer } from '@material-ui/core/Drawer';
+export { default as Fab } from '@material-ui/core/Fab';
 export { default as ExpansionPanel } from '@material-ui/core/ExpansionPanel';
 export { default as ExpansionPanelSummary } from '@material-ui/core/ExpansionPanelSummary';
 export { default as ExpansionPanelDetails } from '@material-ui/core/ExpansionPanelDetails';
