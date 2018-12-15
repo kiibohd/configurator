@@ -283,6 +283,4 @@ const locale = {
   keyname2key: _.keyBy(keys, 'key')
 };
 
-// console.log(locale);
-
 export default locale;

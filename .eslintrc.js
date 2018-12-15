@@ -38,7 +38,7 @@ module.exports = {
   },
   settings: {
       react: {
-          version: "16.7.0-alpha.0"
+          version: "16.7.0-alpha.2"
       }
   }
 }
