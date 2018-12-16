@@ -2,7 +2,7 @@ import { app, BrowserWindow, ipcMain as ipc } from 'electron';
 import * as path from 'path';
 import { format as formatUrl } from 'url';
 import * as usb from './usb';
-import { isKnownDevice } from '../common/device/keyboard';
+import { isKnownDevice, getDevice } from '../common/device/keyboard';
 import { identifyKeyboard } from './keyboard';
 import { buildMenu } from './menu';
 import Bluebird from 'bluebird';
@@ -102,7 +102,12 @@ ipc.on('usb-watch', async event => {
   watches.set(id, [attach, detach]);
 });
 
+/**
+ * @param {import('../common/device/types').Device} device
+ * @returns {Promise<import('../common/device/types').AttachedKeyboard>}
+ */
 async function getKeyboardDetails(device) {
   const keyboard = await identifyKeyboard(device);
-  return { ...device, ...{ keyboard } };
+  const known = getDevice(device);
+  return { ...device, ...{ keyboard }, ...{ known } };
 }

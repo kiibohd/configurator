@@ -1,5 +1,8 @@
 import { freeze as freezeMap } from '../utils/map';
 
+/**
+ * @returns {import('./types').Keyboard[]}
+ */
 function buildKeyboardList() {
   const layouts = (...layouts) => {
     return layouts.reduce((o, [v, ls]) => {
@@ -72,6 +75,9 @@ function buildKeyboardList() {
   ];
 }
 
+/**
+ * @returns {Map<Number, Map<Number, import('./types').KnownDevice>>}
+ */
 function buildDeviceList() {
   const list = [
     // Un-official original I:C vid/pid combo
@@ -112,6 +118,7 @@ function buildDeviceList() {
     ]
   ];
 
+  // @ts-ignore
   return freezeMap(new Map(list.map(x => devices(...x))));
 
   function device(vid, pid, isFlashable, names, variant) {
@@ -126,6 +133,7 @@ function buildDeviceList() {
   }
 
   function devices(vid, ...devices) {
+    // @ts-ignore
     return [vid, freezeMap(new Map(devices.map(b => [b[0], device(vid, ...b)])))];
   }
 }
@@ -165,13 +173,19 @@ export const keyboards = buildKeyboardList();
 
 export const usbDevices = buildDeviceList();
 
+/**
+ * @param {{vendorId: Number, productId: Number}} param0
+ * @returns {import('./types').KnownDevice}
+ */
 export function getDevice({ vendorId, productId }) {
   const vend = usbDevices.get(vendorId);
   return vend ? vend.get(productId) : undefined;
 }
 
+/**
+ * @param {{vendorId: Number, productId: Number}} device
+ * @returns {Boolean}
+ */
 export function isKnownDevice(device) {
   return !!getDevice(device);
 }
-
-// console.log(keyboards);

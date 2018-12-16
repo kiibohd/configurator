@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import { ipcRenderer as ipc } from 'electron';
 
+/**
+ * @returns {import('../common/device/types').AttachedKeyboard[]}
+ */
 export function useConnectedKeyboards() {
   const [connected, setConnected] = useState([]);
 

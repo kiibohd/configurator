@@ -1,6 +1,10 @@
 import { getDeviceDetails } from './usb';
 import { getDevice, keyboards } from '../common/device/keyboard';
 
+/**
+ * @param {import('../common/device/types').Device} usb
+ * @returns {Promise<import('../common/device/types').Keyboard>}
+ */
 export async function identifyKeyboard(usb) {
   const device = getDevice(usb);
 
@@ -11,7 +15,7 @@ export async function identifyKeyboard(usb) {
 
   const detail = await getDeviceDetails(usb);
 
-  let keyboard = keyboards.find(x => x.names.find(y => detail.product.includes(y)));
+  let keyboard = keyboards.find(x => !!x.names.find(y => detail.product.includes(y)));
 
   return keyboard;
 }

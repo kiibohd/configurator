@@ -5,8 +5,7 @@ import { withStyles, Drawer, List, ListItem, ListItemText, ListItemIcon } from '
 import {
   released as releasedKeyboardNames,
   keyboards as allKeyboards,
-  names as KeyboardNames,
-  getDevice
+  names as KeyboardNames
 } from '../../common/device/keyboard';
 import { useConnectedKeyboards } from '../hooks';
 import { useCoreState, updateSelectedKeyboard, updateToolbarButtons } from '../state/core';
@@ -113,6 +112,7 @@ function KeyboardSelect(props) {
   function keyboardListItem(name) {
     let keyboard = connectedKeyboards.find(x => x.keyboard && x.keyboard.display === name);
     if (!keyboard) {
+      // @ts-ignore
       keyboard = {
         keyboard: allKeyboards.find(x => x.display === name),
         connected: false,
@@ -139,10 +139,12 @@ function KeyboardSelect(props) {
     );
   }
 
-  function keyboardIcon(keyboard) {
-    if (!keyboard.connected) return null;
-    const device = getDevice(keyboard);
-    if (device && device.isFlashable) return <FlashOnIcon style={{ color: 'green' }} />;
+  /**
+   * @param {import('../../common/device/types').AttachedKeyboard} attached
+   */
+  function keyboardIcon(attached) {
+    if (!attached.connected) return null;
+    if (attached.known && attached.known.isFlashable) return <FlashOnIcon style={{ color: 'green' }} />;
     return <FiberManualRecordIcon style={{ color: 'green' }} />;
   }
 }

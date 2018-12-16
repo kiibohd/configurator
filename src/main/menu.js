@@ -1,5 +1,6 @@
 import { app, Menu } from 'electron';
 
+/** @type {*} */
 const template = [
   {
     label: 'Edit',

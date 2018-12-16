@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ChildProcess from 'child_process';
 import electron from 'electron';
 import _ from 'lodash';
+import { useConnectedKeyboards } from '../hooks';
 import { withStyles, deepOrange, Button, Grid, IconButton, InputAdornment, TextField, Typography } from '../mui';
 import { FolderOpen } from '../icons';
 import { updateToolbarButtons } from '../state/core';
@@ -34,11 +35,16 @@ const styles = theme => ({
     '&&': {
       color: deepOrange[300]
     }
+  },
+  warn: {
+    fontStyle: 'oblique',
+    color: 'red'
   }
 });
 
 function Flash(props) {
   const { classes } = props;
+  const connected = useConnectedKeyboards();
   const [lastDl] = useSettingsState('lastDl');
   const bin = lastDl ? (_.isString(lastDl.bin) ? lastDl.bin : lastDl.bin.left) : '';
   const [dfuPath] = useSettingsState('dfu');
@@ -61,6 +67,11 @@ function Flash(props) {
   return (
     <div>
       <Typography variant="subtitle1">Flash Firmware</Typography>
+      {!connected.some(x => x.known.isFlashable) && (
+        <Typography variant="subtitle2" className={classes.warn}>
+          Cannot detect keyboard in flash mode
+        </Typography>
+      )}
       <Grid container spacing={8} direction="column">
         <Grid container item xs={12} direction="row" justify="space-between" alignItems="center">
           <Grid item xs>
