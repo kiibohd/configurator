@@ -125,11 +125,17 @@ function CompileFirmwareButton(props) {
 
   return (
     <div>
-      <Fab variant="extended" onClick={click} disabled={compiling} style={{ position: 'absolute', right: 0, top: -20 }}>
+      <Fab
+        variant="extended"
+        color="secondary"
+        onClick={click}
+        disabled={compiling}
+        style={{ position: 'absolute', right: 0, top: -20 }}
+      >
         {!compiling ? (
           <FlashOnIcon className={classes.icon} />
         ) : (
-          <CircularProgress className={classes.icon} size={24} thickness={3} />
+          <CircularProgress color="primary" className={classes.icon} size={24} thickness={3} />
         )}
         Download Firmware
       </Fab>

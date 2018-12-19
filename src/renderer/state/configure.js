@@ -8,6 +8,7 @@ const initialState = {
   loading: false,
   layout: undefined,
   layer: 0,
+  /** @type {import('../../common/config').Config} */
   raw: undefined,
   headers: undefined,
   matrix: undefined,
@@ -15,6 +16,7 @@ const initialState = {
   leds: undefined,
   custom: undefined,
   animations: undefined,
+  /** @type {Object<string, import('../../common/config').ConfigMacro[]>} */
   macros: undefined,
   selected: undefined,
   keyboardHidden: false,
@@ -142,4 +144,37 @@ export function updateAnimation(name, data) {
 
 export function deleteAnimation(name) {
   setConfigureState('animations', curr => _.omit(curr, name));
+}
+
+export function updateMacro(layer, macro, updated) {
+  setConfigureState('macros', macros => {
+    const currLayer = [...macros[layer]];
+    const idx = _.indexOf(currLayer, macro);
+    const updLayer = [...currLayer];
+    updLayer[idx] = updated;
+
+    const updMacros = _.omit(macros, layer);
+    updMacros[layer] = updLayer;
+    return updMacros;
+  });
+}
+
+export function addMacro(layer) {
+  const macro = { id: uuidv4(), name: 'New Macro', trigger: [[]], output: [[]] };
+  setConfigureState('macros', macros => {
+    const updLayer = [...macros[layer], macro];
+    const updMacros = _.omit(macros, layer);
+    updMacros[layer] = updLayer;
+    return updMacros;
+  });
+}
+
+export function deleteMacro(layer, macro) {
+  setConfigureState('macros', macros => {
+    const currLayer = [...macros[layer]];
+
+    const updMacros = _.omit(macros, layer);
+    updMacros[layer] = _.without(currLayer, macro);
+    return updMacros;
+  });
 }

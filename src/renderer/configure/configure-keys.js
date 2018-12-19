@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { withStyles, Typography } from '../mui';
+import { withStyles } from '../mui';
 import { CodeIcon, TuneIcon, VariableIcon, MagnifyIcon } from '../icons';
 import { useConfigureState } from '../state/configure';
 import LayerSelect from './layer-select';
@@ -10,6 +10,7 @@ import KeyInfo from './key-info';
 import CustomKll from './custom-kll';
 import AdvancedSettings from './advanced-settings';
 import SideTabs from './side-tabs';
+import { LayerMacros } from './macros';
 import { tooltipped } from '../utils';
 import { CompileFirmwareButton } from './buttons';
 
@@ -22,11 +23,7 @@ const tabs = [
   {
     id: 'tab/macros',
     icon: tooltipped('Macros', <VariableIcon fontSize="large" />),
-    tab: (
-      <Typography component="h1" style={{ fontStyle: 'oblique' }}>
-        Not implemented yet.
-      </Typography>
-    )
+    tab: <LayerMacros />
   },
   {
     id: 'tab/custom-kll',

@@ -29,10 +29,10 @@ function LayoutHistoryButton(props) {
   /** @type import('../../local-storage/firmware').FirmwareResult[] */
   const recent = keyboard && variant ? recentDls[`${keyboard.keyboard.display}__${variant}`] : [];
 
-  const close = () => setAnchor(null);
+  const closeMenu = () => setAnchor(null);
   function loadRemote(layout) {
     loadRemoteConfig(keyboard, variant, layout);
-    close();
+    closeMenu();
   }
 
   /**
@@ -40,7 +40,7 @@ function LayoutHistoryButton(props) {
    */
   function loadLocal(dl) {
     loadLocalConfig(dl.json);
-    close();
+    closeMenu();
   }
 
   const dateOpts = {
@@ -58,7 +58,7 @@ function LayoutHistoryButton(props) {
       </Button>
       <Menu
         open={Boolean(anchor)}
-        onClose={close}
+        onClose={closeMenu}
         anchorEl={anchor}
         getContentAnchorEl={null}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}

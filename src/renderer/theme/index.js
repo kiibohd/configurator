@@ -16,11 +16,13 @@ export const fontStack = {
   monospace: ['"Share Tech Mono"'].join(',')
 };
 
+/** @type {import('@material-ui/core/styles/createPalette').PaletteOptions} */
 const palette = {
-  primary: { main: '#673AB7', contrastText: '#F5F5F5' },
-  secondary: { main: '#26C6DA', contrastText: '#263238' }
+  primary: { main: '#0055AA', contrastText: '#F5F5F5' },
+  secondary: { main: '#5BB6E6', contrastText: '#263238' }
 };
 
+/** @type {import('@material-ui/core/styles/createTypography').TypographyOptions} */
 const typography = {
   useNextVariants: true,
   fontFamily: fontStack.default

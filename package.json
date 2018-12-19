@@ -86,7 +86,7 @@
     },
     "linux": {
       "target": [
-        "deb",
+        "AppImage",
         "tar.gz"
       ],
       "executableName": "kiibohd-configurator",

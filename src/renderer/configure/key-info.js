@@ -17,17 +17,16 @@ const styles = {
   }
 };
 
-function Preferences(props) {
+function KeyInfo(props) {
   const { classes } = props;
   const [selected] = useConfigureState('selected');
   const [layer] = useConfigureState('layer');
   const [assignDialogOpen, setAssignDialogOpen] = useState(false);
 
-  console.log(selected);
   const key = selected && selected.layers[layer] && selected.layers[layer].key;
   const cap = keymap[key] || {};
 
-  const close = () => setAssignDialogOpen(false);
+  const closeDialog = () => setAssignDialogOpen(false);
   const select = key => {
     setAssignDialogOpen(false);
     updateSelected(key);
@@ -46,15 +45,15 @@ function Preferences(props) {
             <Typography>Assigned Key</Typography>
             <Cap cap={cap} onClick={() => setAssignDialogOpen(true)} />
           </div>
-          <QuickKeyAssignDialog open={assignDialogOpen} onSelect={select} onClose={close} />
+          <QuickKeyAssignDialog open={assignDialogOpen} onSelect={select} onClose={closeDialog} />
         </div>
       )}
     </div>
   );
 }
 
-Preferences.propTypes = {
+KeyInfo.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Preferences);
+export default withStyles(styles)(KeyInfo);

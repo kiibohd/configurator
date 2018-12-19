@@ -49,7 +49,7 @@ function GenericToast(props) {
 
   const statusIcon = icon(variant, classNames(classes.icon, classes.statusIcon));
 
-  const close = (
+  const closeButton = (
     <IconButton className={classes.close} key="close" color="inherit" onClick={() => onClose && onClose()}>
       <CloseIcon className={classes.icon} />
     </IconButton>
@@ -62,7 +62,7 @@ function GenericToast(props) {
     </span>
   );
 
-  return <SnackbarContent className={classes[variant]} message={composed} action={[...actions, close]} />;
+  return <SnackbarContent className={classes[variant]} message={composed} action={[...actions, closeButton]} />;
 }
 
 GenericToast.propTypes = {

@@ -46,7 +46,8 @@ export function getLayerFg(layer) {
 export const capStyle = {
   key: {
     position: 'absolute',
-    overflow: 'hidden'
+    overflow: 'hidden',
+    boxSizing: 'content-box'
   },
   base: {
     backgroundColor: Palette.gray,

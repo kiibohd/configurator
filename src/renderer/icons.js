@@ -26,6 +26,9 @@ export { default as WarningIcon } from '@material-ui/icons/Warning';
 
 export { default as AccountSettingsIcon } from 'mdi-material-ui/AccountSettings';
 export { default as AnimationIcon } from 'mdi-material-ui/Animation';
+export { default as ArrowRightBoldOutlineIcon } from 'mdi-material-ui/ArrowRightBoldOutline';
+export { default as CloseCircleOutlineIcon } from 'mdi-material-ui/CloseCircleOutline';
+export { default as DotsHorizontalIcon } from 'mdi-material-ui/DotsHorizontal';
 export { default as DownloadOutlineIcon } from 'mdi-material-ui/DownloadOutline';
 export { default as HistoryIcon } from 'mdi-material-ui/History';
 export { default as FolderOpen } from 'mdi-material-ui/FolderOpen';
@@ -37,6 +40,9 @@ export { default as KeyboardVariantIcon } from 'mdi-material-ui/KeyboardVariant'
 export { default as LightSwitchIcon } from 'mdi-material-ui/LightSwitch';
 export { default as MagnifyIcon } from 'mdi-material-ui/Magnify';
 export { default as MovieRollIcon } from 'mdi-material-ui/MovieRoll';
+export { default as PlusOutlineIcon } from 'mdi-material-ui/PlusOutline';
+export { default as PlusCircleOutlineIcon } from 'mdi-material-ui/PlusCircleOutline';
+export { default as RecordRecIcon } from 'mdi-material-ui/RecordRec';
 export { default as SquareEditOutlineIcon } from 'mdi-material-ui/SquareEditOutline';
 export { default as UploadIcon } from 'mdi-material-ui/Upload';
 export { default as VariableIcon } from 'mdi-material-ui/Variable';
