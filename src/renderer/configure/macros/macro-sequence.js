@@ -76,7 +76,7 @@ function MacroSequence(props) {
           <PlusCircleOutlineIcon />
         </IconButton>
       </div>
-      <RecordMacroDialog open={recording} onClose={stopRecording} />
+      <RecordMacroDialog open={recording} onClose={() => setRecording(false)} onSave={stopRecording} />
     </div>
   );
 }

@@ -84,7 +84,7 @@ function reducer(state, action) {
 }
 
 function RecordMacroDialog(props) {
-  const { classes, open, onClose } = props;
+  const { classes, open, onClose, onSave } = props;
   const [localeName] = useSettingsState('locale');
   const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -125,7 +125,7 @@ function RecordMacroDialog(props) {
 
   const save = () => {
     const mapped = state.macro.map(xs => xs.map(x => _.head(x.aliases)));
-    onClose(mapped);
+    onSave(mapped);
   };
 
   useEffect(
@@ -186,7 +186,8 @@ function RecordMacroDialog(props) {
 RecordMacroDialog.propTypes = {
   classes: PropTypes.object.isRequired,
   open: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired
+  onClose: PropTypes.func.isRequired,
+  onSave: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(RecordMacroDialog);
