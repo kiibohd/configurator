@@ -41,7 +41,7 @@ function LayerMacros(props) {
   const [layer] = useConfigureState('layer');
   const [allMacros] = useConfigureState('macros');
 
-  /** @type {import('../../../common/config').ConfigMacro[]} */
+  /** @type {import('../../../common/config/types').ConfigMacro[]} */
   const macros = allMacros[layer] || [];
 
   const updateName = (macro, name) => {

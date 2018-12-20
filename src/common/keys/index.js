@@ -4,6 +4,21 @@ export const locales = {
   'en-us': enUsLocale
 };
 
+/**
+ * @typedef DisplayKey
+ * @property {string} key
+ * @property {string} label1
+ * @property {string} label2
+ * @property {string} label3
+ * @property {Object} style
+ */
+
+/**
+ *
+ * @param {import('./predefined').PredefinedKey} firmware
+ * @param {*} locale
+ * @returns {DisplayKey}
+ */
 export function mergeKeys(firmware, locale) {
   if (firmware.name === 'fw/clear') return null;
 

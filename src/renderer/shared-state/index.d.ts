@@ -13,7 +13,8 @@ export type Dispatch<A> = (action: A) => A;
 
 export type UseSharedState<S> = <N extends keyof S>(name: N) => HookResult<S[N]>;
 
-export type GetSharedState<S> = <N extends keyof S>(name: N) => S;
+// export type GetSharedState<S> = <N extends keyof S>(name: N) => S;
+export type GetSharedState<S> = <N extends keyof S>(name: N) => S[N];
 
 export type Store<S, A> = {
   useSharedState: UseSharedState<S>,

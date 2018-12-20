@@ -15,6 +15,20 @@ const DbKey = {
   uri: dev ? 'uri-development' : 'uri-production'
 };
 
+/**
+ * @type{{
+ *  uri: string
+ *  locale: string
+ *  dfu: string
+ *  kiidrv: string
+ *  dev: boolean
+ *  lastVersionCheck: number
+ *  newerVersionAvail: boolean
+ *  lastDl: import('../local-storage/firmware').FirmwareResult
+ *  recentDls: Object<string, import('../local-storage/firmware').FirmwareResult[]>
+ *  cannedAnimations: Object<string, import('../../common/config/types').ConfigAnimation>
+ * }}
+ */
 const initialState = {
   uri: '',
   locale: 'en-us',
