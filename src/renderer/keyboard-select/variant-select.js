@@ -112,7 +112,7 @@ export default function VariantSelect() {
   if (!details) {
     return (
       <>
-        <Typography component="h3">Select a variant.</Typography>
+        <Typography variant="h6">Select a variant.</Typography>
         <List component="nav">
           {selectedKeyboard.keyboard.variants.map(name => (
             <ListItem button key={name} onClick={() => selectVariant()}>
@@ -126,7 +126,7 @@ export default function VariantSelect() {
 
   return (
     <>
-      <Typography component="h3">Select a variant.</Typography>
+      <Typography variant="h6">Select a variant.</Typography>
       {details.map(variant => (
         <StyledKeyboard key={variant.name} variant={variant} onSelect={() => selectVariant(variant.name)} />
       ))}

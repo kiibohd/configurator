@@ -67,7 +67,7 @@ function LayerMacros(props) {
 
   return (
     <div className={classes.container}>
-      <Typography component="h1">Macros ({layer === 0 ? 'Base Layer' : 'Layer ' + layer})</Typography>
+      <Typography variant="subtitle1">Macros ({layer === 0 ? 'Base Layer' : 'Layer ' + layer})</Typography>
       {macros.map(macro => (
         <Card className={classes.card} key={macro.id}>
           <CardContent>

@@ -36,7 +36,7 @@ function KeyInfo(props) {
     <div className={classes.container}>
       {!selected && (
         <span className={classes.message}>
-          <Typography component="h4">No key currently selected</Typography>
+          <Typography variant="subtitle1">No key currently selected</Typography>
         </span>
       )}
       {selected && (

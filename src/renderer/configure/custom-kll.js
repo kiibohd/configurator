@@ -34,7 +34,7 @@ function CustomKll(props) {
 
   return (
     <div className={classes.container}>
-      <Typography className={classes.header} component="h2">
+      <Typography className={classes.header} variant="subtitle1">
         Custom KLL ({layer === 0 ? 'Base Layer' : `Layer ${layer}`})
       </Typography>
       <textarea value={value} className={classes.text} wrap="soft" onChange={e => updateCustomKll(e.target.value)} />

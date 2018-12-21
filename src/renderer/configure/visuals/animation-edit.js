@@ -80,7 +80,7 @@ function AnimationEdit(props) {
   return (
     <form>
       <div className={classes.container}>
-        <Typography component="h2">Animation Edit</Typography>
+        <Typography variant="subtitle1">Animation Edit</Typography>
         <div className={classes.row}>
           <FormControl className={classes.animationSelect}>
             <InputLabel htmlFor="animation">Animation</InputLabel>
