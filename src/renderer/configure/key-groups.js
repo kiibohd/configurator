@@ -1,15 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import { withStyles, ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary, Typography } from '../mui';
-import { ExpandMoreIcon } from '../icons';
+import { withStyles, Typography, ToggleButton, ToggleButtonGroup } from '../mui';
 import { categorized, Category } from '../../common/keys/predefined';
 import Cap from './cap';
 
 const cats = [
-  Category.spec,
-  Category.std,
   Category.core,
+  Category.std,
+  Category.spec,
   Category.vis,
   Category.mult,
   Category.num,
@@ -18,54 +17,63 @@ const cats = [
   Category.mac
 ];
 
-/** @type {import('../theme').CssProperties} */
-const styles = {
+/** @type {import('../theme').ThemedCssProperties} */
+const styles = theme => ({
   container: {
     paddingTop: 10,
-    paddingRight: 10
+    paddingRight: 10,
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  categories: {
+    borderColor: `${theme.palette.secondary.main} !important`
+  },
+  selected: {
+    backgroundColor: `${theme.palette.secondary.main} !important`,
+    color: `${theme.palette.secondary.contrastText} !important`
+  },
+  keysContainer: {
+    overflowY: 'auto'
   },
   groupContainer: {
     display: 'flex',
     flexWrap: 'wrap'
+  },
+  categorySelect: {
+    marginBottom: 10
   }
-};
-
-function Group(props) {
-  const { classes, group, items, onSelect } = props;
-  const keys = _.orderBy(items, 'order');
-
-  return (
-    <ExpansionPanel>
-      <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-        <Typography className={classes.groupName}>{group}</Typography>
-      </ExpansionPanelSummary>
-      <ExpansionPanelDetails>
-        <div className={classes.groupContainer}>
-          {keys.map(x => (
-            <Cap key={x.name} cap={x} onClick={onSelect} />
-          ))}
-        </div>
-      </ExpansionPanelDetails>
-    </ExpansionPanel>
-  );
-}
-
-Group.propTypes = {
-  classes: PropTypes.object.isRequired,
-  group: PropTypes.string.isRequired,
-  items: PropTypes.array.isRequired,
-  onSelect: PropTypes.func
-};
+});
 
 // TODO: add a filter to quickly find what someone is looking for.
 function KeyGroups(props) {
   const { classes, onSelect } = props;
+  const [selected, setSelected] = useState([Category.core]);
+
+  const items = selected.map(category => ({ category, keys: _.orderBy(categorized[category], 'order') }));
 
   return (
     <div className={classes.container}>
-      {cats.map(category => (
-        <Group key={category} classes={classes} group={category} items={categorized[category]} onSelect={onSelect} />
-      ))}
+      <div className={classes.categorySelect}>
+        <ToggleButtonGroup value={selected} onChange={(_, vals) => setSelected(vals)} className={classes.categories}>
+          {cats.map(category => (
+            <ToggleButton key={category} value={category} classes={{ selected: classes.selected }}>
+              <Typography>{category}</Typography>
+            </ToggleButton>
+          ))}
+        </ToggleButtonGroup>
+      </div>
+      <div className={classes.keysContainer}>
+        {items.map(x => (
+          <div key={x.category}>
+            <Typography variant="h6">{x.category}</Typography>
+            <div className={classes.groupContainer}>
+              {x.keys.map(x => (
+                <Cap key={x.name} cap={x} onClick={onSelect} />
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

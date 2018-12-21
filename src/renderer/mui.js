@@ -56,3 +56,6 @@ export { default as TextField } from '@material-ui/core/TextField';
 export { default as Toolbar } from '@material-ui/core/Toolbar';
 export { default as Tooltip } from '@material-ui/core/Tooltip';
 export { default as Typography } from '@material-ui/core/Typography';
+
+export { default as ToggleButton } from '@material-ui/lab/ToggleButton';
+export { default as ToggleButtonGroup } from '@material-ui/lab/ToggleButtonGroup';
