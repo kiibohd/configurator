@@ -43,6 +43,7 @@ function AlterFieldModal(props) {
       <DialogContent>
         <form onSubmit={save}>
           <TextField
+            autoFocus={true}
             value={currValue}
             onChange={update}
             onBlur={() => setDirty(true)}
@@ -58,7 +59,7 @@ function AlterFieldModal(props) {
         <Button onClick={cancel} type="button">
           Cancel
         </Button>
-        <Button type="submit" disabled={!dirty || !!error}>
+        <Button type="submit" disabled={!dirty || !!error} onClick={save}>
           {saveText}
         </Button>
       </DialogActions>
