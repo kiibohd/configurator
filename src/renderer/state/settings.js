@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { createSharedState } from '../shared-state/index';
 import db from '../db';
 
-const dev = process.env.NODE_ENV !== 'production';
+const dev = process.env.NODE_ENV && process.env.NODE_ENV !== 'production';
 const defaultUri = dev ? 'http://localhost:8080' : 'https://configurator.input.club';
 
 const DbKey = {
