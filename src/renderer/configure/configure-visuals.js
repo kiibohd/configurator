@@ -2,11 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { withStyles } from '../mui';
-import { AnimationIcon, SquareEditOutlineIcon } from '../icons';
+import { AnimationIcon, SquareEditOutlineIcon, PaletteIcon } from '../icons';
 import VisualizeLeds from './visualize-leds';
 import SideTabs from './side-tabs';
 import AnimationList from './visuals/animation-list';
 import AnimationEdit from './visuals/animation-edit';
+import StaticMap from './visuals/static-map';
 import { tooltipped } from '../utils';
 import { useConfigureState } from '../state';
 import { CompileFirmwareButton } from './buttons';
@@ -21,6 +22,11 @@ const tabs = [
     id: 'tab/edit-animation',
     icon: tooltipped('Add/Edit Animation', <SquareEditOutlineIcon fontSize="large" />),
     tab: <AnimationEdit />
+  },
+  {
+    id: 'tab/static-map',
+    icon: tooltipped('Static LEDs', <PaletteIcon fontSize="large" />),
+    tab: <StaticMap />
   }
 ];
 

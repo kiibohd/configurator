@@ -5,6 +5,14 @@ import { uuidv4 } from '../../common/utils';
 import _ from 'lodash';
 
 /**
+ * @typedef LedStatus
+ * @property {number} id
+ * @property {number} r
+ * @property {number} g
+ * @property {number} b
+ */
+
+/**
  * @type{{
  *  loading: boolean
  *  layout: string
@@ -18,6 +26,8 @@ import _ from 'lodash';
  *  animations: Object<string, import('../../common/config/types').ConfigAnimation>
  *  macros: import('../../common/config/types').ConfigMacros
  *  selected: import('../../common/config/types').ConfigMatrixItem
+ *  selectedLeds: number[]
+ *  ledStatus: Object<string, LedStatus>
  *  keyboardHidden: boolean
  *  ui: {backdropPadding: number, sizeFactor: number, ledFactor: number}
  * }}
@@ -35,6 +45,8 @@ const initialState = {
   animations: undefined,
   macros: undefined,
   selected: undefined,
+  selectedLeds: [],
+  ledStatus: {},
   keyboardHidden: false,
   ui: {
     backdropPadding: 20,
@@ -49,12 +61,13 @@ const {
   getSharedState: getConfigureState
 } = createSharedState(initialState);
 
-export { useConfigureState };
+export { useConfigureState, setConfigureState };
 
 export function reset() {
   setConfigureState('layer', 0);
   setConfigureState('layout', undefined);
   setConfigureState('selected', undefined);
+  setConfigureState('selectedLeds', []);
   setConfigureState('keyboardHidden', false);
   setConfigureState('raw', undefined);
   setConfigureState('headers', undefined);
@@ -178,9 +191,10 @@ export function deleteDefine(id) {
 
 /**
  * @param {string} name
+ * @param {string} type
  */
-export function addAnimation(name) {
-  setConfigureState('animations', curr => ({ ...curr, ...{ [name]: { settings: '', frames: '' } } }));
+export function addAnimation(name, type = 'custom') {
+  setConfigureState('animations', curr => ({ ...curr, ...{ [name]: { type, settings: '', frames: '' } } }));
 }
 
 /**
@@ -252,4 +266,33 @@ export function deleteMacro(layer, macro) {
     updMacros[layer] = _.without(currLayer, macro);
     return updMacros;
   });
+}
+
+/**
+ * @param {number[]} leds
+ */
+export function addSelectedLeds(leds) {
+  setConfigureState('selectedLeds', selected => [...selected, ...leds]);
+}
+
+/**
+ * @param {number[]} leds
+ */
+export function setSelectedLeds(leds) {
+  setConfigureState('selectedLeds', leds || []);
+}
+
+/**
+ * @param {number} id
+ * @param {Ledstatus} status
+ */
+export function setLedStatus(id, status) {
+  setConfigureState('ledStatus', ledStatus => ({ ...ledStatus, ...{ [id]: status } }));
+}
+
+/**
+ * @param {number} id
+ */
+export function clearLedStatus(id) {
+  setConfigureState('ledStatus', ledStatus => _.omit(ledStatus, id));
 }

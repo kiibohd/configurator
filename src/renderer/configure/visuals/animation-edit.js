@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import { withStyles } from '@material-ui/core/styles';
 import { useConfigureState, addAnimation, updateAnimation, renameAnimation } from '../../state/configure';
-import { Button, MenuItem, Select, FormControl, InputLabel, Typography, TextField } from '../../mui';
+import { withStyles, Button, MenuItem, Select, FormControl, InputLabel, Typography, TextField } from '../../mui';
 import { AlterFieldModal } from '../../modal';
 import { fontStack } from '../../theme';
 
@@ -109,7 +108,7 @@ function AnimationEdit(props) {
               <TextField
                 fullWidth
                 label="Settings"
-                value={activeAnimation.settings}
+                value={activeAnimation.settings || ''}
                 InputProps={{ className: classes.text }}
               />
             </div>
@@ -121,7 +120,7 @@ function AnimationEdit(props) {
                 rowsMax="20"
                 label="Frames"
                 InputProps={{ className: classes.text }}
-                value={activeAnimation.frames}
+                value={activeAnimation.frames || ''}
                 onChange={rawAnimationChange}
               />
             </div>
