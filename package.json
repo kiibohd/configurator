@@ -1,6 +1,6 @@
 {
   "name": "kiibohd-configurator",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Configuration utility for Input Club keyboards",
   "author": "Jeremy Bondeson <jbondeson@gmail.com> (https://input.club)",
   "license": "GPL-3.0",

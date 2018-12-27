@@ -40,7 +40,7 @@
 
 /**
  * @typedef PersistedAnimation
- * @property {custom|canned|static} type
+ * @property {'custom'|'canned'|'static'} type
  * @property {string} settings
  * @property {string[]} frames
  */
@@ -123,7 +123,7 @@
 
 /**
  * @typedef ConfigAnimation
- * @property {custom|canned|static} type
+ * @property {'custom'|'canned'|'static'} type
  * @property {string} settings
  * @property {string} frames
  */

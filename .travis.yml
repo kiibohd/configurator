@@ -18,7 +18,7 @@ addons:
 
 # Versions of node.js to test
 node_js:
-  - "8"
+  - "10"
 
 
 # Specific Environment Variables
@@ -44,11 +44,9 @@ matrix:
       - GH_TOKEN=$GITHUB_OAUTH_TOKEN
 
 cache:
+  yarn: true
   directories:
   - node_modules
-  - $HOME/.m2
-  - $HOME/.boot/cache/bin
-  - $HOME/.boot/cache/lib
   - $HOME/bin
 
 # Package Setup
@@ -71,22 +69,18 @@ install:
   # Get version of node.js
   - npm --version
 
-  # Get boot-clj and show version
-  - wget -O ~/bin/boot https://github.com/boot-clj/boot-bin/releases/download/latest/boot.sh
-  - chmod 755 ~/bin/boot
-  - boot -V
+  # Get version of yarn
+  - yarn --version
 
   # Install electron and dependencies
-  - npm install -g node-pre-gyp
-  - npm install
+  - yarn global add node-pre-gyp
+  - yarn
+  - yarn rebuild-deps
 
 # Build and packaging
 script:
-  # Build clojure target
-  - npm run build:prod
-
-  # Build electron binary
-  - npm run dist -- --publish onTagOrDraft
+  # Build
+  - yarn dist --publish onTagOrDraft
 
 ## Deploy release
 #deploy:
