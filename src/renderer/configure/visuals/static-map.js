@@ -72,8 +72,8 @@ function StaticMap(props) {
       // TODO: Bulk update...
       let match;
       while ((match = rx.exec(activeAnimation.frames))) {
-        const [, id, r, g, b] = match;
-        setLedStatus(id, { id: id, r, g, b });
+        const [, id, r, g, b] = match.map(parseInt);
+        setLedStatus(id, { id, r, g, b });
       }
       return () => setConfigureState('ledStatus', {});
     },

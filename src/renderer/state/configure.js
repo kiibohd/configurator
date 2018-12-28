@@ -191,7 +191,7 @@ export function deleteDefine(id) {
 
 /**
  * @param {string} name
- * @param {string} type
+ * @param {"static"|"custom"|"canned"} type
  */
 export function addAnimation(name, type = 'custom') {
   setConfigureState('animations', curr => ({ ...curr, ...{ [name]: { type, settings: '', frames: '' } } }));
@@ -284,7 +284,7 @@ export function setSelectedLeds(leds) {
 
 /**
  * @param {number} id
- * @param {Ledstatus} status
+ * @param {LedStatus} status
  */
 export function setLedStatus(id, status) {
   setConfigureState('ledStatus', ledStatus => ({ ...ledStatus, ...{ [id]: status } }));

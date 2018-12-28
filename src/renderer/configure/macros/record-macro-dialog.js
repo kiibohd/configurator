@@ -101,7 +101,7 @@ function RecordMacroDialog(props) {
       return null;
     }
 
-    const fwKey = getKey(localKey.key);
+    const fwKey = getKey(localKey);
     return fwKey;
   };
 

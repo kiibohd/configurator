@@ -35,9 +35,11 @@ function KeyInfo(props) {
   return (
     <div className={classes.container}>
       {!selected && (
-        <span className={classes.message}>
+        <div className={classes.message}>
           <Typography variant="subtitle1">No key currently selected</Typography>
-        </span>
+          <br />
+          <Typography variant="body2">You can use Shift + Left Mouse to quick assign</Typography>
+        </div>
       )}
       {selected && (
         <div>

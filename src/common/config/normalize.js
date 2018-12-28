@@ -11,10 +11,21 @@ import _ from 'lodash';
  */
 function normalizeLayer(layer, locale) {
   const fw = getKeyFromAlias(layer.key);
-  const localized = locale.keyname2key[fw.name] || {};
-  const merged = mergeKeys(fw, localized);
 
-  return merged;
+  if (fw) {
+    const localized = locale.keyname2key[fw.name] || {};
+    const merged = mergeKeys(fw, localized);
+
+    return merged;
+  }
+
+  // custom kll on the key
+  return {
+    key: 'cust/raw',
+    label1: layer.label && layer.label.length ? layer.label : 'RAW',
+    style: { fontStyle: 'oblique' },
+    custom: layer.key
+  };
 }
 
 /**

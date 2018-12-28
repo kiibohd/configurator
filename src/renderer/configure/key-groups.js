@@ -67,8 +67,8 @@ function KeyGroups(props) {
           <div key={x.category}>
             <Typography variant="h6">{x.category}</Typography>
             <div className={classes.groupContainer}>
-              {x.keys.map(x => (
-                <Cap key={x.name} cap={x} onClick={onSelect} />
+              {x.keys.map(k => (
+                <Cap key={k.name} cap={k} onClick={onSelect} />
               ))}
             </div>
           </div>

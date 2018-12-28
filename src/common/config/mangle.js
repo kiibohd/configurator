@@ -7,9 +7,8 @@ import _ from 'lodash';
  * @returns {import('./types').PersistedKey}
  */
 function mangleLayer(layer) {
-  const key = getKey(layer.key);
+  const key = getKey(layer);
   return {
-    // TODO: Update for macros
     key: key.aliases[key.triggerDef],
     label: key.label
   };

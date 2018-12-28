@@ -126,7 +126,7 @@ function OnScreenKeyboard(props) {
     // this will stop a reload on F5 or scroll with the arrows
     e.stopPropagation();
     e.preventDefault();
-    const fwKey = getKey(localKey.key);
+    const fwKey = getKey(localKey);
     const merged = mergeKeys(fwKey, localKey);
     updateSelected(merged);
   };

@@ -86,9 +86,10 @@
  * @typedef ConfigKey
  * @property {string} key
  * @property {string} label1
- * @property {string} label2
- * @property {string} label3
+ * @property {string} [label2]
+ * @property {string} [label3]
  * @property {Object} style
+ * @property {string} [custom]
  */
 
 /**
