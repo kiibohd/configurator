@@ -49,6 +49,7 @@ function AnimationEdit(props) {
   const activeAnimation = active.length && animations[active];
   const selectedAnimationChange = e => setActive(e.target.value);
   const rawAnimationChange = e => updateAnimation(active, { frames: e.target.value });
+  const settingChange = e => updateAnimation(active, { settings: e.target.value });
 
   const create = (save, name) => {
     setShowNew(false);
@@ -110,6 +111,7 @@ function AnimationEdit(props) {
                 label="Settings"
                 value={activeAnimation.settings || ''}
                 InputProps={{ className: classes.text }}
+                onChange={settingChange}
               />
             </div>
             <div className={classes.row}>
