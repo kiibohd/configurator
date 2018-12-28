@@ -4,7 +4,7 @@ import db from '../db';
 
 const dev = process.env.NODE_ENV === 'development';
 // const defaultUri = dev ? 'http://localhost:8080' : 'https://configurator.input.club';
-const defaultUri = dev ? 'http://localhost:8080' : 'http://vash.input.club:3000';
+const defaultUri = dev ? 'http://localhost:8080' : 'http://vash.input.club:3001';
 
 const DbKey = {
   dfuPath: 'dfu-path',
