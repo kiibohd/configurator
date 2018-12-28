@@ -247,7 +247,7 @@ export function updateMacro(layer, macro, updated) {
 export function addMacro(layer) {
   const macro = { id: uuidv4(), name: 'New Macro', trigger: [[]], output: [[]] };
   setConfigureState('macros', macros => {
-    const updLayer = [...macros[layer], macro];
+    const updLayer = [...(macros[layer] || []), macro];
     const updMacros = _.omit(macros, layer);
     updMacros[layer] = updLayer;
     return updMacros;
