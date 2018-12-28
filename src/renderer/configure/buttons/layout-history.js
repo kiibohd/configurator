@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 import { withStyles, Button, Menu, MenuItem, Divider, ListItemIcon } from '../../mui';
 import { HistoryIcon, StarBorderIcon, DownloadOutlineIcon } from '../../icons';
 import { loadRemoteConfig, loadLocalConfig, useCoreState, useSettingsState } from '../../state';
@@ -26,7 +27,7 @@ function LayoutHistoryButton(props) {
   const [recentDls] = useSettingsState('recentDls');
   const layouts = keyboard && variant ? keyboard.keyboard.layouts[variant] : [];
   /** @type import('../../local-storage/firmware').FirmwareResult[] */
-  const recent = keyboard && variant ? recentDls[`${keyboard.keyboard.display}__${variant}`] : [];
+  const recent = keyboard && variant ? recentDls[`${_.head(keyboard.keyboard.names)}__${variant}`] : [];
 
   const closeMenu = () => setAnchor(null);
   function loadRemote(layout) {

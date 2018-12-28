@@ -67,7 +67,7 @@ function buildKeyboardList() {
     },
     {
       display: names.KType,
-      names: ['K-Type', 'KType'],
+      names: ['KType', 'K-Type'],
       variants: [variants.Standard],
       visuals: true,
       layouts: layouts([variants.Standard, ['Standard', 'NoAnimations']]),
