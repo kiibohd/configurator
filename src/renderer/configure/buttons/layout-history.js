@@ -8,7 +8,6 @@ import { loadRemoteConfig, loadLocalConfig, useCoreState, useSettingsState } fro
 const styles = theme => ({
   button: {
     color: 'rgba(0, 0, 0, 0.54)'
-    // margin: theme.spacing.unit
   },
   leftIcon: {
     marginRight: theme.spacing.unit,
