@@ -12,6 +12,7 @@ export const locales = {
  * @property {string} [label3]
  * @property {Object} style
  * @property {string} [custom]
+ * @property {Object} [data]
  */
 
 /**
@@ -22,7 +23,7 @@ export const locales = {
  */
 export function mergeKeys(firmware, locale) {
   if (firmware.name === 'fw/clear') return null;
-  const custom = firmware && firmware.name && firmware.name.startsWith('cust/');
+  // const custom = firmware && firmware.name && firmware.name.startsWith('cust/');
 
   return {
     key: firmware.name,
@@ -30,6 +31,7 @@ export function mergeKeys(firmware, locale) {
     label2: locale.label2,
     label3: locale.label3,
     style: firmware.style,
-    custom: custom ? firmware.aliases[0] : undefined
+    custom: locale.custom,
+    data: locale.data
   };
 }

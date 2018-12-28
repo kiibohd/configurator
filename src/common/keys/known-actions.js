@@ -3,6 +3,7 @@ const Known = {
     name: 'cust/anim',
     rx: /#:A\[(.*)]\((start|stop|pause|single)\)/,
     toLabel: match => `A:${match[2]}`,
+    toData: match => ({ animation: match[1], action: match[2] }),
     style: { fontStyle: 'oblique', fontSize: 12 }
   }
 };
@@ -17,7 +18,8 @@ export function buildAnimationActionKey(animation, action) {
     key: Known.Animation.name,
     label1: `A:${action}`,
     style: Known.Animation.style,
-    custom: `#:A[${animation}](${action})`
+    custom: `#:A[${animation}](${action})`,
+    data: { animation, action }
   };
 }
 
@@ -37,6 +39,7 @@ export function parseRawToKnown(raw) {
     key: Known.Animation.name,
     label1: Known.Animation.toLabel(match),
     style: Known.Animation.style,
-    custom: raw
+    custom: raw,
+    data: Known.Animation.toData(match)
   };
 }

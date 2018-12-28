@@ -13,7 +13,7 @@ function normalizeLayer(layer, locale) {
   const fw = getKeyFromAlias(layer.key);
 
   if (fw) {
-    const localized = locale.keyname2key[fw.name] || {};
+    const localized = locale.keyname2key[fw.name] || fw.data || {};
     const merged = mergeKeys(fw, localized);
 
     return merged;

@@ -21,10 +21,10 @@ const styles = {
 };
 
 function Preferences(props) {
-  const { classes, onAssign } = props;
+  const { classes, onAssign, readonly, defaultAnimation, defaultAction } = props;
   const [animations] = useConfigureState('animations');
-  const [animation, setAnimation] = useState('');
-  const [action, setAction] = useState('');
+  const [animation, setAnimation] = useState(defaultAnimation || '');
+  const [action, setAction] = useState(defaultAction || '');
 
   return (
     <form>
@@ -34,7 +34,7 @@ function Preferences(props) {
           <Select
             value={animation}
             onChange={e => setAnimation(e.target.value)}
-            inputProps={{ name: 'animation', id: 'animation' }}
+            inputProps={{ name: 'animation', id: 'animation', readOnly: !!readonly }}
           >
             {_.toPairs(animations).map(([name]) => (
               <MenuItem key={name} value={name}>
@@ -48,7 +48,7 @@ function Preferences(props) {
           <Select
             value={action}
             onChange={e => setAction(e.target.value)}
-            inputProps={{ name: 'action', id: 'action' }}
+            inputProps={{ name: 'action', id: 'action', readOnly: !!readonly }}
           >
             {actions.map(name => (
               <MenuItem key={name} value={name}>
@@ -57,14 +57,16 @@ function Preferences(props) {
             ))}
           </Select>
         </FormControl>
-        <Button
-          color="primary"
-          className={classes.actionButton}
-          onClick={() => onAssign(animation, action)}
-          disabled={!action.length || !animation.length}
-        >
-          Assign
-        </Button>
+        {!readonly && (
+          <Button
+            color="primary"
+            className={classes.actionButton}
+            onClick={() => onAssign && onAssign(animation, action)}
+            disabled={!action.length || !animation.length}
+          >
+            Assign
+          </Button>
+        )}
       </div>
     </form>
   );
@@ -72,7 +74,10 @@ function Preferences(props) {
 
 Preferences.propTypes = {
   classes: PropTypes.object.isRequired,
-  onAssign: PropTypes.func.isRequired
+  onAssign: PropTypes.func,
+  defaultAnimation: PropTypes.string,
+  defaultAction: PropTypes.string,
+  readonly: PropTypes.bool
 };
 
 export default withStyles(styles)(Preferences);

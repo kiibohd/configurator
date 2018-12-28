@@ -23,6 +23,7 @@ const Category = {
  * @property {string} group
  * @property {number} order
  * @property {Object} style
+ * @property {Object} [data]
  */
 
 /**

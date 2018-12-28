@@ -13,7 +13,8 @@ function customToPredefined(custom) {
     resultDef: 0,
     group: undefined,
     order: 0,
-    style: custom.style || {}
+    style: custom.style || {},
+    data: custom
   };
 }
 
