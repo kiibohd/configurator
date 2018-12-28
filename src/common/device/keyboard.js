@@ -17,7 +17,8 @@ function buildKeyboardList() {
       names: ['MDErgo1', 'Infinity_Ergodox'],
       variants: [variants.Default],
       visuals: false,
-      layouts: layouts([variants.Default, ['Default', 'Blank']])
+      layouts: layouts([variants.Default, ['Default', 'Blank']]),
+      info: {}
     },
     {
       display: names.Infinity60Led,
@@ -28,14 +29,19 @@ function buildKeyboardList() {
         [variants.Standard, ['Standard', 'StandardBlank']],
         [variants.Hacker, ['Hacker', 'HackerBlank']],
         [variants.Alphabet, ['Alphabet', 'AlphabetBlank']]
-      )
+      ),
+      info: {}
     },
     {
       display: names.Infinity60,
       names: ['MD1', 'Infinity_60%', 'Infinity_60'],
       variants: [variants.Standard, variants.Hacker],
       visuals: false,
-      layouts: layouts([variants.Standard, ['Standard', 'StandardBlank']], [variants.Hacker, ['Hacker', 'HackerBlank']])
+      layouts: layouts(
+        [variants.Standard, ['Standard', 'StandardBlank']],
+        [variants.Hacker, ['Hacker', 'HackerBlank']]
+      ),
+      info: {}
     },
     {
       display: names.WhiteFox,
@@ -56,21 +62,26 @@ function buildKeyboardList() {
         [variants.Vanilla, ['Vanilla']],
         [variants.JackOfAllTrades, ['JackofAllTrades']],
         [variants.Wkl, ['Winkeyless']]
-      )
+      ),
+      info: {}
     },
     {
       display: names.KType,
       names: ['K-Type', 'KType'],
       variants: [variants.Standard],
       visuals: true,
-      layouts: layouts([variants.Standard, ['Standard', 'NoAnimations']])
+      layouts: layouts([variants.Standard, ['Standard', 'NoAnimations']]),
+      info: {}
     },
     {
       display: names.Kira,
       names: ['Kira'],
       variants: [variants.Standard],
       visuals: true,
-      layouts: layouts([variants.Standard, ['Standard']])
+      layouts: layouts([variants.Standard, ['Standard']]),
+      info: {
+        resetCombo: '"Right Ctrl + Right Alt + Esc"'
+      }
     }
   ];
 }

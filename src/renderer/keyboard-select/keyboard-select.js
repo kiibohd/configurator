@@ -10,9 +10,8 @@ import {
 import { useConnectedKeyboards } from '../hooks';
 import { useCoreState, updateSelectedKeyboard, updateToolbarButtons } from '../state/core';
 import { QuickFlashButton, SettingsButton, HomeButton } from '../buttons';
+import { pathToImg } from '../common';
 
-//@ts-ignore
-const staticDir = __static;
 const drawerWidth = '15em';
 
 /** @type {import('../theme').CssProperties} */
@@ -65,18 +64,18 @@ function KeyboardSelect(props) {
   const getUrl = () => {
     switch (hovered) {
       case KeyboardNames.WhiteFox:
-        return `file:${staticDir}/img/whitefox.png`;
+        return pathToImg('img/whitefox.png');
       case KeyboardNames.Kira:
-        return `file:${staticDir}/img/kira.png`;
+        return pathToImg('img/kira.png');
       case KeyboardNames.KType:
-        return `file:${staticDir}/img/k-type.jpg`;
+        return pathToImg('img/k-type.jpg');
       case KeyboardNames.Infinity60:
       case KeyboardNames.Infinity60Led:
-        return `file:${staticDir}/img/infinity_60.png`;
+        return pathToImg('img/infinity_60.png');
       case KeyboardNames.InfinityErgodox:
-        return `file:${staticDir}/img/infinity_ergodox.jpg`;
+        return pathToImg('img/infinity_ergodox.jpg');
       default:
-        return `file:${staticDir}/img/family-photo.png`;
+        return pathToImg('img/family-photo.png');
     }
   };
 

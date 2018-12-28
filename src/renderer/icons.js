@@ -17,6 +17,7 @@ export { default as ExpandMoreIcon } from '@material-ui/icons/ExpandMore';
 export { default as FiberManualRecordIcon } from '@material-ui/icons/FiberManualRecord';
 export { default as FlashOnIcon } from '@material-ui/icons/FlashOn';
 export { default as InfoIcon } from '@material-ui/icons/Info';
+export { default as HelpOutlineIcon } from '@material-ui/icons/HelpOutline';
 export { default as HomeIcon } from '@material-ui/icons/Home';
 export { default as MoreVertIcon } from '@material-ui/icons/MoreVert';
 export { default as SettingsIcon } from '@material-ui/icons/Settings';

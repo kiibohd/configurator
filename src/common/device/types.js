@@ -33,6 +33,7 @@
  * @property {String[]} variants
  * @property {Boolean} visuals
  * @property {Object<String, String[]>} layouts
+ * @property {{ resetCombo?: string }} info
  */
 
 /**
