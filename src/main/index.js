@@ -14,8 +14,8 @@ let mainWindow;
 
 function createMainWindow() {
   const window = new BrowserWindow({
-    width: isDevelopment ? 1440 : 1280,
-    height: 920,
+    width: isDevelopment ? 2300 : 1800,
+    height: 1100,
     webPreferences: {
       webSecurity: false
     }
