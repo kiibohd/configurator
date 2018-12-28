@@ -9,7 +9,7 @@ import _ from 'lodash';
 function mangleLayer(layer) {
   const key = getKey(layer);
   return {
-    key: key.aliases[key.triggerDef],
+    key: key.aliases[key.resultDef],
     label: key.label
   };
 }
