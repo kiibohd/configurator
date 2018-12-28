@@ -9,6 +9,7 @@ export { default as blueGrey } from '@material-ui/core/colors/blueGrey';
 export { default as deepOrange } from '@material-ui/core/colors/deepOrange';
 export { default as green } from '@material-ui/core/colors/green';
 export { default as amber } from '@material-ui/core/colors/amber';
+export { default as grey } from '@material-ui/core/colors/grey';
 
 export { default as AppBar } from '@material-ui/core/AppBar';
 export { default as Button } from '@material-ui/core/Button';

@@ -45,6 +45,8 @@ export { default as PlusOutlineIcon } from 'mdi-material-ui/PlusOutline';
 export { default as PlusCircleOutlineIcon } from 'mdi-material-ui/PlusCircleOutline';
 export { default as RecordRecIcon } from 'mdi-material-ui/RecordRec';
 export { default as SquareEditOutlineIcon } from 'mdi-material-ui/SquareEditOutline';
+export { default as ToggleSwitchOutlineIcon } from 'mdi-material-ui/ToggleSwitchOutline';
+export { default as ToggleSwitchOffOutlineIcon } from 'mdi-material-ui/ToggleSwitchOffOutline';
 export { default as UploadIcon } from 'mdi-material-ui/Upload';
 export { default as VariableIcon } from 'mdi-material-ui/Variable';
 export { default as VideoOutlineIcon } from 'mdi-material-ui/VideoOutline';
