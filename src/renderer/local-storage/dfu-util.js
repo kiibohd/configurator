@@ -6,8 +6,10 @@ import _ from 'lodash';
 import log from 'loglevel';
 import { paths } from '../env';
 import { directoryExists, rmrfSync } from '../../common/utils/fs-ext';
+import commandExists from 'command-exists';
 import Bluebird from 'bluebird';
 
+const access = Bluebird.promisify(fs.access);
 const writeFile = Bluebird.promisify(fs.writeFile);
 const chmod = Bluebird.promisify(fs.chmod);
 const mkdirp = Bluebird.promisify(mkdirpNode);
@@ -19,6 +21,27 @@ const info = {
     darwin: 'https://github.com/kiibohd/dfu-util/releases/download/v0.9-kiibohd/dfu-util-v0.9-kiibohd.zip'
   }
 };
+
+export async function findDfuPath() {
+  const win32 = process.platform === 'win32';
+  const name = win32 ? 'dfu-util.exe' : 'dfu-util';
+
+  // Prefer the configurator downloaded version (they can always override)
+  const localpath = path.join(paths.utils, `dfu-util_v${info.version}`, win32 ? 'dfu-util.exe' : 'dfu-util');
+  try {
+    await access(localpath);
+    return localpath;
+  } catch {
+    // Just swallow
+  }
+
+  const onPath = await commandExists(name);
+  if (onPath) {
+    return 'dfu-util';
+  }
+
+  return '';
+}
 
 /**
  * @returns {Promise<string>}

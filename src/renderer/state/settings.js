@@ -2,6 +2,7 @@ import _ from 'lodash';
 import log from 'loglevel';
 import { createSharedState } from '../shared-state/index';
 import db from '../db';
+import { findDfuPath } from '../local-storage/dfu-util';
 
 const dev = process.env.NODE_ENV === 'development';
 
@@ -58,7 +59,6 @@ export { useSettingsState };
 export { getSettingsState as _currentState };
 
 export async function loadFromDb() {
-  setSettingsState('dfu', (await db.core.get(DbKey.dfuPath)) || '');
   setSettingsState('kiidrv', await db.core.get(DbKey.kiidrvPath));
   setSettingsState('lastDl', await db.core.get(DbKey.lastDl));
   setSettingsState('recentDls', (await db.core.get(DbKey.recentDls)) || {});
@@ -66,6 +66,7 @@ export async function loadFromDb() {
   setSettingsState('cannedAnimations', (await db.core.get(DbKey.cannedAnimations)) || {});
   // setSettingsState('locale', (await db.core.get(DbKey.locale)) || 'en-us');
   setSettingsState('uri', (await db.core.get(DbKey.uri)) || defaultUri);
+  setSettingsState('dfu', (await db.core.get(DbKey.dfuPath)) || (await findDfuPath()));
 }
 
 /**
