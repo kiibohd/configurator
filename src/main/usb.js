@@ -1,5 +1,6 @@
 import Bluebird from 'bluebird';
 import EventEmitter from 'events';
+import log from 'loglevel';
 
 const usb = Bluebird.promisifyAll(require('usb'));
 
@@ -50,7 +51,7 @@ function safeOpen(device) {
     device.open();
     return true;
   } catch (e) {
-    console.warn(`Could not open device ${devicePath(device)}`, e);
+    log.warn(`Could not open device ${devicePath(device)}`, e);
     return false;
   }
 }
@@ -64,7 +65,7 @@ function safeClose(device) {
     device.close();
     return true;
   } catch (e) {
-    console.warn(`Could not close device ${devicePath(device)}`, e);
+    log.warn(`Could not close device ${devicePath(device)}`, e);
     return false;
   }
 }

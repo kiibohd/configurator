@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import he from 'he';
+import log from 'loglevel';
 import { withStyles } from '../mui';
 
 import { useSettingsState } from '../state';
@@ -119,7 +120,7 @@ function OnScreenKeyboard(props) {
 
     const localKey = adjKey || key;
     if (!localKey) {
-      console.warn(`unrecognized code '${e.keyCode}' - '${e.key}'`);
+      log.warn(`unrecognized code '${e.keyCode}' - '${e.key}'`);
       return;
     }
     // Now that we know we're going to handle this stop propogation and defaults

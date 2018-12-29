@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import './state/settings';
 
 // Now we can render our application into it
 function render() {

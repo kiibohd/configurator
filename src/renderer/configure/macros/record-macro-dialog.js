@@ -7,6 +7,7 @@ import { locales } from '../../../common/keys';
 import { getKey } from '../../../common/keys/firmware';
 import _ from 'lodash';
 import { PlusOutlineIcon } from '../../icons';
+import log from 'loglevel';
 
 /** @type {import('../../theme').ThemedCssProperties} */
 const styles = theme => ({
@@ -97,7 +98,7 @@ function RecordMacroDialog(props) {
 
     const localKey = adjKey || key;
     if (!localKey) {
-      console.warn(`unrecognized code '${e.keyCode}' - '${e.key}'`);
+      log.warn(`unrecognized code '${e.keyCode}' - '${e.key}'`);
       return null;
     }
 

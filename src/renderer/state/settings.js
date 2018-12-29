@@ -1,8 +1,12 @@
 import _ from 'lodash';
+import log from 'loglevel';
 import { createSharedState } from '../shared-state/index';
 import db from '../db';
 
 const dev = process.env.NODE_ENV === 'development';
+
+log.setDefaultLevel(dev ? log.levels.INFO : log.levels.ERROR);
+
 // const defaultUri = dev ? 'http://localhost:8080' : 'https://configurator.input.club';
 const defaultUri = dev ? 'http://localhost:8080' : 'http://vash.input.club:3001';
 
@@ -51,14 +55,7 @@ const {
 
 export { useSettingsState };
 
-/**
- * Internal use to get the current state of a setting
- * @param {"uri"|"locale"|"dev"|"dfu"|"kiidrv"|"lastVersionCheck"|"newerVersionAvail"|"lastDl"|"recentDls"|"cannedAnimations"} name
- * @todo Figure out appropriate typing...
- */
-export function _currentState(name) {
-  return getSettingsState(name);
-}
+export { getSettingsState as _currentState };
 
 export async function loadFromDb() {
   setSettingsState('dfu', (await db.core.get(DbKey.dfuPath)) || '');

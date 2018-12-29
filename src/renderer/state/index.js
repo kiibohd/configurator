@@ -31,7 +31,6 @@ export async function loadDefaultConfig(keyboard, variant) {
 export async function loadRemoteConfig(keyboard, variant, layout = undefined, baseUri = undefined, locale = undefined) {
   const defLayout = keyboard.keyboard.layouts[variant][0];
   const uri = urljoin(
-    // @ts-ignore
     baseUri || _currentState('uri'),
     'layouts',
     `${keyboard.keyboard.names[0]}-${layout || defLayout}.json`
@@ -57,7 +56,6 @@ export async function loadLocalConfig(filepath, locale = undefined) {
 export async function checkVersion() {
   const now = Date.now();
   const lastCheck = _currentState('lastVersionCheck');
-  // @ts-ignore
   if (now - lastCheck < 86400000) {
     return;
   }

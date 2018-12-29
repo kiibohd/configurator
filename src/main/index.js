@@ -6,8 +6,10 @@ import { isKnownDevice, getDevice } from '../common/device/keyboard';
 import { identifyKeyboard } from './keyboard';
 import { buildMenu } from './menu';
 import Bluebird from 'bluebird';
+import log from 'loglevel';
 
 const isDevelopment = process.env.NODE_ENV === 'development';
+log.setDefaultLevel(isDevelopment ? log.levels.INFO : log.levels.ERROR);
 
 // global reference to mainWindow (necessary to prevent window from being garbage collected)
 let mainWindow;
@@ -25,8 +27,8 @@ function createMainWindow() {
     window.webContents.openDevTools();
     const { default: installExtension, REACT_DEVELOPER_TOOLS } = require('electron-devtools-installer');
     installExtension(REACT_DEVELOPER_TOOLS)
-      .then(name => console.log(`Added Extension:  ${name}`))
-      .catch(err => console.log('An error occurred: ', err));
+      .then(name => log.info(`Added Extension:  ${name}`))
+      .catch(err => log.info('An error occurred: ', err));
   }
   if (isDevelopment) {
     window.loadURL(`http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}`);
