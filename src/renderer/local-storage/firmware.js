@@ -62,7 +62,7 @@ export async function storeFirmware({ board, layout, hash, isError }, variant, d
 
   await mkdirp(outdir);
 
-  return {
+  const result = {
     board,
     variant,
     layout,
@@ -71,20 +71,29 @@ export async function storeFirmware({ board, layout, hash, isError }, variant, d
     bin:
       board === 'MDErgo1'
         ? {
-            left: await extract('left_' + binFile),
-            right: await extract('right_' + binFile)
+            left: await extract('left_' + binFile, true),
+            right: await extract('right_' + binFile, true)
           }
-        : await extract(binFile),
+        : await extract(binFile, true),
     json: await extract(jsonName),
     log: await extract(logPath, 'build.log'),
     time: Date.now()
   };
 
-  async function extract(file, out) {
-    const outpath = path.join(outdir, out || file);
-    const data = await contents.file(file).async('nodebuffer');
-    await writeFile(outpath, data);
-    return outpath;
+  return result;
+
+  async function extract(file, out, critical = false) {
+    try {
+      const outpath = path.join(outdir, out || file);
+      const data = await contents.file(file).async('nodebuffer');
+      await writeFile(outpath, data);
+      return outpath;
+    } catch (e) {
+      if (critical) {
+        throw e;
+      }
+      return undefined;
+    }
   }
 }
 
