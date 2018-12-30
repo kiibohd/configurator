@@ -25,7 +25,7 @@ const styles = {
 
 function Settings(props) {
   const { classes } = props;
-  const [index, setIndex] = useState(1);
+  const [index, setIndex] = useState(0);
 
   useEffect(() => {
     updateToolbarButtons(
@@ -43,7 +43,7 @@ function Settings(props) {
         <Tab label="Preferences" icon={<AccountSettingsIcon />} />
         <Tab label="Animations" icon={<MovieRollIcon />} />
         <Tab label="Downloads" icon={<FolderDownloadIcon />} />
-        <Tab label="Drivers" icon={<WindowsIcon />} />
+        <Tab label="Drivers" icon={<WindowsIcon />} disabled={process.platform !== 'win32'} />
       </Tabs>
       <Divider />
       <div className={classes.container}>

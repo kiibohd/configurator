@@ -44,7 +44,6 @@ export async function findDfuPath() {
     // Just swallow
   }
 
-
   return '';
 }
 
