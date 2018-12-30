@@ -35,10 +35,15 @@ export async function findDfuPath() {
     // Just swallow
   }
 
-  const onPath = await commandExists(name);
-  if (onPath) {
-    return 'dfu-util';
+  try {
+    const onPath = await commandExists(name);
+    if (onPath) {
+      return 'dfu-util';
+    }
+  } catch {
+    // Just swallow
   }
+
 
   return '';
 }
