@@ -23,11 +23,11 @@ const styles = {
 /**
  * @param {{
  *  classes: Object<string, any>
- *  led: import('../../common/config/types').ConfigLed
+ *  led: import('../../../common/config/types').ConfigLed
  *  selected: boolean
- *  status: import('../state/configure').LedStatus
+ *  status: import('../../state/configure').LedStatus
  *  sizeFactor: number
- *  onClick: (e: MouseEvent, led: import('../../common/config/types').ConfigLed) => void
+ *  onClick: (e: React.MouseEvent, led: import('../../../common/config/types').ConfigLed) => void
  * }} props
  */
 function Led(props) {
@@ -64,4 +64,5 @@ Led.propTypes = {
   onClick: PropTypes.func.isRequired
 };
 
+// @ts-ignore (TODO: Custom validator)
 export default withStyles(styles)(Led);
