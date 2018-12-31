@@ -23,10 +23,10 @@
     }
   },
   "dependencies": {
-    "@material-ui/core": "^3.7.0",
+    "@material-ui/core": "^3.8.1",
     "@material-ui/icons": "^3.0.1",
-    "@material-ui/lab": "^3.0.0-alpha.26",
-    "@mdi/font": "^3.2.89",
+    "@material-ui/lab": "^3.0.0-alpha.27",
+    "@mdi/font": "^3.3.92",
     "bluebird": "^3.5.3",
     "classnames": "^2.2.6",
     "command-exists": "^1.2.8",
@@ -39,30 +39,30 @@
     "mdi-material-ui": "^5.7.0",
     "mkdirp": "^0.5.1",
     "prop-types": "15.6.2",
-    "react": "^16.7.0-alpha.2",
+    "react": "next",
     "react-color": "^2.17.0",
-    "react-dom": "^16.7.0-alpha.2",
+    "react-dom": "next",
     "source-map-support": "^0.5.9",
     "url-join": "^4.0.0",
     "usb": "^1.5.0"
   },
   "devDependencies": {
     "@babel/preset-react": "^7.0.0",
-    "@types/react": "^16.7.17",
-    "electron": "^3.0.13",
+    "@types/react": "^16.7.18",
+    "electron": "^4.0.0",
     "electron-builder": "^20.38.4",
     "electron-devtools-installer": "^2.2.4",
     "electron-webpack": "^2.6.1",
     "electron-webpack-eslint": "^4.0.0",
     "eslint-config-prettier": "^3.3.0",
-    "eslint-plugin-prettier": "^3.0.0",
-    "eslint-plugin-react": "^7.11.1",
+    "eslint-plugin-prettier": "^3.0.1",
+    "eslint-plugin-react": "^7.12.0",
     "node-sass": "^4.11.0",
     "prettier": "^1.15.3",
     "sass-loader": "^7.1.0",
     "tslint": "5.12.0",
     "typescript": "^3.2.2",
-    "webpack": "^4.28.0"
+    "webpack": "^4.28.3"
   },
   "resolutions": {
     "upath": "^1.0.5"

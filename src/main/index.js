@@ -19,7 +19,8 @@ function createMainWindow() {
     width: isDevelopment ? 2300 : 1800,
     height: 1100,
     webPreferences: {
-      webSecurity: false
+      webSecurity: false,
+      nodeIntegration: true
     }
   });
 
