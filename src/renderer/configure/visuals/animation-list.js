@@ -26,7 +26,7 @@ const styles = {
   }
 };
 
-function Preferences(props) {
+function AnimationList(props) {
   const { classes } = props;
   const [animations] = useConfigureState('animations');
 
@@ -36,7 +36,7 @@ function Preferences(props) {
   const toggleStart = (name, anim) => {
     let settings = anim.settings.split(',').map(x => x.trim());
     if (settings.includes('start')) {
-      settings = _.remove(settings, 'start');
+      settings = _.filter(settings, x => x !== 'start');
     } else {
       settings = [...settings, 'start'];
     }
@@ -85,8 +85,8 @@ function Preferences(props) {
   );
 }
 
-Preferences.propTypes = {
+AnimationList.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Preferences);
+export default withStyles(styles)(AnimationList);
