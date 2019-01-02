@@ -20,7 +20,7 @@ const styles = {
   actionButton: {}
 };
 
-function Preferences(props) {
+function AnimationAction(props) {
   const { classes, onAssign, readonly, defaultAnimation, defaultAction } = props;
   const [animations] = useConfigureState('animations');
   const [animation, setAnimation] = useState(defaultAnimation || '');
@@ -72,7 +72,7 @@ function Preferences(props) {
   );
 }
 
-Preferences.propTypes = {
+AnimationAction.propTypes = {
   classes: PropTypes.object.isRequired,
   onAssign: PropTypes.func,
   defaultAnimation: PropTypes.string,
@@ -80,4 +80,4 @@ Preferences.propTypes = {
   readonly: PropTypes.bool
 };
 
-export default withStyles(styles)(Preferences);
+export default withStyles(styles)(AnimationAction);

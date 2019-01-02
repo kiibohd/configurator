@@ -28,6 +28,7 @@
     "@material-ui/lab": "^3.0.0-alpha.27",
     "@mdi/font": "^3.3.92",
     "bluebird": "^3.5.3",
+    "chroma-js": "^2.0.2",
     "classnames": "^2.2.6",
     "command-exists": "^1.2.8",
     "compare-versions": "^3.4.0",

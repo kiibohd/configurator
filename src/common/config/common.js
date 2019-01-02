@@ -1,8 +1,15 @@
 import _ from 'lodash';
 
 export const Injection = {
-  start: '\n#~~~START INJECTION~~~#\n',
-  end: '\n#~~~END INJECTION~~~#\n'
+  compile: {
+    start: '\n#~~~START INJECTION~~~#\n',
+    end: '\n#~~~END INJECTION~~~#\n'
+  },
+  animation: {
+    start: '\n#~~~START ANIMATION (${__NAME__}) INJECTION~~~#\n',
+    end: '\n#~~~END ANIMATION (${__NAME__}) INJECTION~~~#\n',
+    tokenRx: /\$\{__NAME__\}/g
+  }
 };
 
 /**
@@ -31,4 +38,12 @@ export function validMacro(macro) {
     macro.trigger.length &&
     !macro.output.some(x => !x.length || x.includes(''))
   );
+}
+
+/**
+ * @param {string[]} frames
+ * @returns {string}
+ */
+export function framesToString(frames) {
+  return frames.map(f => (_.trimStart(f).length && !_.trimStart(f).startsWith('#') ? f + ';' : f)).join('\n');
 }

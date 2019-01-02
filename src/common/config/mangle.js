@@ -62,8 +62,9 @@ function macroToKll(macro) {
 export function mangle(config) {
   // Inject layer macros into custom kll
   const custom = { ...config.custom };
+  const inj = Injection.animation;
   _.forOwn(config.macros, (xs, layer) => {
-    custom[layer] = (custom[layer] || '') + Injection.start + xs.map(macroToKll).join('\n') + Injection.end;
+    custom[layer] = (custom[layer] || '') + inj.start + xs.map(macroToKll).join('\n') + inj.end;
   });
 
   return {
@@ -76,6 +77,7 @@ export function mangle(config) {
       ...a,
       ...{ frames: a.frames.split(/;[\n]*/m).filter(x => x && x.length) }
     })),
-    macros: _.mapValues(config.macros, xs => xs.map(x => _.omit(x, 'id')))
+    macros: _.mapValues(config.macros, xs => xs.map(x => _.omit(x, 'id'))),
+    canned: config.canned
   };
 }

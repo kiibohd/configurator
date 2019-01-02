@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { withStyles } from '../mui';
-import { AnimationIcon, SquareEditOutlineIcon, PaletteIcon } from '../icons';
+import { AnimationIcon, SquareEditOutlineIcon, PaletteIcon, PaletteAdvancedIcon } from '../icons';
 import VisualizeLeds from './visualize-leds';
 import SideTabs from './side-tabs';
 import AnimationList from './visuals/animation-list';
@@ -11,6 +11,7 @@ import StaticMap from './visuals/static-map';
 import { tooltipped } from '../utils';
 import { useConfigureState } from '../state';
 import { CompileFirmwareButton } from './buttons';
+import CustomizeCanned from './visuals/customize-canned';
 
 const tabs = [
   {
@@ -22,6 +23,11 @@ const tabs = [
     id: 'tab/edit-animation',
     icon: tooltipped('Add/Edit Animation', <SquareEditOutlineIcon fontSize="large" />),
     tab: <AnimationEdit />
+  },
+  {
+    id: 'tab/customize-canned',
+    icon: tooltipped('Customize Prebuilt Animation', <PaletteAdvancedIcon fontSize="large" />),
+    tab: <CustomizeCanned />
   },
   {
     id: 'tab/static-map',

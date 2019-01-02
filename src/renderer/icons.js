@@ -44,6 +44,7 @@ export { default as LightSwitchIcon } from 'mdi-material-ui/LightSwitch';
 export { default as MagnifyIcon } from 'mdi-material-ui/Magnify';
 export { default as MovieRollIcon } from 'mdi-material-ui/MovieRoll';
 export { default as PaletteIcon } from 'mdi-material-ui/Palette';
+export { default as PaletteAdvancedIcon } from 'mdi-material-ui/PaletteAdvanced';
 export { default as PlusOutlineIcon } from 'mdi-material-ui/PlusOutline';
 export { default as PlusCircleOutlineIcon } from 'mdi-material-ui/PlusCircleOutline';
 export { default as RecordRecIcon } from 'mdi-material-ui/RecordRec';

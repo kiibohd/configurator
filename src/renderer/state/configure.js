@@ -25,6 +25,7 @@ import _ from 'lodash';
  *  custom: Object<string, string>
  *  animations: Object<string, import('../../common/config/types').ConfigAnimation>
  *  macros: import('../../common/config/types').ConfigMacros
+ *  canned: Object<string, import('../../common/config/types').ConfigCannedAnimation>
  *  selected: import('../../common/config/types').ConfigMatrixItem
  *  selectedLeds: number[]
  *  ledStatus: Object<string, LedStatus>
@@ -44,6 +45,7 @@ const initialState = {
   custom: undefined,
   animations: undefined,
   macros: undefined,
+  canned: undefined,
   selected: undefined,
   selectedLeds: [],
   ledStatus: {},
@@ -77,6 +79,7 @@ export function reset() {
   setConfigureState('custom', undefined);
   setConfigureState('animations', undefined);
   setConfigureState('macros', undefined);
+  setConfigureState('canned', undefined);
 }
 
 /**
@@ -93,6 +96,7 @@ export function updateConfig(raw, locale) {
   setConfigureState('custom', normalized.custom);
   setConfigureState('animations', normalized.animations);
   setConfigureState('macros', normalized.macros);
+  setConfigureState('canned', normalized.canned);
 }
 
 /**
@@ -106,7 +110,8 @@ export function currentConfig() {
     leds: getConfigureState('leds'),
     custom: getConfigureState('custom'),
     animations: getConfigureState('animations'),
-    macros: getConfigureState('macros')
+    macros: getConfigureState('macros'),
+    canned: getConfigureState('canned')
   });
 
   return {
@@ -148,9 +153,12 @@ export function updateKeymap(target, key) {
 
 /**
  * @param {string} kll
+ * @param {number} layer
  */
-export function updateCustomKll(kll) {
-  const layer = getConfigureState('layer');
+export function updateCustomKll(kll, layer) {
+  if (_.isNil(layer)) {
+    layer = getConfigureState('layer');
+  }
   setConfigureState('custom', custom => {
     return { ...custom, ...{ [layer.toString()]: kll } };
   });
@@ -192,9 +200,12 @@ export function deleteDefine(id) {
 /**
  * @param {string} name
  * @param {"static"|"custom"|"canned"} type
+ * @param {Partial<import('../../common/config/types').ConfigAnimation>} data
  */
-export function addAnimation(name, type = 'custom') {
-  setConfigureState('animations', curr => ({ ...curr, ...{ [name]: { type, settings: '', frames: '' } } }));
+export function addAnimation(name, type = 'custom', data = {}) {
+  const merged = { ...{ type, settings: '', frames: '' }, ...data };
+  merged.type = type;
+  setConfigureState('animations', curr => ({ ...curr, ...{ [name]: merged } }));
 }
 
 /**

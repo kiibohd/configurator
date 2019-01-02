@@ -1,7 +1,7 @@
 import { getKeyFromAlias } from '../keys/firmware';
 import { mergeKeys } from '../keys/index';
 import { uuidv4 } from '../utils';
-import { Injection } from './common';
+import { Injection, framesToString } from './common';
 import _ from 'lodash';
 
 /**
@@ -32,12 +32,13 @@ function normalizeLayer(layer, locale) {
  * @param {string} value
  */
 function stripInjections(value) {
+  const inj = Injection.compile;
   let dejected = value;
-  let start = dejected.indexOf(Injection.start);
+  let start = dejected.indexOf(inj.start);
   while (start >= 0) {
-    const end = dejected.indexOf(Injection.end);
-    dejected = dejected.substring(0, start) + dejected.substring(end + Injection.end.length);
-    start = dejected.indexOf(Injection.start);
+    const end = dejected.indexOf(inj.end);
+    dejected = dejected.substring(0, start) + dejected.substring(end + inj.end.length);
+    start = dejected.indexOf(inj.start);
   }
 
   return dejected;
@@ -68,7 +69,7 @@ export function normalize(config, locale) {
   const animations = _.mapValues(config.animations, a => ({
     ...a,
     ...{
-      frames: a.frames.map(f => (_.trimStart(f).length && !_.trimStart(f).startsWith('#') ? f + ';' : f)).join('\n')
+      frames: framesToString(a.frames)
     }
   }));
 
@@ -83,7 +84,8 @@ export function normalize(config, locale) {
       leds: config.leds || [],
       custom,
       animations: animations || {},
-      macros
+      macros,
+      canned: config.canned || {}
     }
   };
 }
