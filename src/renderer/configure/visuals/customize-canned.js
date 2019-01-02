@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import _ from 'lodash';
 import { withStyles, Typography, FormControl, InputLabel, Select, MenuItem, TextField, Button } from '../../mui';
 import { useConfigureState } from '../../state/index';
@@ -20,7 +21,10 @@ const styles = {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'flex-end',
-    marginTop: 20
+    marginTop: 20,
+    '&.centered': {
+      alignItems: 'center'
+    }
   },
   animationSelect: {
     minWidth: '20rem',
@@ -37,10 +41,19 @@ const styles = {
     fontStyle: 'oblique'
   },
   label: {
-    marginRight: 10
+    marginRight: 10,
+    fontSize: '1.25rem'
   },
   customSelect: {
-    minWidth: '10rem'
+    minWidth: '10rem',
+    marginTop: 5
+  },
+  customSelectMenu: {
+    fontSize: '1.25rem'
+  },
+  customSelectInput: {
+    fontSize: '1.25rem',
+    paddingLeft: 10,
   }
 };
 
@@ -50,6 +63,7 @@ function CustomizeCanned(props) {
   const [animations] = useConfigureState('animations');
   const [customKll] = useConfigureState('custom');
   const [active, setActive] = useState('');
+  /** @type {[Object, React.Dispatch<React.SetStateAction<Object>>]} */
   const [data, setData] = useState({});
 
   const validateName = name => {
@@ -75,11 +89,13 @@ function CustomizeCanned(props) {
 
   const can = active ? canned[active] : undefined;
 
+  const error = data && validateName(data.name);
+
   const create = () => {
     const frames = can.frames.map(f => process(can.configurable, data, f, can.version));
     const settings = process(can.configurable, data, can.settings, can.version);
 
-    /** @type {import('../../../common/config/types').ConfigAnimation} */
+    /** @type {Partial<import('../../../common/config/types').ConfigAnimation>} */
     const animation = {
       frames: framesToString(frames),
       settings
@@ -131,12 +147,15 @@ function CustomizeCanned(props) {
               onChange={e => update('name', e.target.value)}
               label="Name to create as"
               className={classes.animationName}
-              helperText={validateName(data.name)}
-              error={!!validateName(data.name)}
+              helperText={error}
+              error={!!error}
             />
+            <Button color="primary" variant="contained" onClick={create} disabled={!!error}>
+              Create
+            </Button>
           </div>
           {can.configurable.map(item => (
-            <div className={classes.row} key={item.name}>
+            <div className={classNames(classes.row, 'centered')} key={item.name}>
               <Typography variant="subtitle1" className={classes.label}>
                 {item.name}:
               </Typography>
@@ -151,6 +170,7 @@ function CustomizeCanned(props) {
                           value={data[item.name]}
                           onChange={e => update(item.name, e.target.value)}
                           inputProps={{ name: 'animation', id: 'animation' }}
+                          classes={{ select: classes.customSelectInput, selectMenu: classes.customSelectMenu }}
                         >
                           {item.values.map(({ name, value }) => (
                             <MenuItem key={name} value={value}>
@@ -164,9 +184,6 @@ function CustomizeCanned(props) {
               })()}
             </div>
           ))}
-          <div className={classes.row}>
-            <Button onClick={create}>Create</Button>
-          </div>
         </div>
       )}
     </div>

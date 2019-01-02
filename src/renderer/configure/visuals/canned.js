@@ -5,7 +5,7 @@ import chroma from 'chroma-js';
  * @param {Object} data
  * @param {string} str
  * @param {number} version
- * @returns {string[]}
+ * @returns {string}
  */
 export function process(configurable, data, str, version = 1) {
   switch (version) {
@@ -44,16 +44,28 @@ function process_v1(configurable, data, str) {
 
 /**
  * @returns {chroma.Color}
+ * @param {chroma.Color} c1
+ * @param {chroma.Color} c2
+ * @param {number} pct
+ * @param {"rgb" | "rgba" | "hsl" | "hsv" | "hsi" | "lab" | "lch" | "hcl" | "cmyk" | "gl"} space
  */
 function interp(c1, c2, pct, space = 'lab') {
   return c2 && pct ? chroma.mix(c1, c2, pct, space) : c1;
 }
 
 const black = chroma('black');
+/**
+ * @param {string | number} value
+ * @param {{ [x: string]: string | number | {r: string, g: string, b: string}; }} data
+ * @param {string | number} interpTo
+ * @param {string} interpPct
+ * @param {string} darkenPct
+ */
 function constructColor(value, data, interpTo, interpPct, darkenPct) {
   let color = chroma(value);
 
   if (interpTo) {
+    // @ts-ignore
     const to = chroma(interpTo.startsWith('#') ? interpTo : data[interpTo]);
     const pct = interpPct && parseFloat(interpPct);
     color = interp(color, to, pct || 0);

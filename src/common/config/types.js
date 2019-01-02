@@ -50,7 +50,7 @@
  * @property {string} name
  * @property {'color'|'select'} type
  * @property {{r: number, g: number, b: number}|string|number} default
- * @property {{name: string, value:string|number}} [values]
+ * @property {{name: string, value:string|number}[]} [values]
  */
 
 /**
@@ -61,6 +61,7 @@
  * @property {PersistedCannedConfigurableItem[]} configurable
  * @property {string[]} frames
  * @property {string} custom_kll
+ * @property {number} [version]
  */
 
 /**
@@ -79,6 +80,7 @@
  * @property {Object<string, PersistedAnimation>} animations
  * @property {Object<string, PersistedMacro[]>} macros
  * @property {Object<string, string>} custom
+ * @property {Object<string, PersistedCannedAnimation>} canned
  */
 
 /** Internal Types **/
@@ -134,7 +136,7 @@
  * @property {string} name
  * @property {'color'|'select'} type
  * @property {{r: number, g: number, b: number}|string|number} default
- * @property {{name: string, value:string|number}} [values]
+ * @property {{name: string, value:string|number}[]} [values]
  */
 
 /**
@@ -145,6 +147,7 @@
  * @property {ConfigCannedConfigurableItem[]} configurable
  * @property {string[]} frames
  * @property {string} custom_kll
+ * @property {number} [version]
  */
 
 /**
@@ -168,6 +171,7 @@
  * @property {Object<string, ConfigAnimation>} animations
  * @property {ConfigMacros} macros
  * @property {Object<string, string>} custom
+ * @property {Object<string, ConfigCannedAnimation>} canned
  */
 
 export const _ = '';
