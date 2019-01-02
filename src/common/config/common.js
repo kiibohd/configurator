@@ -13,6 +13,22 @@ export const Injection = {
 };
 
 /**
+ * @param {string} value
+ * @param {string} start
+ * @param {string} end
+ */
+export function stripInjection(value, start, end) {
+  let dejected = value;
+  let i = dejected.indexOf(start);
+  while (i >= 0) {
+    const j = dejected.indexOf(end, i);
+    dejected = dejected.substring(0, i) + dejected.substring(j + end.length);
+    i = dejected.indexOf(start);
+  }
+  return dejected;
+}
+
+/**
  * @param {import('./types').ConfigMatrix} matrix
  * @param {number} scaleFactor
  */

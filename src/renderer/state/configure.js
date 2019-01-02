@@ -3,6 +3,7 @@ import { locales } from '../../common/keys';
 import { normalize, mangle } from '../../common/config/index';
 import { uuidv4 } from '../../common/utils';
 import _ from 'lodash';
+import { Injection, stripInjection } from '../../common/config/common';
 
 /**
  * @typedef LedStatus
@@ -232,6 +233,10 @@ export function updateAnimation(name, data) {
  */
 export function deleteAnimation(name) {
   setConfigureState('animations', curr => _.omit(curr, name));
+  const inj = Injection.animation;
+  const start = inj.start.replace(inj.tokenRx, name);
+  const end = inj.end.replace(inj.tokenRx, name);
+  setConfigureState('custom', c => _.mapValues(c, kll => stripInjection(kll, start, end)));
 }
 
 /**

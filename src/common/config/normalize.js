@@ -1,7 +1,7 @@
 import { getKeyFromAlias } from '../keys/firmware';
 import { mergeKeys } from '../keys/index';
 import { uuidv4 } from '../utils';
-import { Injection, framesToString } from './common';
+import { Injection, stripInjection, framesToString } from './common';
 import _ from 'lodash';
 
 /**
@@ -29,22 +29,6 @@ function normalizeLayer(layer, locale) {
 }
 
 /**
- * @param {string} value
- */
-function stripInjections(value) {
-  const inj = Injection.compile;
-  let dejected = value;
-  let start = dejected.indexOf(inj.start);
-  while (start >= 0) {
-    const end = dejected.indexOf(inj.end);
-    dejected = dejected.substring(0, start) + dejected.substring(end + inj.end.length);
-    start = dejected.indexOf(inj.start);
-  }
-
-  return dejected;
-}
-
-/**
  *
  * @param {import('./types').PersistedConfig} config
  * @param {import('../keys/en-us').Locale} locale
@@ -64,7 +48,8 @@ export function normalize(config, locale) {
   // Macros also need the unique id.
   const macros = !config.macros ? {} : _.mapValues(config.macros, xs => xs.map(x => ({ ...x, ...{ id: uuidv4() } })));
 
-  const custom = _.mapValues(config.custom, stripInjections) || {};
+  const custom =
+    _.mapValues(config.custom, c => stripInjection(c, Injection.compile.start, Injection.compile.end)) || {};
 
   const animations = _.mapValues(config.animations, a => ({
     ...a,

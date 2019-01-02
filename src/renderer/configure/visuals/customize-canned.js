@@ -48,12 +48,9 @@ const styles = {
     minWidth: '10rem',
     marginTop: 5
   },
-  customSelectMenu: {
-    fontSize: '1.25rem'
-  },
   customSelectInput: {
     fontSize: '1.25rem',
-    paddingLeft: 10,
+    paddingLeft: 10
   }
 };
 
@@ -170,7 +167,7 @@ function CustomizeCanned(props) {
                           value={data[item.name]}
                           onChange={e => update(item.name, e.target.value)}
                           inputProps={{ name: 'animation', id: 'animation' }}
-                          classes={{ select: classes.customSelectInput, selectMenu: classes.customSelectMenu }}
+                          classes={{ select: classes.customSelectInput }}
                         >
                           {item.values.map(({ name, value }) => (
                             <MenuItem key={name} value={value}>
