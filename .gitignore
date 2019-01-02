@@ -1,11 +1,6 @@
-target/
-out/
-.nrepl-port
-node_modules/
 .DS_Store
-.idea
-*.iml
-*.log
-project.clj
-.nrepl-*
+dist/
 output/
+node_modules/
+thumbs.db
+.vscode/

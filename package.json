@@ -1,34 +1,72 @@
 {
   "name": "kiibohd-configurator",
-  "productName": "Kiibohd Configurator",
-  "version": "0.5.0",
+  "version": "1.0.0",
   "description": "Configuration utility for Input Club keyboards",
-  "keywords": [],
-  "dependencies": {
-    "@cljs-oss/module-deps": "^1.1.1"
-  },
-  "devDependencies": {
-    "cross-env": "^5.2.0",
-    "electron": "2.0.4",
-    "electron-builder": "^20.19.2"
-  },
   "author": "Jeremy Bondeson <jbondeson@gmail.com> (https://input.club)",
   "license": "GPL-3.0",
+  "scripts": {
+    "dev": "electron-webpack dev",
+    "compile": "electron-webpack",
+    "dist": "yarn compile && electron-builder",
+    "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null",
+    "rebuild-deps": "electron-builder install-app-deps",
+    "lint": "eslint src/"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/kiibohd/configurator"
   },
-  "scripts": {
-    "preinstall": "boot target",
-    "postinstall": "electron-builder install-app-deps",
-    "postinstall-hack": "cross-env PYTHON=/usr/bin/python2.7 electron-builder install-app-deps",
-    "start": "electron target/",
-    "watch:dev": "cross-env TIMBRE_LEVEL=:debug boot watch dev-build",
-    "build:dev": "cross-env TIMBRE_LEVEL=:debug boot dev-build",
-    "build:test": "cross-env TIMBRE_LEVEL=:debug boot prod-build",
-    "build:prod": "cross-env TIMBRE_LEVEL=:warn boot prod-build",
-    "pack": "build --dir",
-    "dist": "build"
+  "electronWebpack": {
+    "title": true,
+    "renderer": {
+      "webpackConfig": "webpack.renderer.additions.js"
+    }
+  },
+  "dependencies": {
+    "@material-ui/core": "^3.8.1",
+    "@material-ui/icons": "^3.0.1",
+    "@material-ui/lab": "^3.0.0-alpha.27",
+    "@mdi/font": "^3.3.92",
+    "bluebird": "^3.5.3",
+    "chroma-js": "^2.0.2",
+    "classnames": "^2.2.6",
+    "command-exists": "^1.2.8",
+    "compare-versions": "^3.4.0",
+    "he": "^1.2.0",
+    "jszip": "^3.1.5",
+    "localforage": "^1.7.3",
+    "lodash": "^4.17.11",
+    "loglevel": "^1.6.1",
+    "mdi-material-ui": "^5.7.0",
+    "mkdirp": "^0.5.1",
+    "prop-types": "15.6.2",
+    "react": "next",
+    "react-color": "^2.17.0",
+    "react-dom": "next",
+    "source-map-support": "^0.5.9",
+    "url-join": "^4.0.0",
+    "usb": "^1.5.0"
+  },
+  "devDependencies": {
+    "@babel/preset-react": "^7.0.0",
+    "@types/react": "^16.7.18",
+    "electron": "^4.0.0",
+    "electron-builder": "^20.38.4",
+    "electron-devtools-installer": "^2.2.4",
+    "electron-webpack": "^2.6.1",
+    "electron-webpack-eslint": "^4.0.0",
+    "eslint-config-prettier": "^3.3.0",
+    "eslint-plugin-prettier": "^3.0.1",
+    "eslint-plugin-react": "^7.12.0",
+    "node-sass": "^4.11.0",
+    "prettier": "^1.15.3",
+    "sass-loader": "^7.1.0",
+    "tslint": "5.12.0",
+    "typescript": "^3.2.2",
+    "webpack": "^4.28.3"
+  },
+  "resolutions": {
+    "upath": "^1.0.5"
   },
   "build": {
     "artifactName": "${name}-${version}-${os}-${arch}.${ext}",
@@ -44,7 +82,7 @@
         "zip"
       ],
       "identity": null,
-      "icon": "icons/icon.icns"
+      "icon": "build/icons/icon.icns"
     },
     "win": {
       "icon": "build/icons/icon.ico",
@@ -55,7 +93,7 @@
     },
     "linux": {
       "target": [
-        "deb",
+        "AppImage",
         "tar.gz"
       ],
       "executableName": "kiibohd-configurator",
@@ -64,7 +102,6 @@
     },
     "directories": {
       "buildResources": "build",
-      "app": "target",
       "output": "output"
     },
     "publish": {

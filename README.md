@@ -20,6 +20,7 @@ Client Side Configuration & Flashing Software for Kiibohd compatible keyboards.
 * Infinity Ergodox
 * WhiteFox/NightFox
 * K-Type
+* Kira
 
 ## Dependencies
 
@@ -37,7 +38,7 @@ You will need to install Zadig drivers & download dfu-util (TODO: Updated Instal
   # This will allow reflashing via dfu-util without using sudo
   #
   # This file must be placed /at /etc/udev/rules.d/60-input-club.rules  (preferred location)
-  
+
   # Board
   SUBSYSTEMS=="usb", ATTRS{idVendor}=="1c11", ATTRS{idProduct}=="b04d", MODE="664", GROUP="plugdev"
   # Boot
@@ -69,52 +70,16 @@ Download the installer/binary for your platform from the [latest release](https:
 
 Only required if there is no release for your distribution.
 
-NOTE: If you perform a `build:dev` you will also need to run [KiiConf](https://github.com/kiibohd/KiiConf) locally.
+NOTE: If you run `yarn dev` you will also need to run [KiiConf](https://github.com/kiibohd/KiiConf) locally.
 
 
 ### Requirements
 
-* node 8.7
-* jdk 1.8
-* [boot 2.7.2](https://github.com/boot-clj/boot)
-
 
 ### Linux
-
-* libudev-dev
-* build-essential
-
-```bash
-npm install
-npm run build:prod
-npm start
-```
 
 
 ### macOS
 
-* libusb
-
-```bash
-npm install
-CXX=clang++ npm run build:prod
-npm start
-```
-
 
 ### Windows
-
-* [chocolatey](https://chocolatey.org/)
-
-__Setup__
-```bash
-# In Administrator shell
-choco feature enable -n allowGlobalConfirmation
-choco install python python2 nodejs boot-clj
-```
-
-```bash
-npm install
-npm run build:prod
-npm start
-```
