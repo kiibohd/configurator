@@ -106,7 +106,7 @@ function CustomizeCanned(props) {
       // TODO: target layer for injection
       const kll = process(can.configurable, data, can['custom-kll'], can.version);
       const addition = `${inj.start}${kll}${inj.end}`.replace(inj.tokenRx, data.name);
-      updateCustomKll(customKll['0'] + addition, 0);
+      updateCustomKll((customKll['0'] || '') + addition, 0);
     }
     setActive('');
     popupToast(
