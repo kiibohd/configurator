@@ -26,7 +26,7 @@ Client Side Configuration & Flashing Software for Kiibohd compatible keyboards.
 
 ### Windows
 
-You will need to install Zadig drivers & download dfu-util (TODO: Updated Install Instruction link)
+You will need to install Zadig drivers (automated through the `Settings > Drivers` tab )
 
 ### Linux
 
@@ -52,17 +52,6 @@ You will need to install Zadig drivers & download dfu-util (TODO: Updated Instal
 
 ## Installation
 
-### macOS
-
-Install via brew cask (this will automatically install the dfu-util dependency)
-
-```bash
-$ brew tap caskroom/drivers
-$ brew cask install kiibohd-configurator
-```
-
-### Other operating systems
-
 Download the installer/binary for your platform from the [latest release](https://github.com/kiibohd/configurator/releases/latest)
 
 
@@ -75,11 +64,45 @@ NOTE: If you run `yarn dev` you will also need to run [KiiConf](https://github.c
 
 ### Requirements
 
+* node 10.x
+* yarn 1.x
 
 ### Linux
 
+* libudev-dev
+* build-essential
+
+```bash
+yarn
+yarn dist:dir
+cd output/linux-unpacked
+./kiibohd-configurator
+```
 
 ### macOS
+* libusb
+
+```bash
+yarn
+yarn dist:dir
+cd output/mac
+open -a Kiibohd\ Configurator.app
+```
 
 
 ### Windows
+* [chocolatey](https://chocolatey.org/)
+
+__Setup__
+```bash
+# In Administrator shell
+choco feature enable -n allowGlobalConfirmation
+choco install python python2 nodejs yarn
+```
+
+```bash
+yarn
+yarn dist:dir
+cd output/win-unpacked
+"Kiibohd Configurator.exe"
+```
