@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
+import electron from 'electron';
 import PropTypes from 'prop-types';
-import { IconButton } from '../../mui';
+import { Button, IconButton } from '../../mui';
 import { JsonIcon } from '../../icons';
 import { tooltipped } from '../../utils';
 import { SimpleDataModal } from '../../modal';
+import { SuccessToast } from '../../toast';
+import { popupToast } from '../../state/core';
 import { currentConfig } from '../../state/configure';
 
 function ViewRawJsonButton(props) {
@@ -18,10 +21,24 @@ function ViewRawJsonButton(props) {
       <JsonIcon fontSize="small" />
     </IconButton>
   );
+
+  const copyJson = () => {
+    electron.clipboard.writeText(data);
+    popupToast(<SuccessToast message={<span>Copied to Clipoard</span>} onClose={() => popupToast(null)} />);
+  };
+
+  const copyAction = <Button onClick={copyJson}>Copy</Button>;
+
   return (
     <div>
       {button}
-      <SimpleDataModal open={!!data} onClose={() => setData(null)} data={data} title="Raw Configuration JSON" />
+      <SimpleDataModal
+        open={!!data}
+        onClose={() => setData(null)}
+        data={data}
+        actions={[copyAction]}
+        title="Raw Configuration JSON"
+      />
     </div>
   );
 }
