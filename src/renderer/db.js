@@ -27,9 +27,18 @@ function get(store) {
 }
 
 /**
+ * @param {LocalForage} store
+ * @returns {() => Promise<any>}
+ */
+function keys(store) {
+  return () => store.keys();
+}
+
+/**
  * @typedef {{
  *  get: (key: string) => Promise<any>
  *  set: (key: string, value: any) => Promise<any>
+ *  keys: () => Promise<string[]>
  * }} Store
  */
 
@@ -42,11 +51,13 @@ function get(store) {
 const db = {
   core: {
     get: get(coreStore),
-    set: set(coreStore)
+    set: set(coreStore),
+    keys: keys(coreStore)
   },
   dl: {
     get: get(dlStore),
-    set: set(dlStore)
+    set: set(dlStore),
+    keys: keys(dlStore)
   }
 };
 
