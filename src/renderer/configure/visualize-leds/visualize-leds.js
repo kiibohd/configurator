@@ -109,6 +109,9 @@ function reducer(state, action) {
     case 'stop':
       return { ...initialState, ...{ selected: state.selected } };
     case 'click':
+      if (!state.mouseDown) {
+        return state;
+      }
       point = { x: action.payload.x, y: action.payload.y };
       zone = { top: point.y, left: point.x, width: 1, height: 1 };
       selected = intersects(state.leds, zone);
