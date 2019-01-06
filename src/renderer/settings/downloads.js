@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Table, TableHead, TableBody, TableCell, TableRow /*, IconButton*/ } from '../mui';
+import { withStyles, Table, TableHead, TableBody, TableCell, TableRow, IconButton } from '../mui';
+import { FlashOnIcon } from '../icons';
 import db from '../db';
 import { keyboards } from '../../common/device/keyboard';
 import Bluebird from 'bluebird';
 import _ from 'lodash';
+import { tooltipped } from '../utils';
+import { setLastDl } from '../state/settings';
+import { updatePanel, Panels } from '../state/core';
 
 /** @type {import('../theme').CssProperties} */
 const styles = {
@@ -26,6 +30,13 @@ function Downloads(props) {
       .then(dls => setDls(dls.reverse()));
   }, []);
 
+  /** @type {(dl: import('../local-storage/firmware').FirmwareResult) => void} */
+  const flash = dl => {
+    // HACK - Replace when moved over to react-router MemoryRouter
+    setLastDl(dl);
+    updatePanel(Panels.Flash);
+  };
+
   return (
     <div className={classes.container}>
       <Table>
@@ -43,7 +54,16 @@ function Downloads(props) {
               <TableCell>{names[dl.board]}</TableCell>
               <TableCell>{dl.layout}</TableCell>
               <TableCell>{new Date(dl.time).toLocaleString('en-us')}</TableCell>
-              <TableCell> </TableCell>
+              <TableCell>
+                {tooltipped(
+                  'Flash Firmware',
+                  <IconButton onClick={() => flash(dl)}>
+                    <FlashOnIcon fontSize="small" />
+                  </IconButton>
+                )}
+                {/* TODO: Load Config Button */}
+                {/* TODO: Delete Download Button */}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

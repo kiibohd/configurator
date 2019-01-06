@@ -119,3 +119,10 @@ export async function addDownload(download) {
   await db.core.set(DbKey.lastDl, download);
   await db.dl.set(download.time.toString(), download);
 }
+
+/**
+ * @param {import('../local-storage/firmware').FirmwareResult} download
+ */
+export function setLastDl(download) {
+  setSettingsState('lastDl', download);
+}
