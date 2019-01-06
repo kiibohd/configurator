@@ -27,7 +27,11 @@ function ViewRawJsonButton(props) {
     popupToast(<SuccessToast message={<span>Copied to Clipoard</span>} onClose={() => popupToast(null)} />);
   };
 
-  const copyAction = <Button onClick={copyJson}>Copy</Button>;
+  const copyAction = (
+    <Button key="copy-to-clipboard" onClick={copyJson}>
+      Copy
+    </Button>
+  );
 
   return (
     <div>
