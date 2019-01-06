@@ -8,7 +8,7 @@ import Preferences from './preferences';
 import Downloads from './downloads';
 import Drivers from './drivers';
 import { updateToolbarButtons } from '../state/core';
-import { BackButton, SettingsButton, HomeButton } from '../buttons';
+import { BackButton, SettingsButton, HomeButton, HelpButton } from '../buttons';
 
 /** @type {import('../theme').CssProperties} */
 const styles = {
@@ -30,6 +30,7 @@ function Settings(props) {
       <>
         <BackButton />
         <SettingsButton />
+        <HelpButton />
         <HomeButton />
       </>
     );

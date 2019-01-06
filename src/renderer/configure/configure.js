@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '../mui';
 import { updateToolbarButtons, useCoreState, Actions, Panels } from '../state/core';
-import { SettingsButton, HomeButton } from '../buttons';
+import { SettingsButton, HomeButton, HelpButton } from '../buttons';
 import {
   ToggleKeyboardButton,
   ToggleVisualsButton,
@@ -39,6 +39,7 @@ function Configure(props) {
           <ViewRawJsonButton disabled={compiling} />
           <ImportKeymapButton disabled={compiling} />
           <SettingsButton disabled={compiling} />
+          <HelpButton disabled={compiling} />
           <HomeButton disabled={compiling} />
         </>
       );

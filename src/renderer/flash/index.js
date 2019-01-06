@@ -9,7 +9,7 @@ import { withStyles, deepOrange, Button, Grid, IconButton, InputAdornment, TextF
 import { FolderOpen, HelpOutlineIcon } from '../icons';
 import { updateToolbarButtons, previousPanel, popupToast } from '../state/core';
 import { useSettingsState, updateDfu } from '../state/settings';
-import { BackButton, SettingsButton, HomeButton } from '../buttons';
+import { BackButton, SettingsButton, HomeButton, HelpButton } from '../buttons';
 import { SuccessToast, ErrorToast } from '../toast';
 import { pathToImg } from '../common';
 
@@ -68,6 +68,7 @@ function Flash(props) {
       <>
         <BackButton />
         <SettingsButton />
+        <HelpButton />
         <HomeButton />
       </>
     );

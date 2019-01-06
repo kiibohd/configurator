@@ -1,10 +1,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { IconButton } from '../mui';
-import { ArrowBackIcon, FlashOnIcon, SettingsIcon, HomeIcon } from '../icons';
+import { ArrowBackIcon, FlashOnIcon, SettingsIcon, HelpOutlineIcon, HomeIcon } from '../icons';
 import { useCoreState, updatePanel, previousPanel, Panels, reset as resetCoreState } from '../state/core';
 import { reset as resetConfigureState } from '../state/configure';
 import { tooltipped } from '../utils';
+import electron from 'electron';
+
+// TODO: Split into individual files.
+
+export function HelpButton(props) {
+  const { disabled } = props;
+
+  const openHelp = () => {
+    electron.shell.openExternal('https://kiibohd.github.io/wiki/#/Configurator');
+  };
+
+  return tooltipped(
+    'Help',
+    <IconButton disabled={disabled} onClick={openHelp}>
+      {<HelpOutlineIcon fontSize="small" />}
+    </IconButton>
+  );
+}
+
+HelpButton.propTypes = {
+  disabled: PropTypes.bool
+};
 
 export function BackButton() {
   return tooltipped(

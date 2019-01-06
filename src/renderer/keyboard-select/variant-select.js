@@ -6,7 +6,7 @@ import _ from 'lodash';
 import { useCoreState, updateSelectedVariant, updateToolbarButtons } from '../state/core';
 import { loadDefaultConfig } from '../state';
 import { variantDetails } from '../../common/device/variants';
-import { SettingsButton, HomeButton } from '../buttons';
+import { SettingsButton, HomeButton, HelpButton } from '../buttons';
 
 //TODO: Split?
 
@@ -104,6 +104,7 @@ export default function VariantSelect() {
     updateToolbarButtons(
       <>
         <SettingsButton />
+        <HelpButton />
         <HomeButton />
       </>
     );

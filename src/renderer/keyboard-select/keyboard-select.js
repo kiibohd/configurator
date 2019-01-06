@@ -9,7 +9,7 @@ import {
 } from '../../common/device/keyboard';
 import { useConnectedKeyboards } from '../hooks';
 import { useCoreState, updateSelectedKeyboard, updateToolbarButtons } from '../state/core';
-import { QuickFlashButton, SettingsButton, HomeButton } from '../buttons';
+import { QuickFlashButton, SettingsButton, HomeButton, HelpButton } from '../buttons';
 import { pathToImg } from '../common';
 
 const drawerWidth = '15em';
@@ -56,6 +56,7 @@ function KeyboardSelect(props) {
       <>
         <QuickFlashButton />
         <SettingsButton />
+        <HelpButton />
         <HomeButton />
       </>
     );
