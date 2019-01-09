@@ -14,10 +14,16 @@ import { BackButton, SettingsButton, HomeButton, HelpButton } from '../buttons';
 const styles = {
   root: {
     flexGrow: 1,
-    height: '100%'
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  tabs: {
+    minHeight: 72
   },
   container: {
-    padding: 8 * 3
+    padding: 8 * 3,
+    overflow: 'auto'
   }
 };
 
@@ -38,7 +44,7 @@ function Settings(props) {
 
   return (
     <Paper square className={classes.root}>
-      <Tabs variant="fullWidth" value={index} onChange={(_, value) => setIndex(value)}>
+      <Tabs variant="fullWidth" className={classes.tabs} value={index} onChange={(_, value) => setIndex(value)}>
         <Tab label="Preferences" icon={<AccountSettingsIcon />} />
         {/* <Tab label="Animations" icon={<MovieRollIcon />} /> */}
         <Tab label="Downloads" icon={<FolderDownloadIcon />} />
