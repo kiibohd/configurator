@@ -81,7 +81,7 @@ function Drivers(props) {
   };
 
   function updateScroll() {
-    if (resultsTextBox) {
+    if (resultsTextBox && resultsTextBox.current) {
       resultsTextBox.current.scrollTop = resultsTextBox.current.scrollHeight;
     }
   }
