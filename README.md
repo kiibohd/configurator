@@ -26,6 +26,8 @@ Client Side Configuration & Flashing Software for Kiibohd compatible keyboards.
 
 ### Windows
 
+You will need to run the application as Adminstrators in order to compile the firmware in the Configurator.
+
 You will need to install Zadig drivers (automated through the `Settings > Drivers` tab )
 
 ### Linux
