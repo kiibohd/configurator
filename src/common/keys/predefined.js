@@ -244,6 +244,10 @@ function buildKeys() {
     ['vis/clear', 'V:CLEAR', ['#:animation_control(7)'], c.vis],
     ['vis/spd+', 'V:SPD+',   ['#:ledControl(7, 1)'], c.vis],
     ['vis/spd-', 'V:SPD-',   ['#:ledControl(8, 1)'], c.vis],
+    ['gamma/tog', 'GAMMA', ['#:gamma(2)'], c.vis],
+    ['gamma/on', 'GAM ON',   ['#:gamma(1)'], c.vis, { fontSize: 11 }],
+    ['gamma/off', 'GAM OFF', ['#:gamma(0)'], c.vis, { fontSize: 11 }],
+    //TODO: fade_set()
 
     // LED Test
     ['test/none', 'T:NONE',   ['#:ledTest(0)'], c.test],
