@@ -6,6 +6,7 @@ const Category = {
   std: 'standard',
   core: 'core',
   vis: 'visuals',
+  test: 'test',
   mult: 'multimedia',
   num: 'numpad',
   i11l: 'international',
@@ -243,6 +244,23 @@ function buildKeys() {
     ['vis/clear', 'V:CLEAR', ['#:animation_control(7)'], c.vis],
     ['vis/spd+', 'V:SPD+',   ['#:ledControl(7, 1)'], c.vis],
     ['vis/spd-', 'V:SPD-',   ['#:ledControl(8, 1)'], c.vis],
+
+    // LED Test
+    ['test/none', 'T:NONE',   ['#:ledTest(0)'], c.test],
+    ['test/cnext', 'T:CHAN+',   ['#:ledTest(1)'], c.test],
+    ['test/cprev', 'T:CHAN-',   ['#:ledTest(2)'], c.test],
+    ['test/cflash', 'T:CFLASH',   ['#:ledTest(3)'], c.test],
+    ['test/croll', 'T:CROLL',   ['#:ledTest(4)'], c.test],
+    ['test/con', 'T:CON',   ['#:ledTest(5)'], c.test],
+    ['test/coff', 'T:COFF',   ['#:ledTest(6)'], c.test],
+    ['test/pnext', 'T:PIX+',   ['#:ledTest(10)'], c.test],
+    ['test/pprev', 'T:PIX-',   ['#:ledTest(11)'], c.test],
+    ['test/pflash', 'T:PFLASH',   ['#:ledTest(12)'], c.test],
+    ['test/proll', 'T:PROLL',   ['#:ledTest(13)'], c.test],
+    ['test/pon', 'T:PON',   ['#:ledTest(14)'], c.test],
+    ['test/poff', 'T:POFF',   ['#:ledTest(15)'], c.test],
+    // TODO: ScanCode pixel
+    // TODO: XY pixel
 
     // i11n
     ['i11l/iso#', 'ISO#', ['HASH', 'NUMBER', '#'], c.i11l],

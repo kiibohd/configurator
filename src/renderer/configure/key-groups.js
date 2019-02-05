@@ -14,7 +14,8 @@ const cats = [
   Category.num,
   Category.i11l,
   Category.mouse,
-  Category.mac
+  Category.mac,
+  Category.test
 ];
 
 /** @type {import('../theme').ThemedCssProperties} */
