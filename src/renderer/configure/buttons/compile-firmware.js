@@ -105,15 +105,19 @@ function CompileFirmwareButton(props) {
         stopExecuting(Actions.Compile);
         updatePanel(Panels.Flash);
       } else {
+        let actions = [];
+        if (result.log) {
+          actions.push(
+            <Button key="showlog" onClick={() => setLog(result.log)} color="inherit">
+              Show Log
+            </Button>
+          );
+        }
         stopExecuting(Actions.Compile);
         setToast(
           <ErrorToast
             message={<span>Compilation Failed</span>}
-            actions={[
-              <Button key="showlog" onClick={() => setLog(result.log)} color="inherit">
-                Show Log
-              </Button>
-            ]}
+            actions={actions}
             onClose={() => setToast(null)}
           />
         );
