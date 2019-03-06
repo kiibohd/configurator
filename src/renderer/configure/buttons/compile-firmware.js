@@ -46,7 +46,7 @@ async function compile(baseUri, variant) {
 
     if (response.status !== 200) {
       log.error('Failed to compile.');
-      return { success: false };
+      return { success: false, error: 'Compilation Failed' };
     }
 
     const data = await response.json();
@@ -116,7 +116,7 @@ function CompileFirmwareButton(props) {
         stopExecuting(Actions.Compile);
         setToast(
           <ErrorToast
-            message={<span>Compilation Failed</span>}
+            message={<span>{result.error.toString()}</span>}
             actions={actions}
             onClose={() => setToast(null)}
           />
