@@ -29,23 +29,20 @@ function Configure(props) {
 
   const compiling = executing.includes(Actions.Compile);
 
-  useEffect(
-    () => {
-      updateToolbarButtons(
-        <>
-          <LayoutHistoryButton disabled={compiling} />
-          {keyboard.keyboard.visuals && <ToggleVisualsButton />}
-          <ToggleKeyboardButton />
-          <ViewRawJsonButton disabled={compiling} />
-          <ImportKeymapButton disabled={compiling} />
-          <SettingsButton disabled={compiling} />
-          <HelpButton disabled={compiling} />
-          <HomeButton disabled={compiling} />
-        </>
-      );
-    },
-    [executing]
-  );
+  useEffect(() => {
+    updateToolbarButtons(
+      <>
+        <LayoutHistoryButton disabled={compiling} />
+        {keyboard.keyboard.visuals && <ToggleVisualsButton />}
+        <ToggleKeyboardButton />
+        <ViewRawJsonButton disabled={compiling} />
+        <ImportKeymapButton disabled={compiling} />
+        <SettingsButton disabled={compiling} />
+        <HelpButton disabled={compiling} />
+        <HomeButton disabled={compiling} />
+      </>
+    );
+  }, [executing]);
 
   return (
     <div className={classes.root}>

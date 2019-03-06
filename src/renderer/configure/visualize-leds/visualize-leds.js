@@ -229,26 +229,20 @@ function VisualizeLeds(props) {
     dispatch({ type: 'stop', payload: { x, y } });
   };
 
-  useEffect(
-    () => {
-      if (state.mouseDown) {
-        window.document.addEventListener('mousemove', mousemove);
-        window.document.addEventListener('mouseup', mouseup);
-      }
-      return () => {
-        window.document.removeEventListener('mousemove', mousemove);
-        window.document.removeEventListener('mouseup', mouseup);
-      };
-    },
-    [state.mouseDown]
-  );
+  useEffect(() => {
+    if (state.mouseDown) {
+      window.document.addEventListener('mousemove', mousemove);
+      window.document.addEventListener('mouseup', mouseup);
+    }
+    return () => {
+      window.document.removeEventListener('mousemove', mousemove);
+      window.document.removeEventListener('mouseup', mouseup);
+    };
+  }, [state.mouseDown]);
 
-  useEffect(
-    () => {
-      setSelectedLeds(state.selected);
-    },
-    [state.selected]
-  );
+  useEffect(() => {
+    setSelectedLeds(state.selected);
+  }, [state.selected]);
 
   return (
     <div

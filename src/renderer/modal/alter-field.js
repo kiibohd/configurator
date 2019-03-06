@@ -17,14 +17,11 @@ function AlterFieldModal(props) {
   const [dirty, setDirty] = useState(false);
 
   // Reset the current value when open changes
-  useEffect(
-    () => {
-      setCurrValue(value);
-      setError(validation(value));
-      setDirty(false);
-    },
-    [open]
-  );
+  useEffect(() => {
+    setCurrValue(value);
+    setError(validation(value));
+    setDirty(false);
+  }, [open]);
 
   const cancel = () => onClose(false);
   const save = e => {

@@ -129,19 +129,16 @@ function RecordMacroDialog(props) {
     onSave(mapped);
   };
 
-  useEffect(
-    () => {
-      if (open) {
-        document.addEventListener('keyup', keyup);
-        document.addEventListener('keydown', keydown);
-      }
-      return () => {
-        document.removeEventListener('keyup', keyup);
-        document.removeEventListener('keydown', keydown);
-      };
-    },
-    [open]
-  );
+  useEffect(() => {
+    if (open) {
+      document.addEventListener('keyup', keyup);
+      document.addEventListener('keydown', keydown);
+    }
+    return () => {
+      document.removeEventListener('keyup', keyup);
+      document.removeEventListener('keydown', keydown);
+    };
+  }, [open]);
 
   useEffect(() => dispatch({ type: 'reset' }), [open]);
 

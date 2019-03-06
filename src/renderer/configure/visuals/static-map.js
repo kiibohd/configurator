@@ -66,20 +66,17 @@ function StaticMap(props) {
   const activeAnimation = active.length && animations[active];
   const selectedAnimationChange = e => setActive(e.target.value);
 
-  useEffect(
-    () => {
-      const rx = /P\[(\d+)]\(\s*(\d+)s*,\s*(\d+)s*,\s*(\d+)s*\)/gm;
-      let match;
-      let statuses = {};
-      while ((match = rx.exec(activeAnimation.frames))) {
-        const [id, r, g, b] = match.slice(1, 5).map(x => parseInt(x));
-        statuses[id] = { id, r, g, b };
-      }
-      setAllLeds(statuses);
-      return () => setConfigureState('ledStatus', {});
-    },
-    [active]
-  );
+  useEffect(() => {
+    const rx = /P\[(\d+)]\(\s*(\d+)s*,\s*(\d+)s*,\s*(\d+)s*\)/gm;
+    let match;
+    let statuses = {};
+    while ((match = rx.exec(activeAnimation.frames))) {
+      const [id, r, g, b] = match.slice(1, 5).map(x => parseInt(x));
+      statuses[id] = { id, r, g, b };
+    }
+    setAllLeds(statuses);
+    return () => setConfigureState('ledStatus', {});
+  }, [active]);
 
   const create = (save, name) => {
     setShowNew(false);
