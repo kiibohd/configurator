@@ -142,7 +142,7 @@ function CompileFirmwareButton(props) {
         ) : (
           <CircularProgress color="primary" className={classes.icon} size={24} thickness={3} />
         )}
-        Download Firmware
+        Flash Keyboard
       </Fab>
       <Snackbar anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }} open={!!toast}>
         {toast}
