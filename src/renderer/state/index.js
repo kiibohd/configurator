@@ -28,17 +28,11 @@ export async function loadDefaultConfig(keyboard, variant) {
   const recentDls = _currentState('recentDls');
   const recent = _.head(recentDls[`${keyboard.keyboard.display}__${variant}`] || []);
 
-  try {
-    return recent ? loadLocalConfig(recent.json) : loadRemoteConfig(keyboard, variant);
-  } catch (e) {
-    resetConfig();
-    popupToast(
-      <ErrorToast
-        message={<span>Failed to load layout</span>}
-        onClose={() => popupToast(null)}
-      />
-    );
+  if (recent && fs.existsSync(recent.json)) {
+    return loadLocalConfig(recent.json);
   }
+
+  return loadRemoteConfig(keyboard, variant);
 }
 
 /**
