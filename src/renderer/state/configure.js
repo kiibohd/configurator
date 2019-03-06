@@ -142,7 +142,11 @@ export function updateKeymap(target, key) {
     var updated = matrix.map(k => {
       if (k !== target) return k;
       newDef = { ...k };
-      newDef.layers[layer.toString()] = key;
+      if (key === null) {
+        delete newDef.layers[layer.toString()]
+      } else {
+        newDef.layers[layer.toString()] = key;
+      }
       return newDef;
     });
 
