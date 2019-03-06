@@ -15,7 +15,7 @@ function runKiidrv(exepath, subcmd, resultFn) {
   const dirpath = path.parse(exepath).dir;
   const cmd = child_process.execFile(
     // `"${exepath}"`,
-    exepath,
+    '"' + exepath + '"',
     ['--out', 'output.log', '--no-confirm', `--${subcmd}`],
     {
       // @ts-ignore
