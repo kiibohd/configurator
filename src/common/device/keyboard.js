@@ -80,7 +80,7 @@ function buildKeyboardList() {
       visuals: true,
       layouts: layouts([variants.Standard, ['Standard']]),
       info: {
-        resetCombo: '"Right Ctrl + Right Alt + Esc"'
+        resetCombo: '"Right Ctrl + Right Shift + Esc"'
       }
     }
   ];
