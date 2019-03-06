@@ -46,7 +46,8 @@ async function compile(baseUri, variant) {
 
     if (response.status !== 200) {
       log.error('Failed to compile.');
-      return { success: false, error: 'Compilation Failed' };
+      let details = (await response.json()) || {};
+      return { success: false, error: 'Compilation Failed', log: details.error };
     }
 
     const data = await response.json();
