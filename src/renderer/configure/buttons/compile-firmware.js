@@ -46,7 +46,8 @@ async function compile(baseUri, variant) {
 
     if (response.status !== 200) {
       log.error('Failed to compile.');
-      return { success: false };
+      let details = (await response.json()) || {};
+      return { success: false, error: 'Compilation Failed', log: details.error };
     }
 
     const data = await response.json();
@@ -105,15 +106,19 @@ function CompileFirmwareButton(props) {
         stopExecuting(Actions.Compile);
         updatePanel(Panels.Flash);
       } else {
+        let actions = [];
+        if (result.log) {
+          actions.push(
+            <Button key="showlog" onClick={() => setLog(result.log)} color="inherit">
+              Show Log
+            </Button>
+          );
+        }
         stopExecuting(Actions.Compile);
         setToast(
           <ErrorToast
-            message={<span>Compilation Failed</span>}
-            actions={[
-              <Button key="showlog" onClick={() => setLog(result.log)} color="inherit">
-                Show Log
-              </Button>
-            ]}
+            message={<span>{result.error.toString()}</span>}
+            actions={actions}
             onClose={() => setToast(null)}
           />
         );
@@ -137,7 +142,7 @@ function CompileFirmwareButton(props) {
         ) : (
           <CircularProgress color="primary" className={classes.icon} size={24} thickness={3} />
         )}
-        Download Firmware
+        Flash Keyboard
       </Fab>
       <Snackbar anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }} open={!!toast}>
         {toast}
