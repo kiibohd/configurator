@@ -143,7 +143,7 @@ export function updateKeymap(target, key) {
       if (k !== target) return k;
       newDef = { ...k };
       if (key === null) {
-        delete newDef.layers[layer.toString()]
+        delete newDef.layers[layer.toString()];
       } else {
         newDef.layers[layer.toString()] = key;
       }
