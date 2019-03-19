@@ -54,6 +54,11 @@ You will need to install Zadig drivers (automated through the `Settings > Driver
 
 Download the installer/binary for your platform from the [latest release](https://github.com/kiibohd/configurator/releases/latest)
 
+## Arch Linux
+There is an Arch linux package:
+```bash
+yay -Syu kiibohd-configurator-git
+```
 
 ## Compilation
 
