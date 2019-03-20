@@ -14,6 +14,7 @@
  * @property {String} manufacturer
  * @property {String} product
  * @property {String} serialNo
+ * @property {Number} version
  */
 
 /**
@@ -50,6 +51,7 @@
  * @property {String} manufacturer
  * @property {String} product
  * @property {String} serialNo
+ * @property {Number} version
  */
 
 //@ts-ignore -- This is a hack to make it an importable module

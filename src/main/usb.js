@@ -88,7 +88,8 @@ function createMinDevice(raw, connected) {
     productId: desc.idProduct,
     manufacturer: undefined,
     product: undefined,
-    serialNo: undefined
+    serialNo: undefined,
+    version: desc.bcdDevice
   };
 }
 
