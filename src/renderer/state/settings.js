@@ -19,7 +19,8 @@ const DbKey = {
   recentDls: 'recent-dls',
   lastVerCheck: 'last-version-check',
   cannedAnimations: 'canned-animations',
-  uri: dev ? 'uri-development' : 'uri-production'
+  uri: dev ? 'uri-development' : 'uri-production',
+  firmwareVersion: 'firmware-version'
 };
 
 /**
@@ -32,6 +33,7 @@ const DbKey = {
  *  lastVersionCheck: number
  *  newerVersionAvail: boolean
  *  lastDl: import('../local-storage/firmware').FirmwareResult
+ *  firmwareVersion: string
  *  recentDls: Object<string, import('../local-storage/firmware').FirmwareResult[]>
  *  cannedAnimations: Object<string, import('../../common/config/types').ConfigAnimation>
  * }}
@@ -45,6 +47,7 @@ const initialState = {
   lastVersionCheck: 0,
   newerVersionAvail: false,
   lastDl: undefined,
+  firmwareVersion: 'latest',
   recentDls: {},
   cannedAnimations: {}
 };
@@ -62,6 +65,7 @@ export { getSettingsState as _currentState };
 export async function loadFromDb() {
   setSettingsState('kiidrv', (await db.core.get(DbKey.kiidrvPath)) || (await findKiidrvPath()));
   setSettingsState('lastDl', await db.core.get(DbKey.lastDl));
+  setSettingsState('firmwareVersion', await db.core.get(DbKey.firmwareVersion));
   setSettingsState('recentDls', (await db.core.get(DbKey.recentDls)) || {});
   setSettingsState('lastVersionCheck', (await db.core.get(DbKey.lastVerCheck)) || 0);
   setSettingsState('cannedAnimations', (await db.core.get(DbKey.cannedAnimations)) || {});
@@ -126,4 +130,12 @@ export async function addDownload(download) {
  */
 export function setLastDl(download) {
   setSettingsState('lastDl', download);
+}
+
+/**
+ * @param {string} version
+ */
+export async function updateFirmwareVersion(version) {
+  setSettingsState('firmwareVersion', version);
+  await db.core.set(DbKey.firmwareVersion, version);
 }

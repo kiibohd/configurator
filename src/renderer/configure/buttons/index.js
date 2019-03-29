@@ -4,3 +4,4 @@ export { default as ImportKeymapButton } from './import-keymap';
 export { default as ViewRawJsonButton } from './view-raw-json';
 export { default as LayoutHistoryButton } from './layout-history';
 export { default as CompileFirmwareButton } from './compile-firmware';
+export { default as VersionSelectButton } from './version-select';
