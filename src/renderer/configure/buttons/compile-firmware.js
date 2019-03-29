@@ -21,6 +21,7 @@ import log from 'loglevel';
 
 /**
  * @param {string} baseUri
+ * @param {string} env
  * @returns {Promise<{
  *  success: boolean
  *  firmware?: import('../../local-storage/firmware').FirmwareResult
@@ -28,10 +29,10 @@ import log from 'loglevel';
  *  error?: any
  * }>}
  */
-async function compile(baseUri, variant) {
+async function compile(baseUri, variant, env) {
   try {
     const config = currentConfig();
-    const payload = { config, env: 'latest' };
+    const payload = { config, env: env };
     log.trace(config);
     const uri = urljoin(baseUri, 'download.php');
     const response = await fetch(uri, {
@@ -86,6 +87,7 @@ const styles = theme => ({
 function CompileFirmwareButton(props) {
   const { classes } = props;
   const [baseUri] = useSettingsState('uri');
+  const [firmwareVersion] = useSettingsState('firmwareVersion');
   const [variant] = useCoreState('variant');
   const [toast, setToast] = useState(null);
   const [log, setLog] = useState(null);
@@ -98,7 +100,7 @@ function CompileFirmwareButton(props) {
     startExecuting(Actions.Compile);
     setToast(null);
     try {
-      const result = await compile(baseUri, variant);
+      const result = await compile(baseUri, variant, firmwareVersion);
       if (result.success) {
         await addDownload(result.firmware);
         popupToast(<SuccessToast message={<span>Compilation Successful</span>} onClose={() => popupToast(null)} />);

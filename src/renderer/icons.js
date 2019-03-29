@@ -22,10 +22,12 @@ export { default as HomeIcon } from '@material-ui/icons/Home';
 export { default as MoreVertIcon } from '@material-ui/icons/MoreVert';
 export { default as SearchIcon } from '@material-ui/icons/Search';
 export { default as SettingsIcon } from '@material-ui/icons/Settings';
+export { default as StarIcon } from '@material-ui/icons/Star';
 export { default as StarBorderIcon } from '@material-ui/icons/StarBorder';
 export { default as TuneIcon } from '@material-ui/icons/Tune';
 export { default as UpdateIcon } from '@material-ui/icons/Update';
 export { default as WarningIcon } from '@material-ui/icons/Warning';
+export { default as MemoryIcon } from '@material-ui/icons/Memory';
 
 export { default as AccountSettingsIcon } from 'mdi-material-ui/AccountSettings';
 export { default as AnimationIcon } from 'mdi-material-ui/Animation';
