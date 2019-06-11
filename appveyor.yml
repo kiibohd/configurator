@@ -39,7 +39,7 @@ install:
   - yarn --version
 
   # Install electron and dependencies
-  - yarn global add node-pre-gyp
+#  - yarn global add node-pre-gyp
   - yarn
   - yarn rebuild-deps
 
