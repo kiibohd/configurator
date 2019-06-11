@@ -18,8 +18,8 @@ import { pathToImg } from '../common';
 /** @type {import('../theme').ThemedCssProperties} */
 const styles = theme => ({
   text: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
     marginTop: 16
   },
   resizeFont: {
@@ -85,7 +85,7 @@ function Flash(props) {
   return (
     <div>
       <Typography variant="subtitle1">Flash Firmware</Typography>
-      <Grid container spacing={8} direction="column">
+      <Grid container spacing={1} direction="column">
         {!flashableConnected && (
           <>
             <Grid container item xs={12} direction="row" justify="space-between" alignItems="center">
@@ -137,7 +137,7 @@ function Flash(props) {
           </Grid>
         )}
       </Grid>
-      <Grid container spacing={8} direction="column">
+      <Grid container spacing={1} direction="column">
         <Grid container item xs={12} direction="row" justify="space-between" alignItems="center">
           <Grid item xs>
             <TextField

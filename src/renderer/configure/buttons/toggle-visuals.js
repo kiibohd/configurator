@@ -10,7 +10,7 @@ const styles = theme => ({
     color: 'rgba(0, 0, 0, 0.54)'
   },
   leftIcon: {
-    marginRight: theme.spacing.unit,
+    marginRight: theme.spacing(1),
     fontSize: 20
   }
 });

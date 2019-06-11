@@ -105,8 +105,8 @@ function Defines(props) {
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>
         <div className={classes.definesContainer}>
-          <Grid container className={classes.grid} spacing={16}>
-            <Grid container item spacing={16}>
+          <Grid container className={classes.grid} spacing={2}>
+            <Grid container item spacing={2}>
               <Grid item xs={4}>
                 <Typography className={classes.title}>Name</Typography>
               </Grid>
@@ -116,7 +116,7 @@ function Defines(props) {
             </Grid>
             {defines.map(x => (
               // TODO: Move to own component and do View/Edit split with validation
-              <Grid key={x.id} container item spacing={32}>
+              <Grid key={x.id} container item spacing={4}>
                 <Grid item xs={4}>
                   <TextField fullWidth value={x.name} onChange={e => updateDefine(x.id, e.target.value, x.value)} />
                 </Grid>

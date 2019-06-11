@@ -52,7 +52,7 @@ const styles = theme => ({
     marginLeft: 15
   },
   leftIcon: {
-    marginRight: theme.spacing.unit,
+    marginRight: theme.spacing(1),
     fontSize: 20
   },
   text: {

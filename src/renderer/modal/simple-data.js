@@ -12,7 +12,7 @@ const styles = theme => ({
     height: '80vh',
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
-    padding: `${theme.spacing.unit}px ${theme.spacing.unit * 2}px`,
+    padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'stretch'
@@ -42,7 +42,7 @@ const styles = theme => ({
   actions: {
     display: 'flex',
     minHeight: 40,
-    margin: `${theme.spacing.unit}px 0`
+    margin: `${theme.spacing(1)}px 0`
   },
   spacer: {
     flex: '1'

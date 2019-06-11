@@ -80,7 +80,7 @@ async function download(baseUri, file) {
 /** @type {import('../../theme').ThemedCssProperties} */
 const styles = theme => ({
   icon: {
-    marginRight: theme.spacing.unit
+    marginRight: theme.spacing(1)
   }
 });
 

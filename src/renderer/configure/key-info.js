@@ -61,7 +61,7 @@ function KeyInfo(props) {
         </div>
       )}
       {selected && (
-        <Grid container spacing={16} direction="column">
+        <Grid container spacing={2} direction="column">
           <Grid item>
             {(() => {
               switch (mode) {
@@ -97,7 +97,7 @@ function KeyInfo(props) {
               }
             })()}
           </Grid>
-          <Grid container direction="row-reverse" spacing={16} item xs={6}>
+          <Grid container direction="row-reverse" spacing={2} item xs={6}>
             <Grid item>
               <Button
                 variant="outlined"
