@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ipcRenderer as ipc } from 'electron';
+import { ipcRenderer as ipc, remote } from 'electron';
 
 /**
  * @returns {import('../common/device/types').AttachedKeyboard[]}
@@ -26,4 +26,32 @@ export function useConnectedKeyboards() {
   );
 
   return connected;
+}
+
+/**
+ * @returns boolean
+ */
+export function useDevtoolsState() {
+  const [isOpen, setOpen] = useState(false);
+
+  useEffect(
+    () => {
+      const wc = remote.getCurrentWebContents();
+
+      setOpen(wc.isDevToolsOpened);
+      const enable = () => setOpen(true);
+      const disable = () => setOpen(false);
+
+      wc.on('devtools-opened', enable);
+      wc.on('devtools-closed', disable);
+
+      return () => {
+        wc.removeListener('devtools-opened', enable);
+        wc.removeListener('devtools-closed', disable);
+      };
+    },
+    [] // our effect relies on no props
+  );
+
+  return isOpen;
 }
