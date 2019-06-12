@@ -53,7 +53,7 @@ function KeyboardSelect(props) {
   const connectedKeyboards = useConnectedKeyboards();
   const [hovered, setHovered] = useState(null);
   const [firmwareVersions] = useSettingsState('firmwareVersions');
-  const latest = firmwareVersions && firmwareVersions.latest.commit;
+  const latest = firmwareVersions && firmwareVersions.latest && firmwareVersions.latest.commit;
 
   useEffect(() => {
     updateToolbarButtons(
