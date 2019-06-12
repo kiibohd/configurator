@@ -174,4 +174,21 @@
  * @property {Object<string, ConfigCannedAnimation>} canned
  */
 
+/**
+ * @typedef FirmwareDetails
+ * @property {number} commit
+ * @property {string} date
+ * @property {string} hash
+ * @property {string} bcd
+ * @property {string} notes
+ */
+
+/**
+ * @typedef {'lts'|'latest'|'nightly'} FirmwareChannels
+ */
+
+/**
+ * @typedef {Object<string, FirmwareDetails>} FirmwareVersions
+ */
+
 export const _ = '';

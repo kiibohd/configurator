@@ -104,3 +104,19 @@ export async function checkVersion() {
     };
   }
 }
+
+export async function checkFirmwareVersions() {
+  const baseUri = _currentState('uri');
+
+  const uri = urljoin(baseUri, 'versions');
+  /** @type {import('../../common/config/types').FirmwareVersions} */
+  const response = await fetch(uri, {
+    method: 'GET',
+    headers: {
+      'User-Agent': 'Kiibohd Configurator',
+      Accept: 'application/json; charset=utf-8'
+    }
+  }).then(r => r.json());
+
+  return response;
+}

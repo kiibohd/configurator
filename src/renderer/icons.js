@@ -30,6 +30,7 @@ export { default as WarningIcon } from '@material-ui/icons/Warning';
 export { default as AccountSettingsIcon } from 'mdi-material-ui/AccountSettings';
 export { default as AnimationIcon } from 'mdi-material-ui/Animation';
 export { default as ArrowRightBoldOutlineIcon } from 'mdi-material-ui/ArrowRightBoldOutline';
+export { default as ArrowDownCircleIcon } from 'mdi-material-ui/ArrowDownCircle';
 export { default as CloseCircleOutlineIcon } from 'mdi-material-ui/CloseCircleOutline';
 export { default as DotsHorizontalIcon } from 'mdi-material-ui/DotsHorizontal';
 export { default as DownloadOutlineIcon } from 'mdi-material-ui/DownloadOutline';

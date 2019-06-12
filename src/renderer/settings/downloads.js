@@ -19,7 +19,7 @@ const styles = {
 
 function Downloads(props) {
   const { classes } = props;
-  /** @type {[import('../local-storage/firmware').FirmwareResult[], (val: any) => void} */
+  /** @type {[import('../local-storage/firmware').FirmwareResult[], (val: any) => void]} */
   const [dls, setDls] = useState([]);
   const names = _.fromPairs(keyboards.map(k => [_.head(k.names), k.display]));
 

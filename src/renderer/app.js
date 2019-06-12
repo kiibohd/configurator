@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { MuiThemeProvider } from './mui';
 import theme from './theme';
-import { checkVersion } from './state';
+import { checkVersion, checkFirmwareVersions } from './state';
 import AppLayout from './app-layout';
-import { loadFromDb, updateDfu, updateKiidrv } from './state/settings';
+import { loadFromDb, updateDfu, updateKiidrv, updateFirmwareVersions } from './state/settings';
 import { popupToast } from './state/core';
 import NewVersionToast from './toast/new-version';
 import { checkDfuVersion, checkKiidrvVersion } from './local-storage/utilities';
@@ -14,6 +14,11 @@ async function initApp() {
   const newVersion = await checkVersion();
   if (newVersion) {
     popupToast(<NewVersionToast version={newVersion.version} url={newVersion.url} onClose={() => popupToast(null)} />);
+  }
+
+  const firmwareVersions = await checkFirmwareVersions();
+  if (firmwareVersions) {
+    updateFirmwareVersions(firmwareVersions);
   }
 
   const dfuUpdatedPath = await checkDfuVersion();
