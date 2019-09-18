@@ -9,8 +9,8 @@ const dev = process.env.NODE_ENV === 'development';
 
 log.setDefaultLevel(dev ? log.levels.INFO : log.levels.ERROR);
 
-// const defaultUri = dev ? 'http://localhost:8080' : 'https://configurator.input.club';
-const defaultUri = dev ? 'http://localhost:8080' : 'http://vash.input.club:3001';
+// const defaultUri = dev ? 'http://localhost:8080' : 'http://vash.input.club:80';
+const defaultUri = 'http://vash.input.club';
 
 const DbKey = {
   dfuPath: 'dfu-path',
