@@ -9,7 +9,9 @@ const Panels = {
   Settings: 'Settings',
   ConfigureKeys: 'Configure Keys',
   ConfigureVisuals: 'Config Visuals'
-};
+} as const;
+
+type ValidPanels = ValueOf<typeof Panels>;
 
 const Actions = {
   Compile: 'compile-firmware'
@@ -17,9 +19,9 @@ const Actions = {
 
 type CoreState = {
   executing: string[];
-  panel: string;
+  panel: ValidPanels;
   loading: boolean;
-  history: string[];
+  history: ValidPanels[];
   keyboard?: AttachedKeyboard;
   variant?: string;
   toast?: JSX.Element;
@@ -70,7 +72,7 @@ export function updateSelectedVariant(variant: Optional<string>) {
   setCoreState('variant', variant);
 }
 
-export function updatePanel(panel: string) {
+export function updatePanel(panel: ValidPanels) {
   setCoreState('panel', currPanel => {
     setCoreState('history', hist => [currPanel, ...hist.slice(0, 3)]);
     return panel;

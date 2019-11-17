@@ -21,3 +21,5 @@ type Pair<T, U> = [T, U];
 type NonEmptyArray<T> = {
   0: T;
 } & Array<T>;
+
+type ValueOf<T> = T[keyof T];

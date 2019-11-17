@@ -11,6 +11,7 @@ import { useSettingsState, updateDfu } from '../state/settings';
 import { BackButton, SettingsButton, HomeButton, HelpButton } from '../buttons';
 import { SuccessToast, ErrorToast } from '../toast';
 import { pathToImg } from '../common';
+//TODO: Typings are messed up for this file in VSCode for some weird reason, errors only show on full compile.
 
 //TODO: Split this up.
 
@@ -63,7 +64,7 @@ export default function Flash() {
   const [binPath, setBinPath] = useState(bin);
   const [progress, setProgress] = useState('');
   const [showResetHelp, setShowResetHelp] = useState(false);
-  const progressTextBox = useRef(null);
+  const progressTextBox = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     updateToolbarButtons(
@@ -77,17 +78,17 @@ export default function Flash() {
   }, []);
 
   function updateScroll() {
-    if (progressTextBox) {
+    if (progressTextBox.current) {
       progressTextBox.current.scrollTop = progressTextBox.current.scrollHeight;
     }
   }
 
   useLayoutEffect(updateScroll, [progress]);
 
-  const flashableConnected = connected.some(x => x.known.isFlashable);
+  const flashableConnected = connected.some(x => x.known && x.known.isFlashable);
 
   const board = lastDl && lastDl.board;
-  const found = board ? connected.find(x => x.known.names.includes(board)) : connected.find(x => !!x.known);
+  const found = board ? connected.find(x => x.known && x.known.names.includes(board)) : connected.find(x => !!x.known);
   const resetCombo = _.get(found, 'keyboard.info.resetCombo', '"Fn + Esc"');
 
   async function openDialog(title: string, filters: electron.FileFilter[], cb: (paths: string[]) => void) {
@@ -100,6 +101,7 @@ export default function Flash() {
   }
 
   function flash() {
+    if (!dfuPath || !binPath) return;
     setProgress('');
     const cmd = ChildProcess.spawn(dfuPath, ['-D', binPath]);
     cmd.stdout.on('data', d => setProgress(curr => curr + d + '\n'));
@@ -107,22 +109,22 @@ export default function Flash() {
     cmd.on('close', code => {
       setProgress(curr => curr + '\nExited with code ' + code);
       if (code == 0) {
-        popupToast(<SuccessToast message={<span>Flashing Successful</span>} onClose={() => popupToast(null)} />);
+        popupToast(<SuccessToast message={<span>Flashing Successful</span>} onClose={() => popupToast()} />);
         previousPanel();
       } else if (code === -os.constants.errno.ENOENT) {
-        popupToast(<ErrorToast message={<span>dfu-util not found</span>} onClose={() => popupToast(null)} />);
+        popupToast(<ErrorToast message={<span>dfu-util not found</span>} onClose={() => popupToast()} />);
         setDfuNotFound(true);
         setProgress(curr => curr + ' (dfu-util not found)');
       } else if (code === 74) {
         popupToast(
           <ErrorToast
             message={<span>dfu-util could not find device in flash mode.</span>}
-            onClose={() => popupToast(null)}
+            onClose={() => popupToast()}
           />
         );
         setProgress(curr => curr + ' (dfu-util could not find device in flash mode)');
       } else {
-        popupToast(<ErrorToast message={<span>Error Flashing, check log</span>} onClose={() => popupToast(null)} />);
+        popupToast(<ErrorToast message={<span>Error Flashing, check log</span>} onClose={() => popupToast()} />);
       }
     });
     cmd.on('error', function() {
