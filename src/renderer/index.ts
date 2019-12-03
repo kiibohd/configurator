@@ -9,7 +9,8 @@ function render() {
 
   const App = require('./app').default;
 
-  ReactDOM.render(<App />, root);
+  // ReactDOM.render(<App />, root);
+  ReactDOM.render(React.createElement(App), root);
 }
 
 render();

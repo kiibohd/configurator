@@ -22,5 +22,3 @@ export function WarningToast(props: ToastProps) {
 export function InfoToast(props: ToastProps) {
   return <GenericToast variant="info" {...props} />;
 }
-
-export { GenericToast };

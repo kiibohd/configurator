@@ -1,6 +1,7 @@
 import React from 'react';
 import { toggleLoading } from './core';
 import { updateConfig } from './configure';
+
 import { _currentState, updateNewerVersionAvail } from './settings';
 import { updatePanel, Panels, reset as resetCoreState, popupToast } from './core';
 import { reset as resetConfigureState } from './configure';
@@ -16,10 +17,6 @@ import { AvailableLocales } from '../../common/keys';
 import { Keyboard } from '../../common/device/types';
 
 const readFile = Bluebird.promisify(fs.readFile);
-
-export { useCoreState } from './core';
-export { useConfigureState } from './configure';
-export { useSettingsState } from './settings';
 
 function resetConfig() {
   updatePanel(Panels.KeyboardSelect);
