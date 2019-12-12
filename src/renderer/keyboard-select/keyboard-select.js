@@ -46,6 +46,32 @@ const styles = {
   }
 };
 
+const keyboardFrom = keyboardName => ({
+  keyboard: allKeyboards.find(x => x.display === keyboardName),
+  connected: false,
+  openable: false
+});
+
+const pixelCoordinatesMap = {
+  [KeyboardNames.Infinity60]: '10,228,650,425',
+  [KeyboardNames.WhiteFox]: '10,475,700,675',
+  [KeyboardNames.Infinity60Led]: '10,700,700,950',
+  [KeyboardNames.InfinityErgodox]: '650,100,1450,415',
+  [KeyboardNames.Kira]: '725,425,1450,675',
+  [KeyboardNames.KType]: '725,685,1450,950'
+};
+
+const areaOf = keyboardName => (
+  <area
+    shape="rect"
+    title={keyboardName}
+    coords={pixelCoordinatesMap[keyboardName]}
+    onClick={() => {
+      const keyboard = keyboardFrom(keyboardName);
+      updateSelectedKeyboard(keyboard);
+    }}
+  />
+);
 //TODO: This has some terrible react style... fix it.
 
 function KeyboardSelect(props) {
@@ -97,7 +123,8 @@ function KeyboardSelect(props) {
   return (
     <>
       <div className={classes.imageContainer}>
-        <img className={classes.image} src={getUrl()} />
+        <img className={classes.image} src={getUrl()} useMap="#family-map" />
+        {!hovered && <map name="family-map">{releasedKeyboardNames.map(areaOf)}</map>}
       </div>
       <Drawer
         className={classes.drawer}
