@@ -87,7 +87,9 @@ export default function KeyInfo() {
         <div className={classes.message}>
           <Typography variant="subtitle1">No key currently selected</Typography>
           <br />
-          <Typography variant="body2">You can use Shift + Left Mouse to quick assign</Typography>
+          <Typography variant="body2">
+            You can use Shift + Left Mouse to quick assign and Ctrl + Left Mouse to clear an assignment.
+          </Typography>
         </div>
       )}
       {selected && (

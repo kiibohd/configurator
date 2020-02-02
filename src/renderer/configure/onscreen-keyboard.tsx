@@ -155,6 +155,8 @@ export default function OnScreenKeyboard() {
   const mouseClick = (e: React.MouseEvent, key: ConfigMatrixItem) => {
     if (e.shiftKey) {
       setQuickAssignKey(key);
+    } else if (e.ctrlKey) {
+      updateKeymap(key, null);
     } else {
       setSelected(key === selected ? undefined : key);
     }
