@@ -35,7 +35,7 @@
     "he": "^1.2.0",
     "jszip": "^3.2.1",
     "localforage": "^1.7.3",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.13",
     "loglevel": "^1.6.2",
     "mdi-material-ui": "^6.0.0",
     "mkdirp": "^0.5.1",
