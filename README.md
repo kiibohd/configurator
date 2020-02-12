@@ -3,6 +3,8 @@
 Client Side Configuration & Flashing Software for Kiibohd compatible keyboards.
 
 [![Travis Status](https://travis-ci.org/kiibohd/configurator.svg?branch=master)](https://travis-ci.org/kiibohd/configurator) [![Appveyor Status](https://ci.appveyor.com/api/projects/status/keu6at9jdrlvd1g5/branch/master?svg=true)](https://ci.appveyor.com/project/kiibohd/configurator/branch/master)
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/kiibohd/configurator.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/kiibohd/configurator/alerts/)
+[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/kiibohd/configurator.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/kiibohd/configurator/context:javascript)
 
 
 [![Visit our IRC channel](https://kiwiirc.com/buttons/irc.freenode.net/input.club.png)](https://kiwiirc.com/client/irc.freenode.net/#input.club)
