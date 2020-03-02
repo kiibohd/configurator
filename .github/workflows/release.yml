@@ -112,19 +112,25 @@ jobs:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: yarn dist --linux
     - name: Upload tar.gz
-      uses: actions/upload-release-asset@v1.0.1
+      # uses: actions/upload-release-asset@v1.0.1
+      # use fork until https://github.com/actions/upload-release-asset/issues/13 is fixed
+      uses: gfreezy/upload-release-asset@v1.0.2
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
+        release_id: ${{ steps.release_info.outputs.id }}
         upload_url: ${{ steps.release_info.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
         asset_path: output/kiibohd-configurator-${{ steps.release_info.outputs.version }}-linux-x64.tar.gz
         asset_name: kiibohd-configurator-${{ steps.release_info.outputs.version }}-linux-x64.tar.gz
         asset_content_type: application/gzip
     - name: Upload AppImage
-      uses: actions/upload-release-asset@v1.0.1
+      # uses: actions/upload-release-asset@v1.0.1
+      # use fork until https://github.com/actions/upload-release-asset/issues/13 is fixed
+      uses: gfreezy/upload-release-asset@v1.0.2
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
+        release_id: ${{ steps.release_info.outputs.id }}
         upload_url: ${{ steps.release_info.outputs.upload_url }}
         asset_path: output/kiibohd-configurator-${{ steps.release_info.outputs.version }}-linux-x86_64.AppImage
         asset_name: kiibohd-configurator-${{ steps.release_info.outputs.version }}-linux-x86_64.AppImage
@@ -164,19 +170,25 @@ jobs:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: yarn dist --mac
     - name: Upload zip
-      uses: actions/upload-release-asset@v1.0.1
+      # uses: actions/upload-release-asset@v1.0.1
+      # use fork until https://github.com/actions/upload-release-asset/issues/13 is fixed
+      uses: gfreezy/upload-release-asset@v1.0.2
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
+        release_id: ${{ steps.release_info.outputs.id }}
         upload_url: ${{ steps.release_info.outputs.upload_url }}
         asset_path: output/kiibohd-configurator-${{ steps.release_info.outputs.version }}-mac.zip
         asset_name: kiibohd-configurator-${{ steps.release_info.outputs.version }}-mac.zip
         asset_content_type: application/zip
     - name: Upload dmg
-      uses: actions/upload-release-asset@v1.0.1
+      # uses: actions/upload-release-asset@v1.0.1
+      # use fork until https://github.com/actions/upload-release-asset/issues/13 is fixed
+      uses: gfreezy/upload-release-asset@v1.0.2
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
+        release_id: ${{ steps.release_info.outputs.id }}
         upload_url: ${{ steps.release_info.outputs.upload_url }}
         asset_path: output/kiibohd-configurator-${{ steps.release_info.outputs.version }}-mac.dmg
         asset_name: kiibohd-configurator-${{ steps.release_info.outputs.version }}-mac.dmg
@@ -217,21 +229,27 @@ jobs:
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        yarn dist --win --x64 --ia32
+        yarn dist --win --x64
     - name: Upload zip
-      uses: actions/upload-release-asset@v1.0.1
+      # uses: actions/upload-release-asset@v1.0.1
+      # use fork until https://github.com/actions/upload-release-asset/issues/13 is fixed
+      uses: gfreezy/upload-release-asset@v1.0.2
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
+        release_id: ${{ steps.release_info.outputs.id }}
         upload_url: ${{ steps.release_info.outputs.upload_url }}
         asset_path: output/kiibohd-configurator-${{ steps.release_info.outputs.version }}-win-x64.zip
         asset_name: kiibohd-configurator-${{ steps.release_info.outputs.version }}-win-x64.zip
         asset_content_type: application/zip
     - name: Upload exe
-      uses: actions/upload-release-asset@v1.0.1
+      # uses: actions/upload-release-asset@v1.0.1
+      # use fork until https://github.com/actions/upload-release-asset/issues/13 is fixed
+      uses: gfreezy/upload-release-asset@v1.0.2
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
+        release_id: ${{ steps.release_info.outputs.id }}
         upload_url: ${{ steps.release_info.outputs.upload_url }}
         asset_path: output/kiibohd-configurator-${{ steps.release_info.outputs.version }}-win.exe
         asset_name: kiibohd-configurator-${{ steps.release_info.outputs.version }}-win-x64.exe
