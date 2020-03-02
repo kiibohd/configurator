@@ -2,6 +2,8 @@
 
 Client Side Configuration & Flashing Software for Kiibohd compatible keyboards.
 
+[![Github Actions Status](https://github.com/kiibohd/configurator/workflows/Release/badge.svg)](https://github.com/kiibohd/configurator/actions)
+
 [![Travis Status](https://travis-ci.org/kiibohd/configurator.svg?branch=master)](https://travis-ci.org/kiibohd/configurator) [![Appveyor Status](https://ci.appveyor.com/api/projects/status/keu6at9jdrlvd1g5/branch/master?svg=true)](https://ci.appveyor.com/project/kiibohd/configurator/branch/master)
 
 
