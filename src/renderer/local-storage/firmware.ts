@@ -1,12 +1,11 @@
 import JSZip from 'jszip';
 import path from 'path';
 import fs from 'fs';
-import _mkdirp from 'mkdirp';
+import mkdirp from 'mkdirp';
 import { paths } from '../env';
 import Bluebird from 'bluebird';
 
 const writeFile = Bluebird.promisify(fs.writeFile);
-const mkdirp = Bluebird.promisify(_mkdirp);
 
 export interface FileDescription {
   board: string;

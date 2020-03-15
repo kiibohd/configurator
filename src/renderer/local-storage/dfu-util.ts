@@ -1,7 +1,7 @@
 import JSZip from 'jszip';
 import path from 'path';
 import fs from 'fs';
-import mkdirpNode from 'mkdirp';
+import mkdirp from 'mkdirp';
 import _ from 'lodash';
 import log from 'loglevel';
 import { paths } from '../env';
@@ -12,7 +12,6 @@ import Bluebird from 'bluebird';
 const access = Bluebird.promisify(fs.access);
 const writeFile = Bluebird.promisify(fs.writeFile);
 const chmod = Bluebird.promisify(fs.chmod);
-const mkdirp = Bluebird.promisify(mkdirpNode);
 
 type Info = {
   version: string;
