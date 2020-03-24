@@ -82,15 +82,21 @@ app.on('ready', () => {
 });
 
 async function getKeyboardDetails(device: Device): Promise<Optional<AttachedKeyboard>> {
-  // TODO: Remove when we weed out all the nulls
-  const keyboard = (await identifyKeyboard(device)) ?? undefined;
-  const known = getDevice(device);
+  // TODO: For Electron 9 need to transform this to a simple JS Object (no methods, etc)
+  try {
+    // TODO: Remove when we weed out all the nulls
+    const keyboard = (await identifyKeyboard(device)) ?? undefined;
+    const known = getDevice(device);
 
-  if (!keyboard) {
+    if (!keyboard) {
+      return;
+    }
+
+    return { ...device, ...{ keyboard }, ...{ known } };
+  } catch (e) {
+    log.error(`Error while retrieving keyboard details: ${e}`);
     return;
   }
-
-  return { ...device, ...{ keyboard }, ...{ known } };
 }
 
 const watches = new Map();

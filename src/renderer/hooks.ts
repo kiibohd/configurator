@@ -13,7 +13,9 @@ export function useConnectedKeyboards(): AttachedKeyboard[] {
 
       ipc.on('usb-attach', attach);
       ipc.on('usb-detach', detach);
-      ipc.once('usb-currently-attached', (_, devices) => setConnected([...devices]));
+      ipc.once('usb-currently-attached', (_, devices: AttachedKeyboard[]) =>
+        setConnected([...devices.filter(x => !!x)])
+      );
       ipc.send('usb-watch');
 
       return () => {
