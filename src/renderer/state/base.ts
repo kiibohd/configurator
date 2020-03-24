@@ -1,11 +1,8 @@
-import React from 'react';
-import { toggleLoading } from './core';
 import { updateConfig } from './configure';
 
 import { _currentState, updateNewerVersionAvail } from './settings';
-import { updatePanel, Panels, reset as resetCoreState, popupToast } from './core';
+import { updatePanel, Panels, reset as resetCoreState, popupSimpleToast, toggleLoading } from './core';
 import { reset as resetConfigureState } from './configure';
-import { ErrorToast } from '../toast';
 import _ from 'lodash';
 import fs from 'fs';
 import Bluebird from 'bluebird';
@@ -40,7 +37,7 @@ export async function loadRemoteConfig(
     toggleLoading();
   } catch (e) {
     resetConfig();
-    popupToast(<ErrorToast message={<span>Failed to load layout</span>} onClose={() => popupToast(undefined)} />);
+    popupSimpleToast('error', 'Failed to load layout');
   }
 }
 
@@ -53,7 +50,7 @@ export async function loadLocalConfig(filepath: string, locale?: AvailableLocale
     toggleLoading();
   } catch (e) {
     resetConfig();
-    popupToast(<ErrorToast message={<span>Failed to load layout</span>} onClose={() => popupToast(undefined)} />);
+    popupSimpleToast('error', 'Failed to load layout');
   }
 }
 

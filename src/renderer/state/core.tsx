@@ -1,6 +1,8 @@
 import { createSharedState } from '../shared-state/index';
 import _ from 'lodash';
 import { AttachedKeyboard } from '../../common/device/types';
+import React from 'react';
+import { GenericToast } from '../toast';
 
 const Panels = {
   KeyboardSelect: 'Keyboard Select',
@@ -84,6 +86,10 @@ export function popupToast(toast?: JSX.Element, timeout = 10000) {
   setTimeout(() => {
     setCoreState('toast', undefined);
   }, timeout);
+}
+
+export function popupSimpleToast(level: 'error' | 'success' | 'info' | 'warning', msg: string) {
+  popupToast(<GenericToast variant={level} message={<span>{msg}</span>} onClose={() => popupToast()} />);
 }
 
 export function previousPanel() {

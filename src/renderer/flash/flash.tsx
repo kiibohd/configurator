@@ -6,12 +6,10 @@ import _ from 'lodash';
 import { useConnectedKeyboards } from '../hooks';
 import { makeStyles, deepOrange, Button, Grid, IconButton, InputAdornment, TextField, Typography, Theme } from '../mui';
 import { FolderOpen, HelpOutlineIcon } from '../icons';
-import { updateToolbarButtons, previousPanel, popupToast } from '../state/core';
+import { updateToolbarButtons, previousPanel, popupSimpleToast } from '../state/core';
 import { useSettingsState, updateDfu } from '../state/settings';
 import { BackButton, SettingsButton, HomeButton, HelpButton } from '../buttons';
-import { SuccessToast, ErrorToast } from '../toast';
 import { pathToImg } from '../common';
-//TODO: Typings are messed up for this file in VSCode for some weird reason, errors only show on full compile.
 
 //TODO: Split this up.
 
@@ -60,6 +58,7 @@ export default function Flash() {
   const [lastDl] = useSettingsState('lastDl');
   const bin = lastDl ? (_.isString(lastDl.bin) ? lastDl.bin : lastDl.bin.left) : '';
   const [dfuPath] = useSettingsState('dfu');
+
   const [dfuNotFound, setDfuNotFound] = useState(false);
   const [binPath, setBinPath] = useState(bin);
   const [progress, setProgress] = useState('');
@@ -109,22 +108,17 @@ export default function Flash() {
     cmd.on('close', code => {
       setProgress(curr => curr + '\nExited with code ' + code);
       if (code == 0) {
-        popupToast(<SuccessToast message={<span>Flashing Successful</span>} onClose={() => popupToast()} />);
+        popupSimpleToast('success', 'Flashing Successful');
         previousPanel();
       } else if (code === -os.constants.errno.ENOENT) {
-        popupToast(<ErrorToast message={<span>dfu-util not found</span>} onClose={() => popupToast()} />);
+        popupSimpleToast('error', 'dfu-util not found');
         setDfuNotFound(true);
         setProgress(curr => curr + ' (dfu-util not found)');
       } else if (code === 74) {
-        popupToast(
-          <ErrorToast
-            message={<span>dfu-util could not find device in flash mode.</span>}
-            onClose={() => popupToast()}
-          />
-        );
+        popupSimpleToast('error', 'dfu-util could not find device in flash mode.');
         setProgress(curr => curr + ' (dfu-util could not find device in flash mode)');
       } else {
-        popupToast(<ErrorToast message={<span>Error Flashing, check log</span>} onClose={() => popupToast()} />);
+        popupSimpleToast('error', 'Error Flashing, check log');
       }
     });
     cmd.on('error', function() {

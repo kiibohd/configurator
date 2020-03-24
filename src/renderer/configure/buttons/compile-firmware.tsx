@@ -11,9 +11,9 @@ import {
   stopExecuting,
   Actions,
   Panels,
-  popupToast
+  popupSimpleToast
 } from '../../state/core';
-import { ErrorToast, SuccessToast } from '../../toast';
+import { ErrorToast } from '../../toast';
 import { SimpleDataModal } from '../../modal';
 import { parseFilename, storeFirmware, extractLog, FirmwareResult } from '../../local-storage/firmware';
 import log from 'loglevel';
@@ -112,9 +112,7 @@ export default function CompileFirmwareButton() {
       const result = await compile(baseUri, variant);
       if (result.success) {
         await addDownload(result.firmware);
-        popupToast(
-          <SuccessToast message={<span>Compilation Successful</span>} onClose={() => popupToast(undefined)} />
-        );
+        popupSimpleToast('success', 'Compilation Successful');
         stopExecuting(Actions.Compile);
         updatePanel(Panels.Flash);
       } else {

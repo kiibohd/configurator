@@ -5,8 +5,7 @@ import { Button, IconButton } from '../../mui';
 import { JsonIcon } from '../../icons';
 import { tooltipped } from '../../utils';
 import { SimpleDataModal } from '../../modal';
-import { SuccessToast } from '../../toast';
-import { popupToast } from '../../state/core';
+import { popupSimpleToast } from '../../state/core';
 import { currentConfig } from '../../state/configure';
 
 type ViewRawJsonButtonProps = {
@@ -31,7 +30,7 @@ export default function ViewRawJsonButton(props: ViewRawJsonButtonProps) {
       return;
     }
     electron.clipboard.writeText(data);
-    popupToast(<SuccessToast message={<span>Copied to Clipoard</span>} onClose={() => popupToast(undefined)} />);
+    popupSimpleToast('success', 'Copied to Clipboard');
   };
 
   const copyAction = (

@@ -18,8 +18,7 @@ import { framesToString, Injection, ConfigAnimation, ConfigCannedConfigurableIte
 import { process } from './canned';
 import log from 'loglevel';
 import { addAnimation, updateCustomKll } from '../../state/configure';
-import { popupToast } from '../../state/core';
-import { SuccessToast } from '../../toast';
+import { popupSimpleToast } from '../../state/core';
 import { Rgb } from '../../../common/utils';
 
 //TODO: This whole thing is in need of some algebraic types to keep the different types in order.
@@ -133,7 +132,7 @@ export default function CustomizeCanned() {
       updateCustomKll((customKll['0'] || '') + addition, 0);
     }
     setActive('');
-    popupToast(<SuccessToast message={`Successfully added animation '${data.name}'`} onClose={() => popupToast()} />);
+    popupSimpleToast('success', `Successfully added animation '${data.name}'`);
   };
 
   return (
