@@ -3,8 +3,8 @@ import { makeStyles, Typography } from '../mui';
 
 const useStyles = makeStyles({
   text: {
-    fontStyle: 'oblique'
-  }
+    fontStyle: 'oblique',
+  },
 } as const);
 
 export default function Animations() {

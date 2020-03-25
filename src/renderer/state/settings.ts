@@ -23,7 +23,7 @@ const DbKey = {
   lastVerCheck: 'last-version-check',
   firmwareVersions: 'firmware-versions',
   cannedAnimations: 'canned-animations',
-  uri: dev ? 'uri-development' : 'uri-production'
+  uri: dev ? 'uri-development' : 'uri-production',
 };
 
 type SettingsState = {
@@ -51,13 +51,13 @@ const initialState: SettingsState = {
   firmwareVersions: undefined,
   lastDl: undefined,
   recentDls: {},
-  cannedAnimations: {}
+  cannedAnimations: {},
 };
 
 const {
   useSharedState: useSettingsState,
   setSharedState: setSettingsState,
-  getSharedState: getSettingsState
+  getSharedState: getSettingsState,
 } = createSharedState(initialState);
 
 export { useSettingsState };
@@ -106,8 +106,8 @@ export async function updateKiidrv(kiidrv: string) {
 export async function addDownload(download: FirmwareResult) {
   const key = `${download.board}__${download.variant}`;
   setSettingsState('lastDl', download);
-  setSettingsState('recentDls', curr => {
-    const dls = (curr[key] || []).filter(x => x.hash !== download.hash);
+  setSettingsState('recentDls', (curr) => {
+    const dls = (curr[key] || []).filter((x) => x.hash !== download.hash);
     const updated = { ...curr, ...{ [key]: _.take([download, ...dls], 5) } };
     db.core.set(DbKey.recentDls, updated);
     return updated;

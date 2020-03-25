@@ -29,20 +29,20 @@ const useStyles = makeStyles({
       borderBottomColor: Palette.silver,
       borderRadius: '4px 4px 0 0',
       minWidth: '4.25em',
-      marginBottom: '-1px'
+      marginBottom: '-1px',
     },
 
     '& li span': {
       display: 'table',
-      margin: '0 auto'
-    }
+      margin: '0 auto',
+    },
   },
   inactiveTab: {
     borderColor: 'transparent !important',
     backgroundColor: 'transparent !important',
     borderBottomLeftRadius: 1,
-    borderBottomRightRadius: 1
-  }
+    borderBottomRightRadius: 1,
+  },
 } as const);
 
 export default function LayerSelect() {
@@ -52,7 +52,7 @@ export default function LayerSelect() {
 
   return (
     <ul className={classes.navTabs} style={{ borderColor: getLayerFg(layer) }}>
-      {layers.map(i => (
+      {layers.map((i) => (
         <li
           key={i}
           className={classNames({ [classes.inactiveTab]: i !== layer })}

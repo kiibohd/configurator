@@ -57,5 +57,5 @@ export default function Cap(props: CapProps) {
 
 Cap.propTypes = {
   cap: PropTypes.object.isRequired,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
 };

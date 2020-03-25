@@ -44,7 +44,7 @@ export default function ImportKeymapButton(props: ImportKeymapButtonProps) {
       style={{ marginRight: 10 }}
     >
       Import
-    </Button>
+    </Button>,
   ];
 
   const button = tooltipped(
@@ -70,5 +70,5 @@ export default function ImportKeymapButton(props: ImportKeymapButtonProps) {
 }
 
 ImportKeymapButton.propTypes = {
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
 };

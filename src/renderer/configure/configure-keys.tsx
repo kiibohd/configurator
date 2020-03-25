@@ -18,34 +18,34 @@ const tabs: NonEmptyArray<SideTab> = [
   {
     id: 'tab/key-info',
     icon: tooltipped('Key Info', <MagnifyIcon fontSize="large" />),
-    tab: <KeyInfo />
+    tab: <KeyInfo />,
   },
   {
     id: 'tab/macros',
     icon: tooltipped('Macros', <VariableIcon fontSize="large" />),
-    tab: <LayerMacros />
+    tab: <LayerMacros />,
   },
   {
     id: 'tab/custom-kll',
     icon: tooltipped('Custom KLL', <CodeIcon fontSize="large" />),
-    tab: <CustomKll />
+    tab: <CustomKll />,
   },
   {
     id: 'tab/settings',
     icon: tooltipped('Advanced Settings', <TuneIcon fontSize="large" />),
-    tab: <AdvancedSettings />
-  }
+    tab: <AdvancedSettings />,
+  },
 ];
 
 const useStyles = makeStyles({
   hidden: {
-    display: 'none'
+    display: 'none',
   },
   container: {
     position: 'relative',
     minHeight: 24,
-    marginTop: 16
-  }
+    marginTop: 16,
+  },
 } as const);
 
 export default function ConfigureKeys() {

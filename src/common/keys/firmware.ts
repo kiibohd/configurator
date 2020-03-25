@@ -12,7 +12,7 @@ function customToPredefined(custom: CustomKey): PredefinedKey {
     group: undefined,
     order: 0,
     style: custom.style || {},
-    data: custom
+    data: custom,
   };
 }
 

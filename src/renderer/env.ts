@@ -8,5 +8,5 @@ const utilsDir = path.join(dataDir, 'utils');
 export const paths = {
   data: dataDir,
   firmwareCache: firmwareCacheDir,
-  utils: utilsDir
+  utils: utilsDir,
 };

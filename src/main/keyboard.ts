@@ -11,7 +11,7 @@ export async function identifyKeyboard(
   }
 
   if (device.isUnique) {
-    const keyboard = keyboards.find(x => x.display === device.names[0]);
+    const keyboard = keyboards.find((x) => x.display === device.names[0]);
     return keyboard || null;
   }
 
@@ -21,7 +21,7 @@ export async function identifyKeyboard(
     return null;
   }
 
-  const keyboard = keyboards.find(x => !!x.names.find(y => detail.product && detail.product.includes(y)));
+  const keyboard = keyboards.find((x) => !!x.names.find((y) => detail.product && detail.product.includes(y)));
 
   return keyboard || null;
 }

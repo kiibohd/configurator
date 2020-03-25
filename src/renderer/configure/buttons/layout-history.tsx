@@ -10,15 +10,15 @@ const useStyles = makeStyles(
   (theme: Theme) =>
     ({
       button: {
-        color: 'rgba(0, 0, 0, 0.54)'
+        color: 'rgba(0, 0, 0, 0.54)',
       },
       leftIcon: {
         marginRight: theme.spacing(1),
-        fontSize: 20
+        fontSize: 20,
       },
       menu: {
-        minWidth: '12rem'
-      }
+        minWidth: '12rem',
+      },
     } as const)
 );
 
@@ -57,7 +57,7 @@ export default function LayoutHistoryButton(props: LayoutHistoryButtonProps) {
     month: 'short',
     day: 'numeric',
     hour: 'numeric',
-    minute: '2-digit'
+    minute: '2-digit',
   };
 
   return (
@@ -78,7 +78,7 @@ export default function LayoutHistoryButton(props: LayoutHistoryButtonProps) {
         anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
         classes={{ paper: classes.menu }}
       >
-        {layouts.map(layout => (
+        {layouts.map((layout) => (
           <MenuItem key={layout} onClick={() => loadRemote(layout)}>
             <ListItemIcon>
               <StarBorderIcon />
@@ -89,14 +89,14 @@ export default function LayoutHistoryButton(props: LayoutHistoryButtonProps) {
         {recent &&
           recent.length && [
             <Divider key="div" />,
-            ...recent.map(dl => (
+            ...recent.map((dl) => (
               <MenuItem key={dl.hash} onClick={() => loadLocal(dl)}>
                 <ListItemIcon>
                   <DownloadOutlineIcon />
                 </ListItemIcon>
                 {dl.layout} ({dl.hash.substring(0, 5)}) - {new Date(dl.time).toLocaleString('en-us', dateOpts)}
               </MenuItem>
-            ))
+            )),
           ]}
       </Menu>
     </div>
@@ -104,5 +104,5 @@ export default function LayoutHistoryButton(props: LayoutHistoryButtonProps) {
 }
 
 LayoutHistoryButton.propTypes = {
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
 };

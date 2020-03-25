@@ -13,7 +13,7 @@ enum Mode {
   AssignedKey,
   Animation,
   Macro,
-  CustomKll
+  CustomKll,
 }
 
 type UnassignedData = {
@@ -39,11 +39,11 @@ type KeyData = UnassignedData | AssignedData | OtherData;
 const useStyles = makeStyles({
   container: {
     padding: 10,
-    paddingLeft: 30
+    paddingLeft: 30,
   },
   message: {
-    fontStyle: 'oblique'
-  }
+    fontStyle: 'oblique',
+  },
 } as const);
 
 export default function KeyInfo() {
@@ -135,13 +135,13 @@ export default function KeyInfo() {
                 variant="outlined"
                 color="primary"
                 onClick={() => setAssignDialogOpen(true)}
-                onMouseDown={e => e.preventDefault()}
+                onMouseDown={(e) => e.preventDefault()}
               >
                 Reassign
               </Button>
             </Grid>
             <Grid item>
-              <Button variant="outlined" onClick={() => updateSelected(null)} onMouseDown={e => e.preventDefault()}>
+              <Button variant="outlined" onClick={() => updateSelected(null)} onMouseDown={(e) => e.preventDefault()}>
                 Clear
               </Button>
             </Grid>

@@ -32,5 +32,5 @@ export default function NewVersionToast(props: NewVersionToastProps) {
 NewVersionToast.propTypes = {
   version: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
 };

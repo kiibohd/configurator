@@ -15,7 +15,7 @@ const info = {
   version: '1.5.2',
   uris: {
     bin: 'https://github.com/kiibohd/kiidrv/releases/download/v1.5.2-kiidrv/kiidrv-x64-Release.exe',
-    conf: 'https://github.com/kiibohd/kiidrv/releases/download/v1.5.2-kiidrv/kiibohd.conf'
+    conf: 'https://github.com/kiibohd/kiidrv/releases/download/v1.5.2-kiidrv/kiibohd.conf',
   },
   config: `[
   {
@@ -74,7 +74,7 @@ const info = {
     "vendor": "Input Club",
     "driver": "libusbK"
   }
-]`
+]`,
 };
 
 export async function findKiidrvPath(): Promise<string> {
@@ -108,9 +108,9 @@ export async function checkVersion(): Promise<Optional<string>> {
     const data = await fetch(info.uris.bin, {
       redirect: 'follow',
       headers: {
-        'User-Agent': 'Kiibohd Configurator'
-      }
-    }).then(r => r.arrayBuffer());
+        'User-Agent': 'Kiibohd Configurator',
+      },
+    }).then((r) => r.arrayBuffer());
 
     const outpath = path.join(dir, 'kiidrv.exe');
 

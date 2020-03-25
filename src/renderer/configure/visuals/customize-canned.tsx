@@ -10,7 +10,7 @@ import {
   MenuItem,
   TextField,
   Button,
-  SelectChangeEvent
+  SelectChangeEvent,
 } from '../../mui';
 import { useConfigureState } from '../../state/index';
 import { SwatchedChromePicker } from '../../common';
@@ -25,7 +25,7 @@ import { Rgb } from '../../../common/utils';
 
 const useStyles = makeStyles({
   container: {
-    padding: 10
+    padding: 10,
   },
   row: {
     display: 'flex',
@@ -33,35 +33,35 @@ const useStyles = makeStyles({
     alignItems: 'flex-end',
     marginTop: 20,
     '&.centered': {
-      alignItems: 'center'
-    }
+      alignItems: 'center',
+    },
   },
   animationSelect: {
     minWidth: '20rem',
-    marginRight: '2rem'
+    marginRight: '2rem',
   },
   customizations: {
-    marginTop: 10
+    marginTop: 10,
   },
   animationName: {
     minWidth: '20rem',
-    marginRight: '2rem'
+    marginRight: '2rem',
   },
   descr: {
-    fontStyle: 'oblique'
+    fontStyle: 'oblique',
   },
   label: {
     marginRight: 10,
-    fontSize: '1.25rem'
+    fontSize: '1.25rem',
   },
   customSelect: {
     minWidth: '10rem',
-    marginTop: 5
+    marginTop: 5,
   },
   customSelectInput: {
     fontSize: '1.25rem',
-    paddingLeft: 10
-  }
+    paddingLeft: 10,
+  },
 } as const);
 
 type AnimationData = {
@@ -94,7 +94,7 @@ export default function CustomizeCanned() {
 
   const changeActive = (name: string) => {
     const initial: AnimationData = { name };
-    canned[name].configurable.map(item => (initial[item.name] = item.default));
+    canned[name].configurable.map((item) => (initial[item.name] = item.default));
     setData(initial);
     setActive(name);
   };
@@ -112,13 +112,13 @@ export default function CustomizeCanned() {
   const create = () => {
     if (!can || !data || !data.name) return;
 
-    const frames = can.frames.map(f => process(can.configurable, data, f, can.version));
+    const frames = can.frames.map((f) => process(can.configurable, data, f, can.version));
     const settings = process(can.configurable, data, can.settings, can.version);
 
     const animation: ConfigAnimation = {
       frames: framesToString(frames),
       type: 'canned',
-      settings
+      settings,
     };
 
     log.debug(animation);
@@ -146,7 +146,7 @@ export default function CustomizeCanned() {
             onChange={(e: SelectChangeEvent) => changeActive(e.target.value as string)}
             inputProps={{ name: 'animation', id: 'animation' }}
           >
-            {_.keys(canned).map(name => (
+            {_.keys(canned).map((name) => (
               <MenuItem key={name} value={name}>
                 {name}
               </MenuItem>
@@ -162,7 +162,7 @@ export default function CustomizeCanned() {
             <TextField
               autoFocus={true}
               value={data.name}
-              onChange={e => update('name', e.target.value)}
+              onChange={(e) => update('name', e.target.value)}
               label="Name to create as"
               className={classes.animationName}
               helperText={error}
@@ -181,7 +181,7 @@ export default function CustomizeCanned() {
                 switch (item.type) {
                   case 'color':
                     return (
-                      <SwatchedChromePicker color={data[item.name] as Rgb} onChange={c => update(item.name, c.rgb)} />
+                      <SwatchedChromePicker color={data[item.name] as Rgb} onChange={(c) => update(item.name, c.rgb)} />
                     );
                   case 'select':
                     return (

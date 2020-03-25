@@ -14,18 +14,18 @@ const useStyles = makeStyles(
   (theme: Theme) =>
     ({
       tabContainer: {
-        float: 'left'
+        float: 'left',
       },
       active: {
         border: '1px solid black',
-        borderRightColor: theme.palette.background.default
+        borderRightColor: theme.palette.background.default,
       },
       inactive: {
         '&:hover': {
           backgroundColor: theme.palette.action.hover,
           borderRadius: '50%',
-          cursor: 'pointer'
-        }
+          cursor: 'pointer',
+        },
       },
       tab: {
         textAlign: 'center',
@@ -33,8 +33,8 @@ const useStyles = makeStyles(
         marginBottom: 10,
         padding: '5px 0',
         borderRadius: '4px 0 0 4px',
-        color: Palette.darkgray
-      }
+        color: Palette.darkgray,
+      },
     } as const)
 );
 
@@ -50,12 +50,12 @@ export default function SideTabs(props: SideTabsProps) {
   const [matrix] = useConfigureState('matrix');
   const { width } = matrix ? getSize(matrix, ui.sizeFactor) : { width: 0 };
 
-  const active = items.find(t => t.id === activeTab);
+  const active = items.find((t) => t.id === activeTab);
 
   return (
     <div>
       <div className={classes.tabContainer}>
-        {items.map(t => (
+        {items.map((t) => (
           <div
             key={t.id}
             className={classNames(classes.tab, activeTab === t.id ? classes.active : classes.inactive)}
@@ -76,5 +76,5 @@ export default function SideTabs(props: SideTabsProps) {
 }
 
 SideTabs.propTypes = {
-  items: PropTypes.array.isRequired
+  items: PropTypes.array.isRequired,
 };

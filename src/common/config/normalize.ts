@@ -22,7 +22,7 @@ function normalizeLayer(layer: PersistedKey, locale: Locale): ConfigKey | null {
     key: 'cust/raw',
     label1: layer.label && layer.label.length ? layer.label : 'RAW',
     style: { fontStyle: 'oblique' },
-    custom: layer.key
+    custom: layer.key,
   };
 }
 
@@ -30,24 +30,26 @@ export function normalize(config: PersistedConfig, locale: Locale): Config {
   const minLeft = (_.minBy(config.matrix, 'x') ?? { x: 0 }).x;
   const minTop = (_.minBy(config.matrix, 'y') ?? { y: 0 }).y;
 
-  const matrix = config.matrix.map(k => ({
+  const matrix = config.matrix.map((k) => ({
     ...k,
-    ...{ x: k.x - minLeft, y: k.y - minTop, layers: _.mapValues(k.layers, l => normalizeLayer(l, locale)) }
+    ...{ x: k.x - minLeft, y: k.y - minTop, layers: _.mapValues(k.layers, (l) => normalizeLayer(l, locale)) },
   }));
 
   // Defines need a unique id
-  const defines = !config.defines ? [] : config.defines.map(x => ({ ...x, ...{ id: uuidv4() } }));
+  const defines = !config.defines ? [] : config.defines.map((x) => ({ ...x, ...{ id: uuidv4() } }));
   // Macros also need the unique id.
-  const macros = !config.macros ? {} : _.mapValues(config.macros, xs => xs.map(x => ({ ...x, ...{ id: uuidv4() } })));
+  const macros = !config.macros
+    ? {}
+    : _.mapValues(config.macros, (xs) => xs.map((x) => ({ ...x, ...{ id: uuidv4() } })));
 
   const custom =
-    _.mapValues(config.custom, c => stripInjection(c, Injection.compile.start, Injection.compile.end)) || {};
+    _.mapValues(config.custom, (c) => stripInjection(c, Injection.compile.start, Injection.compile.end)) || {};
 
-  const animations = _.mapValues(config.animations, a => ({
+  const animations = _.mapValues(config.animations, (a) => ({
     ...a,
     ...{
-      frames: framesToString(a.frames)
-    }
+      frames: framesToString(a.frames),
+    },
   }));
 
   // TODO: Identify custom macros...
@@ -63,7 +65,7 @@ export function normalize(config: PersistedConfig, locale: Locale): Config {
       custom,
       animations: animations || {},
       macros,
-      canned: config.canned || {}
-    }
+      canned: config.canned || {},
+    },
   } as Config;
 }

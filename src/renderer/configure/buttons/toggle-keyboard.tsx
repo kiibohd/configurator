@@ -6,7 +6,7 @@ import { tooltipped } from '../../utils';
 
 export default function ToggleKeyboardButton() {
   const [keyboardHidden, setKeyboardHidden] = useConfigureState('keyboardHidden');
-  const toggle = () => setKeyboardHidden(curr => !curr);
+  const toggle = () => setKeyboardHidden((curr) => !curr);
 
   return tooltipped(
     keyboardHidden ? 'Show Keyboard' : 'Hide Keyboard',

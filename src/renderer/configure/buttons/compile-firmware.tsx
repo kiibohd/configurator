@@ -11,7 +11,7 @@ import {
   stopExecuting,
   Actions,
   Panels,
-  popupSimpleToast
+  popupSimpleToast,
 } from '../../state/core';
 import { ErrorToast } from '../../toast';
 import { SimpleDataModal } from '../../modal';
@@ -49,9 +49,9 @@ async function compile(baseUri: string, variant: string): Promise<CompileResult>
       method: 'POST',
       cache: 'no-cache',
       headers: {
-        'Content-Type': 'application/json; charset=utf-8'
+        'Content-Type': 'application/json; charset=utf-8',
       },
-      body: JSON.stringify(payload)
+      body: JSON.stringify(payload),
     });
     log.trace(response);
 
@@ -84,8 +84,8 @@ const useStyles = makeStyles(
   (theme: Theme) =>
     ({
       icon: {
-        marginRight: theme.spacing(1)
-      }
+        marginRight: theme.spacing(1),
+      },
     } as const)
 );
 

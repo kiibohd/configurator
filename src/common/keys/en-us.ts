@@ -119,7 +119,7 @@ function buildCode2iec(): SparseArray<string> {
     [2018, 'iec/a08'], // RALT
     [2091, 'iec/a10'], // RGUI
     [2092, 'iec/a10'], // RGUI
-    [2093, 'iec/a10'] // RGUI (⌘)
+    [2093, 'iec/a10'], // RGUI (⌘)
 
     // Numpad Keys
 
@@ -239,7 +239,7 @@ function buildKeys(): LocalizedKey[] {
     ['iec/b53', 'key/p3'],
     ['iec/b54', 'key/pent'],
     ['iec/a51', 'key/p0'],
-    ['iec/a53', 'key/p.']
+    ['iec/a53', 'key/p.'],
   ];
 
   return keys.map(([iec, key, label1, label2, label3]) => ({
@@ -247,7 +247,7 @@ function buildKeys(): LocalizedKey[] {
     key,
     label1,
     label2,
-    label3
+    label3,
   }));
 }
 
@@ -258,7 +258,7 @@ const locale: Locale = {
   // TODO: Change to code2key
   code2iec: buildCode2iec(),
   iec2key: _.keyBy(keys, 'iec'),
-  keyname2key: _.keyBy(keys, 'key')
+  keyname2key: _.keyBy(keys, 'key'),
 };
 
 export default locale;

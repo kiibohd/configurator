@@ -8,7 +8,7 @@ import {
   DialogActions,
   DialogTitle,
   Button,
-  Theme
+  Theme,
 } from '../../mui';
 import Cap from '../cap';
 import { useSettingsState } from '../../state';
@@ -22,18 +22,18 @@ const useStyles = makeStyles(
   (theme: Theme) =>
     ({
       dialog: {
-        fontFamily: theme.typography.fontFamily
+        fontFamily: theme.typography.fontFamily,
       },
       container: {
         display: 'flex',
         alignItems: 'center',
-        flexWrap: 'wrap'
+        flexWrap: 'wrap',
       },
       combo: {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        paddingTop: 20
+        paddingTop: 20,
       },
       keys: {
         display: 'flex',
@@ -43,14 +43,14 @@ const useStyles = makeStyles(
         border: '1px dashed darkgray',
         borderRadius: 4,
         minWidth: 64,
-        minHeight: 64
+        minHeight: 64,
       },
       separator: {
         fontSize: 36,
         fontWeight: 'bolder',
         alignSelf: 'flex-end',
-        margin: '10px 15px'
-      }
+        margin: '10px 15px',
+      },
     } as const)
 );
 
@@ -86,7 +86,7 @@ function reducer(state: State, action: Action): State {
     case 'release':
       return {
         macro: state.macro,
-        held: _.without(state.held, action.payload)
+        held: _.without(state.held, action.payload),
       };
     default:
       return state;
@@ -152,7 +152,7 @@ export default function RecordMacroDialog(props: RecordMacroDialogProps) {
 
   const save = () => {
     // TODO: Solve the undefined madness
-    const mapped = state.macro.map(xs => xs.map(x => _.head(x.aliases)));
+    const mapped = state.macro.map((xs) => xs.map((x) => _.head(x.aliases)));
     onSave(mapped as string[][]);
   };
 
@@ -211,5 +211,5 @@ export default function RecordMacroDialog(props: RecordMacroDialogProps) {
 RecordMacroDialog.propTypes = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  onSave: PropTypes.func.isRequired
+  onSave: PropTypes.func.isRequired,
 };

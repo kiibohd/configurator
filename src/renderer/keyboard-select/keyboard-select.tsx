@@ -4,7 +4,7 @@ import { makeStyles, Drawer, List, ListItem, ListItemText, ListItemIcon } from '
 import {
   released as releasedKeyboardNames,
   keyboards as allKeyboards,
-  Names as KeyboardNames
+  Names as KeyboardNames,
 } from '../../common/device/keyboard';
 import { useConnectedKeyboards } from '../hooks';
 import { useCoreState, updateSelectedKeyboard, updateToolbarButtons } from '../state/core';
@@ -19,16 +19,16 @@ const drawerWidth = '15em';
 const useStyles = makeStyles({
   drawer: {
     width: drawerWidth,
-    flexShrink: 0
+    flexShrink: 0,
   },
   drawerPaper: {
-    width: drawerWidth
+    width: drawerWidth,
   },
   topPad: {
-    minHeight: 48
+    minHeight: 48,
   },
   listIcon: {
-    marginRight: 0
+    marginRight: 0,
   },
   imageContainer: {
     top: 0,
@@ -38,11 +38,11 @@ const useStyles = makeStyles({
     height: '100%',
     display: 'flex',
     justifyContent: 'center',
-    alignContent: 'center'
+    alignContent: 'center',
   },
   image: {
-    objectFit: 'contain'
-  }
+    objectFit: 'contain',
+  },
 } as const);
 
 //TODO: This has some terrible react style... fix it.
@@ -108,7 +108,7 @@ export default function KeyboardSelect() {
   }
 
   function MockKeyboard(name: KeyboardNames): AttachedKeyboard {
-    const keyboard = allKeyboards.find(x => x.display === name);
+    const keyboard = allKeyboards.find((x) => x.display === name);
 
     if (!keyboard) {
       throw Error('Unknown keyboard found');
@@ -118,12 +118,12 @@ export default function KeyboardSelect() {
       keyboard,
       known: undefined,
       connected: false,
-      openable: false
+      openable: false,
     };
   }
 
   function keyboardListItem(name: KeyboardNames) {
-    const keyboard = connectedKeyboards.find(x => x.keyboard && x.keyboard.display === name) ?? MockKeyboard(name);
+    const keyboard = connectedKeyboards.find((x) => x.keyboard && x.keyboard.display === name) ?? MockKeyboard(name);
     const [selectedKeyboard] = useCoreState('keyboard');
 
     const icon = keyboardIcon(keyboard);
@@ -153,7 +153,7 @@ export default function KeyboardSelect() {
         variant="permanent"
         anchor="left"
         classes={{
-          paper: classes.drawerPaper
+          paper: classes.drawerPaper,
         }}
       >
         <div className={classes.topPad} />

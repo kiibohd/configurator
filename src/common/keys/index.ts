@@ -4,7 +4,7 @@ import { LocalizedKey, PredefinedKey, DisplayKey } from './types';
 export * from './types';
 
 export const locales = {
-  'en-us': enUsLocale
+  'en-us': enUsLocale,
 };
 
 export type AvailableLocales = keyof typeof locales;
@@ -23,6 +23,6 @@ export function mergeKeys(firmware: PredefinedKey, locale: LocalizedKey | Displa
     label3: locale.label3,
     style: firmware.style,
     custom: (locale as DisplayKey).custom,
-    data: (locale as DisplayKey).data
+    data: (locale as DisplayKey).data,
   };
 }

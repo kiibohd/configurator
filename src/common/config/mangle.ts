@@ -13,7 +13,7 @@ function mangleLayer(layer: ConfigKey): PersistedKey {
 
   return {
     key: key.aliases[key.resultDef],
-    label: key.label
+    label: key.label,
   };
 }
 
@@ -35,9 +35,9 @@ function macroToKll(macro: ConfigMacro): string {
   };
   const mapSeq = (seq: string[][], isTrigger: boolean) => {
     return seq
-      .map(combo =>
+      .map((combo) =>
         combo
-          .map(alias => {
+          .map((alias) => {
             const key = getKeyFromAlias(alias);
             // TODO: Handle this error better...
             if (!key) {
@@ -69,15 +69,15 @@ export function mangle(config: Config): PersistedConfig {
 
   return {
     header: config.header,
-    defines: config.defines.map(d => _.omit(d, 'id')),
-    matrix: config.matrix.map(k => ({ ...k, ...{ layers: _.mapValues(k.layers, mangleLayer) } })),
+    defines: config.defines.map((d) => _.omit(d, 'id')),
+    matrix: config.matrix.map((k) => ({ ...k, ...{ layers: _.mapValues(k.layers, mangleLayer) } })),
     leds: config.leds,
     custom,
-    animations: _.mapValues(config.animations, a => ({
+    animations: _.mapValues(config.animations, (a) => ({
       ...a,
-      ...{ frames: a.frames.split(/;[\n]*/m).filter(x => x && x.length) }
+      ...{ frames: a.frames.split(/;[\n]*/m).filter((x) => x && x.length) },
     })),
-    macros: _.mapValues(config.macros, xs => xs.map(x => _.omit(x, 'id'))),
-    canned: config.canned
+    macros: _.mapValues(config.macros, (xs) => xs.map((x) => _.omit(x, 'id'))),
+    canned: config.canned,
   };
 }

@@ -5,8 +5,8 @@ import { makeStyles, Button, Dialog, TextField, DialogContent, DialogActions } f
 const useStyles = makeStyles({
   //TODO: this should probably be passed in.
   text: {
-    minWidth: '30em'
-  }
+    minWidth: '30em',
+  },
 } as const);
 
 type AlterFieldProps = {
@@ -79,7 +79,7 @@ AlterFieldModal.propTypes = {
   name: PropTypes.string.isRequired,
   onClose: PropTypes.func.isRequired,
   validation: PropTypes.func,
-  saveText: PropTypes.string
+  saveText: PropTypes.string,
 };
 
 export default AlterFieldModal;

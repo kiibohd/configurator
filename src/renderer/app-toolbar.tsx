@@ -10,11 +10,11 @@ const useStyles = makeStyles(
       appBar: {
         zIndex: theme.zIndex.drawer + 1,
         background: 'white',
-        color: blueGrey[900]
+        color: blueGrey[900],
       },
       grow: {
-        flexGrow: 1
-      }
+        flexGrow: 1,
+      },
     } as const)
 );
 

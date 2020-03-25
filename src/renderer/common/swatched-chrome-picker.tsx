@@ -17,10 +17,10 @@ const useStyles = makeStyles(
     ({
       container: {},
       swatch: {
-        display: 'inline-block'
+        display: 'inline-block',
       },
       selectable: {
-        cursor: 'pointer'
+        cursor: 'pointer',
       },
       color: {
         width: 221,
@@ -29,19 +29,19 @@ const useStyles = makeStyles(
         textAlign: 'center',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'space-around'
+        justifyContent: 'space-around',
       },
       popup: {
         position: 'absolute',
-        zIndex: 2
+        zIndex: 2,
       },
       cover: {
         position: 'fixed',
         top: 0,
         right: 0,
         bottom: 0,
-        left: 0
-      }
+        left: 0,
+      },
     } as const)
 );
 
@@ -63,13 +63,13 @@ export default function SwatchedChromePicker(props: SwatchedChromePickerProps) {
 
   const swatchStyle = {
     background: `rgb(${color.r}, ${color.g}, ${color.b})`,
-    borderRadius: showPicker ? '10px 10px 0 0' : 10
+    borderRadius: showPicker ? '10px 10px 0 0' : 10,
   };
 
   const textStyle = {
     fontSize: 'x-large',
     fontWeight: 900,
-    color: `rgb(${text.r}, ${text.g}, ${text.b})`
+    color: `rgb(${text.r}, ${text.g}, ${text.b})`,
   };
 
   return (
@@ -95,5 +95,5 @@ export default function SwatchedChromePicker(props: SwatchedChromePickerProps) {
 SwatchedChromePicker.propTypes = {
   color: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
 };

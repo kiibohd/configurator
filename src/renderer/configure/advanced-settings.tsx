@@ -10,7 +10,7 @@ import {
   IconButton,
   Grid,
   Typography,
-  TextField
+  TextField,
 } from '../mui';
 import { AddIcon, DeleteIcon, ExpandMoreIcon } from '../icons';
 import { useConfigureState, updateHeader, addDefine, updateDefine, deleteDefine } from '../state/configure';
@@ -18,10 +18,10 @@ import { fontStack } from '../theme';
 
 const useStyles = makeStyles({
   container: {
-    padding: 10
+    padding: 10,
   },
   header: {
-    paddingBottom: 10
+    paddingBottom: 10,
   },
   text: {
     width: 'calc(100% - 20px)',
@@ -31,32 +31,32 @@ const useStyles = makeStyles({
     fontSize: 15,
 
     '&:focus': {
-      outline: 0
-    }
+      outline: 0,
+    },
   },
   headerContainer: {
     display: 'flex',
     flexDirection: 'row',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
   },
   headerEntry: {
     width: '20em',
-    margin: 20
+    margin: 20,
   },
   definesContainer: {
     width: '100%',
     padding: 10,
     paddingBottom: 50,
-    position: 'relative'
+    position: 'relative',
   },
   grid: {
-    marginBottom: 20
+    marginBottom: 20,
   },
   fab: {
     position: 'absolute',
-    right: '33%'
+    right: '33%',
   },
-  title: {}
+  title: {},
 } as const);
 
 function Headers() {
@@ -78,9 +78,9 @@ function Headers() {
               label={k}
               value={v}
               InputProps={{
-                readOnly: readonly(k)
+                readOnly: readonly(k),
               }}
-              onChange={e => updateHeader(k, e.target.value)}
+              onChange={(e) => updateHeader(k, e.target.value)}
             />
           ))}
         </div>
@@ -109,14 +109,14 @@ function Defines() {
                 <Typography className={classes.title}>Value</Typography>
               </Grid>
             </Grid>
-            {defines.map(x => (
+            {defines.map((x) => (
               // TODO: Move to own component and do View/Edit split with validation
               <Grid key={x.id} container item spacing={4}>
                 <Grid item xs={4}>
-                  <TextField fullWidth value={x.name} onChange={e => updateDefine(x.id, e.target.value, x.value)} />
+                  <TextField fullWidth value={x.name} onChange={(e) => updateDefine(x.id, e.target.value, x.value)} />
                 </Grid>
                 <Grid item xs={4}>
-                  <TextField fullWidth value={x.value} onChange={e => updateDefine(x.id, x.name, e.target.value)} />
+                  <TextField fullWidth value={x.value} onChange={(e) => updateDefine(x.id, x.name, e.target.value)} />
                 </Grid>
                 <Grid item xs={2}>
                   <IconButton onClick={() => deleteDefine(x.id)}>

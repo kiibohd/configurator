@@ -7,12 +7,12 @@ const useStyles = makeStyles(
   (theme: Theme) =>
     ({
       button: {
-        color: 'rgba(0, 0, 0, 0.54)'
+        color: 'rgba(0, 0, 0, 0.54)',
       },
       leftIcon: {
         marginRight: theme.spacing(1),
-        fontSize: 20
-      }
+        fontSize: 20,
+      },
     } as const)
 );
 

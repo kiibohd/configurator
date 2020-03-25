@@ -9,14 +9,14 @@ const actions = ['start', 'pause', 'stop', 'single'];
 const useStyles = makeStyles({
   select: {
     minWidth: '15rem',
-    marginRight: '1rem'
+    marginRight: '1rem',
   },
   row: {
     display: 'flex',
     flexDirection: 'row',
-    alignItems: 'flex-end'
+    alignItems: 'flex-end',
   },
-  actionButton: {}
+  actionButton: {},
 } as const);
 
 type AnimationActionProps = {
@@ -40,7 +40,7 @@ export default function AnimationAction(props: AnimationActionProps) {
           <InputLabel htmlFor="animation">Animation</InputLabel>
           <Select
             value={animation}
-            onChange={e => setAnimation(e.target.value as string)}
+            onChange={(e) => setAnimation(e.target.value as string)}
             inputProps={{ name: 'animation', id: 'animation', readOnly: !!readonly }}
           >
             {_.toPairs(animations).map(([name]) => (
@@ -54,10 +54,10 @@ export default function AnimationAction(props: AnimationActionProps) {
           <InputLabel htmlFor="action">Action</InputLabel>
           <Select
             value={action}
-            onChange={e => setAction(e.target.value as string)}
+            onChange={(e) => setAction(e.target.value as string)}
             inputProps={{ name: 'action', id: 'action', readOnly: !!readonly }}
           >
-            {actions.map(name => (
+            {actions.map((name) => (
               <MenuItem key={name} value={name}>
                 {name}
               </MenuItem>
@@ -83,5 +83,5 @@ AnimationAction.propTypes = {
   onAssign: PropTypes.func,
   defaultAnimation: PropTypes.string,
   defaultAction: PropTypes.string,
-  readonly: PropTypes.bool
+  readonly: PropTypes.bool,
 };

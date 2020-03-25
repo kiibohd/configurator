@@ -13,16 +13,16 @@ const useStyles = makeStyles({
     backgroundColor: Palette.lightgray,
     borderLeft: '1px solid transparent',
     borderRight: '1px solid transparent',
-    borderBottom: '1px solid transparent'
+    borderBottom: '1px solid transparent',
   },
   innerContainer: {
-    position: 'relative'
+    position: 'relative',
   },
   zone: {
     position: 'absolute',
     zIndex: 99,
-    border: '1px solid red'
-  }
+    border: '1px solid red',
+  },
 } as const);
 
 type Point = {
@@ -47,12 +47,12 @@ function contained(leds: ConfigLed[], zone: Box) {
   const conv = 0.20997375328084; // map 19.05mm => 4x4
   const scale = (x: number) => 2 * sf + x * conv * sf;
   return leds
-    .filter(l => {
+    .filter((l) => {
       const x = scale(l.x) - sf / 2;
       const y = scale(l.y) - sf / 2;
       return left <= x && right >= x + sf && top <= y && bottom >= y + sf;
     })
-    .map(x => x.id);
+    .map((x) => x.id);
 }
 
 function intersects(leds: ConfigLed[], zone: Box) {
@@ -65,12 +65,12 @@ function intersects(leds: ConfigLed[], zone: Box) {
   const conv = 0.20997375328084; // map 19.05mm => 4x4
   const scale = (x: number) => 2 * sf + x * conv * sf;
   return leds
-    .filter(l => {
+    .filter((l) => {
       const x = scale(l.x) - sf / 2;
       const y = scale(l.y) - sf / 2;
       return left <= x + sf && right >= x && top <= y + sf && bottom >= y;
     })
-    .map(x => x.id);
+    .map((x) => x.id);
 }
 
 type State = {
@@ -122,7 +122,7 @@ const initialState: State = {
   end: { x: 0, y: 0 },
   zone: { left: 0, top: 0, width: 0, height: 0 },
   initialSelected: [],
-  selected: []
+  selected: [],
 };
 
 function reducer(state: State, action: Action): State {
@@ -143,8 +143,8 @@ function reducer(state: State, action: Action): State {
           append: !!action.payload.append,
           start: point,
           end: point,
-          initialSelected: action.payload.initialSelected
-        }
+          initialSelected: action.payload.initialSelected,
+        },
       };
     case 'move':
       if (!state.mouseDown) {
@@ -155,7 +155,7 @@ function reducer(state: State, action: Action): State {
         top: Math.min(state.start.y, point.y),
         left: Math.min(state.start.x, point.x),
         width: Math.abs(point.x - state.start.x),
-        height: Math.abs(point.y - state.start.y)
+        height: Math.abs(point.y - state.start.y),
       };
       selected = state.start.y < point.y ? contained(state.leds, zone) : intersects(state.leds, zone);
       selected = state.append ? [...state.initialSelected, ...selected] : selected;
@@ -267,14 +267,14 @@ export default function VisualizeLeds() {
     >
       <div
         className={classes.innerContainer}
-        onClick={e => click(e, undefined)}
+        onClick={(e) => click(e, undefined)}
         onMouseDown={mousedown}
         ref={containerRef}
       >
-        {matrix.map(k => (
+        {matrix.map((k) => (
           <Key key={`key-${k.board}-${k.code}`} keydef={k} sizeFactor={ui.sizeFactor} />
         ))}
-        {leds.map(led => {
+        {leds.map((led) => {
           const status = ledStatus[led.id];
           return (
             <Led

@@ -11,7 +11,7 @@ import {
   InputLabel,
   Typography,
   TextField,
-  SelectChangeEvent
+  SelectChangeEvent,
 } from '../../mui';
 import { AlterFieldModal } from '../../modal';
 import { fontStack } from '../../theme';
@@ -24,28 +24,28 @@ const useStyles = makeStyles({
     minHeight: '20rem',
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'stretch'
+    alignItems: 'stretch',
   },
   contents: {
-    marginBottom: 20
+    marginBottom: 20,
   },
   row: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'flex-end',
-    marginTop: 20
+    marginTop: 20,
   },
   actionButton: {
-    marginLeft: 10
+    marginLeft: 10,
   },
   animationSelect: {
     minWidth: '20rem',
-    marginRight: '2rem'
+    marginRight: '2rem',
   },
   text: {
     fontFamily: fontStack.monospace,
-    fontSize: 'smaller'
-  }
+    fontSize: 'smaller',
+  },
 } as const);
 
 type AnimationEditProps = {
@@ -166,5 +166,5 @@ export default function AnimationEdit(props: AnimationEditProps) {
 }
 
 AnimationEdit.propTypes = {
-  animation: PropTypes.string
+  animation: PropTypes.string,
 };

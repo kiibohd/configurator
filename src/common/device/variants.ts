@@ -15,7 +15,7 @@ function row(strings: TemplateStringsArray): KeyDetails[] {
       left,
       isSpace: def.includes('s'),
       isDifference: def.includes('d'),
-      isVertical: def.includes('v')
+      isVertical: def.includes('v'),
     };
     keys.push(key);
     left += key.size;
@@ -39,7 +39,7 @@ function buildDetailsList(): Map<string, KeyboardDetails[]> {
         row`1.5 1 1 1 1 1 1 1 1 1 1 1 1 1.5`,
         row`1.75 1 1 1 1 1 1 1 1 1 1 1 2.25`,
         row`2.25 1 1 1 1 1 1 1 1 1 1 1.75 1`,
-        row`1.25d 1.25d 1.25d 6.25d 1.25d 1.25d 1.25d 1.25d`
+        row`1.25d 1.25d 1.25d 6.25d 1.25d 1.25d 1.25d 1.25d`,
       ]
     ),
     variant(
@@ -50,9 +50,9 @@ function buildDetailsList(): Map<string, KeyboardDetails[]> {
         row`1.5 1 1 1 1 1 1 1 1 1 1 1 1 1.5`,
         row`1.75 1 1 1 1 1 1 1 1 1 1 1 2.25`,
         row`2.25 1 1 1 1 1 1 1 1 1 1 1.75 1`,
-        row`1.5d 1d 1.5d 6d 1.5d 1d 1d 1.5d`
+        row`1.5d 1d 1.5d 6d 1.5d 1d 1d 1.5d`,
       ]
-    )
+    ),
   ];
 
   const inf60Led = [
@@ -64,7 +64,7 @@ function buildDetailsList(): Map<string, KeyboardDetails[]> {
         row`1.5 1 1 1 1 1 1 1 1 1 1 1 1 1.5`,
         row`1.75 1 1 1 1 1 1 1 1 1 1 1 2.25`,
         row`2.25 1 1 1 1 1 1 1 1 1 1 1.75d 1d`,
-        row`1.25d 1.25d 1.25d 6.25d 1.25d 1.25d 1.25d 1.25d`
+        row`1.25d 1.25d 1.25d 6.25d 1.25d 1.25d 1.25d 1.25d`,
       ]
     ),
     variant(
@@ -75,7 +75,7 @@ function buildDetailsList(): Map<string, KeyboardDetails[]> {
         row`1.5 1 1 1 1 1 1 1 1 1 1 1 1 1.5`,
         row`1.75 1 1 1 1 1 1 1 1 1 1 1 2.25`,
         row`2.25 1 1 1 1 1 1 1 1 1 1 1.75d 1d`,
-        row`1.5d 1d 1.5d 6d 1.5d 1d 1d 1.5d`
+        row`1.5d 1d 1.5d 6d 1.5d 1d 1d 1.5d`,
       ]
     ),
     variant(
@@ -86,9 +86,9 @@ function buildDetailsList(): Map<string, KeyboardDetails[]> {
         row`1.5 1 1 1 1 1 1 1 1 1 1 1 1 1.5`,
         row`1.75 1 1 1 1 1 1 1 1 1 1 1 2.25`,
         row`2.25 1 1 1 1 1 1 1 1 1 1 2.75d`,
-        row`1.25d 1.25d 1.25d 6.25d 1.25d 1.25d 1.25d 1.25d`
+        row`1.25d 1.25d 1.25d 6.25d 1.25d 1.25d 1.25d 1.25d`,
       ]
-    )
+    ),
   ];
 
   const whitefox = [
@@ -100,7 +100,7 @@ function buildDetailsList(): Map<string, KeyboardDetails[]> {
         row`1.5 1 1 1 1 1 1 1 1 1 1 1 1 1.5d 1`,
         row`1.75 1 1 1 1 1 1 1 1 1 1 1 2.25d 1`,
         row`2.25d 1 1 1 1 1 1 1 1 1 1 1.75d 1d 1`,
-        row`1.25d 1.25d 1.25d 6.25d 1.25d 1.25d 0.5s 1 1 1`
+        row`1.25d 1.25d 1.25d 6.25d 1.25d 1.25d 0.5s 1 1 1`,
       ]
     ),
     variant(
@@ -111,7 +111,7 @@ function buildDetailsList(): Map<string, KeyboardDetails[]> {
         row`1.5 1 1 1 1 1 1 1 1 1 1 1 1 1.5d 1`,
         row`1.75 1 1 1 1 1 1 1 1 1 1 1 2.25d 1`,
         row`2.25d 1 1 1 1 1 1 1 1 1 1 1.75d 1d 1`,
-        row`1.25d 1.25d 1.25d 6.25d 1.25d 1.25d 0.5s 1 1 1`
+        row`1.25d 1.25d 1.25d 6.25d 1.25d 1.25d 0.5s 1 1 1`,
       ]
     ),
     variant(
@@ -122,7 +122,7 @@ function buildDetailsList(): Map<string, KeyboardDetails[]> {
         row`1.5 1 1 1 1 1 1 1 1 1 1 1 1 1.5s 1`,
         row`1.75 1 1 1 1 1 1 1 1 1 1 1 1d 1.25d 1`,
         row`1.25d 1d 1 1 1 1 1 1 1 1 1 1 1.75d 1d 1`,
-        row`1.25d 1.25d 1.25d 6.25d 1d 1d 1d 1 1 1`
+        row`1.25d 1.25d 1.25d 6.25d 1d 1d 1d 1 1 1`,
       ]
     ),
     variant(
@@ -133,7 +133,7 @@ function buildDetailsList(): Map<string, KeyboardDetails[]> {
         row`1.5 1 1 1 1 1 1 1 1 1 1 1 1 1.5d 1`,
         row`1.75 1 1 1 1 1 1 1 1 1 1 1 2.25d 1`,
         row`2.25d 1 1 1 1 1 1 1 1 1 1 1.75d 1d 1`,
-        row`1.25d 1.25d 1.25d 6.25d 1d 1d 1d 1 1 1`
+        row`1.25d 1.25d 1.25d 6.25d 1d 1d 1d 1 1 1`,
       ]
     ),
     variant(
@@ -144,7 +144,7 @@ function buildDetailsList(): Map<string, KeyboardDetails[]> {
         row`1.5 1 1 1 1 1 1 1 1 1 1 1 1 1.5d 1`,
         row`1.75 1 1 1 1 1 1 1 1 1 1 1 2.25d 1`,
         row`2.25d 1 1 1 1 1 1 1 1 1 1 2.75d 1`,
-        row`1.25d 1.25d 1.25d 6.25d 1.25d 1.25d 0.5s 1 1 1`
+        row`1.25d 1.25d 1.25d 6.25d 1.25d 1.25d 0.5s 1 1 1`,
       ]
     ),
     variant(
@@ -155,9 +155,9 @@ function buildDetailsList(): Map<string, KeyboardDetails[]> {
         row`1.5 1 1 1 1 1 1 1 1 1 1 1 1 1.5d 1`,
         row`1.75 1 1 1 1 1 1 1 1 1 1 1 2.25d 1`,
         row`2.25d 1 1 1 1 1 1 1 1 1 1 1.75d 1d 1`,
-        row`1.5d 1.5d 7d 1.5d 1.5d 1 1 1`
+        row`1.5d 1.5d 7d 1.5d 1.5d 1 1 1`,
       ]
-    )
+    ),
   ];
 
   const ktype = [
@@ -170,9 +170,9 @@ function buildDetailsList(): Map<string, KeyboardDetails[]> {
         row`1.5 1 1 1 1 1 1 1 1 1 1 1 1 1.5 0.5s 1 1 1`,
         row`1.75 1 1 1 1 1 1 1 1 1 1 1 2.25`,
         row`2.25 1 1 1 1 1 1 1 1 1 1 2.75 1.5s 1`,
-        row`1.25 1.25 1.25 6.25 1.25 1.25 1.25 1.25 0.5s 1 1 1`
+        row`1.25 1.25 1.25 6.25 1.25 1.25 1.25 1.25 0.5s 1 1 1`,
       ]
-    )
+    ),
   ];
 
   const kira = [
@@ -185,9 +185,9 @@ function buildDetailsList(): Map<string, KeyboardDetails[]> {
         row`1.5 1 1 1 1 1 1 1 1 1 1 1 1 1.5 1 1 1 1v`,
         row`1.75 1 1 1 1 1 1 1 1 1 1 1 2.25 1 1 1 `,
         row`2.25 1 1 1 1 1 1 1 1 1 1 1.75 1 1 1 1 1v`,
-        row`1.25 1.25 1.25 6.25 1.5 1.5 1 1 1 1 1`
+        row`1.25 1.25 1.25 6.25 1.5 1.5 1 1 1 1 1`,
       ]
-    )
+    ),
   ];
 
   return new Map([
@@ -196,7 +196,7 @@ function buildDetailsList(): Map<string, KeyboardDetails[]> {
     [Names.Infinity60Led, inf60Led],
     [Names.WhiteFox, whitefox],
     [Names.KType, ktype],
-    [Names.Kira, kira]
+    [Names.Kira, kira],
   ]);
 }
 

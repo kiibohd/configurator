@@ -6,8 +6,8 @@ const Known = {
     rx: /#:A\[(.*)]\((start|stop|pause|single)\)/,
     toLabel: (match: RegExpExecArray) => `A:${match[2]}`,
     toData: (match: RegExpExecArray) => ({ animation: match[1], action: match[2] }),
-    style: { fontStyle: 'oblique', fontSize: 12 }
-  }
+    style: { fontStyle: 'oblique', fontSize: 12 },
+  },
 };
 
 /**
@@ -21,7 +21,7 @@ export function buildAnimationActionKey(animation: string, action: string): Disp
     label1: `A:${action}`,
     style: Known.Animation.style,
     custom: `#:A[${animation}](${action})`,
-    data: { animation, action }
+    data: { animation, action },
   };
 }
 
@@ -37,6 +37,6 @@ export function parseRawToKnown(raw: string): Optional<CustomKey> {
     label1: Known.Animation.toLabel(match),
     style: Known.Animation.style,
     custom: raw,
-    data: Known.Animation.toData(match)
+    data: Known.Animation.toData(match),
   };
 }

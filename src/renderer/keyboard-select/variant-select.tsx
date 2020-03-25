@@ -18,21 +18,21 @@ const useStyles = makeStyles({
     cursor: 'pointer',
     padding: 10,
     width: 'min-content',
-    marginBottom: 20
+    marginBottom: 20,
   },
   key: {
-    position: 'absolute'
+    position: 'absolute',
   },
   cap: {
     margin: 1,
     border: '1px solid black',
-    borderRadius: 2
+    borderRadius: 2,
   },
   dcap: {
     margin: 1,
     border: '1px solid red',
-    borderRadius: 2
-  }
+    borderRadius: 2,
+  },
 } as const);
 
 type KeyProps = {
@@ -44,7 +44,7 @@ function Key(props: KeyProps) {
   const classes = useStyles(props);
   const {
     row,
-    data: { size, left, isSpace, isDifference, isVertical }
+    data: { size, left, isSpace, isDifference, isVertical },
   } = props;
   const width = size * scale;
   const height = isVertical ? scale * 2 : scale;
@@ -61,7 +61,7 @@ function Key(props: KeyProps) {
 
 Key.propTypes = {
   row: PropTypes.number.isRequired,
-  data: PropTypes.object.isRequired
+  data: PropTypes.object.isRequired,
 };
 
 type KeyboardProps = {
@@ -74,13 +74,13 @@ function Keyboard(props: KeyboardProps) {
   const { variant, onSelect } = props;
   const rows = _.zip(variant.rows, variant.keys) as [number, KeyDetails[]][];
   const height = ((_.last(variant.rows) ?? 0) + 1) * scale;
-  const width = _.sumBy(variant.keys[0], x => x.size) * scale;
+  const width = _.sumBy(variant.keys[0], (x) => x.size) * scale;
 
   return (
     <Card className={classes.variant} onClick={() => onSelect(variant.name)}>
       <Typography> {variant.name} </Typography>
       <div style={{ height, width, position: 'relative' }}>
-        {rows.map(row => row[1].map((key, idx) => <Key row={row[0]} key={`${row}-${idx}`} data={key} />))}
+        {rows.map((row) => row[1].map((key, idx) => <Key row={row[0]} key={`${row}-${idx}`} data={key} />))}
       </div>
     </Card>
   );
@@ -88,7 +88,7 @@ function Keyboard(props: KeyboardProps) {
 
 Keyboard.propTypes = {
   variant: PropTypes.object.isRequired,
-  onSelect: PropTypes.func.isRequired
+  onSelect: PropTypes.func.isRequired,
 };
 
 export default function VariantSelect() {
@@ -126,7 +126,7 @@ export default function VariantSelect() {
       <>
         <Typography variant="h6">Select a variant.</Typography>
         <List component="nav">
-          {keyboard.variants.map(name => (
+          {keyboard.variants.map((name) => (
             <ListItem button key={name} onClick={() => selectVariant(name)}>
               <ListItemText primary={name} />
             </ListItem>
@@ -139,7 +139,7 @@ export default function VariantSelect() {
   return (
     <>
       <Typography variant="h6">Select a variant.</Typography>
-      {details.map(variant => (
+      {details.map((variant) => (
         <Keyboard key={variant.name} variant={variant} onSelect={() => selectVariant(variant.name)} />
       ))}
     </>

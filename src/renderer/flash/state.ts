@@ -2,20 +2,20 @@ export enum Alert {
   None = 'none',
   NoFlashable = 'no-flashable',
   Dfu = 'dfu',
-  Bin = 'bin'
+  Bin = 'bin',
 }
 
 export enum Stage {
   Setup = 'setup',
   Flashing = 'flashing',
   Failed = 'failed',
-  Success = 'success'
+  Success = 'success',
 }
 
 export enum Failure {
   DfuNotFound = 'dfu-not-found',
   DeviceNotFound = 'device-not-found',
-  Other = 'other'
+  Other = 'other',
 }
 
 type BaseState = {

@@ -16,14 +16,14 @@ const template = [
             { role: 'hideothers' },
             { role: 'unhide' },
             { type: 'separator' },
-            { role: 'quit' }
-          ]
-        }
+            { role: 'quit' },
+          ],
+        },
       ]
     : []),
   {
     label: 'File',
-    submenu: [isMac ? { role: 'close' } : { role: 'quit' }]
+    submenu: [isMac ? { role: 'close' } : { role: 'quit' }],
   },
   {
     label: 'Edit',
@@ -42,11 +42,11 @@ const template = [
             { type: 'separator' },
             {
               label: 'Speech',
-              submenu: [{ role: 'startspeaking' }, { role: 'stopspeaking' }]
-            }
+              submenu: [{ role: 'startspeaking' }, { role: 'stopspeaking' }],
+            },
           ]
-        : [{ role: 'delete' }, { type: 'separator' }, { role: 'selectAll' }])
-    ]
+        : [{ role: 'delete' }, { type: 'separator' }, { role: 'selectAll' }]),
+    ],
   },
   {
     label: 'View',
@@ -59,8 +59,8 @@ const template = [
       { role: 'zoomin' },
       { role: 'zoomout' },
       { type: 'separator' },
-      { role: 'togglefullscreen' }
-    ]
+      { role: 'togglefullscreen' },
+    ],
   },
   {
     label: 'Window',
@@ -69,8 +69,8 @@ const template = [
       { role: 'zoom' },
       ...(isMac
         ? [{ type: 'separator' }, { role: 'front' }, { type: 'separator' }, { role: 'window' }]
-        : [{ role: 'close' }])
-    ]
+        : [{ role: 'close' }]),
+    ],
   },
   {
     role: 'help',
@@ -80,31 +80,31 @@ const template = [
         click: async (): Promise<void> => {
           const { shell } = await import('electron');
           await shell.openExternal('https://github.com/kiibohd/configurator');
-        }
+        },
       },
       {
         label: 'Documentation',
         click: async (): Promise<void> => {
           const { shell } = await import('electron');
           await shell.openExternal('https://github.com/kiibohd/configurator#readme');
-        }
+        },
       },
       {
         label: 'Community Discussions',
         click: async (): Promise<void> => {
           const { shell } = await import('electron');
           await shell.openExternal('https://community.kono.store');
-        }
+        },
       },
       {
         label: 'Search Issues',
         click: async (): Promise<void> => {
           const { shell } = await import('electron');
           await shell.openExternal('https://github.com/kiibohd/configurator/issues');
-        }
-      }
-    ]
-  }
+        },
+      },
+    ],
+  },
 ];
 
 export function buildMenu(): void {

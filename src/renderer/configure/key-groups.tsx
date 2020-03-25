@@ -16,7 +16,7 @@ const cats = [
   Category.i11l,
   Category.mouse,
   Category.mac,
-  Category.test
+  Category.test,
 ];
 
 const useStyles = makeStyles(
@@ -26,25 +26,25 @@ const useStyles = makeStyles(
         paddingTop: 10,
         paddingRight: 10,
         display: 'flex',
-        flexDirection: 'column'
+        flexDirection: 'column',
       },
       categories: {
-        borderColor: `${theme.palette.secondary.main} !important`
+        borderColor: `${theme.palette.secondary.main} !important`,
       },
       selected: {
         backgroundColor: `${theme.palette.secondary.main} !important`,
-        color: `${theme.palette.secondary.contrastText} !important`
+        color: `${theme.palette.secondary.contrastText} !important`,
       },
       keysContainer: {
-        overflowY: 'auto'
+        overflowY: 'auto',
       },
       groupContainer: {
         display: 'flex',
-        flexWrap: 'wrap'
+        flexWrap: 'wrap',
       },
       categorySelect: {
-        marginBottom: 10
-      }
+        marginBottom: 10,
+      },
     } as const)
 );
 
@@ -58,13 +58,13 @@ export default function KeyGroups(props: KeyGroupsProps) {
   const { onSelect } = props;
   const [selected, setSelected] = useState([Category.core]);
 
-  const items = selected.map(category => ({ category, keys: _.orderBy(categorized[category], 'order') }));
+  const items = selected.map((category) => ({ category, keys: _.orderBy(categorized[category], 'order') }));
 
   return (
     <div className={classes.container}>
       <div className={classes.categorySelect}>
         <ToggleButtonGroup value={selected} onChange={(_, vals) => setSelected(vals)} className={classes.categories}>
-          {cats.map(category => (
+          {cats.map((category) => (
             <ToggleButton key={category} value={category} classes={{ selected: classes.selected }}>
               <Typography>{category}</Typography>
             </ToggleButton>
@@ -72,11 +72,11 @@ export default function KeyGroups(props: KeyGroupsProps) {
         </ToggleButtonGroup>
       </div>
       <div className={classes.keysContainer}>
-        {items.map(x => (
+        {items.map((x) => (
           <div key={x.category}>
             <Typography variant="h6">{x.category}</Typography>
             <div className={classes.groupContainer}>
-              {x.keys.map(k => (
+              {x.keys.map((k) => (
                 <Cap key={k.name} cap={k} onClick={onSelect} />
               ))}
             </div>
@@ -88,5 +88,5 @@ export default function KeyGroups(props: KeyGroupsProps) {
 }
 
 KeyGroups.propTypes = {
-  onSelect: PropTypes.func
+  onSelect: PropTypes.func,
 };

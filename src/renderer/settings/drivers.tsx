@@ -20,7 +20,7 @@ function runKiidrv(exepath: string, subcmd: string, resultFn: (content: string |
     {
       shell: true,
       cwd: dirpath,
-      windowsHide: true
+      windowsHide: true,
     },
     (err, stdout, stderr) => {
       if (err) {
@@ -45,20 +45,20 @@ const useStyles = makeStyles(
       headerRow: {
         display: 'flex',
         justifyContent: 'space-between',
-        alignItems: 'center'
+        alignItems: 'center',
       },
       button: {
         minWidth: '6rem',
-        marginLeft: 15
+        marginLeft: 15,
       },
       leftIcon: {
         marginRight: theme.spacing(1),
-        fontSize: 20
+        fontSize: 20,
       },
       text: {
-        marginTop: 16
+        marginTop: 16,
       },
-      container: {}
+      container: {},
     } as const)
 );
 
@@ -76,7 +76,7 @@ export default function Drivers() {
 
   useLayoutEffect(updateScroll, [results]);
 
-  const append = (s: string | Buffer) => setResults(curr => curr + s);
+  const append = (s: string | Buffer) => setResults((curr) => curr + s);
 
   const verify = () => {
     setResults('');

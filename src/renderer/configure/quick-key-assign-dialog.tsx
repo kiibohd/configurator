@@ -8,32 +8,32 @@ import { DisplayKey } from '../../common/keys';
 
 const TabItems = {
   Keys: 0,
-  Animation: 1
+  Animation: 1,
 };
 
 const useStyles = makeStyles(
   (theme: Theme) =>
     ({
       dialog: {
-        fontFamily: theme.typography.fontFamily
+        fontFamily: theme.typography.fontFamily,
       },
       dialogPaper: {
         minHeight: '85vh',
-        maxHeight: '85vh'
+        maxHeight: '85vh',
       },
       dialogContentRoot: {
-        display: 'flex'
+        display: 'flex',
       },
       container: {
         display: 'flex',
-        flexDirection: 'column'
+        flexDirection: 'column',
       },
       header: {
-        display: 'flex'
+        display: 'flex',
       },
       title: {
-        marginRight: '2rem'
-      }
+        marginRight: '2rem',
+      },
     } as const)
 );
 
@@ -93,5 +93,5 @@ export default function QuickKeyAssignDialog(props: QuickKeyAssignDialogProps) {
 QuickKeyAssignDialog.propTypes = {
   open: PropTypes.bool.isRequired,
   onSelect: PropTypes.func.isRequired,
-  onClose: PropTypes.func.isRequired
+  onClose: PropTypes.func.isRequired,
 };

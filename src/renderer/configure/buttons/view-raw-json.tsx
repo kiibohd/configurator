@@ -54,5 +54,5 @@ export default function ViewRawJsonButton(props: ViewRawJsonButtonProps) {
 }
 
 ViewRawJsonButton.propTypes = {
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
 };

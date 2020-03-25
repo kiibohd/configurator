@@ -18,20 +18,20 @@ const useStyles = makeStyles({
     border: '1px dashed darkgray',
     borderRadius: 4,
     minWidth: 64,
-    minHeight: 64
+    minHeight: 64,
   },
   invalid: {
-    borderColor: 'red !important'
+    borderColor: 'red !important',
   },
   keys: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     minWidth: 64,
-    minHeight: 64
+    minHeight: 64,
   },
   soloButton: {
-    marginLeft: 8
+    marginLeft: 8,
   },
   record: {
     position: 'absolute',
@@ -45,8 +45,8 @@ const useStyles = makeStyles({
 
     '&:hover': {
       color: 'black',
-      cursor: 'pointer'
-    }
+      cursor: 'pointer',
+    },
   },
   clear: {
     position: 'absolute',
@@ -61,10 +61,10 @@ const useStyles = makeStyles({
 
     '&:hover': {
       color: 'black',
-      cursor: 'pointer'
-    }
+      cursor: 'pointer',
+    },
   },
-  actions: {}
+  actions: {},
 } as const);
 
 type MacroComboProps = {
@@ -101,7 +101,7 @@ export default function MacroCombo(props: MacroComboProps) {
   };
 
   const empty = combo.length === 0;
-  const unassigned = empty || combo.some(x => x === '');
+  const unassigned = empty || combo.some((x) => x === '');
 
   function blankKey(): PredefinedKey {
     return {
@@ -111,7 +111,7 @@ export default function MacroCombo(props: MacroComboProps) {
       triggerDef: 0,
       resultDef: 0,
       order: 0,
-      style: {}
+      style: {},
     };
   }
 
@@ -124,7 +124,7 @@ export default function MacroCombo(props: MacroComboProps) {
       <div className={classes.keys}>
         {mapped.map((c, idx) => (
           <Fragment key={idx}>
-            <MacroKey cap={c || blankKey()} onChange={x => changeKey(idx, x)} />
+            <MacroKey cap={c || blankKey()} onChange={(x) => changeKey(idx, x)} />
             {idx < combo.length - 1 && <PlusOutlineIcon />}
           </Fragment>
         ))}
@@ -149,5 +149,5 @@ export default function MacroCombo(props: MacroComboProps) {
 MacroCombo.propTypes = {
   combo: PropTypes.array.isRequired,
   onRecord: PropTypes.func,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
 };

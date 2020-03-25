@@ -7,14 +7,14 @@ export function useConnectedKeyboards(): AttachedKeyboard[] {
 
   useEffect(
     () => {
-      const attach = (_: unknown, device: AttachedKeyboard) => setConnected(prev => [...prev, device]);
+      const attach = (_: unknown, device: AttachedKeyboard) => setConnected((prev) => [...prev, device]);
       const detach = (_: unknown, device: AttachedKeyboard) =>
-        setConnected(prev => prev.filter(x => x.path !== device.path));
+        setConnected((prev) => prev.filter((x) => x.path !== device.path));
 
       ipc.on('usb-attach', attach);
       ipc.on('usb-detach', detach);
       ipc.once('usb-currently-attached', (_, devices: AttachedKeyboard[]) =>
-        setConnected([...devices.filter(x => !!x)])
+        setConnected([...devices.filter((x) => !!x)])
       );
       ipc.send('usb-watch');
 

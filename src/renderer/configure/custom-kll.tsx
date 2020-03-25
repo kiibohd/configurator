@@ -5,10 +5,10 @@ import { fontStack } from '../theme';
 
 const useStyles = makeStyles({
   container: {
-    padding: 10
+    padding: 10,
   },
   header: {
-    paddingBottom: 10
+    paddingBottom: 10,
   },
   text: {
     width: 'calc(100% - 20px)',
@@ -18,9 +18,9 @@ const useStyles = makeStyles({
     fontSize: 15,
 
     '&:focus': {
-      outline: 0
-    }
-  }
+      outline: 0,
+    },
+  },
 } as const);
 
 export default function CustomKll() {
@@ -34,7 +34,7 @@ export default function CustomKll() {
       <Typography className={classes.header} variant="subtitle1">
         Custom KLL ({layer === 0 ? 'Base Layer' : `Layer ${layer}`})
       </Typography>
-      <textarea value={value} className={classes.text} wrap="soft" onChange={e => updateCustomKll(e.target.value)} />
+      <textarea value={value} className={classes.text} wrap="soft" onChange={(e) => updateCustomKll(e.target.value)} />
     </div>
   );
 }

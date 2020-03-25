@@ -8,7 +8,7 @@ import {
   renameAnimation,
   setSelectedLeds,
   setAllLeds,
-  LedStatus
+  LedStatus,
 } from '../../state/configure';
 import { AlterFieldModal } from '../../modal';
 import { SwatchedChromePicker } from '../../common';
@@ -27,29 +27,29 @@ const useStyles = makeStyles({
     minHeight: '20rem',
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'stretch'
+    alignItems: 'stretch',
   },
   row: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'flex-end',
-    marginTop: 20
+    marginTop: 20,
   },
   centeredRow: {
     display: 'flex',
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   label: {
-    marginRight: 10
+    marginRight: 10,
   },
   actionButton: {
-    marginLeft: 10
+    marginLeft: 10,
   },
   animationSelect: {
     minWidth: '20rem',
-    marginRight: '2rem'
-  }
+    marginRight: '2rem',
+  },
 } as const);
 
 type SelectChangeArgs = React.ChangeEvent<{
@@ -80,7 +80,7 @@ export default function StaticMap() {
       const rx = /P\[(\d+)]\(\s*(\d+)s*,\s*(\d+)s*,\s*(\d+)s*\)/gm;
       let match;
       while ((match = rx.exec(activeAnimation.frames))) {
-        const [id, r, g, b] = match.slice(1, 5).map(x => parseInt(x));
+        const [id, r, g, b] = match.slice(1, 5).map((x) => parseInt(x));
         statuses[id] = { id, r, g, b };
       }
     }
@@ -122,21 +122,21 @@ export default function StaticMap() {
         setSelectedLeds([]);
         break;
       case 'backlighting':
-        setSelectedLeds(leds.filter(x => !!x.scanCode).map(x => x.id));
+        setSelectedLeds(leds.filter((x) => !!x.scanCode).map((x) => x.id));
         break;
       case 'underlighting':
-        setSelectedLeds(leds.filter(x => !x.scanCode).map(x => x.id));
+        setSelectedLeds(leds.filter((x) => !x.scanCode).map((x) => x.id));
         break;
       case 'all':
-        setSelectedLeds(leds.map(x => x.id));
+        setSelectedLeds(leds.map((x) => x.id));
         break;
     }
   };
 
-  const color = _.head(selectedLeds.map(x => ledStatus[x]).filter(x => !!x)) || { r: 0, g: 0, b: 0 };
+  const color = _.head(selectedLeds.map((x) => ledStatus[x]).filter((x) => !!x)) || { r: 0, g: 0, b: 0 };
   const colorChange = (color: ColorResult) => {
     const statuses: SparseArray<LedStatus> = { ...ledStatus };
-    _.forEach(selectedLeds, x => {
+    _.forEach(selectedLeds, (x) => {
       statuses[x] = { id: x, ...color.rgb };
     });
 
@@ -145,7 +145,7 @@ export default function StaticMap() {
     const animation =
       _.toPairs(statuses)
         .map(([id, x]) => (x ? `P[${id}](${x.r},${x.g},${x.b})` : undefined))
-        .filter(x => !!x)
+        .filter((x) => !!x)
         .join(',\n') + ';';
 
     updateAnimation(active, { frames: `${header}${animation}` });

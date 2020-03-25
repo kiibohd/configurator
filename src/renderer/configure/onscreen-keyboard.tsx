@@ -18,12 +18,12 @@ const useStyles = makeStyles({
     backgroundColor: Palette.silver,
     borderLeft: '1px solid transparent',
     borderRight: '1px solid transparent',
-    borderBottom: '1px solid transparent'
+    borderBottom: '1px solid transparent',
   },
   selected: {
-    border: `2px solid ${Palette.red} !important`
+    border: `2px solid ${Palette.red} !important`,
   },
-  ...capStyle
+  ...capStyle,
 } as const);
 
 type KeyProps = {
@@ -84,7 +84,7 @@ Key.propTypes = {
   data: PropTypes.object.isRequired,
   sizeFactor: PropTypes.number.isRequired,
   selected: PropTypes.bool,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
 };
 
 export default function OnScreenKeyboard() {
@@ -106,7 +106,7 @@ export default function OnScreenKeyboard() {
     borderColor: getLayerFg(layer),
     width,
     height,
-    padding: ui.backdropPadding
+    padding: ui.backdropPadding,
   };
 
   const click = () => selected && setSelected(undefined);
@@ -182,7 +182,7 @@ export default function OnScreenKeyboard() {
   return (
     <div className={classes.backdrop} style={backdropStyle} onClick={click}>
       <div style={{ position: 'relative', height, width }}>
-        {matrix.map(k => (
+        {matrix.map((k) => (
           <Key
             key={`${k.board || 0}-${k.code}`}
             layer={layer}

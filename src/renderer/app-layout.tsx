@@ -12,22 +12,22 @@ const useStyles = makeStyles(
     ({
       root: {
         display: 'flex',
-        fontFamily: theme.typography.fontFamily
+        fontFamily: theme.typography.fontFamily,
       },
       content: {
         flexGrow: 1,
         padding: theme.spacing(2),
-        height: 'calc(100vh - 48px)'
+        height: 'calc(100vh - 48px)',
       },
       topPad: {
-        minHeight: 48
+        minHeight: 48,
       },
       loading: {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        height: '80vh'
-      }
+        height: '80vh',
+      },
     } as const)
 );
 

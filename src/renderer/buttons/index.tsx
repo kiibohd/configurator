@@ -29,7 +29,7 @@ export function HelpButton(props: ButtonProps) {
 }
 
 HelpButton.propTypes = {
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
 };
 
 export function BackButton() {
@@ -65,7 +65,7 @@ export function SettingsButton(props: ButtonProps) {
 }
 
 SettingsButton.propTypes = {
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
 };
 
 export function HomeButton(props: ButtonProps) {
@@ -87,5 +87,5 @@ export function HomeButton(props: ButtonProps) {
 }
 
 HomeButton.propTypes = {
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
 };

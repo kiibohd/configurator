@@ -10,13 +10,13 @@ const Panels = {
   Flash: 'Flash',
   Settings: 'Settings',
   ConfigureKeys: 'Configure Keys',
-  ConfigureVisuals: 'Config Visuals'
+  ConfigureVisuals: 'Config Visuals',
 } as const;
 
 type ValidPanels = ValueOf<typeof Panels>;
 
 const Actions = {
-  Compile: 'compile-firmware'
+  Compile: 'compile-firmware',
 };
 
 type CoreState = {
@@ -38,7 +38,7 @@ const initialState: CoreState = {
   keyboard: undefined,
   variant: undefined,
   toast: undefined,
-  toolbarButtons: undefined
+  toolbarButtons: undefined,
 };
 
 const { useSharedState: useCoreState, setSharedState: setCoreState } = createSharedState(initialState);
@@ -53,11 +53,11 @@ export function reset() {
 }
 
 export function startExecuting(name: string) {
-  setCoreState('executing', curr => [...curr, name]);
+  setCoreState('executing', (curr) => [...curr, name]);
 }
 
 export function stopExecuting(name: string) {
-  setCoreState('executing', curr => _.without(curr, name));
+  setCoreState('executing', (curr) => _.without(curr, name));
 }
 
 export function updateToolbarButtons(buttons: Optional<JSX.Element>) {
@@ -75,8 +75,8 @@ export function updateSelectedVariant(variant: Optional<string>) {
 }
 
 export function updatePanel(panel: ValidPanels) {
-  setCoreState('panel', currPanel => {
-    setCoreState('history', hist => [currPanel, ...hist.slice(0, 3)]);
+  setCoreState('panel', (currPanel) => {
+    setCoreState('history', (hist) => [currPanel, ...hist.slice(0, 3)]);
     return panel;
   });
 }
@@ -93,7 +93,7 @@ export function popupSimpleToast(level: 'error' | 'success' | 'info' | 'warning'
 }
 
 export function previousPanel() {
-  setCoreState('history', currHistory => {
+  setCoreState('history', (currHistory) => {
     const history = [...currHistory];
     setCoreState('panel', history.shift() ?? Panels.KeyboardSelect);
     return history;
@@ -101,5 +101,5 @@ export function previousPanel() {
 }
 
 export function toggleLoading() {
-  setCoreState('loading', curr => !curr);
+  setCoreState('loading', (curr) => !curr);
 }

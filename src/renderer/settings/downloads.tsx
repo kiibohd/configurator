@@ -12,21 +12,21 @@ import { FirmwareResult } from '../local-storage/firmware';
 
 const useStyles = makeStyles({
   text: {
-    fontStyle: 'oblique'
+    fontStyle: 'oblique',
   },
-  container: {}
+  container: {},
 } as const);
 
 export default function Downloads() {
   const classes = useStyles({});
   const [dls, setDls] = useState<FirmwareResult[]>([]);
-  const names = _.fromPairs(keyboards.map(k => [_.head(k.names), k.display]));
+  const names = _.fromPairs(keyboards.map((k) => [_.head(k.names), k.display]));
 
   useEffect(() => {
     db.dl
       .keys()
-      .then(keys => Bluebird.all(keys.map(k => db.dl.get<FirmwareResult>(k))))
-      .then(dls => setDls(dls.reverse()));
+      .then((keys) => Bluebird.all(keys.map((k) => db.dl.get<FirmwareResult>(k))))
+      .then((dls) => setDls(dls.reverse()));
   }, []);
 
   const flash = (dl: FirmwareResult) => {
@@ -47,7 +47,7 @@ export default function Downloads() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {dls.map(dl => (
+          {dls.map((dl) => (
             <TableRow key={dl.time}>
               <TableCell>{names[dl.board]}</TableCell>
               <TableCell>{dl.layout}</TableCell>

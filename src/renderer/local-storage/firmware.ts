@@ -80,12 +80,12 @@ export async function storeFirmware(
       board === 'MDErgo1'
         ? {
             left: await extract('left_' + binFile, undefined, true),
-            right: await extract('right_' + binFile, undefined, true)
+            right: await extract('right_' + binFile, undefined, true),
           }
         : await extract(binFile, undefined, true),
     json: await extract(jsonName),
     log: await extract(logPath, 'build.log'),
-    time: Date.now()
+    time: Date.now(),
   };
 
   return result;

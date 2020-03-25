@@ -7,7 +7,7 @@ import {
   ToggleVisualsButton,
   ViewRawJsonButton,
   ImportKeymapButton,
-  LayoutHistoryButton
+  LayoutHistoryButton,
 } from './buttons';
 import ConfigureKeys from './configure-keys';
 import ConfigureVisuals from './configure-visuals';
@@ -16,8 +16,8 @@ import log from 'loglevel';
 const useStyles = makeStyles({
   root: {
     boxSizing: 'content-box',
-    display: 'inline-block'
-  }
+    display: 'inline-block',
+  },
 } as const);
 
 export default function Configure() {

@@ -16,21 +16,21 @@ const useStyles = makeStyles(
         padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'stretch'
+        alignItems: 'stretch',
       },
       dataContainer: {
         overflow: 'scroll',
         border: '1px solid gray',
-        marginTop: 10
+        marginTop: 10,
       },
       data: {
         height: '100%',
         margin: 10,
         fontFamily: fontStack.monospace,
-        fontSize: 'small'
+        fontSize: 'small',
       },
       textContainer: {
-        flex: '1'
+        flex: '1',
       },
       text: {
         fontFamily: fontStack.monospace,
@@ -38,16 +38,16 @@ const useStyles = makeStyles(
         padding: 5,
         resize: 'none',
         height: '100%',
-        width: '100%'
+        width: '100%',
       },
       actions: {
         display: 'flex',
         minHeight: 40,
-        margin: `${theme.spacing(1)}px 0`
+        margin: `${theme.spacing(1)}px 0`,
       },
       spacer: {
-        flex: '1'
-      }
+        flex: '1',
+      },
     } as const)
 );
 
@@ -75,7 +75,7 @@ function SimpleDataModal(props: SimpleDataModalProps) {
           </div>
         ) : (
           <div className={classes.textContainer}>
-            <textarea onChange={e => onChange && onChange(e.target.value)} className={classes.text} value={data} />
+            <textarea onChange={(e) => onChange && onChange(e.target.value)} className={classes.text} value={data} />
           </div>
         )}
         <div className={classes.actions}>
@@ -95,7 +95,7 @@ SimpleDataModal.propTypes = {
   actions: PropTypes.arrayOf(PropTypes.node),
   title: PropTypes.string.isRequired,
   onChange: PropTypes.func,
-  readonly: PropTypes.bool
+  readonly: PropTypes.bool,
 };
 
 export default SimpleDataModal;

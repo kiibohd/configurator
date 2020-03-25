@@ -7,13 +7,13 @@ import { ConfigMatrixItem } from '../../../common/config';
 const useStyles = makeStyles({
   key: {
     position: 'absolute',
-    overflow: 'hidden'
+    overflow: 'hidden',
   },
   base: {
     border: `1px solid ${Palette.gray}`,
     borderRadius: 2,
-    margin: 2
-  }
+    margin: 2,
+  },
 } as const);
 
 type KeyProps = {
@@ -29,12 +29,12 @@ export default function Key(props: KeyProps) {
     left: sizeFactor * keydef.x,
     top: sizeFactor * keydef.y,
     width: sizeFactor * keydef.w,
-    height: sizeFactor * keydef.h
+    height: sizeFactor * keydef.h,
   };
 
   const baseStyle = {
     width: sizeFactor * keydef.w - 6,
-    height: sizeFactor * keydef.h - 6
+    height: sizeFactor * keydef.h - 6,
   };
 
   return (
@@ -46,5 +46,5 @@ export default function Key(props: KeyProps) {
 
 Key.propTypes = {
   keydef: PropTypes.object.isRequired,
-  sizeFactor: PropTypes.number.isRequired
+  sizeFactor: PropTypes.number.isRequired,
 };

@@ -18,7 +18,7 @@ export const Palette = {
   darkgray: '#444444',
   lightgray: '#fcfcfc',
   lightpurple: '#a18fff',
-  white: '#ffffff'
+  white: '#ffffff',
 };
 
 export const layerBg = [
@@ -29,7 +29,7 @@ export const layerBg = [
   Palette.purple,
   Palette.teal,
   Palette.fuchsia,
-  Palette.red
+  Palette.red,
 ];
 
 export const layerFg = [Palette.black, ...layerBg.slice(1)];
@@ -46,13 +46,13 @@ export const capStyle = {
   key: {
     position: 'absolute',
     overflow: 'hidden',
-    boxSizing: 'content-box'
+    boxSizing: 'content-box',
   },
   base: {
     backgroundColor: Palette.gray,
     border: '2px solid transparent',
     borderRadius: 4,
-    margin: 2
+    margin: 2,
   },
   cap: {
     cursor: 'pointer',
@@ -62,7 +62,7 @@ export const capStyle = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   label: {
     fontSize: 13,
@@ -75,7 +75,7 @@ export const capStyle = {
     justifyContent: 'center',
     userSelect: 'none',
     '& span': {
-      padding: '0 0.25em'
-    }
-  }
+      padding: '0 0.25em',
+    },
+  },
 } as const;

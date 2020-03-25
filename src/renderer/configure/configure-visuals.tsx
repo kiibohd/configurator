@@ -17,40 +17,40 @@ const tabs: NonEmptyArray<SideTab> = [
   {
     id: 'tab/animations',
     icon: tooltipped('Animations Overview', <AnimationIcon fontSize="large" />),
-    tab: <AnimationList />
+    tab: <AnimationList />,
   },
   {
     id: 'tab/edit-animation',
     icon: tooltipped('Add/Edit Animation', <SquareEditOutlineIcon fontSize="large" />),
-    tab: <AnimationEdit />
+    tab: <AnimationEdit />,
   },
   {
     id: 'tab/customize-canned',
     icon: tooltipped('Customize Prebuilt Animation', <PaletteAdvancedIcon fontSize="large" />),
-    tab: <CustomizeCanned />
+    tab: <CustomizeCanned />,
   },
   {
     id: 'tab/static-map',
     icon: tooltipped('Static LEDs', <PaletteIcon fontSize="large" />),
-    tab: <StaticMap />
-  }
+    tab: <StaticMap />,
+  },
 ];
 
 const useStyles = makeStyles({
   container: {
     position: 'relative',
     minHeight: 24,
-    marginTop: 16
+    marginTop: 16,
   },
   leds: {
     boxSizing: 'content-box',
     display: 'inline-block',
     border: '1px solid black',
-    marginTop: 36
+    marginTop: 36,
   },
   hidden: {
-    display: 'none'
-  }
+    display: 'none',
+  },
 } as const);
 
 export default function ConfigureVisuals() {

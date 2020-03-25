@@ -5,8 +5,8 @@ import { EditIcon, CloseIcon, CheckIcon } from '../icons';
 
 const useStyles = makeStyles({
   field: {
-    minWidth: '20em'
-  }
+    minWidth: '20em',
+  },
 } as const);
 
 type ModedTextFieldProps = {
@@ -43,7 +43,7 @@ export default function ModedTextField(props: ModedTextFieldProps) {
         className={classes.field}
         label={label}
         value={value}
-        onChange={e => setValue(e.target.value)}
+        onChange={(e) => setValue(e.target.value)}
         disabled={!editMode}
       />
       {!editMode && (
@@ -68,5 +68,5 @@ export default function ModedTextField(props: ModedTextFieldProps) {
 ModedTextField.propTypes = {
   defaultValue: PropTypes.string.isRequired,
   onSave: PropTypes.func.isRequired,
-  label: PropTypes.string
+  label: PropTypes.string,
 };

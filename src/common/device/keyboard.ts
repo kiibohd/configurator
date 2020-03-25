@@ -6,7 +6,7 @@ export enum Names {
   Infinity60 = 'Infinity 60%',
   WhiteFox = 'WhiteFox',
   KType = 'K-Type',
-  Kira = 'Kira'
+  Kira = 'Kira',
 }
 
 export enum Variants {
@@ -19,7 +19,7 @@ export enum Variants {
   Vanilla = 'Vanilla',
   Iso = 'Iso',
   Wkl = 'Winkeyless',
-  JackOfAllTrades = 'Jack of All Trades'
+  JackOfAllTrades = 'Jack of All Trades',
 }
 
 export const released = [
@@ -28,7 +28,7 @@ export const released = [
   Names.KType,
   Names.Infinity60,
   Names.Infinity60Led,
-  Names.InfinityErgodox
+  Names.InfinityErgodox,
 ];
 
 function buildKeyboardList(): Keyboard[] {
@@ -47,8 +47,8 @@ function buildKeyboardList(): Keyboard[] {
       visuals: false,
       layouts: layouts([Variants.Default, ['Default', 'Blank']]),
       info: {
-        isSplit: true
-      }
+        isSplit: true,
+      },
     },
     {
       display: Names.Infinity60Led,
@@ -60,7 +60,7 @@ function buildKeyboardList(): Keyboard[] {
         [Variants.Hacker, ['Hacker', 'HackerBlank']],
         [Variants.Alphabet, ['Alphabet', 'AlphabetBlank']]
       ),
-      info: {}
+      info: {},
     },
     {
       display: Names.Infinity60,
@@ -71,7 +71,7 @@ function buildKeyboardList(): Keyboard[] {
         [Variants.Standard, ['Standard', 'StandardBlank']],
         [Variants.Hacker, ['Hacker', 'HackerBlank']]
       ),
-      info: {}
+      info: {},
     },
     {
       display: Names.WhiteFox,
@@ -82,7 +82,7 @@ function buildKeyboardList(): Keyboard[] {
         Variants.Iso,
         Variants.Vanilla,
         Variants.JackOfAllTrades,
-        Variants.Wkl
+        Variants.Wkl,
       ],
       visuals: false,
       layouts: layouts(
@@ -93,7 +93,7 @@ function buildKeyboardList(): Keyboard[] {
         [Variants.JackOfAllTrades, ['JackofAllTrades']],
         [Variants.Wkl, ['Winkeyless']]
       ),
-      info: {}
+      info: {},
     },
     {
       display: Names.KType,
@@ -101,7 +101,7 @@ function buildKeyboardList(): Keyboard[] {
       variants: [Variants.Standard],
       visuals: true,
       layouts: layouts([Variants.Standard, ['Standard', 'NoAnimations']]),
-      info: {}
+      info: {},
     },
     {
       display: Names.Kira,
@@ -110,9 +110,9 @@ function buildKeyboardList(): Keyboard[] {
       visuals: true,
       layouts: layouts([Variants.Standard, ['Standard']]),
       info: {
-        resetCombo: '"Right Ctrl + Right Shift + Esc"'
-      }
-    }
+        resetCombo: '"Right Ctrl + Right Shift + Esc"',
+      },
+    },
   ];
 }
 
@@ -127,16 +127,16 @@ function buildDeviceList(): ReadonlyMap<number, ReadonlyMap<number, KnownDevice>
       vid: 0x1c11,
       devs: [
         [0xb04d, false, [Names.InfinityErgodox, Names.Infinity60, Names.Infinity60Led, Names.WhiteFox, Names.KType]],
-        [0xb007, true, [Names.InfinityErgodox, Names.Infinity60, Names.Infinity60Led, Names.WhiteFox, Names.KType]]
-      ]
+        [0xb007, true, [Names.InfinityErgodox, Names.Infinity60, Names.Infinity60Led, Names.WhiteFox, Names.KType]],
+      ],
     },
     // Semi-official I:C shared VID
     {
       vid: 0x1209,
       devs: [
         [0x01c0, false, [Names.InfinityErgodox, Names.Infinity60, Names.Infinity60Led, Names.WhiteFox, Names.KType]],
-        [0x01cb, true, [Names.InfinityErgodox, Names.Infinity60, Names.Infinity60Led, Names.WhiteFox, Names.KType]]
-      ]
+        [0x01cb, true, [Names.InfinityErgodox, Names.Infinity60, Names.Infinity60Led, Names.WhiteFox, Names.KType]],
+      ],
     },
     // Official I:C VID with unique PIDs
     {
@@ -161,9 +161,9 @@ function buildDeviceList(): ReadonlyMap<number, ReadonlyMap<number, KnownDevice>
         [0x0010, true, [Names.KType], Variants.Standard],
         [0x0011, false, [Names.KType], Variants.Standard],
         [0x0012, true, [Names.Kira], Variants.Standard],
-        [0x0013, false, [Names.Kira], Variants.Standard]
-      ]
-    }
+        [0x0013, false, [Names.Kira], Variants.Standard],
+      ],
+    },
   ];
 
   function device(
@@ -179,15 +179,15 @@ function buildDeviceList(): ReadonlyMap<number, ReadonlyMap<number, KnownDevice>
       isFlashable: isFlashable || false,
       isUnique: names.length === 1,
       names,
-      variant
+      variant,
     });
   }
 
   function devices(vid: number, ...devices: VarDef[]): [number, ReadonlyMap<number, KnownDevice>] {
-    return [vid, new Map(devices.map(b => [b[0], device(vid, ...b)]))];
+    return [vid, new Map(devices.map((b) => [b[0], device(vid, ...b)]))];
   }
 
-  return new Map(list.map(x => devices(x.vid, ...x.devs)));
+  return new Map(list.map((x) => devices(x.vid, ...x.devs)));
 }
 
 export const keyboards = buildKeyboardList();

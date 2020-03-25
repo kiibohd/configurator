@@ -10,7 +10,7 @@ import { PredefinedKey, BaseKey } from '../../../common/keys';
 
 const useStyles = makeStyles({
   container: {
-    position: 'relative'
+    position: 'relative',
   },
   clear: {
     position: 'absolute',
@@ -24,9 +24,9 @@ const useStyles = makeStyles({
 
     '&:hover': {
       color: 'black',
-      cursor: 'pointer'
-    }
-  }
+      cursor: 'pointer',
+    },
+  },
 } as const);
 
 type MacroKeyProps = {
@@ -66,5 +66,5 @@ export default function MacroKey(props: MacroKeyProps) {
 
 MacroKey.propTypes = {
   cap: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
 };

@@ -32,7 +32,7 @@ export async function loadRemoteConfig(
     const defLayout = keyboard.layouts[variant][0];
     const uri = urljoin(baseUri || _currentState('uri'), 'layouts', `${keyboard.names[0]}-${layout || defLayout}.json`);
     toggleLoading();
-    const config: PersistedConfig = await fetch(uri).then(resp => resp.json());
+    const config: PersistedConfig = await fetch(uri).then((resp) => resp.json());
     updateConfig(config, locale || _currentState('locale'));
     toggleLoading();
   } catch (e) {
@@ -89,9 +89,9 @@ export async function checkVersion(): Promise<Optional<VersionDetails>> {
     method: 'GET',
     headers: {
       'User-Agent': 'Kiibohd Configurator',
-      Accept: 'application/json; charset=utf-8'
-    }
-  }).then(r => r.json());
+      Accept: 'application/json; charset=utf-8',
+    },
+  }).then((r) => r.json());
 
   const version = electron.remote.app.getVersion();
   const latest = response.tag_name;
@@ -100,7 +100,7 @@ export async function checkVersion(): Promise<Optional<VersionDetails>> {
   if (newerAvail) {
     return {
       version: latest,
-      url: response.html_url
+      url: response.html_url,
     };
   }
 
@@ -116,9 +116,9 @@ export async function checkFirmwareVersions(): Promise<FirmwareVersions> {
     method: 'GET',
     headers: {
       'User-Agent': 'Kiibohd Configurator',
-      Accept: 'application/json; charset=utf-8'
-    }
-  }).then(r => r.json() as Promise<FirmwareVersions>);
+      Accept: 'application/json; charset=utf-8',
+    },
+  }).then((r) => r.json() as Promise<FirmwareVersions>);
 
   return response;
 }

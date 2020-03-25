@@ -8,21 +8,21 @@ import { ConfigAnimation } from '../../../common/config';
 
 const useStyles = makeStyles({
   container: {
-    padding: 10
+    padding: 10,
   },
   error: {
     fontStyle: 'oblique',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   startup: {
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   on: {
-    color: 'green'
+    color: 'green',
   },
   off: {
-    color: grey[800]
-  }
+    color: grey[800],
+  },
 } as const);
 
 export default function AnimationList() {
@@ -32,9 +32,9 @@ export default function AnimationList() {
   const startupCount = _.toPairs(animations).filter(([, x]) => x.settings.includes('start')).length;
 
   const toggleStart = (name: string, anim: ConfigAnimation) => {
-    let settings = anim.settings.split(',').map(x => x.trim());
+    let settings = anim.settings.split(',').map((x) => x.trim());
     if (settings.includes('start')) {
-      settings = _.filter(settings, x => x !== 'start');
+      settings = _.filter(settings, (x) => x !== 'start');
     } else {
       settings = [...settings, 'start'];
     }

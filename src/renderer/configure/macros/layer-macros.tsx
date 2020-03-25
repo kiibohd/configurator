@@ -8,31 +8,31 @@ import { validMacro, ConfigMacro } from '../../../common/config';
 const useStyles = makeStyles({
   container: {
     padding: 10,
-    paddingLeft: 30
+    paddingLeft: 30,
   },
   card: {
-    marginTop: 15
+    marginTop: 15,
   },
   smallFont: {
-    fontSize: '0.85em'
+    fontSize: '0.85em',
   },
   macroDef: {
     display: 'flex',
     alignItems: 'center',
-    marginTop: 10
+    marginTop: 10,
   },
   separator: {
-    margin: '0 15px'
+    margin: '0 15px',
   },
   actions: {
     marginTop: 10,
-    display: 'flex'
+    display: 'flex',
   },
   error: {
     fontStyle: 'oblique',
-    textAlign: 'center'
+    textAlign: 'center',
   },
-  fab: {}
+  fab: {},
 } as const);
 
 export default function LayerMacros() {
@@ -66,7 +66,7 @@ export default function LayerMacros() {
   return (
     <div className={classes.container}>
       <Typography variant="subtitle1">Macros ({layer === 0 ? 'Base Layer' : 'Layer ' + layer})</Typography>
-      {macros.map(macro => (
+      {macros.map((macro) => (
         <Card className={classes.card} key={macro.id}>
           <CardContent>
             {!validMacro(macro) && (
@@ -77,14 +77,14 @@ export default function LayerMacros() {
             <div style={{ display: 'flex' }}>
               <TextField
                 value={macro.name}
-                onChange={e => updateName(macro, e.target.value)}
+                onChange={(e) => updateName(macro, e.target.value)}
                 label="Name"
                 error={macro.name.length === 0}
                 InputProps={{
-                  classes: { input: classes.smallFont }
+                  classes: { input: classes.smallFont },
                 }}
                 InputLabelProps={{
-                  classes: { root: classes.smallFont }
+                  classes: { root: classes.smallFont },
                 }}
               />
 
@@ -94,9 +94,9 @@ export default function LayerMacros() {
               </IconButton>
             </div>
             <div className={classes.macroDef}>
-              <MacroSequence seq={macro.trigger} onChange={x => updateTrigger(macro, x)} />
+              <MacroSequence seq={macro.trigger} onChange={(x) => updateTrigger(macro, x)} />
               <ArrowRightBoldOutlineIcon fontSize="large" className={classes.separator} />
-              <MacroSequence seq={macro.output} onChange={x => updateOutput(macro, x)} />
+              <MacroSequence seq={macro.output} onChange={(x) => updateOutput(macro, x)} />
             </div>
           </CardContent>
         </Card>

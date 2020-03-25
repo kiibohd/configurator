@@ -21,8 +21,8 @@ function createMainWindow(): BrowserWindow {
     height: 1100,
     webPreferences: {
       webSecurity: false,
-      nodeIntegration: true
-    }
+      nodeIntegration: true,
+    },
   });
 
   if (isDevelopment) {
@@ -40,7 +40,7 @@ function createMainWindow(): BrowserWindow {
       formatUrl({
         pathname: path.join(__dirname, 'index.html'),
         protocol: 'file',
-        slashes: true
+        slashes: true,
       })
     );
   }
@@ -100,7 +100,7 @@ async function getKeyboardDetails(device: Device): Promise<Optional<AttachedKeyb
 }
 
 const watches = new Map();
-ipc.on('usb-watch', async event => {
+ipc.on('usb-watch', async (event) => {
   const id = event.sender.id;
 
   const attached = await Bluebird.mapSeries(usb.getAttachedDevices().filter(isKnownDevice), getKeyboardDetails);

@@ -9,28 +9,28 @@ const useStyles = makeStyles(
     ({
       message: {
         display: 'flex',
-        alignItems: 'center'
+        alignItems: 'center',
       },
       icon: {
-        fontSize: 20
+        fontSize: 20,
       },
       statusIcon: {
         opacity: 0.9,
-        marginRight: theme.spacing(1)
+        marginRight: theme.spacing(1),
       },
       success: {
-        backgroundColor: green[600]
+        backgroundColor: green[600],
       },
       error: {
-        backgroundColor: theme.palette.error.dark
+        backgroundColor: theme.palette.error.dark,
       },
       info: {
-        backgroundColor: theme.palette.primary.light
+        backgroundColor: theme.palette.primary.light,
       },
       warning: {
-        backgroundColor: amber[700]
+        backgroundColor: amber[700],
       },
-      close: {}
+      close: {},
     } as const)
 );
 
@@ -82,5 +82,5 @@ GenericToast.propTypes = {
   message: PropTypes.node,
   onClose: PropTypes.func,
   actions: PropTypes.array,
-  variant: PropTypes.oneOf(['error', 'success', 'info', 'warning']).isRequired as PropTypes.Validator<IconType>
+  variant: PropTypes.oneOf(['error', 'success', 'info', 'warning']).isRequired as PropTypes.Validator<IconType>,
 };

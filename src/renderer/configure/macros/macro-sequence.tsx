@@ -10,18 +10,18 @@ import _ from 'lodash';
 const useStyles = makeStyles({
   container: {
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   hidden: {
-    display: 'none'
+    display: 'none',
   },
   separator: {
     fontSize: 36,
     fontWeight: 'bolder',
     alignSelf: 'flex-end',
-    margin: '10px 15px'
+    margin: '10px 15px',
   },
-  actions: {}
+  actions: {},
 } as const);
 
 type MacroSequenceProps = {
@@ -66,7 +66,7 @@ export default function MacroSequence(props: MacroSequenceProps) {
           <Fragment key={idx}>
             <MacroCombo
               combo={m}
-              onChange={update => change(update, idx)}
+              onChange={(update) => change(update, idx)}
               onRecord={seq.length === 1 && !seq[0].length ? record : undefined}
             />
             {idx < seq.length - 1 && <span className={classes.separator}>,</span>}
@@ -85,5 +85,5 @@ export default function MacroSequence(props: MacroSequenceProps) {
 
 MacroSequence.propTypes = {
   seq: PropTypes.array.isRequired,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
 };

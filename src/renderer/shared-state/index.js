@@ -7,17 +7,17 @@ import _ from 'lodash';
 
 // core functions
 
-const createStateItem = initialValue => {
+const createStateItem = (initialValue) => {
   let value = initialValue;
   const getValue = () => value;
   const listeners = [];
-  const updater = funcOrVal => {
+  const updater = (funcOrVal) => {
     if (_.isFunction(funcOrVal)) {
       value = funcOrVal(value);
     } else {
       value = funcOrVal;
     }
-    listeners.forEach(f => f(value));
+    listeners.forEach((f) => f(value));
   };
   const hook = () => {
     const [val, setVal] = useState(value);
@@ -41,7 +41,7 @@ const createGetState = (stateItemMap, initialState) => {
     let changed = false;
     const currentState = {};
     // XXX an extra overhead here
-    keys.forEach(key => {
+    keys.forEach((key) => {
       currentState[key] = stateItemMap[key].getValue();
       if (currentState[key] !== globalState[key]) {
         changed = true;
@@ -57,11 +57,11 @@ const createGetState = (stateItemMap, initialState) => {
 
 const createDispatch = (stateItemMap, getState, reducer) => {
   const keys = Object.keys(stateItemMap);
-  const dispatch = action => {
+  const dispatch = (action) => {
     const oldState = getState();
     const newState = reducer(oldState, action);
     if (oldState !== newState) {
-      keys.forEach(key => {
+      keys.forEach((key) => {
         if (oldState[key] !== newState[key]) {
           stateItemMap[key].updater(newState[key]);
         }
@@ -74,12 +74,12 @@ const createDispatch = (stateItemMap, getState, reducer) => {
 
 // export functions
 
-export const createSharedState = initialState => {
+export const createSharedState = (initialState) => {
   const stateItemMap = _.mapValues(initialState, createStateItem);
   return {
-    useSharedState: name => stateItemMap[name].hook(),
+    useSharedState: (name) => stateItemMap[name].hook(),
     setSharedState: (name, update) => stateItemMap[name].updater(update),
-    getSharedState: name => stateItemMap[name].getValue()
+    getSharedState: (name) => stateItemMap[name].getValue(),
   };
 };
 
@@ -91,8 +91,8 @@ export const createStore = (reducer, initialState, enhancer) => {
   const getState = createGetState(stateItemMap, initialState);
   const dispatch = createDispatch(stateItemMap, getState, reducer);
   return {
-    useSharedState: name => stateItemMap[name].hook(),
+    useSharedState: (name) => stateItemMap[name].hook(),
     getState,
-    dispatch
+    dispatch,
   };
 };

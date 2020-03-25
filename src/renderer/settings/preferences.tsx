@@ -6,9 +6,9 @@ import { useDevtoolsState } from '../hooks';
 
 const useStyles = makeStyles({
   text: {
-    fontStyle: 'oblique'
+    fontStyle: 'oblique',
   },
-  card: {}
+  card: {},
 } as const);
 
 export default function Preferences() {

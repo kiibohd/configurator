@@ -14,15 +14,15 @@ const useStyles = makeStyles({
     flexGrow: 1,
     height: '100%',
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
   },
   tabs: {
-    minHeight: 72
+    minHeight: 72,
   },
   container: {
     padding: 8 * 3,
-    overflow: 'auto'
-  }
+    overflow: 'auto',
+  },
 } as const);
 
 export default function Settings() {

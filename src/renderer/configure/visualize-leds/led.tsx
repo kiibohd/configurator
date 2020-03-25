@@ -14,11 +14,11 @@ const useStyles = makeStyles({
     overflow: 'hidden',
     backgroundColor: Palette.lightgray,
     border: `2px dashed ${Palette.darkgray}`,
-    borderRadius: 2
+    borderRadius: 2,
   },
   selected: {
-    borderColor: `${Palette.red} !important`
-  }
+    borderColor: `${Palette.red} !important`,
+  },
 } as const);
 
 type LedProps = {
@@ -40,7 +40,7 @@ export default function Led(props: LedProps) {
     left: scale(led.x) - sizeFactor / 2,
     top: scale(led.y) - sizeFactor / 2,
     width: sizeFactor,
-    height: sizeFactor
+    height: sizeFactor,
   };
 
   if (status) {
@@ -51,7 +51,7 @@ export default function Led(props: LedProps) {
   return tooltipped(`id: ${led.id}`, <div />, {
     className: classNames(classes.led, { [classes.selected]: selected }),
     style: ledStyle,
-    onClick: e => onClick(e, led)
+    onClick: (e) => onClick(e, led),
   });
 }
 
@@ -60,5 +60,5 @@ Led.propTypes = {
   selected: PropTypes.bool.isRequired,
   status: PropTypes.object,
   sizeFactor: PropTypes.number.isRequired,
-  onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired,
 };

@@ -22,8 +22,8 @@ const info: Info = {
   version: '0.9',
   uris: {
     win32: 'http://dfu-util.sourceforge.net/releases/dfu-util-0.9-win64.zip',
-    darwin: 'https://github.com/kiibohd/dfu-util/releases/download/v0.9-kiibohd/dfu-util-v0.9-kiibohd.zip'
-  }
+    darwin: 'https://github.com/kiibohd/dfu-util/releases/download/v0.9-kiibohd/dfu-util-v0.9-kiibohd.zip',
+  },
 };
 
 export async function findDfuPath(): Promise<string> {
@@ -64,9 +64,9 @@ export async function checkVersion(): Promise<Optional<string>> {
   try {
     const data = await fetch(uri, {
       headers: {
-        'User-Agent': 'Kiibohd Configurator'
-      }
-    }).then(r => r.arrayBuffer());
+        'User-Agent': 'Kiibohd Configurator',
+      },
+    }).then((r) => r.arrayBuffer());
 
     const zip = new JSZip();
     const contents = await zip.loadAsync(data);

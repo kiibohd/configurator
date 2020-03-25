@@ -13,7 +13,7 @@ export function normalize(color: Rgb): Rgb {
   return {
     r: color.r / 255,
     g: color.g / 255,
-    b: color.b / 255
+    b: color.b / 255,
   };
 }
 

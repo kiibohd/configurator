@@ -19,36 +19,36 @@ const useStyles = makeStyles(
       text: {
         marginLeft: theme.spacing(1),
         marginRight: theme.spacing(1),
-        marginTop: 16
+        marginTop: 16,
       },
       resizeFont: {
-        fontSize: 13
+        fontSize: 13,
       },
       icon: {
-        marginRight: -12
+        marginRight: -12,
       },
       buttonGrid: {
         marginTop: 12,
-        height: 49
+        height: 49,
       },
       button: {
         height: 49,
-        width: 100
+        width: 100,
       },
       hintText: {
         '&&': {
-          color: deepOrange[300]
-        }
+          color: deepOrange[300],
+        },
       },
       warn: {
         fontStyle: 'oblique',
-        color: 'red'
+        color: 'red',
       },
       success: {
         fontStyle: 'oblique',
-        color: 'green'
+        color: 'green',
       },
-      image: {}
+      image: {},
     } as const)
 );
 
@@ -84,10 +84,12 @@ export default function Flash() {
 
   useLayoutEffect(updateScroll, [progress]);
 
-  const flashableConnected = connected.some(x => x.known && x.known.isFlashable);
+  const flashableConnected = connected.some((x) => x.known && x.known.isFlashable);
 
   const board = lastDl && lastDl.board;
-  const found = board ? connected.find(x => x.known && x.known.names.includes(board)) : connected.find(x => !!x.known);
+  const found = board
+    ? connected.find((x) => x.known && x.known.names.includes(board))
+    : connected.find((x) => !!x.known);
   const resetCombo = _.get(found, 'keyboard.info.resetCombo', '"Fn + Esc"');
 
   async function openDialog(title: string, filters: electron.FileFilter[], cb: (paths: string[]) => void) {
@@ -103,25 +105,25 @@ export default function Flash() {
     if (!dfuPath || !binPath) return;
     setProgress('');
     const cmd = ChildProcess.spawn(dfuPath, ['-D', binPath]);
-    cmd.stdout.on('data', d => setProgress(curr => curr + d + '\n'));
-    cmd.stderr.on('data', d => setProgress(curr => curr + 'ERROR: ' + d + '\n'));
-    cmd.on('close', code => {
-      setProgress(curr => curr + '\nExited with code ' + code);
+    cmd.stdout.on('data', (d) => setProgress((curr) => curr + d + '\n'));
+    cmd.stderr.on('data', (d) => setProgress((curr) => curr + 'ERROR: ' + d + '\n'));
+    cmd.on('close', (code) => {
+      setProgress((curr) => curr + '\nExited with code ' + code);
       if (code == 0) {
         popupSimpleToast('success', 'Flashing Successful');
         previousPanel();
       } else if (code === -os.constants.errno.ENOENT) {
         popupSimpleToast('error', 'dfu-util not found');
         setDfuNotFound(true);
-        setProgress(curr => curr + ' (dfu-util not found)');
+        setProgress((curr) => curr + ' (dfu-util not found)');
       } else if (code === 74) {
         popupSimpleToast('error', 'dfu-util could not find device in flash mode.');
-        setProgress(curr => curr + ' (dfu-util could not find device in flash mode)');
+        setProgress((curr) => curr + ' (dfu-util could not find device in flash mode)');
       } else {
         popupSimpleToast('error', 'Error Flashing, check log');
       }
     });
-    cmd.on('error', function() {
+    cmd.on('error', function () {
       // catch error so close still gets called
     });
   }
@@ -188,7 +190,7 @@ export default function Flash() {
               fullWidth
               label="dfu-util command"
               value={dfuPath}
-              onChange={e => {
+              onChange={(e) => {
                 updateDfu(e.target.value);
                 dfuNotFound && setDfuNotFound(false);
               }}
@@ -207,14 +209,14 @@ export default function Flash() {
                         openDialog(
                           'path to dfu-util',
                           [{ name: 'All Files', extensions: ['*'] }],
-                          paths => paths.length && updateDfu(paths[0])
+                          (paths) => paths.length && updateDfu(paths[0])
                         )
                       }
                     >
                       <FolderOpen />
                     </IconButton>
                   </InputAdornment>
-                )
+                ),
               }}
               InputLabelProps={{ classes: { root: classes.resizeFont } }}
             />
@@ -238,7 +240,7 @@ export default function Flash() {
               fullWidth
               label=".bin to flash"
               value={binPath}
-              onChange={e => setBinPath(e.target.value)}
+              onChange={(e) => setBinPath(e.target.value)}
               margin="dense"
               variant="outlined"
               required
@@ -255,14 +257,14 @@ export default function Flash() {
                         openDialog(
                           'firmware to flash',
                           [{ name: 'bin files', extensions: ['bin'] }],
-                          paths => paths.length && setBinPath(paths[0])
+                          (paths) => paths.length && setBinPath(paths[0])
                         )
                       }
                     >
                       <FolderOpen />
                     </IconButton>
                   </InputAdornment>
-                )
+                ),
               }}
               InputLabelProps={{ classes: { root: classes.resizeFont } }}
             />

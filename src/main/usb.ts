@@ -33,7 +33,7 @@ function createMinDevice(raw: UsbNode.Device, connected: boolean): Device {
     manufacturer: undefined,
     product: undefined,
     serialNo: undefined,
-    version: desc.bcdDevice
+    version: desc.bcdDevice,
   };
 }
 
@@ -99,7 +99,7 @@ export async function getDeviceDetails(device: Device): Promise<Device> {
     const [mfg, prod, serial] = await Bluebird.all([
       getString(desc.iManufacturer),
       getString(desc.iProduct),
-      getString(desc.iSerialNumber)
+      getString(desc.iSerialNumber),
     ]);
 
     return { ...device, ...{ manufacturer: mfg, product: prod, serialNo: serial } };
