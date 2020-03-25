@@ -49,6 +49,8 @@ You will need to install Zadig drivers (automated through the `Settings > Driver
   SUBSYSTEMS=="usb", ATTRS{idVendor}=="1209", ATTRS{idProduct}=="01c0", MODE="664", GROUP="plugdev"
   # Registered Boot
   SUBSYSTEMS=="usb", ATTRS{idVendor}=="1209", ATTRS{idProduct}=="01cb", MODE="664", GROUP="plugdev"
+  # Official VID
+  SUBSYSTEMS=="usb", ATTRS{idVendor}=="308f", MODE="664", GROUP="plugdev"
   ```
 
 
