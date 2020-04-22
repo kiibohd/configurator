@@ -104,7 +104,13 @@ export default function KeyboardSelect() {
       );
     }
 
-    return <FiberManualRecordIcon style={{ color: 'green' }} />;
+    const icon = <FiberManualRecordIcon style={{ color: 'green' }} />;
+
+    if (attached.version) {
+      return tooltipped(`Up to date. Curently v${attached.version}`, icon);
+    }
+
+    return icon;
   }
 
   function MockKeyboard(name: KeyboardNames): AttachedKeyboard {
