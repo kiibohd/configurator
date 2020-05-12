@@ -5,7 +5,7 @@ import db from '../db';
 import { findDfuPath } from '../local-storage/dfu-util';
 import { findKiidrvPath } from '../local-storage/kiidrv';
 import { FirmwareVersions, ConfigAnimation } from '../../common/config';
-import { FirmwareResult } from '../local-storage/firmware';
+import { FirmwareResult, normalizeFirmwareResult } from '../local-storage/firmware';
 import { AvailableLocales } from '../../common/keys';
 
 const dev = process.env.NODE_ENV === 'development';
@@ -66,7 +66,7 @@ export { getSettingsState as _currentState };
 
 export async function loadFromDb() {
   setSettingsState('kiidrv', (await db.core.get(DbKey.kiidrvPath)) || (await findKiidrvPath()));
-  setSettingsState('lastDl', await db.core.get(DbKey.lastDl));
+  setSettingsState('lastDl', normalizeFirmwareResult(await db.core.get(DbKey.lastDl)));
   setSettingsState('recentDls', (await db.core.get(DbKey.recentDls)) || {});
   setSettingsState('lastVersionCheck', (await db.core.get(DbKey.lastVerCheck)) || 0);
   setSettingsState('firmwareVersions', (await db.core.get(DbKey.firmwareVersions)) || undefined);

@@ -4,14 +4,56 @@ import ChildProcess from 'child_process';
 import electron from 'electron';
 import _ from 'lodash';
 import { useConnectedKeyboards } from '../hooks';
-import { makeStyles, deepOrange, Button, Grid, IconButton, InputAdornment, TextField, Typography, Theme } from '../mui';
+import {
+  makeStyles,
+  deepOrange,
+  Button,
+  Grid,
+  IconButton,
+  InputAdornment,
+  TextField,
+  Typography,
+  Theme,
+  Dialog,
+  DialogTitle,
+  DialogContentText,
+  DialogActions,
+  DialogContent,
+} from '../mui';
 import { FolderOpen, HelpOutlineIcon } from '../icons';
 import { updateToolbarButtons, previousPanel, popupSimpleToast } from '../state/core';
 import { useSettingsState, updateDfu } from '../state/settings';
 import { BackButton, SettingsButton, HomeButton, HelpButton } from '../buttons';
 import { pathToImg } from '../common';
+import { SplitFirmwareResult, SingleFirmwareResult } from '../local-storage/firmware';
 
 //TODO: Split this up.
+
+type ConfirmationDialogProps = {
+  title: string;
+  message: string;
+  open: boolean;
+  onClose: (result: boolean) => void;
+};
+
+function ConfirmationDialog(props: ConfirmationDialogProps) {
+  const { title, message, open, onClose } = props;
+
+  return (
+    <Dialog open={open} onClose={() => onClose(false)}>
+      <DialogTitle>{title}</DialogTitle>
+      <DialogContent>
+        <DialogContentText>{message}</DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={() => onClose(false)}>Cancel</Button>
+        <Button color="primary" onClick={() => onClose(true)}>
+          Flash
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+}
 
 const useStyles = makeStyles(
   (theme: Theme) =>
@@ -33,7 +75,7 @@ const useStyles = makeStyles(
       },
       button: {
         height: 49,
-        width: 100,
+        width: 125,
       },
       hintText: {
         '&&': {
@@ -52,15 +94,24 @@ const useStyles = makeStyles(
     } as const)
 );
 
+// TODO: Need a refactor and split real bad.
 export default function Flash() {
   const classes = useStyles({});
   const connected = useConnectedKeyboards();
   const [lastDl] = useSettingsState('lastDl');
-  const bin = lastDl ? (_.isString(lastDl.bin) ? lastDl.bin : lastDl.bin.left) : '';
+  const isSplit = lastDl && lastDl.type === 'split';
+  const bin = lastDl && !isSplit ? (lastDl as SingleFirmwareResult).bin : '';
   const [dfuPath] = useSettingsState('dfu');
 
   const [dfuNotFound, setDfuNotFound] = useState(false);
   const [binPath, setBinPath] = useState(bin);
+  const leftBin = lastDl && isSplit ? (lastDl as SplitFirmwareResult).bin.left : '';
+  const rightBin = lastDl && isSplit ? (lastDl as SplitFirmwareResult).bin.right : '';
+  const [leftBinPath, setLeftBinPath] = useState(leftBin);
+  const [rightBinPath, setRightBinPath] = useState(rightBin);
+
+  const [showConfirmation, setShowConfirmation] = useState<undefined | 'left' | 'right'>(undefined);
+
   const [progress, setProgress] = useState('');
   const [showResetHelp, setShowResetHelp] = useState(false);
   const progressTextBox = useRef<HTMLInputElement | null>(null);
@@ -101,17 +152,19 @@ export default function Flash() {
     }
   }
 
-  function flash() {
-    if (!dfuPath || !binPath) return;
+  function flash(path: string) {
+    if (!dfuPath || !path) return;
     setProgress('');
-    const cmd = ChildProcess.spawn(dfuPath, ['-D', binPath]);
+    const cmd = ChildProcess.spawn(dfuPath, ['-D', path]);
     cmd.stdout.on('data', (d) => setProgress((curr) => curr + d + '\n'));
     cmd.stderr.on('data', (d) => setProgress((curr) => curr + 'ERROR: ' + d + '\n'));
     cmd.on('close', (code) => {
       setProgress((curr) => curr + '\nExited with code ' + code);
       if (code == 0) {
         popupSimpleToast('success', 'Flashing Successful');
-        previousPanel();
+        if (!isSplit) {
+          previousPanel();
+        }
       } else if (code === -os.constants.errno.ENOENT) {
         popupSimpleToast('error', 'dfu-util not found');
         setDfuNotFound(true);
@@ -222,55 +275,164 @@ export default function Flash() {
             />
           </Grid>
           <Grid item xs={1} />
-          <Grid item xs={2} className={classes.buttonGrid}>
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.button}
-              onClick={flash}
-              disabled={!dfuPath || !binPath}
-            >
-              Flash
-            </Button>
-          </Grid>
+          {!isSplit && (
+            <Grid item xs={2} className={classes.buttonGrid}>
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.button}
+                onClick={() => flash(binPath)}
+                disabled={!dfuPath || !binPath}
+              >
+                Flash
+              </Button>
+            </Grid>
+          )}
+          {isSplit && <Grid item xs={2} />}
         </Grid>
-        <Grid container item xs={12} direction="row" justify="space-between" alignItems="center">
-          <Grid item xs>
-            <TextField
-              fullWidth
-              label=".bin to flash"
-              value={binPath}
-              onChange={(e) => setBinPath(e.target.value)}
-              margin="dense"
-              variant="outlined"
-              required
-              className={classes.text}
-              helperText={binPath.length && !binPath.endsWith('.bin') ? 'does not appear to be .bin file' : null}
-              error={!binPath}
-              InputProps={{
-                classes: { input: classes.resizeFont },
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      className={classes.icon}
-                      onClick={() =>
-                        openDialog(
-                          'firmware to flash',
-                          [{ name: 'bin files', extensions: ['bin'] }],
-                          (paths) => paths.length && setBinPath(paths[0])
-                        )
-                      }
-                    >
-                      <FolderOpen />
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-              InputLabelProps={{ classes: { root: classes.resizeFont } }}
-            />
+        {!isSplit && (
+          <Grid container item xs={12} direction="row" justify="space-between" alignItems="center">
+            <Grid item xs>
+              <TextField
+                fullWidth
+                label=".bin to flash"
+                value={binPath}
+                onChange={(e) => setBinPath(e.target.value)}
+                margin="dense"
+                variant="outlined"
+                required
+                className={classes.text}
+                helperText={binPath.length && !binPath.endsWith('.bin') ? 'does not appear to be .bin file' : null}
+                error={!binPath}
+                InputProps={{
+                  classes: { input: classes.resizeFont },
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        className={classes.icon}
+                        onClick={() =>
+                          openDialog(
+                            'firmware to flash',
+                            [{ name: 'bin files', extensions: ['bin'] }],
+                            (paths) => paths.length && setBinPath(paths[0])
+                          )
+                        }
+                      >
+                        <FolderOpen />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+                InputLabelProps={{ classes: { root: classes.resizeFont } }}
+              />
+            </Grid>
+            <Grid item xs={3} />
           </Grid>
-          <Grid item xs={3} />
-        </Grid>
+        )}
+        {isSplit && (
+          <>
+            <Grid container item xs={12} direction="row" justify="space-between" alignItems="center">
+              <Grid item xs>
+                <TextField
+                  fullWidth
+                  label="left .bin to flash"
+                  value={leftBinPath}
+                  onChange={(e) => setLeftBinPath(e.target.value)}
+                  margin="dense"
+                  variant="outlined"
+                  required
+                  className={classes.text}
+                  helperText={
+                    leftBinPath.length && !leftBinPath.endsWith('.bin') ? 'does not appear to be .bin file' : null
+                  }
+                  error={!leftBinPath}
+                  InputProps={{
+                    classes: { input: classes.resizeFont },
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          className={classes.icon}
+                          onClick={() =>
+                            openDialog(
+                              'left-side firmware to flash',
+                              [{ name: 'bin files', extensions: ['bin'] }],
+                              (paths) => paths.length && setLeftBinPath(paths[0])
+                            )
+                          }
+                        >
+                          <FolderOpen />
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                  InputLabelProps={{ classes: { root: classes.resizeFont } }}
+                />
+              </Grid>
+              <Grid item xs={1} />
+              <Grid item xs={2} className={classes.buttonGrid}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={classes.button}
+                  onClick={() => setShowConfirmation('left')}
+                  disabled={!dfuPath || !leftBinPath}
+                >
+                  Flash Left
+                </Button>
+              </Grid>
+            </Grid>
+            <Grid container item xs={12} direction="row" justify="space-between" alignItems="center">
+              <Grid item xs>
+                <TextField
+                  fullWidth
+                  label="right .bin to flash"
+                  value={rightBinPath}
+                  onChange={(e) => setRightBinPath(e.target.value)}
+                  margin="dense"
+                  variant="outlined"
+                  required
+                  className={classes.text}
+                  helperText={
+                    rightBinPath.length && !rightBinPath.endsWith('.bin') ? 'does not appear to be .bin file' : null
+                  }
+                  error={!rightBinPath}
+                  InputProps={{
+                    classes: { input: classes.resizeFont },
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          className={classes.icon}
+                          onClick={() =>
+                            openDialog(
+                              'right-side firmware to flash',
+                              [{ name: 'bin files', extensions: ['bin'] }],
+                              (paths) => paths.length && setRightBinPath(paths[0])
+                            )
+                          }
+                        >
+                          <FolderOpen />
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                  InputLabelProps={{ classes: { root: classes.resizeFont } }}
+                />
+              </Grid>
+              <Grid item xs={1} />
+              <Grid item xs={2} className={classes.buttonGrid}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={classes.button}
+                  onClick={() => setShowConfirmation('right')}
+                  disabled={!dfuPath || !rightBinPath}
+                >
+                  Flash Right
+                </Button>
+              </Grid>
+            </Grid>
+          </>
+        )}
         <Grid item xs={9}>
           <TextField
             fullWidth
@@ -285,6 +447,24 @@ export default function Flash() {
           />
         </Grid>
       </Grid>
+      <ConfirmationDialog
+        title={`Flash ${showConfirmation === 'left' ? 'Left' : 'Right'} Side?`}
+        message={`Please ensure the ${showConfirmation} half is attached and ready to flash.`}
+        open={!!showConfirmation}
+        onClose={(result) => {
+          setShowConfirmation(undefined);
+
+          if (!result) {
+            return;
+          }
+
+          if (showConfirmation === 'left') {
+            flash(leftBinPath);
+          } else {
+            flash(rightBinPath);
+          }
+        }}
+      />
     </div>
   );
 }

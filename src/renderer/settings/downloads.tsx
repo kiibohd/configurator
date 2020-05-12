@@ -7,8 +7,8 @@ import Bluebird from 'bluebird';
 import _ from 'lodash';
 import { tooltipped } from '../utils';
 import { setLastDl } from '../state/settings';
-import { updatePanel, Panels } from '../state/core';
-import { FirmwareResult } from '../local-storage/firmware';
+import { updatePanel, Panels, popupSimpleToast } from '../state/core';
+import { FirmwareResult, normalizeFirmwareResult } from '../local-storage/firmware';
 
 const useStyles = makeStyles({
   text: {
@@ -31,7 +31,14 @@ export default function Downloads() {
 
   const flash = (dl: FirmwareResult) => {
     // HACK - Replace when moved over to react-router MemoryRouter
-    setLastDl(dl);
+    const normalized = normalizeFirmwareResult(dl);
+
+    if (!normalized) {
+      popupSimpleToast('error', 'Cannot flash previously downloaded firmware as it appears to be corrupt.');
+      return;
+    }
+
+    setLastDl(normalized);
     updatePanel(Panels.Flash);
   };
 

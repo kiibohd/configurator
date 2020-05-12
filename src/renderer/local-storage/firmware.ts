@@ -14,16 +14,49 @@ export interface FileDescription {
   isError: boolean;
 }
 
-export interface FirmwareResult {
+type BaseFirmwareResult = {
   board: string;
   variant: string;
   layout: string;
   hash: string;
   isError: boolean;
-  bin: string | { left: string; right: string };
   json: string;
   log: string;
   time: number;
+};
+
+export type SingleFirmwareResult = {
+  bin: string;
+  type: 'single';
+} & BaseFirmwareResult;
+
+export type SplitFirmwareResult = {
+  bin: { left: string; right: string };
+  type: 'split';
+} & BaseFirmwareResult;
+
+export type FirmwareResult = SingleFirmwareResult | SplitFirmwareResult;
+
+// This is a little hacky, but since we have a type stored in the local db that isn't quite the right shape this will help
+// normalize the structure. This looks slightly overblown, but it keeps the typescript compiler happy.
+export function normalizeFirmwareResult(
+  result: Optional<FirmwareResult | Omit<FirmwareResult, 'type'>>
+): Optional<FirmwareResult> {
+  if (result && !(result as FirmwareResult).type) {
+    if (result.board === 'MDErgo1') {
+      return {
+        ...(result as Omit<SplitFirmwareResult, 'type'>),
+        ...{ type: 'split' },
+      };
+    }
+
+    return {
+      ...(result as Omit<SingleFirmwareResult, 'type'>),
+      ...{ type: 'single' },
+    };
+  }
+
+  return result as Optional<FirmwareResult>;
 }
 
 const logPath = 'log/build.log';
@@ -70,25 +103,36 @@ export async function storeFirmware(
 
   await mkdirp(outdir);
 
-  const result = {
+  const result: BaseFirmwareResult = {
     board,
     variant,
     layout,
     hash,
     isError,
-    bin:
-      board === 'MDErgo1'
-        ? {
-            left: await extract('left_' + binFile, undefined, true),
-            right: await extract('right_' + binFile, undefined, true),
-          }
-        : await extract(binFile, undefined, true),
     json: await extract(jsonName),
     log: await extract(logPath, 'build.log'),
     time: Date.now(),
   };
 
-  return result;
+  if (board === 'MDErgo1') {
+    return {
+      ...result,
+      ...{
+        type: 'split',
+        bin: {
+          left: await extract('left_' + binFile, undefined, true),
+          right: await extract('right_' + binFile, undefined, true),
+        },
+      },
+    };
+  }
+  return {
+    ...result,
+    ...{
+      type: 'single',
+      bin: await extract(binFile, undefined, true),
+    },
+  };
 }
 
 /**
