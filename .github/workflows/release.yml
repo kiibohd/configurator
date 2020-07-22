@@ -1,0 +1,256 @@
+name: Release
+
+on:
+  repository_dispatch:
+  release:
+    types: [created, unpublished, prereleased]
+  # This is currently a bit overkill to do the full release on every push, but since it re-uses draft releases shouldn't be too bad.
+  push:
+    branches:
+      - master
+      - 'release-**'
+      - 'feature-**'
+
+jobs:
+  draft_release:
+    name: Draft Release
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+    - name: Install jo
+      run: sudo apt-get install jo
+    - name: package info
+      run: |
+        echo "##[set-output name=version;]$(cat package.json | jq -r .version)"
+      id: package_info
+    - name: Find Release
+      env:
+        PKG_VERSION: ${{ steps.package_info.outputs.version }}
+        REPO: ${{ github.repository }}
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        TAG_NAME: v${{ steps.package_info.outputs.version }}
+      run: |
+        curl -H "Authorization: bearer $GH_TOKEN" https://api.github.com/repos/$REPO/releases > releases.json
+        jq "map(select(.tag_name == \"$TAG_NAME\") | select(.draft)) | first" releases.json > draft.json
+        if [ "$(head -c 4 draft.json)" == "null" ]; then
+          echo "##[set-output name=exists;]false"
+        else
+          echo "##[set-output name=exists;]true"
+
+          rel_id=$(jq -r .id draft.json)
+          html_url="$(jq -r .html_url draft.json)"
+          upload_url="$(jq -r .upload_url draft.json)"
+
+          jo version=$PKG_VERSION id=$rel_id html_url=$html_url upload_url=$upload_url >> release_info.json
+        fi
+      id: find_release
+    # If no release exists, create one.
+    - name: Create release
+      id: create_release
+      uses: actions/create-release@master
+      if: steps.find_release.outputs.exists == 'false'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: v${{ steps.package_info.outputs.version }}
+        release_name: v${{ steps.package_info.outputs.version }}
+        draft: true
+        prerelease: true
+    - name: Create Artifact
+      if: steps.find_release.outputs.exists == 'false'
+      env:
+        PKG_VERSION: ${{ steps.package_info.outputs.version }}
+        REL_ID: ${{ steps.create_release.outputs.id }}
+        REL_HTML_URL: ${{ steps.create_release.outputs.html_url }}
+        REL_UPLOAD_URL: ${{ steps.create_release.outputs.upload_url }}
+      run: |
+        jo version=$PKG_VERSION id=$REL_ID html_url=$REL_HTML_URL upload_url=$REL_UPLOAD_URL >> release_info.json
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v1
+      with:
+        name: release_info
+        path: release_info.json
+
+  build_linux:
+    name: Linux Build
+    needs: draft_release
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@master
+      with:
+        fetch-depth: 1
+
+    - name: Download Release Info
+      uses: actions/download-artifact@v1
+      with:
+        name: release_info
+        path: .
+    - name: release_info
+      run: |
+        echo "##[set-output name=version;]$(cat release_info.json | jq -r .version)"
+        echo "##[set-output name=id;]$(cat release_info.json | jq -r .id)"
+        echo "##[set-output name=html_url;]$(cat release_info.json | jq -r .html_url)"
+        echo "##[set-output name=upload_url;]$(cat release_info.json | jq -r .upload_url)"
+      id: release_info
+
+    - name: Install libudev
+      run: sudo apt-get install -y libudev-dev
+    - name: Setup node env
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.14
+    - name: Install project dependencies
+      run: |
+        yarn
+        yarn rebuild-deps
+    - name: Compile project
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: yarn dist --linux
+    - name: Upload tar.gz
+      # uses: actions/upload-release-asset@v1.0.1
+      # use fork until https://github.com/actions/upload-release-asset/issues/13 is fixed
+      uses: gfreezy/upload-release-asset@v1.0.2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        release_id: ${{ steps.release_info.outputs.id }}
+        upload_url: ${{ steps.release_info.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+        asset_path: output/kiibohd-configurator-${{ steps.release_info.outputs.version }}-linux-x64.tar.gz
+        asset_name: kiibohd-configurator-${{ steps.release_info.outputs.version }}-linux-x64.tar.gz
+        asset_content_type: application/gzip
+    - name: Upload AppImage
+      # uses: actions/upload-release-asset@v1.0.1
+      # use fork until https://github.com/actions/upload-release-asset/issues/13 is fixed
+      uses: gfreezy/upload-release-asset@v1.0.2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        release_id: ${{ steps.release_info.outputs.id }}
+        upload_url: ${{ steps.release_info.outputs.upload_url }}
+        asset_path: output/kiibohd-configurator-${{ steps.release_info.outputs.version }}-linux-x86_64.AppImage
+        asset_name: kiibohd-configurator-${{ steps.release_info.outputs.version }}-linux-x86_64.AppImage
+        asset_content_type: application/x-executable
+
+  build_mac:
+    name: OSX Build
+    needs: draft_release
+    runs-on: macOS-latest
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@master
+      with:
+        fetch-depth: 1
+    - name: Download Release Info
+      uses: actions/download-artifact@v1
+      with:
+        name: release_info
+        path: .
+    - name: release_info
+      run: |
+        echo "##[set-output name=version;]$(cat release_info.json | jq -r .version)"
+        echo "##[set-output name=id;]$(cat release_info.json | jq -r .id)"
+        echo "##[set-output name=html_url;]$(cat release_info.json | jq -r .html_url)"
+        echo "##[set-output name=upload_url;]$(cat release_info.json | jq -r .upload_url)"
+      id: release_info
+    - name: Setup node env
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.14
+    - name: Install project dependencies
+      run: |
+        yarn
+        yarn rebuild-deps
+    - name: Compile project
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: yarn dist --mac
+    - name: Upload zip
+      # uses: actions/upload-release-asset@v1.0.1
+      # use fork until https://github.com/actions/upload-release-asset/issues/13 is fixed
+      uses: gfreezy/upload-release-asset@v1.0.2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        release_id: ${{ steps.release_info.outputs.id }}
+        upload_url: ${{ steps.release_info.outputs.upload_url }}
+        asset_path: output/kiibohd-configurator-${{ steps.release_info.outputs.version }}-mac.zip
+        asset_name: kiibohd-configurator-${{ steps.release_info.outputs.version }}-mac.zip
+        asset_content_type: application/zip
+    - name: Upload dmg
+      # uses: actions/upload-release-asset@v1.0.1
+      # use fork until https://github.com/actions/upload-release-asset/issues/13 is fixed
+      uses: gfreezy/upload-release-asset@v1.0.2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        release_id: ${{ steps.release_info.outputs.id }}
+        upload_url: ${{ steps.release_info.outputs.upload_url }}
+        asset_path: output/kiibohd-configurator-${{ steps.release_info.outputs.version }}-mac.dmg
+        asset_name: kiibohd-configurator-${{ steps.release_info.outputs.version }}-mac.dmg
+        asset_content_type: application/x-executable
+
+  build_windows:
+    name: Windows Build
+    needs: draft_release
+    runs-on: windows-2016
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+
+    - name: Download Release Info
+      uses: actions/download-artifact@v1
+      with:
+        name: release_info
+        path: .
+    - name: release_info
+      run: |
+        echo "##[set-output name=version;]$(cat release_info.json | jq -r .version)"
+        echo "##[set-output name=id;]$(cat release_info.json | jq -r .id)"
+        echo "##[set-output name=html_url;]$(cat release_info.json | jq -r .html_url)"
+        echo "##[set-output name=upload_url;]$(cat release_info.json | jq -r .upload_url)"
+      id: release_info
+
+    - name: Setup node env
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.14
+    - name: Install project dependencies
+      run: |
+        yarn
+        yarn rebuild-deps
+    - name: Compile project
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        yarn dist --win --x64
+    - name: Upload zip
+      # uses: actions/upload-release-asset@v1.0.1
+      # use fork until https://github.com/actions/upload-release-asset/issues/13 is fixed
+      uses: gfreezy/upload-release-asset@v1.0.2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        release_id: ${{ steps.release_info.outputs.id }}
+        upload_url: ${{ steps.release_info.outputs.upload_url }}
+        asset_path: output/kiibohd-configurator-${{ steps.release_info.outputs.version }}-win-x64.zip
+        asset_name: kiibohd-configurator-${{ steps.release_info.outputs.version }}-win-x64.zip
+        asset_content_type: application/zip
+    - name: Upload exe
+      # uses: actions/upload-release-asset@v1.0.1
+      # use fork until https://github.com/actions/upload-release-asset/issues/13 is fixed
+      uses: gfreezy/upload-release-asset@v1.0.2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        release_id: ${{ steps.release_info.outputs.id }}
+        upload_url: ${{ steps.release_info.outputs.upload_url }}
+        asset_path: output/kiibohd-configurator-${{ steps.release_info.outputs.version }}-win.exe
+        asset_name: kiibohd-configurator-${{ steps.release_info.outputs.version }}-win-x64.exe
+        asset_content_type: application/x-executable

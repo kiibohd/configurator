@@ -3,15 +3,16 @@ module.exports = {
   extends: [
     'eslint:recommended',
     'plugin:react/recommended',
+    'plugin:@typescript-eslint/recommended',
     "prettier",
     "prettier/react"
   ],
 
-  parser: 'babel-eslint',
+  parser: '@typescript-eslint/parser',
   parserOptions: {
     sourceType: 'module'
   },
-  plugins: ["prettier"],
+  plugins: ["prettier", "@typescript-eslint"],
   env: {
     browser: true,
     node: true,
@@ -21,6 +22,8 @@ module.exports = {
     __static: true
   },
   rules: {
+    // XXX - Temporarily disabled typescript errors
+    "@typescript-eslint/explicit-function-return-type": "off",
     // disable for now...
     'linebreak-style': 0,
     // allow console and debugger in development
@@ -38,7 +41,7 @@ module.exports = {
   },
   settings: {
       react: {
-          version: "16.7.0-alpha.2"
+          version: "detect"
       }
   }
 }

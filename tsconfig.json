@@ -1,0 +1,28 @@
+{
+  "extends": "./node_modules/electron-webpack/tsconfig-base.json",
+  "compilerOptions": {
+    "allowJs": false,
+    "jsx": "react",
+    "moduleResolution": "node",
+    "lib": ["es6", "dom"],
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "strictNullChecks": true,
+
+    "typeRoots": [
+      "src/types",
+      "node_modules/@types"
+    ]
+  },
+  "exclude": [
+    "**/*.spec.ts",
+    "node_modules",
+  ],
+  "include": [
+    "src/**/*.ts"
+  ],
+  "paths": {
+    "react": ["node_modules/@types/react"],
+    "react-transition-group": ["node_modules/@types/react-transition-group"]
+  }
+}
