@@ -33,7 +33,7 @@ export default function ImportKeymapButton(props: ImportKeymapButtonProps): JSX.
 
   const actions = [
     <Snackbar key={'snackbar'} anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }} open={!!toast}>
-      {toast}
+      {toast || undefined}
     </Snackbar>,
     <Button
       key={'import'}

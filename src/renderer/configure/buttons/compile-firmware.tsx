@@ -155,7 +155,7 @@ export default function CompileFirmwareButton(): JSX.Element {
         Flash Keyboard
       </Fab>
       <Snackbar anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }} open={!!toast}>
-        {toast}
+        {toast || undefined}
       </Snackbar>
       <SimpleDataModal
         open={!!compileLog}
