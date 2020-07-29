@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain as ipc } from 'electron';
+import { app, BrowserWindow, ipcMain as ipc, protocol } from 'electron';
 import * as path from 'path';
 import { format as formatUrl } from 'url';
 import * as usb from './usb';
@@ -22,6 +22,7 @@ function createMainWindow(): BrowserWindow {
     webPreferences: {
       webSecurity: false,
       nodeIntegration: true,
+      enableRemoteModule: true,
     },
   });
 
@@ -81,6 +82,12 @@ app.on('ready', () => {
   mainWindow = createMainWindow();
 });
 
+app.whenReady().then(() => {
+  protocol.registerFileProtocol('file', (request, callback) => {
+    const pathname = request.url.replace('file:///', '');
+    callback(pathname);
+  });
+});
 async function getKeyboardDetails(device: Device): Promise<Optional<AttachedKeyboard>> {
   // TODO: For Electron 9 need to transform this to a simple JS Object (no methods, etc)
   try {

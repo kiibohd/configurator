@@ -48,7 +48,7 @@ const useStyles = makeStyles({
   },
 } as const);
 
-export default function ConfigureKeys() {
+export default function ConfigureKeys(): JSX.Element {
   const classes = useStyles({});
   const [keyboardHidden] = useConfigureState('keyboardHidden');
 

@@ -37,7 +37,7 @@ export { default as DownloadOutlineIcon } from 'mdi-material-ui/DownloadOutline'
 export { default as HistoryIcon } from 'mdi-material-ui/History';
 export { default as FolderOpen } from 'mdi-material-ui/FolderOpen';
 export { default as FolderDownloadIcon } from 'mdi-material-ui/FolderDownload';
-export { default as JsonIcon } from 'mdi-material-ui/Json';
+export { default as JsonIcon } from 'mdi-material-ui/CodeJson';
 export { default as KeyboardIcon } from 'mdi-material-ui/Keyboard';
 export { default as KeyboardOffIcon } from 'mdi-material-ui/KeyboardOff';
 export { default as KeyboardVariantIcon } from 'mdi-material-ui/KeyboardVariant';
@@ -56,4 +56,4 @@ export { default as UploadIcon } from 'mdi-material-ui/Upload';
 export { default as VariableIcon } from 'mdi-material-ui/Variable';
 export { default as VideoOutlineIcon } from 'mdi-material-ui/VideoOutline';
 export { default as VideoOffOfflineIcon } from 'mdi-material-ui/VideoOffOutline';
-export { default as WindowsIcon } from 'mdi-material-ui/Windows';
+export { default as WindowsIcon } from 'mdi-material-ui/MicrosoftWindows';

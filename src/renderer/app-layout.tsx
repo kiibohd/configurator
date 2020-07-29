@@ -31,7 +31,7 @@ const useStyles = makeStyles(
     } as const)
 );
 
-export default function AppLayout() {
+export default function AppLayout(): JSX.Element {
   const classes = useStyles({});
   const [activePanel] = useCoreState('panel');
   const [loading] = useCoreState('loading');

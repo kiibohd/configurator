@@ -68,7 +68,7 @@ type AnimationData = {
   name?: string;
 } & Dictionary<string | number | Rgb>;
 
-export default function CustomizeCanned() {
+export default function CustomizeCanned(): JSX.Element {
   const classes = useStyles({});
   const [canned = {}] = useConfigureState('canned');
   const [animations = {}] = useConfigureState('animations');

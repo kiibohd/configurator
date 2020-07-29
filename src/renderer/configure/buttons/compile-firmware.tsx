@@ -89,7 +89,7 @@ const useStyles = makeStyles(
     } as const)
 );
 
-export default function CompileFirmwareButton() {
+export default function CompileFirmwareButton(): JSX.Element {
   const classes = useStyles({});
   const [baseUri] = useSettingsState('uri');
   const [variant] = useCoreState('variant');

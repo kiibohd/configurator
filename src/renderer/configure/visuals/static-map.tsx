@@ -57,7 +57,7 @@ type SelectChangeArgs = React.ChangeEvent<{
   value: unknown;
 }>;
 
-export default function StaticMap() {
+export default function StaticMap(): JSX.Element {
   const classes = useStyles({});
   const [leds = []] = useConfigureState('leds');
   const [animations = {}] = useConfigureState('animations');

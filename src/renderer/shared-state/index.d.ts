@@ -23,7 +23,7 @@ export type StoreCreator<S, A> = (reducer: Reducer<S, A>, initialState: S) => St
 
 export type Enhancer<S, A> = (creator: StoreCreator<S, A>) => StoreCreator<S, A>;
 
-export type CreateSharedState = <S extends {}, A extends {}>(
+export type CreateSharedState = <S extends Record<string, unknown>, A extends Record<string, unknown>>(
   initialState: S
 ) => {
   useSharedState: UseSharedState<S>;
@@ -31,7 +31,7 @@ export type CreateSharedState = <S extends {}, A extends {}>(
   getSharedState: GetSharedState<S>;
 };
 
-export type CreateStore = <S extends {}, A extends {}>(
+export type CreateStore = <S extends Record<string, unknown>, A extends Record<string, unknown>>(
   reducer: Reducer<S, A>,
   initialState: S,
   enhancer?: Enhancer<S, A>

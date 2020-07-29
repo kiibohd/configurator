@@ -23,7 +23,7 @@ const useStyles = makeStyles({
   },
 } as const);
 
-export default function CustomKll() {
+export default function CustomKll(): JSX.Element {
   const classes = useStyles({});
   const [layer] = useConfigureState('layer');
   const [custom = {}] = useConfigureState('custom');

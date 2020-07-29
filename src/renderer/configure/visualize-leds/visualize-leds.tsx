@@ -181,7 +181,7 @@ function reducer(state: State, action: Action): State {
   }
 }
 
-export default function VisualizeLeds() {
+export default function VisualizeLeds(): JSX.Element {
   const classes = useStyles({});
   const [state, dispatch] = useReducer(reducer, initialState);
   const containerRef = useRef<HTMLDivElement>(null);

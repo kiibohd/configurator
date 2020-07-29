@@ -45,54 +45,54 @@ const { useSharedState: useCoreState, setSharedState: setCoreState } = createSha
 
 export { Actions, Panels, useCoreState };
 
-export function reset() {
+export function reset(): void {
   setCoreState('loading', false);
   setCoreState('keyboard', undefined);
   setCoreState('variant', undefined);
   setCoreState('toast', undefined);
 }
 
-export function startExecuting(name: string) {
+export function startExecuting(name: string): void {
   setCoreState('executing', (curr) => [...curr, name]);
 }
 
-export function stopExecuting(name: string) {
+export function stopExecuting(name: string): void {
   setCoreState('executing', (curr) => _.without(curr, name));
 }
 
-export function updateToolbarButtons(buttons: Optional<JSX.Element>) {
+export function updateToolbarButtons(buttons: Optional<JSX.Element>): void {
   setCoreState('toolbarButtons', buttons);
 }
 
-export function updateSelectedKeyboard(keyboard: Optional<AttachedKeyboard>) {
+export function updateSelectedKeyboard(keyboard: Optional<AttachedKeyboard>): void {
   setCoreState('keyboard', keyboard);
   setCoreState('panel', Panels.VariantSelect);
 }
 
-export function updateSelectedVariant(variant: Optional<string>) {
+export function updateSelectedVariant(variant: Optional<string>): void {
   setCoreState('panel', Panels.ConfigureKeys);
   setCoreState('variant', variant);
 }
 
-export function updatePanel(panel: ValidPanels) {
+export function updatePanel(panel: ValidPanels): void {
   setCoreState('panel', (currPanel) => {
     setCoreState('history', (hist) => [currPanel, ...hist.slice(0, 3)]);
     return panel;
   });
 }
 
-export function popupToast(toast?: JSX.Element, timeout = 10000) {
+export function popupToast(toast?: JSX.Element, timeout = 10000): void {
   setCoreState('toast', toast);
   setTimeout(() => {
     setCoreState('toast', undefined);
   }, timeout);
 }
 
-export function popupSimpleToast(level: 'error' | 'success' | 'info' | 'warning', msg: string) {
+export function popupSimpleToast(level: 'error' | 'success' | 'info' | 'warning', msg: string): void {
   popupToast(<GenericToast variant={level} message={<span>{msg}</span>} onClose={() => popupToast()} />);
 }
 
-export function previousPanel() {
+export function previousPanel(): void {
   setCoreState('history', (currHistory) => {
     const history = [...currHistory];
     setCoreState('panel', history.shift() ?? Panels.KeyboardSelect);
@@ -100,6 +100,6 @@ export function previousPanel() {
   });
 }
 
-export function toggleLoading() {
+export function toggleLoading(): void {
   setCoreState('loading', (curr) => !curr);
 }

@@ -35,7 +35,7 @@ const useStyles = makeStyles({
   fab: {},
 } as const);
 
-export default function LayerMacros() {
+export default function LayerMacros(): JSX.Element {
   const classes = useStyles({});
   const [layer] = useConfigureState('layer');
   const [allMacros = {}] = useConfigureState('macros');

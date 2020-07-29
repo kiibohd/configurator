@@ -22,9 +22,9 @@ export interface PredefinedKey {
   group?: string;
   order: number;
   // TODO: Convert to CSS object
-  style: object;
+  style: Record<string, unknown>;
   // TODO: constrain type
-  data?: object;
+  data?: CustomKey | Record<string, unknown>;
 }
 
 export interface BaseKey {
@@ -38,10 +38,10 @@ export interface DisplayKey extends BaseKey {
   label2?: string;
   label3?: string;
   // TODO: Convert to CSS object
-  style: object;
+  style: Record<string, unknown>;
   custom?: string;
   // TODO: constrain type
-  data?: object;
+  data?: CustomKey | Record<string, unknown>;
 }
 
 export interface CustomKey extends BaseKey {
@@ -49,6 +49,6 @@ export interface CustomKey extends BaseKey {
   label1: string;
   custom: string;
   // TODO: Convert to CSS object
-  style?: object;
-  data?: object;
+  style?: Record<string, unknown>;
+  data?: Record<string, unknown>;
 }

@@ -51,7 +51,7 @@ type SwatchedChromePickerProps = {
   disabled?: boolean;
 };
 
-export default function SwatchedChromePicker(props: SwatchedChromePickerProps) {
+export default function SwatchedChromePicker(props: SwatchedChromePickerProps): JSX.Element {
   const classes = useStyles(props);
   const { color, onChange, disabled } = props;
   const [showPicker, setShowPicker] = useState(false);

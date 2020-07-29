@@ -42,7 +42,7 @@ async function initApp() {
   }
 }
 
-function App() {
+function App(): JSX.Element {
   useEffect(() => {
     initApp();
   }, []);

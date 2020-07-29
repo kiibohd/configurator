@@ -46,7 +46,7 @@ const useStyles = makeStyles({
   },
 } as const);
 
-export default function KeyInfo() {
+export default function KeyInfo(): JSX.Element {
   const classes = useStyles({});
   const [selected] = useConfigureState('selected');
   const [layer] = useConfigureState('layer');

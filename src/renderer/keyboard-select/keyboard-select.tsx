@@ -47,7 +47,7 @@ const useStyles = makeStyles({
 
 //TODO: This has some terrible react style... fix it.
 
-export default function KeyboardSelect() {
+export default function KeyboardSelect(): JSX.Element {
   const classes = useStyles({});
   const connectedKeyboards = useConnectedKeyboards();
   const [hovered, setHovered] = useState<Optional<KeyboardNames>>(undefined);

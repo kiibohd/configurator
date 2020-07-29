@@ -73,7 +73,7 @@ type MacroComboProps = {
   onRecord?: () => void;
 };
 
-export default function MacroCombo(props: MacroComboProps) {
+export default function MacroCombo(props: MacroComboProps): JSX.Element {
   const classes = useStyles(props);
   const { combo, onChange, onRecord } = props;
   const [hovering, setHovering] = useState(false);

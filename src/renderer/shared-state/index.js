@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /**
  * Derived from https://github.com/dai-shi/react-hooks-global-state
  **/

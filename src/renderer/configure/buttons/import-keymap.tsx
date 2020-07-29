@@ -12,7 +12,7 @@ type ImportKeymapButtonProps = {
   disabled?: boolean;
 };
 
-export default function ImportKeymapButton(props: ImportKeymapButtonProps) {
+export default function ImportKeymapButton(props: ImportKeymapButtonProps): JSX.Element {
   const { disabled } = props;
   const [locale] = useSettingsState('locale');
   const [visible, setVisible] = useState(false);

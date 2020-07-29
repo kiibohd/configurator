@@ -13,7 +13,7 @@ export const Injection = {
   },
 };
 
-export function stripInjection(value: string, start: string, end: string) {
+export function stripInjection(value: string, start: string, end: string): string {
   let dejected = value;
   let i = dejected.indexOf(start);
   while (i >= 0) {
@@ -24,7 +24,7 @@ export function stripInjection(value: string, start: string, end: string) {
   return dejected;
 }
 
-export function getSize(matrix: ConfigMatrix, scaleFactor = 1) {
+export function getSize(matrix: ConfigMatrix, scaleFactor = 1): { height: number; width: number } {
   const right = _.maxBy(matrix, (k) => k.x + k.w) || { x: 0, y: 0, h: 0, w: 0 };
   const bottom = _.maxBy(matrix, (k) => k.y + k.h) || { x: 0, y: 0, h: 0, w: 0 };
 

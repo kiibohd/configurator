@@ -34,11 +34,11 @@ export const layerBg = [
 
 export const layerFg = [Palette.black, ...layerBg.slice(1)];
 
-export function getLayerBg(layer: number) {
+export function getLayerBg(layer: number): string {
   return layerBg[layer] || Palette.white;
 }
 
-export function getLayerFg(layer: number) {
+export function getLayerFg(layer: number): string {
   return layerFg[layer] || Palette.black;
 }
 

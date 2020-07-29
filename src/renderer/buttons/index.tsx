@@ -13,7 +13,7 @@ type ButtonProps = {
   disabled?: boolean;
 };
 
-export function HelpButton(props: ButtonProps) {
+export function HelpButton(props: ButtonProps): JSX.Element {
   const { disabled } = props;
 
   const openHelp = () => {
@@ -32,7 +32,7 @@ HelpButton.propTypes = {
   disabled: PropTypes.bool,
 };
 
-export function BackButton() {
+export function BackButton(): JSX.Element {
   return tooltipped(
     'Back',
     <IconButton onClick={() => previousPanel()}>
@@ -41,7 +41,7 @@ export function BackButton() {
   );
 }
 
-export function QuickFlashButton() {
+export function QuickFlashButton(): JSX.Element {
   const [activePanel] = useCoreState('panel');
 
   return tooltipped(
@@ -52,7 +52,7 @@ export function QuickFlashButton() {
   );
 }
 
-export function SettingsButton(props: ButtonProps) {
+export function SettingsButton(props: ButtonProps): JSX.Element {
   const { disabled } = props;
   const [activePanel] = useCoreState('panel');
 
@@ -68,7 +68,7 @@ SettingsButton.propTypes = {
   disabled: PropTypes.bool,
 };
 
-export function HomeButton(props: ButtonProps) {
+export function HomeButton(props: ButtonProps): JSX.Element {
   const { disabled } = props;
   const [activePanel] = useCoreState('panel');
 

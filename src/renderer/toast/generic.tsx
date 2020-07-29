@@ -56,7 +56,7 @@ type GenericToastProps = {
   actions?: ReactNode[];
 };
 
-export default function GenericToast(props: GenericToastProps) {
+export default function GenericToast(props: GenericToastProps): JSX.Element {
   const classes = useStyles(props);
   const { variant, message, onClose, actions = [] } = props;
 

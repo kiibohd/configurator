@@ -52,7 +52,7 @@ type AnimationEditProps = {
   animation?: string;
 };
 
-export default function AnimationEdit(props: AnimationEditProps) {
+export default function AnimationEdit(props: AnimationEditProps): JSX.Element {
   const classes = useStyles(props);
   const { animation } = props;
   const [animations = {}] = useConfigureState('animations');

@@ -135,7 +135,7 @@ function Defines() {
   );
 }
 
-export default function AdvancedSettings() {
+export default function AdvancedSettings(): JSX.Element {
   const classes = useStyles({});
 
   return (

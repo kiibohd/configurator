@@ -99,7 +99,7 @@ type RecordMacroDialogProps = {
   onSave: (value: string[][]) => void;
 };
 
-export default function RecordMacroDialog(props: RecordMacroDialogProps) {
+export default function RecordMacroDialog(props: RecordMacroDialogProps): JSX.Element {
   const classes = useStyles(props);
   const { open, onClose, onSave } = props;
   const [localeName] = useSettingsState('locale');

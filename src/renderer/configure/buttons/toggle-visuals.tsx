@@ -16,7 +16,7 @@ const useStyles = makeStyles(
     } as const)
 );
 
-export default function ToggleVisualsButton() {
+export default function ToggleVisualsButton(): JSX.Element {
   const classes = useStyles({});
   const [panel] = useCoreState('panel');
   const isVisuals = panel === Panels.ConfigureVisuals;

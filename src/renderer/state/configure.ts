@@ -80,7 +80,7 @@ const {
 
 export { useConfigureState, setConfigureState };
 
-export function reset() {
+export function reset(): void {
   setConfigureState('layer', 0);
   setConfigureState('layout', undefined);
   setConfigureState('selected', undefined);
@@ -97,7 +97,7 @@ export function reset() {
   setConfigureState('canned', undefined);
 }
 
-export function updateConfig(raw: PersistedConfig, locale: AvailableLocales) {
+export function updateConfig(raw: PersistedConfig, locale: AvailableLocales): void {
   setConfigureState('raw', raw);
   const normalized = normalize(raw, locales[locale]);
   setConfigureState('headers', normalized.header);
@@ -128,7 +128,7 @@ export function currentConfig(): PersistedConfig {
   };
 }
 
-export function updateKeymap(target: ConfigMatrixItem, key: ConfigKey | null) {
+export function updateKeymap(target: ConfigMatrixItem, key: ConfigKey | null): Optional<ConfigMatrixItem> {
   const layer = getConfigureState('layer');
   let newDef = undefined;
   setConfigureState('matrix', (matrix = []) => {
@@ -149,14 +149,14 @@ export function updateKeymap(target: ConfigMatrixItem, key: ConfigKey | null) {
   return newDef;
 }
 
-export function updateSelected(key: ConfigKey | null) {
+export function updateSelected(key: ConfigKey | null): void {
   const selected = getConfigureState('selected');
   if (!selected) return;
   const updated = updateKeymap(selected, key);
   setConfigureState('selected', updated);
 }
 
-export function updateCustomKll(kll: string, layer?: number) {
+export function updateCustomKll(kll: string, layer?: number): void {
   if (_.isNil(layer)) {
     layer = getConfigureState('layer');
   }
@@ -166,20 +166,20 @@ export function updateCustomKll(kll: string, layer?: number) {
   });
 }
 
-export function updateHeader(name: string, value: string) {
+export function updateHeader(name: string, value: string): void {
   setConfigureState('headers', (headers) => ({ ...headers, ...{ [name]: value } }));
 }
 
-export function updateDefine(id: string, name: string, value: string) {
+export function updateDefine(id: string, name: string, value: string): void {
   setConfigureState('defines', (defines = []) => defines.map((d) => (d.id === id ? { id, name, value } : d)));
 }
 
-export function addDefine(name: string, value: string) {
+export function addDefine(name: string, value: string): void {
   const id = uuidv4();
   setConfigureState('defines', (defines = []) => [...defines, { id, name, value }]);
 }
 
-export function deleteDefine(id: string) {
+export function deleteDefine(id: string): void {
   setConfigureState('defines', (defines = []) => defines.filter((d) => d.id !== id));
 }
 
@@ -187,27 +187,27 @@ export function addAnimation(
   name: string,
   type: ConfigAnimation['type'] = 'custom',
   data: Partial<ConfigAnimation> = {}
-) {
+): void {
   const merged = { ...{ type, settings: '', frames: '' }, ...data };
   merged.type = type;
   setConfigureState('animations', (curr) => ({ ...curr, ...{ [name]: merged } }));
 }
 
-export function renameAnimation(prev: string, updated: string) {
+export function renameAnimation(prev: string, updated: string): void {
   setConfigureState('animations', (animations = {}) => ({
     ..._.omit(animations, prev),
     ...{ [updated]: animations[prev] },
   }));
 }
 
-export function updateAnimation(name: string, data: Partial<ConfigAnimation>) {
+export function updateAnimation(name: string, data: Partial<ConfigAnimation>): void {
   setConfigureState('animations', (animations = {}) => {
     const curr = animations[name];
     return { ...animations, ...{ [name]: { ...curr, ...data } } };
   });
 }
 
-export function deleteAnimation(name: string) {
+export function deleteAnimation(name: string): void {
   setConfigureState('animations', (curr) => _.omit(curr, name));
   const inj = Injection.animation;
   const start = inj.start.replace(inj.tokenRx, name);
@@ -215,7 +215,7 @@ export function deleteAnimation(name: string) {
   setConfigureState('custom', (c) => _.mapValues(c, (kll) => stripInjection(kll, start, end)));
 }
 
-export function updateMacro(layer: number, macro: ConfigMacro, updated: ConfigMacro) {
+export function updateMacro(layer: number, macro: ConfigMacro, updated: ConfigMacro): void {
   setConfigureState('macros', (macros = {}) => {
     const currLayer = [...macros[layer]];
     const idx = _.indexOf(currLayer, macro);
@@ -228,7 +228,7 @@ export function updateMacro(layer: number, macro: ConfigMacro, updated: ConfigMa
   });
 }
 
-export function addMacro(layer: number) {
+export function addMacro(layer: number): void {
   const macro = { id: uuidv4(), name: 'New Macro', trigger: [[]], output: [[]] };
   setConfigureState('macros', (macros = {}) => {
     const updLayer = [...(macros[layer] || []), macro];
@@ -238,7 +238,7 @@ export function addMacro(layer: number) {
   });
 }
 
-export function deleteMacro(layer: number, macro: ConfigMacro) {
+export function deleteMacro(layer: number, macro: ConfigMacro): void {
   setConfigureState('macros', (macros = {}) => {
     const currLayer = [...macros[layer]];
 
@@ -248,22 +248,22 @@ export function deleteMacro(layer: number, macro: ConfigMacro) {
   });
 }
 
-export function addSelectedLeds(leds: number[]) {
+export function addSelectedLeds(leds: number[]): void {
   setConfigureState('selectedLeds', (selected) => [...selected, ...leds]);
 }
 
-export function setSelectedLeds(leds: number[]) {
+export function setSelectedLeds(leds: number[]): void {
   setConfigureState('selectedLeds', leds || []);
 }
 
-export function setLedStatus(id: number, status: LedStatus) {
+export function setLedStatus(id: number, status: LedStatus): void {
   setConfigureState('ledStatus', (ledStatus) => ({ ...ledStatus, ...{ [id]: status } }));
 }
 
-export function setAllLeds(status: SparseArray<LedStatus>) {
+export function setAllLeds(status: SparseArray<LedStatus>): void {
   setConfigureState('ledStatus', status);
 }
 
-export function clearLedStatus(id: number) {
+export function clearLedStatus(id: number): void {
   setConfigureState('ledStatus', (ledStatus) => _.omit(ledStatus, id));
 }

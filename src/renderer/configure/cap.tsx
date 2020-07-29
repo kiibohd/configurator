@@ -14,7 +14,7 @@ type CapProps = {
   onClick?: (key: DisplayKey | null) => void;
 };
 
-export default function Cap(props: CapProps) {
+export default function Cap(props: CapProps): JSX.Element {
   const classes = useStyles(props);
   const { cap, onClick } = props;
   const [ui] = useConfigureState('ui');

@@ -77,7 +77,12 @@ export async function checkVersion(): Promise<Optional<string>> {
       if (file.dir) {
         return;
       }
-      const data = await contents.file(filepath).async('nodebuffer');
+      const data = await contents.file(filepath)?.async('nodebuffer');
+
+      if (!data) {
+        throw `Unable to load file for ${file.name}`;
+      }
+
       const filename = path.parse(filepath).base;
       const outpath = path.join(dir, filename);
       await writeFile(outpath, data);

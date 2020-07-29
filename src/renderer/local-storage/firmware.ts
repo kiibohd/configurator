@@ -89,7 +89,12 @@ export async function storeFirmware(
   async function extract(file: string, out?: string, critical = false) {
     try {
       const outpath = path.join(outdir, out || file);
-      const data = await contents.file(file).async('nodebuffer');
+      const data = await contents.file(file)?.async('nodebuffer');
+
+      if (!data) {
+        throw `Unable to load file for ${file}`;
+      }
+
       await writeFile(outpath, data);
       return outpath;
     } catch (e) {
@@ -141,7 +146,11 @@ export async function storeFirmware(
 export async function extractLog(data: ArrayBuffer): Promise<string> {
   const zip = new JSZip();
   const contents = await zip.loadAsync(data);
-  const log = await contents.file(logPath).async('text');
+  const log = await contents.file(logPath)?.async('text');
+
+  if (!log) {
+    throw 'Could not extract log file contents.';
+  }
 
   return log;
 }

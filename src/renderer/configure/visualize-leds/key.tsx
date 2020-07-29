@@ -21,7 +21,7 @@ type KeyProps = {
   sizeFactor: number;
 };
 
-export default function Key(props: KeyProps) {
+export default function Key(props: KeyProps): JSX.Element {
   const classes = useStyles(props);
   const { keydef, sizeFactor } = props;
 

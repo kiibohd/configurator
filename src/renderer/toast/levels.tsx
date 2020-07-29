@@ -7,18 +7,18 @@ type ToastProps = {
   actions?: ReactNode[];
 };
 
-export function SuccessToast(props: ToastProps) {
+export function SuccessToast(props: ToastProps): JSX.Element {
   return <GenericToast variant="success" {...props} />;
 }
 
-export function ErrorToast(props: ToastProps) {
+export function ErrorToast(props: ToastProps): JSX.Element {
   return <GenericToast variant="error" {...props} />;
 }
 
-export function WarningToast(props: ToastProps) {
+export function WarningToast(props: ToastProps): JSX.Element {
   return <GenericToast variant="warning" {...props} />;
 }
 
-export function InfoToast(props: ToastProps) {
+export function InfoToast(props: ToastProps): JSX.Element {
   return <GenericToast variant="info" {...props} />;
 }

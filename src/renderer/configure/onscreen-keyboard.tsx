@@ -87,7 +87,7 @@ Key.propTypes = {
   onClick: PropTypes.func,
 };
 
-export default function OnScreenKeyboard() {
+export default function OnScreenKeyboard(): JSX.Element {
   const classes = useStyles({});
   const [layer] = useConfigureState('layer');
   const [matrix] = useConfigureState('matrix');

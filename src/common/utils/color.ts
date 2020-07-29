@@ -35,7 +35,7 @@ export function luminance(color: Rgb): number {
  * @param {ColorRgb} b
  * @returns {number}
  */
-export function contrastRatio(a: Rgb, b: Rgb) {
+export function contrastRatio(a: Rgb, b: Rgb): number {
   const la = luminance(a);
   const lb = luminance(b);
 

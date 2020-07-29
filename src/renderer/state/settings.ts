@@ -13,7 +13,7 @@ const dev = process.env.NODE_ENV === 'development';
 log.setDefaultLevel(dev ? log.levels.INFO : log.levels.ERROR);
 
 // const defaultUri = dev ? 'http://localhost:8080' : 'http://vash.input.club:80';
-const defaultUri = 'http://vash.input.club';
+const defaultUri = 'https://vash.input.club';
 
 const DbKey = {
   dfuPath: 'dfu-path',
@@ -64,7 +64,7 @@ export { useSettingsState };
 
 export { getSettingsState as _currentState };
 
-export async function loadFromDb() {
+export async function loadFromDb(): Promise<void> {
   setSettingsState('kiidrv', (await db.core.get(DbKey.kiidrvPath)) || (await findKiidrvPath()));
   setSettingsState('lastDl', normalizeFirmwareResult(await db.core.get(DbKey.lastDl)));
   setSettingsState('recentDls', (await db.core.get(DbKey.recentDls)) || {});
@@ -76,34 +76,34 @@ export async function loadFromDb() {
   setSettingsState('dfu', (await db.core.get(DbKey.dfuPath)) || (await findDfuPath()));
 }
 
-export async function updateUri(uri: string) {
+export async function updateUri(uri: string): Promise<void> {
   setSettingsState('uri', uri);
   await db.core.set(DbKey.uri, uri);
 }
 
-export async function updateNewerVersionAvail(newerAvail: boolean) {
+export async function updateNewerVersionAvail(newerAvail: boolean): Promise<void> {
   setSettingsState('newerVersionAvail', newerAvail);
   const now = Date.now();
   setSettingsState('lastVersionCheck', now);
   await db.core.set(DbKey.lastVerCheck, now);
 }
 
-export async function updateFirmwareVersions(versions: FirmwareVersions) {
+export async function updateFirmwareVersions(versions: FirmwareVersions): Promise<void> {
   setSettingsState('firmwareVersions', versions);
   await db.core.set(DbKey.firmwareVersions, versions);
 }
 
-export async function updateDfu(dfu: string) {
+export async function updateDfu(dfu: string): Promise<void> {
   setSettingsState('dfu', dfu);
   await db.core.set(DbKey.dfuPath, dfu);
 }
 
-export async function updateKiidrv(kiidrv: string) {
+export async function updateKiidrv(kiidrv: string): Promise<void> {
   setSettingsState('kiidrv', kiidrv);
   await db.core.set(DbKey.kiidrvPath, kiidrv);
 }
 
-export async function addDownload(download: FirmwareResult) {
+export async function addDownload(download: FirmwareResult): Promise<void> {
   const key = `${download.board}__${download.variant}`;
   setSettingsState('lastDl', download);
   setSettingsState('recentDls', (curr) => {
@@ -117,6 +117,6 @@ export async function addDownload(download: FirmwareResult) {
   await db.dl.set(download.time.toString(), download);
 }
 
-export function setLastDl(download: FirmwareResult) {
+export function setLastDl(download: FirmwareResult): void {
   setSettingsState('lastDl', download);
 }

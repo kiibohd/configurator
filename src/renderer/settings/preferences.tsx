@@ -11,7 +11,7 @@ const useStyles = makeStyles({
   card: {},
 } as const);
 
-export default function Preferences() {
+export default function Preferences(): JSX.Element {
   const classes = useStyles({});
   const isDevToolsOpened = useDevtoolsState();
   const [uri] = useSettingsState('uri');

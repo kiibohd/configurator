@@ -95,7 +95,7 @@ const useStyles = makeStyles(
 );
 
 // TODO: Need a refactor and split real bad.
-export default function Flash() {
+export default function Flash(): JSX.Element {
   const classes = useStyles({});
   const connected = useConnectedKeyboards();
   const [lastDl] = useSettingsState('lastDl');

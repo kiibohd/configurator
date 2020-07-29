@@ -25,7 +25,7 @@ const useStyles = makeStyles({
   },
 } as const);
 
-export default function Settings() {
+export default function Settings(): JSX.Element {
   const classes = useStyles({});
   const [index, setIndex] = useState(0);
 

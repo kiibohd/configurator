@@ -27,7 +27,7 @@ export async function loadRemoteConfig(
   layout?: string,
   baseUri?: string,
   locale?: AvailableLocales
-) {
+): Promise<void> {
   try {
     const defLayout = keyboard.layouts[variant][0];
     const uri = urljoin(baseUri || _currentState('uri'), 'layouts', `${keyboard.names[0]}-${layout || defLayout}.json`);
@@ -41,7 +41,7 @@ export async function loadRemoteConfig(
   }
 }
 
-export async function loadLocalConfig(filepath: string, locale?: AvailableLocales) {
+export async function loadLocalConfig(filepath: string, locale?: AvailableLocales): Promise<void> {
   try {
     toggleLoading();
     const buffer = await readFile(filepath);
@@ -54,7 +54,7 @@ export async function loadLocalConfig(filepath: string, locale?: AvailableLocale
   }
 }
 
-export async function loadDefaultConfig(keyboard: Keyboard, variant: string) {
+export async function loadDefaultConfig(keyboard: Keyboard, variant: string): Promise<void> {
   const recentDls = _currentState('recentDls');
   const recent = _.head(recentDls[`${keyboard.display}__${variant}`] || []);
 

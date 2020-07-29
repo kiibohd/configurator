@@ -26,7 +26,7 @@ type LayoutHistoryButtonProps = {
   disabled?: boolean;
 };
 
-export default function LayoutHistoryButton(props: LayoutHistoryButtonProps) {
+export default function LayoutHistoryButton(props: LayoutHistoryButtonProps): JSX.Element {
   const classes = useStyles(props);
   const { disabled } = props;
   const [anchor, setAnchor] = useState<Element | null>(null);

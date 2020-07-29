@@ -20,7 +20,7 @@ const useStyles = makeStyles({
   },
 } as const);
 
-export default function Configure() {
+export default function Configure(): JSX.Element {
   const classes = useStyles({});
   const [keyboard] = useCoreState('keyboard');
   const [activePanel] = useCoreState('panel');

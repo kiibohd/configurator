@@ -45,7 +45,7 @@ const useStyles = makeStyles({
   },
 } as const);
 
-export default function LayerSelect() {
+export default function LayerSelect(): JSX.Element {
   const classes = useStyles({});
   const [layer, setLayer] = useConfigureState('layer');
   const layers = [0, 1, 2, 3, 4, 5, 6, 7];

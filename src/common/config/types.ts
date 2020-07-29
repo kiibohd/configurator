@@ -78,7 +78,7 @@ export interface ConfigKey {
   label2?: string;
   label3?: string;
   // TODO - Make this a CSS Object
-  style: object;
+  style: Record<string, unknown>;
   custom?: string;
 }
 

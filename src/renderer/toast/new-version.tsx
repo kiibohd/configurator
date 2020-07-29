@@ -9,7 +9,7 @@ type NewVersionToastProps = {
   onClose?: () => void;
 };
 
-export default function NewVersionToast(props: NewVersionToastProps) {
+export default function NewVersionToast(props: NewVersionToastProps): JSX.Element {
   const { version, url, onClose } = props;
   const click = () => {
     electron.shell.openExternal(url);

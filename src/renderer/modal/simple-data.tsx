@@ -61,7 +61,7 @@ type SimpleDataModalProps = {
   readonly?: boolean;
 };
 
-function SimpleDataModal(props: SimpleDataModalProps) {
+function SimpleDataModal(props: SimpleDataModalProps): JSX.Element {
   const classes = useStyles(props);
   const { open, onClose, data = '', actions, title, onChange, readonly = true } = props;
 

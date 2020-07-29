@@ -42,7 +42,7 @@ type SideTabsProps = {
   items: NonEmptyArray<SideTab>;
 };
 
-export default function SideTabs(props: SideTabsProps) {
+export default function SideTabs(props: SideTabsProps): JSX.Element {
   const classes = useStyles(props);
   const { items } = props;
   const [activeTab, setActiveTab] = useState(items[0].id);

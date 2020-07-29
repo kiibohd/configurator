@@ -18,7 +18,7 @@ type AlterFieldProps = {
   validation?: (value: string) => Optional<string>;
 };
 
-function AlterFieldModal(props: AlterFieldProps) {
+function AlterFieldModal(props: AlterFieldProps): JSX.Element {
   const classes = useStyles(props);
   const { open, onClose, value, name, saveText = 'Save', validation = () => undefined } = props;
   const [currValue, setCurrValue] = useState(value);

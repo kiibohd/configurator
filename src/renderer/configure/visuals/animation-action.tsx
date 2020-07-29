@@ -26,7 +26,7 @@ type AnimationActionProps = {
   readonly?: boolean;
 };
 
-export default function AnimationAction(props: AnimationActionProps) {
+export default function AnimationAction(props: AnimationActionProps): JSX.Element {
   const classes = useStyles(props);
   const { onAssign, readonly, defaultAnimation, defaultAction } = props;
   const [animations] = useConfigureState('animations');

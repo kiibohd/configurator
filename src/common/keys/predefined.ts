@@ -17,7 +17,7 @@ const Category = {
 
 function buildKeys(): PredefinedKey[] {
   const c = Category;
-  const keys: [string, string, string[] | null, string | null, (object | null)?, (number | null)?, (number | null)?][] = [
+  const keys: [string, string, string[] | null, string | null, (Record<string, unknown> | null)?, (number | null)?, (number | null)?][] = [
     ['key/a', 'A', null, c.core],
     ['key/b', 'B', null, c.core],
     ['key/c', 'C', null, c.core],

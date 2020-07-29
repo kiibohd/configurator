@@ -18,7 +18,7 @@ const useStyles = makeStyles(
     } as const)
 );
 
-export default function AppToolbar() {
+export default function AppToolbar(): JSX.Element {
   const classes = useStyles({});
   const [selectedKeyboard] = useCoreState('keyboard');
   const [toolbarButtons] = useCoreState('toolbarButtons');

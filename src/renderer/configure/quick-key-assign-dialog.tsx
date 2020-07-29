@@ -43,7 +43,7 @@ type QuickKeyAssignDialogProps = {
   onClose: () => void;
 };
 
-export default function QuickKeyAssignDialog(props: QuickKeyAssignDialogProps) {
+export default function QuickKeyAssignDialog(props: QuickKeyAssignDialogProps): JSX.Element {
   const classes = useStyles(props);
   const { open, onSelect, onClose } = props;
   const [tab, setTab] = useState(TabItems.Keys);

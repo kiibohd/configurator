@@ -91,7 +91,7 @@ Keyboard.propTypes = {
   onSelect: PropTypes.func.isRequired,
 };
 
-export default function VariantSelect() {
+export default function VariantSelect(): JSX.Element {
   const [selectedKeyboard] = useCoreState('keyboard');
 
   if (!selectedKeyboard || !selectedKeyboard.keyboard) {

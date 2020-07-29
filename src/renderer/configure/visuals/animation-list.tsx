@@ -25,7 +25,7 @@ const useStyles = makeStyles({
   },
 } as const);
 
-export default function AnimationList() {
+export default function AnimationList(): JSX.Element {
   const classes = useStyles({});
   const [animations] = useConfigureState('animations');
 

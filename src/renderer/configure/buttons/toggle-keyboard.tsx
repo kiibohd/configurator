@@ -4,7 +4,7 @@ import { KeyboardIcon, KeyboardOffIcon } from '../../icons';
 import { useConfigureState } from '../../state/configure';
 import { tooltipped } from '../../utils';
 
-export default function ToggleKeyboardButton() {
+export default function ToggleKeyboardButton(): JSX.Element {
   const [keyboardHidden, setKeyboardHidden] = useConfigureState('keyboardHidden');
   const toggle = () => setKeyboardHidden((curr) => !curr);
 

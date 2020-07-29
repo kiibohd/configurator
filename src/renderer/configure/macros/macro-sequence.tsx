@@ -29,7 +29,7 @@ type MacroSequenceProps = {
   onChange?: (updated: string[][]) => void;
 };
 
-export default function MacroSequence(props: MacroSequenceProps) {
+export default function MacroSequence(props: MacroSequenceProps): JSX.Element {
   const classes = useStyles(props);
   const { seq, onChange } = props;
   const [recording, setRecording] = useState(false);

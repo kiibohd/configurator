@@ -62,7 +62,7 @@ const useStyles = makeStyles(
     } as const)
 );
 
-export default function Drivers() {
+export default function Drivers(): JSX.Element {
   const classes = useStyles({});
   const [kiidrv] = useSettingsState('kiidrv') as HookResult<string>;
   const [results, setResults] = useState('');

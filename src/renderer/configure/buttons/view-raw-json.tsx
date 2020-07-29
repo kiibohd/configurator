@@ -12,7 +12,7 @@ type ViewRawJsonButtonProps = {
   disabled?: boolean;
 };
 
-export default function ViewRawJsonButton(props: ViewRawJsonButtonProps) {
+export default function ViewRawJsonButton(props: ViewRawJsonButtonProps): JSX.Element {
   const { disabled } = props;
   const [data, setData] = useState<Optional<string>>(undefined);
 

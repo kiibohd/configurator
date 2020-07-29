@@ -53,7 +53,7 @@ type KeyGroupsProps = {
 };
 
 // TODO: add a filter to quickly find what someone is looking for.
-export default function KeyGroups(props: KeyGroupsProps) {
+export default function KeyGroups(props: KeyGroupsProps): JSX.Element {
   const classes = useStyles(props);
   const { onSelect } = props;
   const [selected, setSelected] = useState([Category.core]);

@@ -17,7 +17,7 @@ const useStyles = makeStyles({
   container: {},
 } as const);
 
-export default function Downloads() {
+export default function Downloads(): JSX.Element {
   const classes = useStyles({});
   const [dls, setDls] = useState<FirmwareResult[]>([]);
   const names = _.fromPairs(keyboards.map((k) => [_.head(k.names), k.display]));

@@ -29,7 +29,7 @@ type LedProps = {
   onClick: (e: React.MouseEvent, led: ConfigLed) => void;
 };
 
-export default function Led(props: LedProps) {
+export default function Led(props: LedProps): JSX.Element {
   const classes = useStyles(props);
   const { led, selected, status, sizeFactor, onClick } = props;
   const conv = 0.20997375328084; // map 19.05mm => 4x4

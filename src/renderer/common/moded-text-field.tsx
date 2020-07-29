@@ -16,7 +16,7 @@ type ModedTextFieldProps = {
 };
 
 // TODO:  Add Validation
-export default function ModedTextField(props: ModedTextFieldProps) {
+export default function ModedTextField(props: ModedTextFieldProps): JSX.Element {
   const classes = useStyles(props);
   const { defaultValue, onSave, label } = props;
   const [editMode, setEditMode] = useState(false);

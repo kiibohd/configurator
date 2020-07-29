@@ -34,7 +34,7 @@ type MacroKeyProps = {
   onChange: (key: string | null) => void;
 };
 
-export default function MacroKey(props: MacroKeyProps) {
+export default function MacroKey(props: MacroKeyProps): JSX.Element {
   const classes = useStyles(props);
   const { cap, onChange } = props;
   const [hovering, setHovering] = useState(false);

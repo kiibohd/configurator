@@ -53,7 +53,7 @@ const useStyles = makeStyles({
   },
 } as const);
 
-export default function ConfigureVisuals() {
+export default function ConfigureVisuals(): JSX.Element {
   const classes = useStyles({});
   const [keyboardHidden] = useConfigureState('keyboardHidden');
 
