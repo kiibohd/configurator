@@ -4,9 +4,9 @@ import _ from 'lodash';
 import {
   makeStyles,
   Fab,
-  ExpansionPanel,
-  ExpansionPanelDetails,
-  ExpansionPanelSummary,
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   IconButton,
   Grid,
   Typography,
@@ -65,11 +65,11 @@ function Headers() {
   const readonly = (v: string) => v !== 'Version' && v !== 'Author' && v !== 'Date';
 
   return (
-    <ExpansionPanel>
-      <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+    <Accordion>
+      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
         <Typography className={classes.title}>Headers</Typography>
-      </ExpansionPanelSummary>
-      <ExpansionPanelDetails>
+      </AccordionSummary>
+      <AccordionDetails>
         <div className={classes.headerContainer}>
           {_.entries(headers).map(([k, v]) => (
             <TextField
@@ -84,8 +84,8 @@ function Headers() {
             />
           ))}
         </div>
-      </ExpansionPanelDetails>
-    </ExpansionPanel>
+      </AccordionDetails>
+    </Accordion>
   );
 }
 
@@ -94,11 +94,11 @@ function Defines() {
   const [defines = []] = useConfigureState('defines');
 
   return (
-    <ExpansionPanel>
-      <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+    <Accordion>
+      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
         <Typography className={classes.title}>Defines</Typography>
-      </ExpansionPanelSummary>
-      <ExpansionPanelDetails>
+      </AccordionSummary>
+      <AccordionDetails>
         <div className={classes.definesContainer}>
           <Grid container className={classes.grid} spacing={2}>
             <Grid container item spacing={2}>
@@ -130,8 +130,8 @@ function Defines() {
             <AddIcon />
           </Fab>
         </div>
-      </ExpansionPanelDetails>
-    </ExpansionPanel>
+      </AccordionDetails>
+    </Accordion>
   );
 }
 
