@@ -152,10 +152,10 @@ export default function Flash(): JSX.Element {
     }
   }
 
-  function flash(path: string) {
+  function flash(path: string, target: 'keyboard' | 'bluetooth' = 'keyboard') {
     if (!dfuPath || !path) return;
     setProgress('');
-    const cmd = ChildProcess.spawn(dfuPath, ['-D', path]);
+    const cmd = ChildProcess.spawn(dfuPath, ['-D', path, '-a', target === 'keyboard' ? '0' : '1']);
     cmd.stdout.on('data', (d) => setProgress((curr) => curr + d + '\n'));
     cmd.stderr.on('data', (d) => setProgress((curr) => curr + 'ERROR: ' + d + '\n'));
     cmd.on('close', (code) => {
