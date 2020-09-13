@@ -66,7 +66,12 @@ export { getSettingsState as _currentState };
 
 export async function loadFromDb(): Promise<void> {
   setSettingsState('kiidrv', (await db.core.get(DbKey.kiidrvPath)) || (await findKiidrvPath()));
-  setSettingsState('lastDl', normalizeFirmwareResult(await db.core.get(DbKey.lastDl)));
+  setSettingsState(
+    'lastDl',
+    normalizeFirmwareResult(
+      (await db.core.get<Optional<FirmwareResult | Omit<FirmwareResult, 'type'>>>(DbKey.lastDl)) || undefined
+    )
+  );
   setSettingsState('recentDls', (await db.core.get(DbKey.recentDls)) || {});
   setSettingsState('lastVersionCheck', (await db.core.get(DbKey.lastVerCheck)) || 0);
   setSettingsState('firmwareVersions', (await db.core.get(DbKey.firmwareVersions)) || undefined);

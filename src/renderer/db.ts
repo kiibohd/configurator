@@ -14,7 +14,7 @@ function set<T>(store: LocalForage): (key: string, value: T) => Promise<T> {
   return (key, value) => store.setItem(key, value);
 }
 
-function get<T>(store: LocalForage): (key: string) => Promise<T> {
+function get<T>(store: LocalForage): (key: string) => Promise<T | null> {
   return (key) => store.getItem(key);
 }
 
@@ -23,7 +23,7 @@ function keys(store: LocalForage): () => Promise<string[]> {
 }
 
 export interface Db {
-  get<T>(key: string): Promise<T>;
+  get<T>(key: string): Promise<T | null>;
   set<T>(key: string, value: T): Promise<T>;
   keys(): Promise<string[]>;
 }

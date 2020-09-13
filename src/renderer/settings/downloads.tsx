@@ -26,7 +26,7 @@ export default function Downloads(): JSX.Element {
     db.dl
       .keys()
       .then((keys) => Bluebird.all(keys.map((k) => db.dl.get<FirmwareResult>(k))))
-      .then((dls) => setDls(dls.reverse()));
+      .then((dls) => setDls(dls.filter((x) => x !== null).reverse() as FirmwareResult[]));
   }, []);
 
   const flash = (dl: FirmwareResult) => {
