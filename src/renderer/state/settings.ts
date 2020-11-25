@@ -24,6 +24,7 @@ const DbKey = {
   firmwareVersions: 'firmware-versions',
   cannedAnimations: 'canned-animations',
   uri: dev ? 'uri-development' : 'uri-production',
+  lastConfigCheck: 'last-config-check',
 };
 
 type SettingsState = {
@@ -38,6 +39,7 @@ type SettingsState = {
   lastDl: Optional<FirmwareResult>;
   recentDls: Dictionary<FirmwareResult[]>;
   cannedAnimations: Dictionary<ConfigAnimation>;
+  lastConfigCheck: number;
 };
 
 const initialState: SettingsState = {
@@ -52,6 +54,7 @@ const initialState: SettingsState = {
   lastDl: undefined,
   recentDls: {},
   cannedAnimations: {},
+  lastConfigCheck: 0,
 };
 
 const {
@@ -79,6 +82,7 @@ export async function loadFromDb(): Promise<void> {
   // setSettingsState('locale', (await db.core.get(DbKey.locale)) || 'en-us');
   setSettingsState('uri', (await db.core.get(DbKey.uri)) || defaultUri);
   setSettingsState('dfu', (await db.core.get(DbKey.dfuPath)) || (await findDfuPath()));
+  setSettingsState('lastConfigCheck', (await db.core.get(DbKey.lastConfigCheck)) || 0);
 }
 
 export async function updateUri(uri: string): Promise<void> {
@@ -124,4 +128,10 @@ export async function addDownload(download: FirmwareResult): Promise<void> {
 
 export function setLastDl(download: FirmwareResult): void {
   setSettingsState('lastDl', download);
+}
+
+export async function updateLastConfigCheck(): Promise<void> {
+  const now = Date.now();
+  setSettingsState('lastConfigCheck', now);
+  await db.core.set(DbKey.lastConfigCheck, now);
 }

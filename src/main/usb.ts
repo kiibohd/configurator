@@ -9,7 +9,7 @@ interface PromisifiedDevice extends UsbNode.Device {
 
 const usb = Bluebird.promisifyAll(UsbNode);
 
-type Device = import('../common/device/types').Device;
+type Device = import('../common/keyboards').Device;
 
 class UsbEventEmitter extends EventEmitter {}
 

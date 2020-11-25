@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { makeStyles, Button, Menu, MenuItem, Divider, ListItemIcon, Theme } from '../../mui';
 import { HistoryIcon, StarBorderIcon, DownloadOutlineIcon } from '../../icons';
-import { loadRemoteConfig, loadLocalConfig, useCoreState, useSettingsState } from '../../state';
+import { loadConfig, loadLocalConfig, useCoreState, useSettingsState } from '../../state';
 import { FirmwareResult } from '../../local-storage/firmware';
+import { Layout } from '../../../common/keyboards';
 
 const useStyles = makeStyles(
   (theme: Theme) =>
@@ -34,17 +35,17 @@ export default function LayoutHistoryButton(props: LayoutHistoryButtonProps): JS
   const [variant] = useCoreState('variant');
   const [recentDls] = useSettingsState('recentDls');
 
-  const layouts = keyboard && variant ? keyboard.keyboard.layouts[variant] : [];
-  const recent = keyboard && variant ? recentDls[`${_.head(keyboard.keyboard.names)}__${variant}`] : [];
+  const layouts = keyboard && variant ? variant.layouts : [];
+  const recent = keyboard && variant ? recentDls[`${_.head(keyboard.keyboard.aliases)}__${variant}`] : [];
 
   const closeMenu = () => setAnchor(null);
 
-  function loadRemote(layout: string) {
+  function loadRemote(layout: Layout) {
     if (!keyboard || !variant) {
       return;
     }
 
-    loadRemoteConfig(keyboard.keyboard, variant, layout);
+    loadConfig(keyboard.keyboard, variant, layout);
     closeMenu();
   }
 
@@ -79,11 +80,11 @@ export default function LayoutHistoryButton(props: LayoutHistoryButtonProps): JS
         classes={{ paper: classes.menu }}
       >
         {layouts.map((layout) => (
-          <MenuItem key={layout} onClick={() => loadRemote(layout)}>
+          <MenuItem key={layout.name} onClick={() => loadRemote(layout)}>
             <ListItemIcon>
               <StarBorderIcon />
             </ListItemIcon>
-            {layout}
+            {layout.display}
           </MenuItem>
         ))}
         {recent &&

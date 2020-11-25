@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect, useLayoutEffect } from 'react';
 import os from 'os';
 import ChildProcess from 'child_process';
 import electron from 'electron';
-import _ from 'lodash';
 import { useConnectedKeyboards } from '../hooks';
 import {
   makeStyles,
@@ -21,7 +20,7 @@ import {
   DialogContent,
 } from '../mui';
 import { FolderOpen, HelpOutlineIcon } from '../icons';
-import { updateToolbarButtons, previousPanel, popupSimpleToast } from '../state/core';
+import { updateToolbarButtons, previousPanel, popupSimpleToast, useCoreState } from '../state/core';
 import { useSettingsState, updateDfu } from '../state/settings';
 import { BackButton, SettingsButton, HomeButton, HelpButton } from '../buttons';
 import { pathToImg } from '../common';
@@ -99,6 +98,7 @@ export default function Flash(): JSX.Element {
   const classes = useStyles({});
   const connected = useConnectedKeyboards();
   const [lastDl] = useSettingsState('lastDl');
+  const [family] = useCoreState('keyboardFamily');
   const isSplit = lastDl && lastDl.type === 'split';
   const bin = lastDl && !isSplit ? (lastDl as SingleFirmwareResult).bin : '';
   const [dfuPath] = useSettingsState('dfu');
@@ -135,13 +135,26 @@ export default function Flash(): JSX.Element {
 
   useLayoutEffect(updateScroll, [progress]);
 
-  const flashableConnected = connected.some((x) => x.known && x.known.isFlashable);
+  if (!family) {
+    throw 'App not loaded, family not defined';
+  }
 
   const board = lastDl && lastDl.board;
-  const found = board
-    ? connected.find((x) => x.known && x.known.names.includes(board))
-    : connected.find((x) => !!x.known);
-  const resetCombo = _.get(found, 'keyboard.info.resetCombo', '"Fn + Esc"');
+  let resetCombo = '"Fn + Esc"';
+  let flashableConnected = false;
+  for (const keyboard of family?.keyboards) {
+    for (const variant of keyboard.variants) {
+      for (const identity of variant.identities) {
+        const device = connected.find((d) => d.vendorId === identity.vid && d.productId === identity.pid);
+        if (device) {
+          flashableConnected ||= identity.flash;
+          if (!board || keyboard.aliases.includes(board)) {
+            resetCombo = variant.resetCombo;
+          }
+        }
+      }
+    }
+  }
 
   async function openDialog(title: string, filters: electron.FileFilter[], cb: (paths: string[]) => void) {
     const window = electron.remote.getCurrentWindow();

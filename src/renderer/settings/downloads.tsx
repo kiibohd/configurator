@@ -2,12 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { makeStyles, Table, TableHead, TableBody, TableCell, TableRow, IconButton } from '../mui';
 import { FlashOnIcon } from '../icons';
 import db from '../db';
-import { keyboards } from '../../common/device/keyboard';
 import Bluebird from 'bluebird';
 import _ from 'lodash';
 import { tooltipped } from '../utils';
 import { setLastDl } from '../state/settings';
-import { updatePanel, Panels, popupSimpleToast } from '../state/core';
+import { updatePanel, Panels, popupSimpleToast, useCoreState } from '../state/core';
 import { FirmwareResult, normalizeFirmwareResult } from '../local-storage/firmware';
 
 const useStyles = makeStyles({
@@ -20,7 +19,8 @@ const useStyles = makeStyles({
 export default function Downloads(): JSX.Element {
   const classes = useStyles({});
   const [dls, setDls] = useState<FirmwareResult[]>([]);
-  const names = _.fromPairs(keyboards.map((k) => [_.head(k.names), k.display]));
+  const [family] = useCoreState('keyboardFamily');
+  const names = _.fromPairs(family?.keyboards.map((k) => [_.head(k.aliases), k.display]));
 
   useEffect(() => {
     db.dl

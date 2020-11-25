@@ -4,7 +4,7 @@
     "allowJs": false,
     "jsx": "react",
     "moduleResolution": "node",
-    "lib": ["es6", "dom"],
+    "lib": ["es2019", "dom"],
     "noImplicitAny": true,
     "noImplicitThis": true,
     "strictNullChecks": true,

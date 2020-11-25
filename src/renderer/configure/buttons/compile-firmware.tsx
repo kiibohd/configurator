@@ -17,6 +17,7 @@ import { ErrorToast } from '../../toast';
 import { SimpleDataModal } from '../../modal';
 import { parseFilename, storeFirmware, extractLog, FirmwareResult } from '../../local-storage/firmware';
 import log from 'loglevel';
+import { Variant } from '../../../common/keyboards';
 
 type SuccessfulResult = {
   success: true;
@@ -39,7 +40,7 @@ async function download(baseUri: string, file: string): Promise<ArrayBuffer> {
   return data;
 }
 
-async function compile(baseUri: string, variant: string): Promise<CompileResult> {
+async function compile(baseUri: string, variant: Variant): Promise<CompileResult> {
   try {
     const config = currentConfig();
     const payload = { config, env: 'latest' };
@@ -68,7 +69,7 @@ async function compile(baseUri: string, variant: string): Promise<CompileResult>
     const contents = await download(baseUri, data.filename);
 
     if (success) {
-      const firmware = await storeFirmware(fileDesc, variant, contents);
+      const firmware = await storeFirmware(fileDesc, variant.display, contents);
       return { success, firmware };
     }
 

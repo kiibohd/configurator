@@ -20,6 +20,7 @@ export { default as CardContent } from '@material-ui/core/CardContent';
 export { default as CardHeader } from '@material-ui/core/CardHeader';
 export { default as CardMedia } from '@material-ui/core/CardMedia';
 export { default as CircularProgress } from '@material-ui/core/CircularProgress';
+export { default as Container } from '@material-ui/core/Container';
 export { default as CssBaseline } from '@material-ui/core/CssBaseline';
 export { default as Dialog } from '@material-ui/core/Dialog';
 export { default as DialogTitle } from '@material-ui/core/DialogTitle';

@@ -1,13 +1,14 @@
-import React, { useEffect } from 'react';
-import { MuiThemeProvider } from './mui';
+import React, { useEffect, useState } from 'react';
+import { CircularProgress, Grid, MuiThemeProvider } from './mui';
 import theme from './theme';
-import { checkVersion, checkFirmwareVersions } from './state';
+import { checkVersion, checkFirmwareVersions, updateKeyboardConfigs } from './state';
 import AppLayout from './app-layout';
-import { loadFromDb, updateDfu, updateKiidrv, updateFirmwareVersions } from './state/settings';
-import { popupToast } from './state/core';
+import { loadFromDb, updateDfu, updateKiidrv, updateFirmwareVersions, updateLastConfigCheck } from './state/settings';
+import { loadAvailableKeyboards, popupSimpleToast, popupToast } from './state/core';
 import NewVersionToast from './toast/new-version';
 import { checkDfuVersion, checkKiidrvVersion } from './local-storage/utilities';
 import { GenericToast } from './toast';
+import log from 'loglevel';
 
 async function initApp() {
   await loadFromDb();
@@ -16,9 +17,14 @@ async function initApp() {
     popupToast(<NewVersionToast version={newVersion.version} url={newVersion.url} onClose={() => popupToast()} />);
   }
 
-  const firmwareVersions = await checkFirmwareVersions();
-  if (firmwareVersions) {
-    updateFirmwareVersions(firmwareVersions);
+  try {
+    const firmwareVersions = await checkFirmwareVersions();
+    if (firmwareVersions) {
+      updateFirmwareVersions(firmwareVersions);
+    }
+  } catch (error: unknown) {
+    popupSimpleToast('error', `Error retrieving firmware versions, information may be out of date.`);
+    log.error('Error retrieving firmware versions: ', error);
   }
 
   const dfuUpdatedPath = await checkDfuVersion();
@@ -40,16 +46,33 @@ async function initApp() {
       <GenericToast variant="success" message={<span>Updated kiidrv downloaded.</span>} onClose={() => popupToast()} />
     );
   }
+
+  await updateKeyboardConfigs();
+  updateLastConfigCheck();
+
+  await loadAvailableKeyboards();
 }
 
 function App(): JSX.Element {
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
-    initApp();
+    const init = async () => {
+      await initApp();
+      setIsLoading(false);
+    };
+
+    init();
   }, []);
 
   return (
     <MuiThemeProvider theme={theme}>
-      <AppLayout />
+      {isLoading ? (
+        <Grid style={{ height: '90vh' }} container direction="row" justify="center" alignItems="center">
+          <CircularProgress size={72} thickness={4} />
+        </Grid>
+      ) : (
+        <AppLayout />
+      )}
     </MuiThemeProvider>
   );
 }

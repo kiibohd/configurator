@@ -23,6 +23,7 @@ const useStyles = makeStyles({
 export default function Configure(): JSX.Element {
   const classes = useStyles({});
   const [keyboard] = useCoreState('keyboard');
+  const [variant] = useCoreState('variant');
   const [activePanel] = useCoreState('panel');
   const [executing] = useCoreState('executing');
 
@@ -37,7 +38,7 @@ export default function Configure(): JSX.Element {
     updateToolbarButtons(
       <>
         <LayoutHistoryButton disabled={compiling} />
-        {keyboard.keyboard.visuals && <ToggleVisualsButton />}
+        {variant?.visuals === 'rgb' && <ToggleVisualsButton />}
         <ToggleKeyboardButton />
         <ViewRawJsonButton disabled={compiling} />
         <ImportKeymapButton disabled={compiling} />

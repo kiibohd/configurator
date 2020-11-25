@@ -9,9 +9,13 @@ import Bluebird from 'bluebird';
 import urljoin from 'url-join';
 import compareVersions from 'compare-versions';
 import electron from 'electron';
-import { FirmwareVersions, PersistedConfig } from '../../common/config';
+import git from 'isomorphic-git';
+import http from 'isomorphic-git/http/node';
+import { paths } from '../env';
+import { FirmwareVersions } from '../../common/config';
 import { AvailableLocales } from '../../common/keys';
-import { Keyboard } from '../../common/device/types';
+import { directoryExists } from '../../common/utils/fs-ext';
+import { Keyboard, Layout, Variant } from '../../common/keyboards';
 
 const readFile = Bluebird.promisify(fs.readFile);
 
@@ -21,20 +25,14 @@ function resetConfig() {
   resetConfigureState();
 }
 
-export async function loadRemoteConfig(
+export async function loadConfig(
   keyboard: Keyboard,
-  variant: string,
-  layout?: string,
-  baseUri?: string,
+  variant: Variant,
+  layout?: Layout,
   locale?: AvailableLocales
 ): Promise<void> {
   try {
-    const defLayout = keyboard.layouts[variant][0];
-    const uri = urljoin(baseUri || _currentState('uri'), 'layouts', `${keyboard.names[0]}-${layout || defLayout}.json`);
-    toggleLoading();
-    const config: PersistedConfig = await fetch(uri).then((resp) => resp.json());
-    updateConfig(config, locale || _currentState('locale'));
-    toggleLoading();
+    updateConfig((layout || variant.layouts[0]).config, locale || _currentState('locale'));
   } catch (e) {
     resetConfig();
     popupSimpleToast('error', 'Failed to load layout');
@@ -54,15 +52,15 @@ export async function loadLocalConfig(filepath: string, locale?: AvailableLocale
   }
 }
 
-export async function loadDefaultConfig(keyboard: Keyboard, variant: string): Promise<void> {
+export async function loadDefaultConfig(keyboard: Keyboard, variant: Variant): Promise<void> {
   const recentDls = _currentState('recentDls');
-  const recent = _.head(recentDls[`${keyboard.display}__${variant}`] || []);
+  const recent = _.head(recentDls[`${keyboard.display}__${variant.name}`] || []);
 
   if (recent && fs.existsSync(recent.json)) {
     return loadLocalConfig(recent.json);
   }
 
-  return loadRemoteConfig(keyboard, variant);
+  return loadConfig(keyboard, variant);
 }
 
 type VersionDetails = {
@@ -118,7 +116,30 @@ export async function checkFirmwareVersions(): Promise<FirmwareVersions> {
       'User-Agent': 'Kiibohd Configurator',
       Accept: 'application/json; charset=utf-8',
     },
-  }).then((r) => r.json() as Promise<FirmwareVersions>);
+  })
+    .then((r) => r.json() as Promise<FirmwareVersions>)
+    .catch((error: Error) => {
+      throw error;
+    });
 
   return response;
+}
+
+export async function updateKeyboardConfigs(): Promise<void> {
+  const now = Date.now();
+  const lastCheck = _currentState('lastConfigCheck');
+  const isDev = _currentState('dev');
+  if (now - lastCheck < 86400000 && !isDev) {
+    return;
+  }
+
+  const repo = 'https://github.com/jbondeson/keyboard-configurations.git';
+
+  const exists = await directoryExists(paths.config);
+
+  if (exists) {
+    await git.pull({ fs, http, dir: paths.config, author: { name: 'anon', email: 'anon@example.com' } });
+  } else {
+    await git.clone({ fs, http, dir: paths.config, url: repo, singleBranch: false, depth: 1 });
+  }
 }

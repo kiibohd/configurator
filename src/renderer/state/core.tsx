@@ -1,8 +1,10 @@
 import { createSharedState } from '../shared-state/index';
 import _ from 'lodash';
-import { AttachedKeyboard } from '../../common/device/types';
 import React from 'react';
 import { GenericToast } from '../toast';
+import { paths } from '../env';
+import path from 'path';
+import { AttachedKeyboard, KeyboardFamily, loadFromFile, Variant } from '../../common/keyboards';
 
 const Panels = {
   KeyboardSelect: 'Keyboard Select',
@@ -24,8 +26,9 @@ type CoreState = {
   panel: ValidPanels;
   loading: boolean;
   history: ValidPanels[];
+  keyboardFamily?: KeyboardFamily;
   keyboard?: AttachedKeyboard;
-  variant?: string;
+  variant?: Variant;
   toast?: JSX.Element;
   toolbarButtons?: JSX.Element;
 };
@@ -35,6 +38,7 @@ const initialState: CoreState = {
   panel: Panels.KeyboardSelect,
   loading: false,
   history: [],
+  keyboardFamily: undefined,
   keyboard: undefined,
   variant: undefined,
   toast: undefined,
@@ -69,7 +73,7 @@ export function updateSelectedKeyboard(keyboard: Optional<AttachedKeyboard>): vo
   setCoreState('panel', Panels.VariantSelect);
 }
 
-export function updateSelectedVariant(variant: Optional<string>): void {
+export function updateSelectedVariant(variant: Optional<Variant>): void {
   setCoreState('panel', Panels.ConfigureKeys);
   setCoreState('variant', variant);
 }
@@ -102,4 +106,11 @@ export function previousPanel(): void {
 
 export function toggleLoading(): void {
   setCoreState('loading', (curr) => !curr);
+}
+
+export async function loadAvailableKeyboards(configName = 'input-club'): Promise<void> {
+  const filepath = path.join(paths.config, configName + '.json');
+  const family = await loadFromFile(filepath);
+
+  setCoreState('keyboardFamily', family);
 }

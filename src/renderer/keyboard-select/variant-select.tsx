@@ -5,9 +5,8 @@ import { makeStyles, Card, List, ListItem, ListItemText, Typography } from '../m
 import _ from 'lodash';
 import { useCoreState, updateSelectedVariant, updateToolbarButtons } from '../state/core';
 import { loadDefaultConfig } from '../state';
-import { variantDetails } from '../../common/device/variants';
 import { SettingsButton, HomeButton, HelpButton } from '../buttons';
-import { KeyDetails, KeyboardDetails } from '../../common/device/types';
+import { KeyDetails, Variant } from '../../common/keyboards';
 
 //TODO: Split?
 
@@ -65,16 +64,21 @@ Key.propTypes = {
 };
 
 type KeyboardProps = {
-  variant: KeyboardDetails;
+  variant: Variant;
   onSelect: (name: string) => void;
 };
 
 function Keyboard(props: KeyboardProps) {
   const classes = useStyles(props);
   const { variant, onSelect } = props;
-  const rows = _.zip(variant.rows, variant.keys) as [number, KeyDetails[]][];
-  const height = ((_.last(variant.rows) ?? 0) + 1) * scale;
-  const width = _.sumBy(variant.keys[0], (x) => x.size) * scale;
+
+  if (!variant.physical) {
+    throw 'Invalid variant';
+  }
+
+  const rows = _.zip(variant.physical.rows, variant.physical.keys) as [number, KeyDetails[]][];
+  const height = ((_.last(variant.physical.rows) ?? 0) + 1) * scale;
+  const width = _.sumBy(variant.physical.keys[0], (x) => x.size) * scale;
 
   return (
     <Card className={classes.variant} onClick={() => onSelect(variant.name)}>
@@ -100,11 +104,11 @@ export default function VariantSelect(): JSX.Element {
 
   const keyboard = selectedKeyboard.keyboard;
 
-  const details = variantDetails.get(selectedKeyboard.keyboard.display);
+  // const details = variantDetails.get(selectedKeyboard.keyboard.display);
 
-  function selectVariant(name: string) {
-    updateSelectedVariant(name);
-    loadDefaultConfig(keyboard, name);
+  function selectVariant(variant: Variant) {
+    updateSelectedVariant(variant);
+    loadDefaultConfig(keyboard, variant);
   }
 
   useEffect(() => {
@@ -121,14 +125,14 @@ export default function VariantSelect(): JSX.Element {
     );
   }, []);
 
-  if (!details) {
+  if (!keyboard.variants.every((v) => !!v.physical)) {
     return (
       <>
         <Typography variant="h6">Select a variant.</Typography>
         <List component="nav">
-          {keyboard.variants.map((name) => (
-            <ListItem button key={name} onClick={() => selectVariant(name)}>
-              <ListItemText primary={name} />
+          {keyboard.variants.map((variant) => (
+            <ListItem button key={variant.name} onClick={() => selectVariant(variant)}>
+              <ListItemText primary={variant.name} />
             </ListItem>
           ))}
         </List>
@@ -139,8 +143,8 @@ export default function VariantSelect(): JSX.Element {
   return (
     <>
       <Typography variant="h6">Select a variant.</Typography>
-      {details.map((variant) => (
-        <Keyboard key={variant.name} variant={variant} onSelect={() => selectVariant(variant.name)} />
+      {keyboard.variants.map((variant) => (
+        <Keyboard key={variant.name} variant={variant} onSelect={() => selectVariant(variant)} />
       ))}
     </>
   );

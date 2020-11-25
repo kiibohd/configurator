@@ -2,12 +2,10 @@ import { app, BrowserWindow, ipcMain as ipc, protocol } from 'electron';
 import * as path from 'path';
 import { format as formatUrl } from 'url';
 import * as usb from './usb';
-import { isKnownDevice, getDevice } from '../common/device/keyboard';
-import { identifyKeyboard } from './keyboard';
 import { buildMenu } from './menu';
 import Bluebird from 'bluebird';
 import log from 'loglevel';
-import { Device, AttachedKeyboard } from '../common/device/types';
+import { Device, DeviceData } from '../common/keyboards';
 
 const isDevelopment = process.env.NODE_ENV === 'development';
 log.setDefaultLevel(isDevelopment ? log.levels.INFO : log.levels.ERROR);
@@ -88,44 +86,47 @@ app.whenReady().then(() => {
     callback(pathname);
   });
 });
-async function getKeyboardDetails(device: Device): Promise<Optional<AttachedKeyboard>> {
-  // TODO: For Electron 9 need to transform this to a simple JS Object (no methods, etc)
-  try {
-    // TODO: Remove when we weed out all the nulls
-    const keyboard = (await identifyKeyboard(device)) ?? undefined;
-    const known = getDevice(device);
 
-    if (!keyboard) {
-      return;
-    }
+const knownVendorIds = [0x308f, 0x1209, 0x1c11];
 
-    return { ...device, ...{ keyboard }, ...{ known } };
-  } catch (e) {
-    log.error(`Error while retrieving keyboard details: ${e}`);
-    return;
-  }
+function isKnownDevice(d: Device) {
+  return knownVendorIds.includes(d.vendorId);
 }
 
 const watches = new Map();
 ipc.on('usb-watch', async (event) => {
   const id = event.sender.id;
+  const devices = usb.getAttachedDevices().filter(isKnownDevice);
+  const attached = await Bluebird.mapSeries(devices, usb.getDeviceDetails);
 
-  const attached = await Bluebird.mapSeries(usb.getAttachedDevices().filter(isKnownDevice), getKeyboardDetails);
-  event.sender.send('usb-currently-attached', attached);
+  event.sender.send('usb-currently-attached', attached.map(toDeviceData));
 
   if (watches.has(id)) return;
 
   const attach = async (d: Device): Promise<void> => {
-    const keyboard = await getKeyboardDetails(d);
-    isKnownDevice(d) && event.sender.send('usb-attach', keyboard);
+    const device = await usb.getDeviceDetails(d);
+    isKnownDevice(d) && event.sender.send('usb-attach', toDeviceData(device));
   };
 
-  const detach = (d: import('../common/device/types').Device): void => {
-    isKnownDevice(d) && event.sender.send('usb-detach', d);
+  const detach = (d: import('../common/keyboards').Device): void => {
+    isKnownDevice(d) && event.sender.send('usb-detach', toDeviceData(d));
   };
 
   usb.on('attach', attach);
   usb.on('detach', detach);
 
   watches.set(id, [attach, detach]);
+
+  function toDeviceData(d: Device): DeviceData {
+    return {
+      busNo: d.busNo,
+      path: d.path,
+      vendorId: d.vendorId,
+      productId: d.productId,
+      manufacturer: d.manufacturer,
+      product: d.product,
+      serialNo: d.serialNo,
+      version: d.version,
+    };
+  }
 });

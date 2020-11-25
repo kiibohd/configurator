@@ -1,18 +1,12 @@
 import React, { useEffect, useState, Fragment } from 'react';
 import { FiberManualRecordIcon, FlashOnIcon, ArrowDownCircleIcon } from '../icons';
 import { makeStyles, Drawer, List, ListItem, ListItemText, ListItemIcon } from '../mui';
-import {
-  released as releasedKeyboardNames,
-  keyboards as allKeyboards,
-  Names as KeyboardNames,
-} from '../../common/device/keyboard';
 import { useConnectedKeyboards } from '../hooks';
 import { useCoreState, updateSelectedKeyboard, updateToolbarButtons } from '../state/core';
 import { useSettingsState } from '../state/settings';
 import { QuickFlashButton, SettingsButton, HomeButton, HelpButton } from '../buttons';
-import { pathToImg } from '../common';
 import { tooltipped } from '../utils';
-import { AttachedKeyboard } from '../../common/device/types';
+import { Keyboard, AttachedKeyboard } from '../../common/keyboards';
 
 const drawerWidth = '15em';
 
@@ -50,7 +44,8 @@ const useStyles = makeStyles({
 export default function KeyboardSelect(): JSX.Element {
   const classes = useStyles({});
   const connectedKeyboards = useConnectedKeyboards();
-  const [hovered, setHovered] = useState<Optional<KeyboardNames>>(undefined);
+  const [family] = useCoreState('keyboardFamily');
+  const [hovered, setHovered] = useState<Optional<Keyboard>>(undefined);
   const [firmwareVersions] = useSettingsState('firmwareVersions');
   const latest = firmwareVersions && firmwareVersions.latest && firmwareVersions.latest.commit;
 
@@ -66,83 +61,58 @@ export default function KeyboardSelect(): JSX.Element {
   }, []);
 
   const getUrl = () => {
-    switch (hovered) {
-      case KeyboardNames.WhiteFox:
-        return pathToImg('img/whitefox.png');
-      case KeyboardNames.Kira:
-        return pathToImg('img/kira.png');
-      case KeyboardNames.KType:
-        return pathToImg('img/k-type.jpg');
-      case KeyboardNames.Infinity60:
-      case KeyboardNames.Infinity60Led:
-        return pathToImg('img/infinity_60.png');
-      case KeyboardNames.InfinityErgodox:
-        return pathToImg('img/infinity_ergodox.jpg');
-      default:
-        return pathToImg('img/family-photo.png');
-    }
+    return `data:image/jpeg;base64,${hovered ? hovered.image.data : family?.image.data}`;
   };
 
-  const mouseEnter = (name: KeyboardNames) => {
-    setHovered(name);
+  const mouseEnter = (k: Keyboard) => {
+    setHovered(k);
   };
 
-  const mouseLeave = (name: KeyboardNames) => {
-    if (hovered === name) {
+  const mouseLeave = (k: Keyboard) => {
+    if (hovered?.display === k.display) {
       setHovered(undefined);
     }
   };
 
-  function keyboardIcon(attached: AttachedKeyboard) {
-    if (!attached.connected) return null;
-    if (attached.known && attached.known.isFlashable) return <FlashOnIcon style={{ color: 'green' }} />;
+  function keyboardIcon(attached: AttachedKeyboard, isFlashable: boolean) {
+    if (!attached.device) return null;
+    const device = attached.device;
+    if (isFlashable) return <FlashOnIcon style={{ color: 'green' }} />;
 
-    if (latest && attached.version && attached.version < latest) {
+    if (latest && device.version && device.version < latest) {
       return tooltipped(
-        `New firmware version available v${latest}. Currently v${attached.version || '???'}`,
+        `New firmware version available v${latest}. Currently v${device.version || '???'}`,
         <ArrowDownCircleIcon style={{ color: 'green' }} />
       );
     }
 
     const icon = <FiberManualRecordIcon style={{ color: 'green' }} />;
 
-    if (attached.version) {
-      return tooltipped(`Up to date. Curently v${attached.version}`, icon);
+    if (device.version) {
+      return tooltipped(`Up to date. Curently v${device.version}`, icon);
     }
 
     return icon;
   }
 
-  function MockKeyboard(name: KeyboardNames): AttachedKeyboard {
-    const keyboard = allKeyboards.find((x) => x.display === name);
-
-    if (!keyboard) {
-      throw Error('Unknown keyboard found');
-    }
-
-    return {
-      keyboard,
-      known: undefined,
-      connected: false,
-      openable: false,
-    };
-  }
-
-  function keyboardListItem(name: KeyboardNames) {
-    const keyboard = connectedKeyboards.find((x) => x.keyboard && x.keyboard.display === name) ?? MockKeyboard(name);
+  function keyboardListItem(keyboard: Keyboard) {
+    const ids = keyboard.variants.flatMap((v) => v.identities);
+    const device = connectedKeyboards.find((d) => ids.some((x) => d.vendorId === x.vid && d.productId === x.pid));
+    const isFlashable = !!(device && ids.find((x) => device.vendorId === x.vid && device.productId === x.pid)?.flash);
+    const attached = { keyboard, device };
     const [selectedKeyboard] = useCoreState('keyboard');
 
-    const icon = keyboardIcon(keyboard);
+    const icon = keyboardIcon(attached, isFlashable);
     return (
-      <Fragment key={name}>
+      <Fragment key={keyboard.display}>
         <ListItem
           button
-          selected={selectedKeyboard && keyboard.keyboard === selectedKeyboard.keyboard}
-          onMouseEnter={() => mouseEnter(name)}
-          onMouseLeave={() => mouseLeave(name)}
-          onClick={() => updateSelectedKeyboard(keyboard)}
+          selected={selectedKeyboard && keyboard.display === selectedKeyboard.keyboard.display}
+          onMouseEnter={() => mouseEnter(keyboard)}
+          onMouseLeave={() => mouseLeave(keyboard)}
+          onClick={() => updateSelectedKeyboard(attached)}
         >
-          <ListItemText primary={name} />
+          <ListItemText primary={keyboard.display} />
           {icon && <ListItemIcon className={classes.listIcon}>{icon}</ListItemIcon>}
         </ListItem>
       </Fragment>
@@ -163,7 +133,7 @@ export default function KeyboardSelect(): JSX.Element {
         }}
       >
         <div className={classes.topPad} />
-        <List>{releasedKeyboardNames.map(keyboardListItem)}</List>
+        <List>{family?.keyboards.map((k) => keyboardListItem(k))}</List>
       </Drawer>
     </>
   );
