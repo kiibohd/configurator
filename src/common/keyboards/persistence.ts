@@ -33,7 +33,7 @@ interface VariantJson {
   isSplit: boolean;
   resetCombo: string;
   visuals: 'none' | 'single-color' | 'rgb';
-  physical: PhysicalLayoutJson;
+  physical?: PhysicalLayoutJson;
   layouts: LayoutJson[];
   animations: {
     canned?: Dictionary<PersistedCannedAnimation>;
@@ -122,7 +122,7 @@ export async function loadFromFile(file: string): Promise<KeyboardFamily> {
         isSplit: variant.isSplit,
         resetCombo: variant.resetCombo,
         visuals: variant.visuals,
-        physical: {
+        physical: variant.physical && {
           rows: variant.physical.rows,
           keys: variant.physical.keys.map(row),
         },

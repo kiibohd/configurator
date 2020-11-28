@@ -82,7 +82,7 @@ function Keyboard(props: KeyboardProps) {
 
   return (
     <Card className={classes.variant} onClick={() => onSelect(variant.name)}>
-      <Typography> {variant.name} </Typography>
+      <Typography> {variant.display} </Typography>
       <div style={{ height, width, position: 'relative' }}>
         {rows.map((row) => row[1].map((key, idx) => <Key row={row[0]} key={`${row}-${idx}`} data={key} />))}
       </div>
@@ -132,7 +132,7 @@ export default function VariantSelect(): JSX.Element {
         <List component="nav">
           {keyboard.variants.map((variant) => (
             <ListItem button key={variant.name} onClick={() => selectVariant(variant)}>
-              <ListItemText primary={variant.name} />
+              <ListItemText primary={variant.display} />
             </ListItem>
           ))}
         </List>
